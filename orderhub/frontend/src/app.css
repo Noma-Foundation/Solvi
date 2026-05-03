@@ -3,4 +3,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    /* Implement a border color in the header. */
+    /* The border is shown only on the bottom of the header. */
+    border-color: #eee;
 }
