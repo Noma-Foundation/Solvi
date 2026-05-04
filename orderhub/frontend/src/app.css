@@ -1,9 +1,36 @@
 .header-container {
-    margin: 2%;
     display: flex;
+    margin: 2%;
     justify-content: space-between;
     align-items: center;
+    background-color: #fff;
     /* Implement a border color in the header. */
     /* The border is shown only on the bottom of the header. */
-    border-color: #eee;
+    border-bottom: 1px solid #cecece;
+    padding-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #cecece;
+}
+
+.header-container h1 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 400;
+    font-variant: normal;
+    color: #360a73;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+}
+
+.header-container button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.header-container button svg {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
 }
