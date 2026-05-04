@@ -68,11 +68,11 @@ func BuildMenuBar() *menu.Menu {
 	 * Builds the application menu bar.
 	 */
 	mainMenu := NewMenuBar()
-
-	AppendMacOSMenu(mainMenu)
 	AddOrderMenu(mainMenu)
 	AddCustomerMenu(mainMenu)
 	AddHelpMenu(mainMenu)
+
+	AppendMacOSMenu(mainMenu)
 	AppendLinuxWindowsMenu(mainMenu)
 	return mainMenu
 }
