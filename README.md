@@ -1,64 +1,102 @@
-# OrderManager
+# Order Request
 
-O OrderManager é uma plataforma de gestão de pedidos e solicitações de serviço para a FixIT Support e outros clientes.
+O **Order Request** é um site para receber solicitações de serviço de forma simples.
+Cada solicitação enviada vira um **ticket de atendimento** e também um **possível lead comercial**.
 
-## Como funciona
+## Objetivo do sistema
 
-O cliente envia uma solicitação no portal de serviços. A solicitação é validada, enriquecida com dados de dispositivo/serviço e encaminhada para estimativa de orçamento. O orçamento estimado retorna ao portal, enquanto o ciclo de vida completo da solicitação é gerenciado pelo sistema interno de gestão.
+Este sistema existe para apoiar principalmente:
 
-## Modelo conceitual de classes (alta coesão, baixo acoplamento)
+- **Central Financeira**
+- **Equipe de Suporte**
 
-### Entidades centrais de domínio
+Com os dados das solicitações, essas equipes conseguem:
 
-- **Cliente**: dados de identificação e contato.
-- **MembroInterno**: perfil do operador interno e permissões.
-- **SolicitacaoServico**: raiz de agregado para o ciclo de vida da solicitação (`rascunho`, `enviada`, `orcada`, `aprovada`, `em_andamento`, `concluida`, `cancelada`).
-- **InfoDispositivo**: modelo, serial, condição e metadados de diagnóstico.
-- **AnaliseServico**: resumo técnico e premissas da análise.
-- **OrcamentoEstimado**: preço estimado, horas de trabalho, peças, validade e nível de confiança.
-- **OrdemServico**: objeto interno de execução criado após aprovação.
-- **HistoricoStatusSolicitacao**: log imutável de transições de status.
+- organizar atendimentos;
+- acompanhar pedidos em aberto;
+- analisar demanda por tipo de serviço;
+- identificar oportunidades comerciais (leads);
+- tirar conclusões para melhorar operação e resultados.
 
-### Serviços de aplicação
+## Para quem é este README
 
-- **ServicoEntradaSolicitacao**: recebe e valida novas solicitações.
-- **OrquestradorSolicitacao**: coordena análise, precificação e transições de status.
-- **ServicoAnalise**: aplica regras de negócio para análise técnica.
-- **ServicoCalculoOrcamento**: calcula orçamento estimado com base em políticas de preço.
-- **ServicoFluxoGestao**: conduz passos operacionais internos e atribuição.
-- **ServicoNotificacao**: envia atualizações para clientes e membros internos.
+Este material foi feito para recepcionistas, atendimento e apresentação ao cliente.
 
-### Portas (interfaces) para reduzir acoplamento
+## O que o cliente consegue fazer
 
-- **RepositorioSolicitacao**
-- **RepositorioCliente**
-- **RepositorioOrdemServico**
-- **ProvedorPoliticaPreco**
-- **ProvedorCatalogoDispositivo**
-- **PublicadorEventos**
-- **GatewayMensageria** (e-mail/SMS/notificações no portal)
+No portal, o cliente pode:
 
-> Serviços de aplicação dependem de interfaces, não de implementações concretas de infraestrutura.
+- preencher os dados para pedir atendimento;
+- escolher o tipo de serviço;
+- descrever o problema;
+- enviar a solicitação;
+- ver o orçamento quando estiver pronto;
+- salvar o orçamento em arquivo `.txt`;
+- acompanhar o andamento do atendimento.
 
-### Adaptadores de infraestrutura
+## Campos do formulário
 
-- **ControladorApiPortal**: endpoint HTTP para solicitações do cliente.
-- **ControladorApiGestao**: endpoint para operações internas.
-- **RepositorioSqlSolicitacao / RepositorioSqlOrdemServico**: persistência em banco de dados.
-- **AdaptadorMotorOrcamento**: integração com motor de orçamento interno ou externo.
-- **AdaptadorNotificacao**: integração com provedores de comunicação.
+A abertura da solicitação usa os campos:
 
-## Responsabilidades sugeridas dos objetos
+- Nome
+- E-mail
+- Telefone
+- Endereço
+- Serviço
+- Descrição
 
-- Manter **SolicitacaoServico** focada em invariantes e transições de estado.
-- Manter regras de cálculo em **ServicoCalculoOrcamento**, não em controladores/entidades.
-- Manter lógica de integração nos adaptadores, não nas classes de domínio.
-- Usar eventos de domínio (ex.: `SolicitacaoEnviada`, `OrcamentoGerado`, `OrdemServicoCriada`) para desacoplar fluxos internos.
+## Como funciona (resumo)
 
-## Regras práticas antiacoplamento
+1. O cliente preenche o formulário e clica em **Enviar**.
+2. O sistema registra a solicitação.
+3. A solicitação vira um ticket e entra no fluxo de atendimento.
+4. A equipe analisa o pedido e prepara orçamento quando necessário.
+5. O cliente acompanha o status até a conclusão.
 
-1. Controladores apenas mapeiam DTOs de entrada/saída.
-2. Serviços de aplicação orquestram casos de uso.
-3. Entidades de domínio garantem regras de negócio.
-4. Repositórios são interfaces nas camadas de domínio/aplicação.
-5. Infraestrutura implementa interfaces e pode ser trocada sem alterar o domínio.
+## Como isso ajuda a Central Financeira e o Suporte
+
+### Para o Suporte
+
+- fila mais organizada de tickets;
+- acompanhamento de status dos atendimentos;
+- histórico de solicitações para tomada de decisão.
+
+### Para a Central Financeira
+
+- visão dos pedidos com potencial de conversão;
+- apoio para priorização de oportunidades;
+- dados para análise de volume, serviços mais pedidos e tendências.
+
+## Equipes que usam o sistema
+
+### Cliente
+
+- Abre solicitação
+- Consulta orçamento
+- Acompanha status
+
+### Organização (equipe executora)
+
+- Recebe solicitação
+- Executa serviço
+- Atualiza andamento
+
+### Suporte/Atendimento interno
+
+- Organiza tickets
+- Acompanha execução
+- Apoia controle operacional
+
+### Central Financeira
+
+- Analisa tickets como possíveis leads
+- Acompanha oportunidades
+- Gera conclusões para decisão comercial
+
+## Benefícios
+
+- Um único site para entrada de solicitações
+- Atendimento mais organizado
+- Melhor comunicação com o cliente
+- Visão clara do andamento dos tickets
+- Apoio à análise financeira e comercial
