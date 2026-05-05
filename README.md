@@ -18,10 +18,6 @@ Com os dados das solicitações, essas equipes conseguem:
 - identificar oportunidades comerciais (leads);
 - tirar conclusões para melhorar operação e resultados.
 
-## Para quem é este README
-
-Este material foi feito para recepcionistas, atendimento e apresentação ao cliente.
-
 ## O que o cliente consegue fazer
 
 No portal, o cliente pode:
