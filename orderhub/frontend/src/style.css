@@ -15,7 +15,7 @@ header {
 }
 
 aside {
-    width: 200px;
+    width: 95px;
     height: 100vh;
     flex-shrink: 0;
     background-color: white;
