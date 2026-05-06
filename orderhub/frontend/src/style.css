@@ -4,6 +4,28 @@ html {
 
 body {
     color: black;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+header {
+    flex-shrink: 0;
+}
+
+aside {
+    width: 200px;
+    height: 100vh;
+    flex-shrink: 0;
+    background-color: white;
+    border-right: 1px solid #cecece;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+main {
+    flex: 1;
+    overflow: auto;
 }
 
 h1 {

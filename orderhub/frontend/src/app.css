@@ -6,7 +6,6 @@
     background-color: #fff;
     /* Implement a border color in the header. */
     /* The border is shown only on the bottom of the header. */
-    border-bottom: 1px solid #cecece;
     padding-bottom: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid #cecece;
@@ -33,4 +32,33 @@
     width: 16px;
     height: 16px;
     vertical-align: middle;
+}
+
+/* Navigation bar styles */
+.navigation-bar {
+    background-color: white;
+    border-right: 1px solid #cecece;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navigation-bar ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    color: #360a73;
+    gap: 1rem;
+}
+
+.navigation-bar ul li {
+    font-size: 1rem;
+}
+
+.navigation-bar ul li a {
+    text-decoration: none;
+    color: inherit;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    display: block;
+    text-align: left;
 }
