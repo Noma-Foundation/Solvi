@@ -14,8 +14,8 @@
         
         
         
-      <script type="module" crossorigin src="/assets/index.5fc7c660.js"></script>
-      <link rel="stylesheet" href="/assets/index.3ef78b8a.css">
+      <script type="module" crossorigin src="/assets/index.b2bc6560.js"></script>
+      <link rel="stylesheet" href="/assets/index.9abf0d36.css">
     </head>
     <body>
         <header>
@@ -93,11 +93,8 @@
             </nav>
         </aside>
         <main>
-            <!-- define the main content area -->
-            <div id="app"></div>
-
-            <template>
-                <div class="tickets-container">
+            <template id="ticket-template">
+                <div>
                     <div class="ticket">
                         <div class="ticket-header">
                             <h3 class="ticket-title">Nome do Cliente</h3>
@@ -122,8 +119,8 @@
                                         d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zM8 5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V5zm7-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V1z"
                                     />
                                 </svg>
-                                <span
-                                    ><strong>simulation:</strong>
+                                <span class="ticket-simulation"
+                                    ><strong id="">simulation:</strong>
                                     R$1840,38</span
                                 >
                             </div>
@@ -143,7 +140,7 @@
                                         d="M7 4h6v.5H7z M7 6h6v.5H7z M7 8h6v.5H7z M7 10h6v.5H7z"
                                     />
                                 </svg>
-                                <span
+                                <span class="ticket-date"
                                     ><strong>ticket_creation_date:</strong>
                                     01/05/2026</span
                                 >
@@ -205,6 +202,9 @@
                     </div>
                 </div>
             </template>
+            <!-- define the main content area -->
+            <div id="app"></div>
+            <div class="tickets-container"></div>
         </main>
         
         <!-- Import Bootstrap JS Framework -->

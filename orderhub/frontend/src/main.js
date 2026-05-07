@@ -2,6 +2,7 @@ import "./settings.css";
 import "./style.css";
 import "./app.css";
 
+// Test tickets
 const ticketsData = [
   {
     title: "João Silva",
@@ -21,6 +22,18 @@ const ticketsData = [
     title: "Pedro Oliveira",
     description: "Preciso de 2 câmeras e uma central de alarme",
     simulation: "R$780,89",
+  },
+  {
+    title: "Ana Souza",
+    description: "Preciso de 2 faxinheiras para a limpeza em minha casa",
+    simulation: "R$45.000,00",
+    date: "14/03/2026",
+  },
+  {
+    title: "Jeff",
+    description: "Estou precisando de 6 pães para meu café da manhã",
+    simulation: "R$14,99",
+    date: "28/01/2026",
   },
 ];
 

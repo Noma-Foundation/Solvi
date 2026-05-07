@@ -11,7 +11,11 @@ body {
 }
 
 header {
-    flex-shrink: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: white;
 }
 
 aside {
@@ -33,6 +37,7 @@ main {
     margin-left: 200px;
     overflow: auto;
     background-color: #f9f9f9;
+    margin-top: 70px;
 }
 
 h1 {
