@@ -91,3 +91,122 @@
     height: 24px;
     flex-shrink: 0;
 }
+
+/* Tickets Container */
+.tickets-container {
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    max-width: 900px;
+}
+
+/* Ticket Card */
+.ticket {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition:
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.ticket:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+/* Ticket Header */
+.ticket-header {
+    border-bottom: 2px solid #360a73;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.ticket-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #360a73;
+}
+
+/* Ticket Description */
+.ticket-description {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0 0 1.25rem 0;
+}
+
+/* Ticket Info */
+.ticket-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.ticket-info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.ticket-info-item svg {
+    width: 20px;
+    height: 20px;
+    color: #360a73;
+    flex-shrink: 0;
+}
+
+/* Ticket Actions */
+.ticket-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.ticket-btn {
+    flex: 1;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    color: #333;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.ticket-btn:hover {
+    background-color: #efefef;
+    border-color: #bbb;
+}
+
+.ticket-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.ticket-btn-primary {
+    background-color: #360a73;
+    color: white;
+    border-color: #360a73;
+}
+
+.ticket-btn-primary:hover {
+    background-color: #2a0858;
+    border-color: #2a0858;
+}

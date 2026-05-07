@@ -17,15 +17,22 @@ header {
 aside {
     width: 95px;
     height: 100vh;
+    position: fixed;
     flex-shrink: 0;
+    top: 77px;
     background-color: white;
     border-right: 1px solid #cecece;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    overflow-y: auto;
 }
 
 main {
     flex: 1;
+    margin-left: 200px;
     overflow: auto;
+    background-color: #f9f9f9;
 }
 
 h1 {
