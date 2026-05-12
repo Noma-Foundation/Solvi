@@ -313,15 +313,15 @@ O OrderHub não é o portal principal do cliente. Seu foco é a operação inter
 - O OrderHub deve permitir atualizar status e despachar ordem de serviço.
 - O sistema deve separar permissões de cliente externo e usuário interno.
 
-## 10. Perguntas em aberto
+## 10. Perguntas e respostas
 
-1. O OrderRequester terá login para clientes ou permitirá solicitação sem conta?
-2. Qual formato de exportação será obrigatório na primeira versão: PDF, TXT, CSV ou XLSX?
-3. O orçamento livre poderá ser editado pelo cliente ou apenas por usuários internos?
-4. A tabela de valores será global, por organização ou por tipo de serviço?
-5. Quais categorias iniciais existirão além de câmeras e mão de obra?
-6. O valor total sempre será a soma dos componentes ou haverá ajuste manual autorizado?
-7. Como será feita a integração entre OrderRequester e OrderHub: API REST, banco compartilhado, fila ou outro mecanismo?
-8. O OrderHub continuará como app desktop Wails ou também terá versão web administrativa?
-9. Quais status de solicitação e ordem de serviço devem existir?
-10. Quais perfis internos precisam de permissão para deletar serviço ou alterar orçamento já aprovado?
+1. O OrderRequester terá login para clientes ou permitirá solicitação sem conta? *Para acessar o **OrderRequester**, não será necessário login ou senha. O OrderRequester é um formulário para solicitar serviços digitalmente e tem o intuito de ser simples: entre e solicite.*
+2. Qual formato de exportação será obrigatório na primeira versão: PDF, TXT, CSV ou XLSX? *O sistema deve gerar arquivos em PDF.*
+3. O orçamento livre poderá ser editado pelo cliente ou apenas por usuários internos? *O orçamento do cliente deve ser editado apenas por usuários internos. Esses usuários entram em contato após um determinado tempo.*
+4. A tabela de valores será global, por organização ou por tipo de serviço? *A tabela de valores é definida com base na organização.*
+5. Quais categorias iniciais existirão além de câmeras e mão de obra? *O sistema obtém uma tabela de preço que é determinada pela organização. Sendo possível eliminar valores de mão de obra ou condução.*
+6. O valor total sempre será a soma dos componentes ou haverá ajuste manual autorizado? *O valor total será a soma de todos os componentes.*
+7. Como será feita a integração entre OrderRequester e OrderHub: API REST, banco compartilhado, fila ou outro mecanismo? *API REST*
+8. O OrderHub continuará como app desktop Wails ou também terá versão web administrativa? *Futuramente terá uma integração como aplicações web.*
+9. Quais status de solicitação e ordem de serviço devem existir? *NOVA SOLICITAÇÃO, EM ANÁLISE, AGUARDANDO APROVAÇÃO, APROVADA, RECUSADA, CANCELADA*
+10. Quais perfis internos precisam de permissão para deletar serviço ou alterar orçamento já aprovado? *Apenas membros administrativo. Membros de suporte devem apenas visualizar serviços e se comunicar via Whatsapp ou Email.*
