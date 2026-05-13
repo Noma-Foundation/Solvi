@@ -1,4 +1,3 @@
-import "./settings.css";
 import "./style.css";
 import "./app.css";
 
