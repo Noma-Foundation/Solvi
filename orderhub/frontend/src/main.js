@@ -11,7 +11,7 @@ function renderTickets() {
   const template = document.getElementById("ticket-template");
 
   if (!template) {
-    console.error("Template não encontrado");
+    console.error("Template not found");
     return;
   }
 
@@ -24,7 +24,7 @@ function renderTickets() {
     container.appendChild(clone);
   });
 
-  console.log("Tickets renderizados");
+  console.log("Tickets rendered");
 }
 
 window.openSettings = function () {
