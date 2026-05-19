@@ -12,13 +12,34 @@
         />
 
         <style>
-            body {
-                font-family: "Roboto", Arial, sans-serif;
+            .card-ticket-closed {
+                max-width: 360px;
+                border: 1px solid #c4c4d0;
+                border-radius: 12px;
+                cursor: pointer;
             }
 
             .card-ticket-closed .card-header {
                 display: flex;
                 justify-content: space-between;
+                align-items: center;
+                border: none;
+            }
+
+            .card-ticket-closed .card-header button.btn-light {
+                width: 36px;
+                height: 36px;
+                padding: 0;
+                border: 1px solid #c4c4d0;
+                border-radius: 100px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .card-ticket-closed .card-header button.btn-light img {
+                width: 24px;
+                height: 24px;
             }
         </style>
     </head>
