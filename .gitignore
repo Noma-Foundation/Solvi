@@ -17,9 +17,9 @@ profile.cov
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
-# Replace build folders
-build/bin/
-dist/
+# Replace build folders 
+orderhub/frontend/dist/
+orderhub/build/bin/
 node_modules/
 
 # Go workspace file
@@ -36,9 +36,12 @@ go.work.sum
 # Editor/IDE
 .idea/
 .vscode/
-.agents/rules
-*.sw?
 *.suo
+*.ntvsca*
+*.njsproj
+*.sln
+*.sw?
+.agents/rules
 
 # Temporary Files
 *.tmp
