@@ -1,4 +1,4 @@
 package utils
 
-type Settings struct {
+type Settings interface {
 }

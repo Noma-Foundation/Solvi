@@ -3,7 +3,6 @@ import "./app.css";
 
 import { OpenSettings } from "../wailsjs/go/main/App";
 
-// Test tickets
 const ticketsData = [];
 
 function renderTickets() {
@@ -27,11 +26,12 @@ function renderTickets() {
   console.log("Tickets rendered");
 }
 
+// Change in future to open the real settings window
+// Not working yet
 window.openSettings = function () {
   OpenSettings().then((result) => {
     console.log("Settings opened");
   });
 };
 
-// Renderizar quando o DOM estiver pronto
 document.addEventListener("DOMContentLoaded", renderTickets);
