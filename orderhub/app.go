@@ -28,6 +28,7 @@ func (a *App) OnShutDown(ctx context.Context) {
 }
 
 // Create a new settings window
+// Remove this function too
 func (a *App) OpenSettings() string {
 	fmt.Println("Open Settings")
 	return "Open Settings"
