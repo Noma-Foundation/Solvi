@@ -59,3 +59,6 @@ pnpm-debug.log*
 # System files
 .DS_Store
 Thumbs.db
+
+# Template icons
+orderhub/frontend/components/tests/assets/*
