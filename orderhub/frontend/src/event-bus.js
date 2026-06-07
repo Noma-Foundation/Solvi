@@ -8,14 +8,6 @@ export class EventBus {
         this.#history = new Map();
     }
 
-    addListener(eventName, callback) {
-        // Add the callback function to the array of callbacks for that event
-    }
-
-    removeListener(eventName) {
-        // Remove the event listener
-    }
-
     subscribe(eventName, callback) {
         // If the event exists, add the callback function to the array of callbacks for that event
     }
@@ -41,13 +33,15 @@ export class EventBus {
         // Clear all events by removing all entries from the map.  
     }
 
-    history(eventName) {
+    getHistory(eventName) {
         // Check if the event already exists
         // Return the history of the event
         return this.#history.get(eventName);
     }
 
     getEvent(eventName) {
+        // Check if the event already exists
+        // Return the event
         return this.#events.get(eventName);
     }
 

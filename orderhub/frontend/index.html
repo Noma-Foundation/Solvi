@@ -4,36 +4,19 @@
 <head>
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="description" content="OrderHub is an order management for enterprise business.">
+    <meta name="keywords" content="OrderHub, order management, enterprise business, B2B">
     <title>OrderHub</title>
     <!-- Import Bootstrap CSS Framework -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
     <link rel="stylesheet" href="./src/style.css" />
     <link rel="stylesheet" href="./src/app.css" />
+    <link rel="stylesheet" href="./src/components/menu-bar.css">
 </head>
 
 <body>
-    <aside>
-        <nav class="navigation-bar">
-            <ul>
-                <li class="selected" id="home-page">
-                    <img src="./src/assets/icons/aside/home.svg" alt="Home">
-                </li>
-                <li class="unselected" id="folder-page">
-                    <img src="./src/assets/icons/aside/folder.svg" alt="Folder">
-                </li>
-                <li class="unselected" id="customer-page">
-                    <img src="./src/assets/icons/aside/customer.svg" alt="Customer">
-                </li>
-                <li class="unselected" id="inbox-page">
-                    <img src="./src/assets/icons/aside/inbox.svg" alt="Inbox">
-                </li>
-                <li class="unselected" id="notifications-page">
-                    <img src="./src/assets/icons/aside/notifications.svg" alt="Notifications">
-                </li>
-            </ul>
-        </nav>
-    </aside>
+    <aside id="main-menu-bar"></aside>
     <script src="./src/main.js" type="module"></script>
     <!-- Import Bootstrap JS Framework -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"

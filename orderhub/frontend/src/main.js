@@ -3,17 +3,11 @@ import "./app.css";
 
 import $ from "jquery";
 
-import { OpenSettings } from "../wailsjs/go/main/App";
+import { MenuBar } from "../components/menu-bar.js";
 
-console.log($); // Debug JQuery
+$(function () {
+    const menuBar = new MenuBar();
+    menuBar.init();
 
-// Change in future to open the real settings window
-// Not working yet
-// Remove this function
-window.openSettings = function () {
-    OpenSettings().then((result) => {
-        console.log("Settings opened");
-    });
-};
-
-// document.addEventListener("DOMContentLoaded", renderTickets);
+    console.assert(menuBar instanceof (MenuBar));
+});
