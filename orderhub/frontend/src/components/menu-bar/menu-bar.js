@@ -1,16 +1,16 @@
 import $ from "jquery";
 
+import { ComponentModel } from "../component-model";
 
-export class MenuBar {
+
+export class MenuBar extends ComponentModel {
     #menuBarId;
+    #currentPageId;
 
     constructor() {
+        super();
         this.#menuBarId = "#main-menu-bar";
-    }
-
-    init() {
-        this.buildTemplate();
-        this.bindEvents();
+        this.#currentPageId = "#home-page";
     }
 
     buildTemplate() {
@@ -43,4 +43,12 @@ export class MenuBar {
 
     bindEvents() {
     }
+
+    setCurrentPageId(value) {
+    }
+
+    getCurrentPageId() {
+        return this.#currentPageId;
+    }
+
 }
