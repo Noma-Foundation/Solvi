@@ -11,6 +11,7 @@ export class MenuBar extends ComponentModel {
         super();
         this.#menuBarId = "#main-menu-bar";
         this.#currentPageId = "#home-page";
+        this.init();
     }
 
     buildTemplate() {
@@ -42,9 +43,27 @@ export class MenuBar extends ComponentModel {
     }
 
     bindEvents() {
+        const allButtons = $(`${this.#menuBarId} ul li`);
+
+        allButtons.on("click", (event) => {
+            const target = event.currentTarget;
+            const targetId = target.getAttribute("id");
+            const state = this.setCurrentPageId(targetId);
+            if (state) this.switchButtonState(target);
+        });
+    }
+
+    switchButtonState(target) {
     }
 
     setCurrentPageId(value) {
+        if (value == this.#currentPageId) { return false; }
+        if (!value) {
+            console.error("The current page id is null or undefined.");
+            return false;
+        }
+        this.#currentPageId = value;
+        return true;
     }
 
     getCurrentPageId() {
