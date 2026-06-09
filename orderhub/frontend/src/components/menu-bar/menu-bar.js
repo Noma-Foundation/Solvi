@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-import { ComponentModel } from "../component-model";
+import { ComponentModel } from "../component-model.js";
 
 
 export class MenuBar extends ComponentModel {
@@ -56,6 +56,10 @@ export class MenuBar extends ComponentModel {
     switchButtonState(target) {
     }
 
+    /**
+     * @param {string} value 
+     * @returns {boolean} - True if the current page id is updated, false otherwise. 
+     */
     setCurrentPageId(value) {
         if (value == this.#currentPageId) { return false; }
         if (!value) {
@@ -66,6 +70,9 @@ export class MenuBar extends ComponentModel {
         return true;
     }
 
+    /**
+     * @returns {string} - The current page id. 
+     */
     getCurrentPageId() {
         return this.#currentPageId;
     }
