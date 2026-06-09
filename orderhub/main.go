@@ -6,6 +6,8 @@ import (
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
+
+	"orderhub/internal/core"
 )
 
 var assets embed.FS
@@ -17,7 +19,7 @@ func main() {
 	 * She represents the creation and execution of the Wails application.
 	 */
 	app := NewApp()
-	appMenu := BuildMenuBar()
+	appMenu := core.BuildMenuBar()
 
 	err := wails.Run(&options.App{
 		Title:  "OrderHub",
