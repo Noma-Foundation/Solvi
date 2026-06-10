@@ -7,6 +7,5 @@ import { MenuBar } from "./components/menu-bar/menu-bar.js";
 
 $(function () {
     const menuBar = new MenuBar();
-
-    console.assert(menuBar instanceof (MenuBar));
+    console.log(menuBar.getCurrentPageId());
 });

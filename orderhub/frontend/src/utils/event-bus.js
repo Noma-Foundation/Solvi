@@ -33,16 +33,23 @@ export class EventBus {
         // Clear all events by removing all entries from the map.  
     }
 
-    getHistory(eventName) {
-        // Check if the event already exists
-        // Return the history of the event
-        return this.#history.get(eventName);
+    getHistory() {
+        // Return the history of all events
+        return this.#history;
     }
 
     getEvent(eventName) {
         // Check if the event already exists
         // Return the event
         return this.#events.get(eventName);
+    }
+
+    /**
+     * @returns {Map<string, Array<Function>>} - Return the map of all events.
+     */
+    getAllEvents() {
+        // Return all events
+        return this.#events;
     }
 
 }
