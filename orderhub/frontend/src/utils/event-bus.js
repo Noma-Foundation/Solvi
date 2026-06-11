@@ -1,3 +1,4 @@
+import { History } from "./history.js"
 
 export class EventBus {
     #events;
@@ -5,7 +6,7 @@ export class EventBus {
 
     constructor() {
         this.#events = new Map();
-        this.#history = new Map();
+        this.#history = new History();
     }
 
     subscribe(eventName, callback) {
