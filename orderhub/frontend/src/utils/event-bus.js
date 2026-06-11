@@ -12,10 +12,6 @@ export class EventBus {
         // If the event exists, add the callback function to the array of callbacks for that event
     }
 
-    subscribeOnce(eventName, callback) {
-        // Subscribe to the event only once
-    }
-
     unsubscribe(eventName, callback) {
         // Remove the callback function from the event 
         // Check if the event name exists and callback function 
