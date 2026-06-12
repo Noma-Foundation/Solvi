@@ -1,11 +1,12 @@
 import { History } from "./history.js"
+import { EventList } from "./event-list.js";
 
 export class EventBus {
-    #events;
+    #eventList;
     #history;
 
     constructor() {
-        this.#events = new Map();
+        this.#eventList = new EventList();
         this.#history = new History();
     }
 
@@ -26,19 +27,22 @@ export class EventBus {
         // If the event exists, iterate over the callbacks and execute them
     }
 
-    clearAllEvents() {
-        // Clear all events by removing all entries from the map.  
+    /**
+     * Clear all events and history from the EventBus
+     */
+    clearEventBus() {
+        this.#eventList.clearAllEvents();
+        this.#history.clearHistory();
     }
 
     getHistory() {
         // Return the history of all events
-        return this.#history;
+        return this.#history.getHistory();
     }
 
     getEvent(eventName) {
         // Check if the event already exists
         // Return the event
-        return this.#events.get(eventName);
     }
 
     /**
@@ -46,7 +50,7 @@ export class EventBus {
      */
     getAllEvents() {
         // Return all events
-        return this.#events;
+        return this.#eventList.getAllEvents();
     }
 
 }

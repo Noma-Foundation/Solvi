@@ -3,16 +3,26 @@ export class History {
     #events;
 
     constructor() {
-        this.#events = new Map();
+        this.#events = [];
     }
 
-    pushEvent(eventName, callback) {
+    pushEvent(eventName) {
     }
 
     popEvent() {
     }
 
+    clearHistory() {
+    }
+
     isEmpty() {
+    }
+
+    getHistory() {
+        return this.#events;
+    }
+
+    isFull() {
     }
 
 }
