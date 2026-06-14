@@ -16,14 +16,6 @@
     --margin-s-display: 8px;
 }
 
-html {
-    background-color: var(--light-color);
-}
-
-body {
-    color: var(--color-black);
-}
-
 aside {
     height: 100vh;
     width: fit-content;

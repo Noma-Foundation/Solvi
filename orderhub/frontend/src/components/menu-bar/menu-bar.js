@@ -1,16 +1,27 @@
 import $ from "jquery";
 
-import { ComponentModel } from "../component-model";
+import { ComponentModel } from "../component-model.js";
 
 
 export class MenuBar extends ComponentModel {
     #menuBarId;
     #currentPageId;
+    #previosPageId;
+    #menubarComponentList;
 
     constructor() {
         super();
         this.#menuBarId = "#main-menu-bar";
         this.#currentPageId = "#home-page";
+        this.#previosPageId = null;
+        this.#menubarComponentList = [
+            "#home-page",
+            "#folder-page",
+            "#customer-page",
+            "#inbox-page",
+            "#calendar-page",
+            "#notifications-page"
+        ];
         this.init();
     }
 
@@ -47,25 +58,36 @@ export class MenuBar extends ComponentModel {
 
         allButtons.on("click", (event) => {
             const target = event.currentTarget;
-            const targetId = target.getAttribute("id");
+            const targetId = "#" + target.getAttribute("id");
             const state = this.setCurrentPageId(targetId);
-            if (state) this.switchButtonState(target);
+            if (state) {
+                this.switchButtonState(target);
+            }
         });
     }
 
     switchButtonState(target) {
+        $(this.#previosPageId).removeClass("selected").addClass("unselected");
+        $(target).removeClass("unselected").addClass("selected");
     }
 
+    /**
+     * @param {string} value 
+     * @returns {boolean} - True if the current page id is updated, false otherwise. 
+     */
     setCurrentPageId(value) {
-        if (value == this.#currentPageId) { return false; }
-        if (!value) {
-            console.error("The current page id is null or undefined.");
-            return false;
+        if (value === this.#currentPageId || !value) { return false; }
+        if (this.#menubarComponentList.includes(value)) {
+            this.#previosPageId = this.#currentPageId;
+            this.#currentPageId = value;
+            return true;
         }
-        this.#currentPageId = value;
-        return true;
+        return false;
     }
 
+    /**
+     * @returns {string} - The current page id. 
+     */
     getCurrentPageId() {
         return this.#currentPageId;
     }
