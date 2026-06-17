@@ -9,10 +9,6 @@
     <link rel="stylesheet" href="../../styles/login.css">
     <title>Login</title>
     <style>
-        body {
-            background-color: #212121;
-        }
-
         #app-login-form input {
             border: 1px solid #11111149;
             padding: 4px 8px;
@@ -38,14 +34,14 @@
 <body>
 
     <form id="app-login-form">
-        <div class="fluid-container m-0 p-3 bg-light">
+        <div class="container-fluid m-0 p-3 bg-light">
             <div class="form-group d-flex flex-column gap-2">
                 <input type="text" name="userAccess" id="user-access" placeholder="Username or email..." required>
                 <input type="password" name="userPassword" id="user-password" placeholder="Password..." required>
             </div>
             <div class="form-group d-flex flex-row gap-2 mt-2">
-                <button id="login-btn" class="btn btn-primary w-100">Login</button>
-                <button id="register-btn" class="btn btn-secondary w-100">Register</button>
+                <button id="login-btn" class="btn btn-primary w-50" type="submit">Login</button>
+                <button id="register-btn" class="btn btn-secondary w-50" type="button">Register</button>
             </div>
         </div>
     </form>
