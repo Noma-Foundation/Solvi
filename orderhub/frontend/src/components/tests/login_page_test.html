@@ -52,6 +52,7 @@
         window.onload = () => {
             const loginForm = document.getElementById("app-login-form");
             const registerBtn = document.getElementById("register-btn");
+            let fistLogin = true;
 
             loginForm.addEventListener("submit", (event) => {
                 event.preventDefault();
