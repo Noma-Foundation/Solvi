@@ -9,15 +9,10 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
-        body {
-            background-color: #212121;
-        }
-
         .search-bar {
             display: flex;
             flex-wrap: nowrap;
             background-color: #ECE6F0;
-            border: 1px solid #ECE6F0;
             border-radius: 28px;
             width: fit-content;
             height: fit-content;
@@ -39,15 +34,13 @@
         }
 
         #search-bar-input:focus {
-            border: none;
-            box-shadow: none;
             outline: none;
         }
     </style>
 
 </head>
 
-<body>
+<body style="background-color: #3f3f3f;">
 
     <div class="search-bar container p-0">
         <input type="text" name="searchBar" id="search-bar-input" aria-label="Search"

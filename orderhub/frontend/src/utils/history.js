@@ -1,9 +1,14 @@
 
 export class History {
     #events;
+    #maxSize;
 
-    constructor() {
+    /**
+     * @param {Number} maxSize - Set maximum number of events to store. 
+     */
+    constructor(maxSize) {
         this.#events = [];
+        this.#maxSize = Math.abs(maxSize);
     }
 
     pushEvent(eventName) {
@@ -18,11 +23,15 @@ export class History {
     isEmpty() {
     }
 
+    isFull() {
+    }
+
     getHistory() {
         return this.#events;
     }
 
-    isFull() {
+    getMaxSize() {
+        return this.#maxSize;
     }
 
 }

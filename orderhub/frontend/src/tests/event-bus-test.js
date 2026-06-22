@@ -1,9 +1,11 @@
 import { EventBus } from "../utils/event-bus.js";
 
-class EventBusTest extends EventBus {
+class EventBusTest {
+
+    eventBus;
 
     constructor() {
-        super();
+        this.eventBus = new EventBus();
     }
 
     test_subscribeEvent() {

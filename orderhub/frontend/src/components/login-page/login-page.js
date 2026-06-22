@@ -1,6 +1,8 @@
+import $ from "jquery";
+
 import { ComponentModel } from "../component-model.js";
 
-export class SearchBar extends ComponentModel {
+export class LoginPage extends ComponentModel {
 
     constructor() {
         super();
