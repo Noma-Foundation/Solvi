@@ -51,12 +51,6 @@
             password: "admin"
         };
 
-        function getSessionToken(user) {
-        }
-
-        function setSessionToken(user, endDate) {
-        }
-
         function validateAdminLogin(userName, password) {
             // Use JWT for admin authentication
             if (userName == adminLogin.user && password == adminLogin.password) {
@@ -65,20 +59,22 @@
             return false;
         }
 
-        function validateUserLogin(userName, password) {
-        }
-
         function openApplicationContext(userAccess, userPassword) {
+            let context = "login"; // login, admin, user enum
             const isAdminLogin = validateAdminLogin(userAccess, userPassword);
 
             if (isAdminLogin) {
                 // Enter admin page context
                 console.log("%cEnter Admin Context", "font-size: 14px; color: #cecece;");
+                context = "admin";
             } else {
                 // Enter user page context
                 // Verify permissions
                 console.log("%cEnter User Context", "font-size: 14px; color: #cecece;");
+                context = "user";
             }
+
+            console.log("%cContext: " + context, "font-size:16px; color: red;");
 
         }
 
@@ -88,11 +84,26 @@
             const userAccessElement = document.getElementById("user-access");
             const userPasswordElement = document.getElementById("user-password");
 
+            userAccessElement.addEventListener("change", () => {
+                const access = userAccessElement.value;
+                const token = window.sessionStorage.getItem("user-access");
+                if (token !== access) {
+                    window.sessionStorage.setItem("user-access", access);
+                }
+                if (token !== null) {
+                    userPasswordElement.value = window.sessionStorage.getItem("user-password");
+                }
+            });
+
+            userPasswordElement.addEventListener("change", () => {
+                const password = userPasswordElement.value;
+                window.sessionStorage.setItem("user-password", password);
+            });
+
             loginForm.addEventListener("submit", (event) => {
                 event.preventDefault();
                 const userAccess = userAccessElement.value;
                 const userPassword = userPasswordElement.value;
-
                 openApplicationContext(userAccess, userPassword);
             });
 
