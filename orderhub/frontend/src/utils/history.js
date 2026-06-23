@@ -30,12 +30,17 @@ export class History {
     popEvent() {
         if (!this.isEmpty()) {
             this.length--;
-            return this.#events.pop();
+            return this.#events.shift();
         }
         return null;
     }
 
+    /**
+     * Clear history and all events.
+     */
     clearHistory() {
+        this.#events = [];
+        this.length = 0;
     }
 
     isEmpty() {
