@@ -13,11 +13,21 @@ export class History {
         this.length = 0;
     }
 
-    pushEvent(eventName) {
+    pushEvent(event) {
+        if (this.isFull()) {
+            return null;
+        }
+        this.#events.push(event);
         this.length++;
+        return event;
     }
 
     popEvent() {
+        if (!this.isEmpty()) {
+            this.length--;
+            return this.#events.pop();
+        }
+        return null;
     }
 
     clearHistory() {
