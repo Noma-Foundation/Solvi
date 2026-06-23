@@ -13,10 +13,11 @@ export class History {
         this.length = 0;
     }
 
-    pushEvent(eventName) {
-        if (this.isFull()) return null;
-    }
-
+    /**
+     * Push events into the history. 
+     * @param {String | Event} event - Can be a String or Event object of the event to be pushed. 
+     * @returns {String | Event | Null} - The event that was pushed, or Null if the history is full. 
+     */
     pushEvent(event) {
         if (this.isFull()) {
             return null;
