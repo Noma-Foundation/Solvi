@@ -14,6 +14,9 @@
     --maximus-space-xlarge: 32px;
 
     --margin-s-display: 8px;
+    --margin-m-display: 16px;
+    --margin-l-display: 24px;
+    --margin-xl-display: 32px;
 }
 
 aside {
@@ -22,4 +25,11 @@ aside {
     position: fixed;
     margin-top: var(--margin-s-display);
     margin-left: var(--margin-s-display);
+}
+
+header {
+    width: fit-content;
+    position: fixed;
+    top: var(--margin-s-display);
+    right: var(--margin-s-display);
 }

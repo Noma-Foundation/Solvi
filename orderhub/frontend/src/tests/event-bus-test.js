@@ -8,7 +8,7 @@ class EventBusTest {
         this.eventBus = new EventBus();
     }
 
-    test_subscribeEvent() {
+    testSubscribeEvent() {
         const assert_event_name = "SaveTicket";
         let current_events = "SaveTicket";
         console.assert(current_events === assert_event_name, "Event name should not be equal to the asserted value.");
@@ -19,7 +19,7 @@ class EventBusTest {
 function test() {
     const eventBus = new EventBusTest();
 
-    eventBus.test_subscribeEvent();
+    eventBus.testSubscribeEvent();
 }
 
 test();
