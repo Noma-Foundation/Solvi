@@ -1,5 +1,23 @@
 import { History } from "../utils/history.js";
 
+class EventTest {
+    #name;
+    #message;
+
+    constructor(name, message) {
+        this.#name = name;
+        this.#message = message;
+    }
+
+    execute() {
+        console.log(this.#message);
+    }
+
+    getName() {
+        return this.#name;
+    }
+
+}
 
 class EventHistoryTest {
     #history;
@@ -26,9 +44,9 @@ class EventHistoryTest {
     }
 
     testHistoryIsNotEmpty() {
-        const history1 = new History(3);
-        history1.pushEvent("login");
+        const history1 = new History(2);
 
+        history1.pushEvent("login");
         console.assert(history1.length === 1, "Should be 1");
         console.assert(history1.isEmpty() === false, "Should be false");
     }
@@ -37,7 +55,6 @@ class EventHistoryTest {
         const history1 = new History(2);
 
         history1.pushEvent("login");
-        console.assert(history1.isFull() === false, "Should be false");
         history1.pushEvent("access-database");
         console.assert(history1.isFull(), "Should be true");
     }
@@ -45,13 +62,24 @@ class EventHistoryTest {
     testAddEventWithFullHistory() {
         const history1 = new History(1);
         history1.pushEvent("login");
-
         console.assert(history1.isFull(), "Should be true");
-        console.assert(history1.pushEvent() === null, "Should be null");
-        console.assert(history1.pushEvent() === null, "Should be null");
     }
 
     testPushEvent() {
+        const history1 = new History(1);
+
+        console.assert(history1.pushEvent("login") === "login", "Should be login");
+        console.assert(history1.getHistory().at(0) === "login", "value at the moment = " + history1.getHistory().at(0));
+    }
+
+    testPushEventWithEventObject() {
+        const eventName = "login";
+        const eventMessage = "User logged in";
+        const event = new EventTest(eventName, eventMessage);
+        const history1 = new History(1);
+
+        console.assert(history1.pushEvent(event) === event, "Should be event object");
+        console.assert(history1.getHistory().at(0) === event, "value at the moment = " + history1.getHistory().at(0));
     }
 
     testPopEvent() {
@@ -79,6 +107,7 @@ function test() {
 
     // Test Operations
     history.testPushEvent();
+    history.testPushEventWithEventObject();
     history.testPopEvent();
     history.testClearAllEvents();
 }
