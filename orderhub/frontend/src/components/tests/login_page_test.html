@@ -52,7 +52,6 @@
         };
 
         function validateAdminLogin(userName, password) {
-            // Use JWT for admin authentication
             if (userName == adminLogin.user && password == adminLogin.password) {
                 return true;
             }
@@ -60,16 +59,13 @@
         }
 
         function openApplicationContext(userAccess, userPassword) {
-            let context = "login"; // login, admin, user enum
+            let context = "login";
             const isAdminLogin = validateAdminLogin(userAccess, userPassword);
 
             if (isAdminLogin) {
-                // Enter admin page context
                 console.log("%cEnter Admin Context", "font-size: 14px; color: #cecece;");
                 context = "admin";
             } else {
-                // Enter user page context
-                // Verify permissions
                 console.log("%cEnter User Context", "font-size: 14px; color: #cecece;");
                 context = "user";
             }
@@ -86,18 +82,9 @@
 
             userAccessElement.addEventListener("change", () => {
                 const access = userAccessElement.value;
-                const token = window.sessionStorage.getItem("user-access");
-                if (token !== access) {
-                    window.sessionStorage.setItem("user-access", access);
-                }
-                if (token !== null) {
+                if (access == window.sessionStorage.getItem("user-access")) {
                     userPasswordElement.value = window.sessionStorage.getItem("user-password");
                 }
-            });
-
-            userPasswordElement.addEventListener("change", () => {
-                const password = userPasswordElement.value;
-                window.sessionStorage.setItem("user-password", password);
             });
 
             loginForm.addEventListener("submit", (event) => {
@@ -105,6 +92,12 @@
                 const userAccess = userAccessElement.value;
                 const userPassword = userPasswordElement.value;
                 openApplicationContext(userAccess, userPassword);
+
+                window.sessionStorage.setItem("user-access", userAccess);
+                window.sessionStorage.setItem("user-password", userPassword);
+
+                userAccessElement.value = "";
+                userPasswordElement.value = "";
             });
 
             registerBtn.addEventListener("click", () => {
