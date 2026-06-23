@@ -45,7 +45,10 @@ class EventHistoryTest {
     testAddEventWithFullHistory() {
         const history1 = new History(1);
         history1.pushEvent("login");
+
         console.assert(history1.isFull(), "Should be true");
+        console.assert(history1.pushEvent() === null, "Should be null");
+        console.assert(history1.pushEvent() === null, "Should be null");
     }
 
     testPushEvent() {

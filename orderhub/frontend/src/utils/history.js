@@ -14,10 +14,13 @@ export class History {
     }
 
     pushEvent(eventName) {
+        if (this.isFull()) return null;
         this.length++;
     }
 
     popEvent() {
+        if (this.isEmpty()) return null;
+        this.length--;
     }
 
     clearHistory() {
@@ -32,11 +35,10 @@ export class History {
     }
 
     /**
-     * Returns a shallow copy of the events list to prevent external modification.
      * @returns {Array} - The list of events. 
      */
     getHistory() {
-        return [...this.#events];
+        return this.#events;
     }
 
     /**
