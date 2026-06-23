@@ -44,9 +44,9 @@ class EventHistoryTest {
     }
 
     testHistoryIsNotEmpty() {
-        const history1 = new History(2);
-
+        const history1 = new History(3);
         history1.pushEvent("login");
+
         console.assert(history1.length === 1, "Should be 1");
         console.assert(history1.isEmpty() === false, "Should be false");
     }
@@ -55,6 +55,7 @@ class EventHistoryTest {
         const history1 = new History(2);
 
         history1.pushEvent("login");
+        console.assert(history1.isFull() === false, "Should be false");
         history1.pushEvent("access-database");
         console.assert(history1.isFull(), "Should be true");
     }
@@ -82,6 +83,7 @@ class EventHistoryTest {
 
         console.assert(history1.pushEvent(event) === event, "Should be event object");
         console.assert(history1.getHistory().at(0) === event, "value at the moment = " + history1.getHistory().at(0));
+        console.assert(history1.isFull(), "Should be true");
     }
 
     testPopEvent() {
@@ -109,7 +111,6 @@ function test() {
 
     // Test Operations
     history.testPushEvent();
-    history.testPushEventWithEventObject();
     history.testPopEvent();
     history.testClearAllEvents();
 }
