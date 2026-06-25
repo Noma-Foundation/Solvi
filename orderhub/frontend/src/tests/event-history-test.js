@@ -1,4 +1,4 @@
-import { History } from "../utils/collections/history.js";
+import { History } from "../collections/history.js";
 
 class EventTest {
     #name;
