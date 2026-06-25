@@ -6,8 +6,10 @@ export class EventBus {
     #history;
 
     constructor() {
+        const maxHistorySize = 20;
+
         this.#eventList = new EventList();
-        this.#history = new History();
+        this.#history = new History(maxHistorySize);
     }
 
     subscribe(eventName, callback) {

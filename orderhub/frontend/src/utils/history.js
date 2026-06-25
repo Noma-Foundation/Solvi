@@ -12,6 +12,7 @@ export class History {
      * store events in a queue. This class is used internally by the `EventBus`
      * 
      * @param {Number} maxSize - Set maximum number of events to store. 
+     * @constructs
      */
     constructor(maxSize) {
         this.#events = [];
@@ -89,6 +90,7 @@ export class History {
 
     /**
      * Returns the maximum number of events the history can store.
+     * 
      * @returns {Number} - The maximum number of events the history can store. 
      */
     getMaxSize() {

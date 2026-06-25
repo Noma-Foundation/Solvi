@@ -36,6 +36,7 @@ export class IEvent {
     constructor(type, name, date) {
         this.type = type;
         this.name = name;
+        this.description = "No description available";
         this.date = date;
     }
 
@@ -58,6 +59,10 @@ export class IEvent {
             description: this.description,
             date: this.date
         };
+    }
+
+    setDescription(description) {
+        this.description = description;
     }
 
 }

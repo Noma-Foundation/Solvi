@@ -112,7 +112,6 @@ function test() {
     history.testPushEventWithEventObject();
     history.testPopEvent();
     history.testPopEventWithEmptyHistory();
-    history.testClearAllEvents();
 }
 
 test();

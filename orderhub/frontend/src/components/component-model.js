@@ -8,7 +8,7 @@
 export class IComponentModel {
 
     /**
-     * @constructor
+     * @constructs
      */
     constructor() { }
 
