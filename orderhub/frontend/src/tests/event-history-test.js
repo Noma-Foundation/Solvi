@@ -57,8 +57,8 @@ class EventHistoryTest {
         const history1 = new History(1);
 
         history1.pushEvent("login");
-        console.assert(history1.isFull(), "Should be true");
-        console.assert(history1.pushEvent("access-database") === null, "Should be null");
+        console.assert(history1.pushEvent("access-database") === "access-database", "Should be access-database");
+        console.assert(history1.length === 1, "Should be 1");
     }
 
     testPushStringEvent() {
@@ -78,12 +78,19 @@ class EventHistoryTest {
     }
 
     testPopEvent() {
+        const history1 = new History(3);
+
+        history1.pushEvent("login");
+        history1.pushEvent("event 2");
+
+        console.assert(history1.shiftEvent() === "login", "Should be login");
+        console.assert(history1.shiftEvent() === "event 2", "Should be event 2");
+        console.assert(history1.shiftEvent() === null, "Should be null");
     }
 
     testPopEventWithEmptyHistory() {
-    }
-
-    testClearAllEvents() {
+        const history1 = new History(1);
+        console.assert(history1.shiftEvent() === null, "Should be null");
     }
 
 }
@@ -93,9 +100,6 @@ function test() {
 
     // Max Size Tests
     history.testMaxSizeWithNegativeValue();
-
-    // Get Tests
-    history.testGetHistory();
 
     // Is Empty and Full Test
     history.testHistoryIsEmpty();

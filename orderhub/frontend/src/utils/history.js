@@ -15,7 +15,7 @@ export class History {
      */
     constructor(maxSize) {
         this.#events = [];
-        this.#maxSize = Math.abs(maxSize);
+        this.#maxSize = Math.abs(maxSize) || 20;
         this.length = 0;
     }
 
@@ -28,7 +28,7 @@ export class History {
      */
     pushEvent(event) {
         if (this.isFull()) {
-            return null;
+            this.#removeOldestEvent();
         }
         this.#events.push(event);
         this.length++;
@@ -36,12 +36,12 @@ export class History {
     }
 
     /**
-     * Remove and return the last event pushed into the history.
-     * Return null if the history is empty.
+     * Remove and return the first event pushed into the history.
+     * Return null if the history is empty. This function works as FIFO (First-In, First-Out)
      * 
      * @returns {String | Event | null} - The event that was popped. 
      */
-    popEvent() {
+    shiftEvent() {
         if (!this.isEmpty()) {
             this.length--;
             return this.#events.shift();
@@ -95,4 +95,8 @@ export class History {
         return this.#maxSize;
     }
 
+    #removeOldestEvent() {
+        this.#events.shift();
+        this.length--;
+    }
 }
