@@ -16,7 +16,7 @@ export class History {
      */
     constructor(maxSize) {
         this.#events = [];
-        this.#maxSize = Math.abs(maxSize) || 20;
+        this.#maxSize = Number.isInteger(maxSize) ? Math.abs(maxSize) : 20;
         this.length = 0;
     }
 
@@ -71,21 +71,21 @@ export class History {
      * @returns {Boolean} - Return true value if the history is empty.
      */
     isEmpty() {
-        return this.length === 0;
+        return this.length <= 0;
     }
 
     /**
      * @returns {Boolean} - Return true value if the history is full.
      */
     isFull() {
-        return this.length === this.#maxSize;
+        return this.length >= this.#maxSize;
     }
 
     /**
      * @returns {Array} - The list of events. 
      */
     getHistory() {
-        return this.#events;
+        return this.#events.slice();
     }
 
     /**
