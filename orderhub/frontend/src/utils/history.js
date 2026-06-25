@@ -2,9 +2,14 @@
 export class History {
     #events;
     #maxSize;
+    /**
+     * @type {Number} - Current length of the history.
+     */
     length;
 
     /**
+     * Initialize a new instance of `History`.
+     * 
      * @param {Number} maxSize - Set maximum number of events to store. 
      */
     constructor(maxSize) {
@@ -14,9 +19,11 @@ export class History {
     }
 
     /**
-     * Push events into the history. 
+     * Push events into the history. If the queue is full, the oldest event is removed to
+     * make room for the new one. Push always happens.
+     * 
      * @param {String | Event} event - Can be a String or Event object of the event to be pushed. 
-     * @returns {String | Event | Null} - The event that was pushed, or Null if the history is full. 
+     * @returns {String | Event} - The event that was pushed. 
      */
     pushEvent(event) {
         if (this.isFull()) {
@@ -27,6 +34,12 @@ export class History {
         return event;
     }
 
+    /**
+     * Remove and return the last event pushed into the history.
+     * Return null if the history is empty.
+     * 
+     * @returns {String | Event | null} - The event that was popped. 
+     */
     popEvent() {
         if (!this.isEmpty()) {
             this.length--;
