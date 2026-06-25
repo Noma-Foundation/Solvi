@@ -1,16 +1,34 @@
 
-/**
- * @typedef {Object} Event - An interface representing an event.
- * @prop {String} type - Type of the event.
- * @prop {String} name - Name of the event.
- * @prop {String} description - Small description of the event.
- * @prop {Date} date - Date the event occurred.
- */
-
-/**
- * A interface for all the frontend events.
- * 
- * @interface Event
- */
 export class Event {
+    /**
+     * Creates an abstract class that serves as an interface for all events in the frontend.
+     * This class is used to create events that are used to communicate between different components.
+     * 
+     * @abstract
+     */
+
+    /**
+     * @type {String} - Represent the type of the event.
+     */
+    type;
+    /**
+     * @type {String} - Represent the name of the event.
+     */
+    name;
+    /**
+     * @type {String} - Represent the description of the event.
+     */
+    description;
+    /**
+     * @type {Date} - Represent the date the event occurred.
+     */
+    date;
+
+    constructor(type, name, description, date) {
+        this.type = type;
+        this.name = name;
+        this.description = description;
+        this.date = date;
+    }
+
 }
