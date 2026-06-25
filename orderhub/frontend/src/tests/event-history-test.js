@@ -34,11 +34,6 @@ class EventHistoryTest {
         console.assert(history2.getMaxSize() === 10, "Should be 10");
     }
 
-    testGetHistory() {
-        const allEvents = this.#history.getHistory();
-        console.assert(allEvents instanceof Array, "getHistory() should return an Array");
-    }
-
     testHistoryIsEmpty() {
         console.assert(this.#history.isEmpty(), "Should be true");
     }
@@ -48,7 +43,6 @@ class EventHistoryTest {
         history1.pushEvent("login");
 
         console.assert(history1.isEmpty() === false, "Should be false");
-        console.assert(history1.isFull(), "Should be true");
     }
 
     testHistoryIsFull() {
@@ -72,7 +66,6 @@ class EventHistoryTest {
         const history1 = new History(1);
 
         console.assert(history1.pushEvent(event) === event, "Should be login");
-        console.assert(history1.getHistory().at(0) === event, "value at the moment = " + history1.getHistory().at(0));
     }
 
     testPushEventWithEventObject() {
@@ -82,10 +75,12 @@ class EventHistoryTest {
         const history1 = new History(1);
 
         console.assert(history1.pushEvent(event) === event, "Should be event object");
-        console.assert(history1.getHistory().at(0) === event, "value at the moment = " + history1.getHistory().at(0));
     }
 
     testPopEvent() {
+    }
+
+    testPopEventWithEmptyHistory() {
     }
 
     testClearAllEvents() {

@@ -2,6 +2,9 @@
 export class History {
     #events;
     #maxSize;
+    /**
+     * @type {Number} - Current length of the history.
+     */
     length;
 
     /**
