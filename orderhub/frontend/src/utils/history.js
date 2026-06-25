@@ -8,7 +8,8 @@ export class History {
     length;
 
     /**
-     * Initialize a new instance of `History`.
+     * Initialize a new instance of `History`. `History` is a class that is used to 
+     * store events in a queue. This class is used internally by the `EventBus`
      * 
      * @param {Number} maxSize - Set maximum number of events to store. 
      */
@@ -50,16 +51,31 @@ export class History {
 
     /**
      * Clear history and all events.
+     * 
+     * @example
+     * const myHistory = new History(5);
+     * myHistory.pushEvent("Event 1");
+     * myHistory.pushEvent("Event 2");
+     * myHistory.clearHistory();
+     * console.log(myHistory.getHistory()); // []
+     * 
+     * @returns {void}
      */
     clearHistory() {
         this.#events = [];
         this.length = 0;
     }
 
+    /**
+     * @returns {Boolean} - Return true value if the history is empty.
+     */
     isEmpty() {
         return this.length === 0;
     }
 
+    /**
+     * @returns {Boolean} - Return true value if the history is full.
+     */
     isFull() {
         return this.length === this.#maxSize;
     }

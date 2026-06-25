@@ -4,7 +4,7 @@ export class Event {
      * Creates an abstract class that serves as an interface for all events in the frontend.
      * This class is used to create events that are used to communicate between different components.
      * 
-     * @abstract
+     * @interface Event
      */
 
     /**
@@ -29,6 +29,28 @@ export class Event {
         this.name = name;
         this.description = description;
         this.date = date;
+    }
+
+    /**
+     * Execute the event action.
+     * 
+     * @abstract
+     * @throws {Error} - Thrown when the method is not implemented in the subclass.
+     */
+    execute() { throw new Error("Method 'execute' must be implemented."); }
+
+    /**
+     * Returns a new event object with this event's information.
+     * 
+     * @returns {Object} - The event information.
+     */
+    getEventInfoInObjectForm() {
+        return {
+            type: this.type,
+            name: this.name,
+            description: this.description,
+            date: this.date
+        };
     }
 
 }
