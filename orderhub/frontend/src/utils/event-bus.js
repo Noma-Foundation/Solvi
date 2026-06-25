@@ -1,4 +1,4 @@
-import { History } from "./history.js"
+import { History } from "./collections/history.js"
 import { EventList } from "./event-list.js";
 
 export class EventBus {
