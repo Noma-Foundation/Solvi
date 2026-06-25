@@ -1,9 +1,9 @@
 import $ from "jquery";
 
-import { ComponentModel } from "../component-model.js";
+import { IComponentModel } from "../component-model.js";
 
 
-export class MenuBar extends ComponentModel {
+export class MenuBar extends IComponentModel {
     #menuBarId;
     #currentPageId;
     #previousPageId;
@@ -62,6 +62,7 @@ export class MenuBar extends ComponentModel {
             const state = this.setCurrentPageId(targetId);
             if (state) {
                 this.switchButtonState(target);
+                this.#showCurrentAndPreviousPageIds();
             }
         });
     }
@@ -90,6 +91,11 @@ export class MenuBar extends ComponentModel {
      */
     getCurrentPageId() {
         return this.#currentPageId;
+    }
+
+    #showCurrentAndPreviousPageIds() {
+        console.log("Current page id = " + this.#currentPageId);
+        console.log("Previous page id = " + this.#previousPageId);
     }
 
 }
