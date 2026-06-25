@@ -35,7 +35,7 @@ func AddOrderMenu(mainMenu *menu.Menu) {
 		message := "Add a new order"
 		fmt.Println(message)
 	})
-	orderMenu.AddText("Search Orders", keys.CmdOrCtrl("s"), func(_ *menu.CallbackData) {
+	orderMenu.AddText("Search Orders", keys.CmdOrCtrl("f"), func(_ *menu.CallbackData) {
 		// Search for a specific order
 	})
 	orderMenu.AddText("Set Order", keys.CmdOrCtrl("n"), func(_ *menu.CallbackData) {
@@ -68,11 +68,11 @@ func BuildMenuBar() *menu.Menu {
 	 * Builds the application menu bar.
 	 */
 	mainMenu := NewMenuBar()
+	AppendMacOSMenu(mainMenu)
+	AppendLinuxWindowsMenu(mainMenu)
+
 	AddOrderMenu(mainMenu)
 	AddCustomerMenu(mainMenu)
 	AddHelpMenu(mainMenu)
-
-	AppendMacOSMenu(mainMenu)
-	AppendLinuxWindowsMenu(mainMenu)
 	return mainMenu
 }

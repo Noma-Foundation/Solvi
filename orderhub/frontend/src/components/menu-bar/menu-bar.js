@@ -1,19 +1,19 @@
 import $ from "jquery";
 
-import { ComponentModel } from "../component-model.js";
+import { IComponentModel } from "../component-model.js";
 
 
-export class MenuBar extends ComponentModel {
+export class MenuBar extends IComponentModel {
     #menuBarId;
     #currentPageId;
-    #previosPageId;
+    #previousPageId;
     #menubarComponentList;
 
     constructor() {
         super();
         this.#menuBarId = "#main-menu-bar";
         this.#currentPageId = "#home-page";
-        this.#previosPageId = null;
+        this.#previousPageId = null;
         this.#menubarComponentList = [
             "#home-page",
             "#folder-page",
@@ -62,12 +62,13 @@ export class MenuBar extends ComponentModel {
             const state = this.setCurrentPageId(targetId);
             if (state) {
                 this.switchButtonState(target);
+                this.#showCurrentAndPreviousPageIds();
             }
         });
     }
 
     switchButtonState(target) {
-        $(this.#previosPageId).removeClass("selected").addClass("unselected");
+        $(this.#previousPageId).removeClass("selected").addClass("unselected");
         $(target).removeClass("unselected").addClass("selected");
     }
 
@@ -78,7 +79,7 @@ export class MenuBar extends ComponentModel {
     setCurrentPageId(value) {
         if (value === this.#currentPageId || !value) { return false; }
         if (this.#menubarComponentList.includes(value)) {
-            this.#previosPageId = this.#currentPageId;
+            this.#previousPageId = this.#currentPageId;
             this.#currentPageId = value;
             return true;
         }
@@ -90,6 +91,11 @@ export class MenuBar extends ComponentModel {
      */
     getCurrentPageId() {
         return this.#currentPageId;
+    }
+
+    #showCurrentAndPreviousPageIds() {
+        console.log("Current page id = " + this.#currentPageId);
+        console.log("Previous page id = " + this.#previousPageId);
     }
 
 }

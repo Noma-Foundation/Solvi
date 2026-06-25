@@ -1,9 +1,9 @@
 import $ from "jquery";
 
-import { ComponentModel } from "../component-model.js";
+import { IComponentModel } from "../component-model.js";
 
 
-export class SearchBar extends ComponentModel {
+export class SearchBar extends IComponentModel {
     #headerId;
 
     constructor() {
