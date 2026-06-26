@@ -6,7 +6,6 @@
  * @interface IEvent
  */
 export class IEvent {
-
     /**
      * @type {String} - Represent the type of the event.
      */
@@ -15,10 +14,6 @@ export class IEvent {
      * @type {String} - Represent the name of the event.
      */
     name;
-    /**
-     * @type {String} - Represent the description of the event.
-     */
-    description;
     /**
      * @type {Date} - Represent the date the event occurred.
      */
@@ -36,7 +31,6 @@ export class IEvent {
     constructor(type, name, date) {
         this.type = type;
         this.name = name;
-        this.description = "No description available";
         this.date = date;
     }
 
@@ -56,13 +50,8 @@ export class IEvent {
         return {
             type: this.type,
             name: this.name,
-            description: this.description,
             date: this.date
         };
-    }
-
-    setDescription(description) {
-        this.description = description;
     }
 
 }
