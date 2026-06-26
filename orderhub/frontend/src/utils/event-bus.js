@@ -1,15 +1,13 @@
-import { History } from "../collections/history.js"
-import { EventList } from "./event-list.js";
+import { EventList } from "../collections/event-list.js";
+import { History } from "../collections/history.js";
 
 export class EventBus {
     #eventList;
     #history;
 
     constructor() {
-        const maxHistorySize = 20;
-
         this.#eventList = new EventList();
-        this.#history = new History(maxHistorySize);
+        this.#history = new History();
     }
 
     subscribe(eventName, callback) {
