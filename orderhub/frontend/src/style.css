@@ -14,9 +14,9 @@
     --maximus-space-xlarge: 32px;
 
     --margin-s-display: 8px;
-    --margin-m-display: 16px;
-    --margin-l-display: 24px;
-    --margin-xl-display: 32px;
+    --margin-m-display: 24px;
+    --margin-l-display: 32px;
+    --margin-xl-display: 64px;
 }
 
 aside {

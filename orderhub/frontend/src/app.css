@@ -1,0 +1,10 @@
+#main-container {
+    display: grid;
+    grid-template-columns: auto 2fr;
+    height: 100vh;
+    margin-right: var(--margin-s-display);
+}
+
+#main-context {
+    margin-top: var(--margin-m-display);
+}
