@@ -18,11 +18,17 @@
 
 <body>
     <header id="app-header"></header>
-    <div id="main-container" class="container-fluid p-0">
-        <aside id="main-menu-bar"></aside>
-        <main id="main-context" class="container p-0">
-            <h2>Hello, World!</h2>
-        </main>
+    <div id="main-container" class="container">
+        <div class="row">
+            <div class="col-auto">
+                <aside id="main-menu-bar"></aside>
+            </div>
+            <div class="col text-center">
+                <main id="main-context">
+                    <h2>Hello, World!</h2>
+                </main>
+            </div>
+        </div>
     </div>
     <footer id="app-footer" class="container-fluid p-0"></footer>
     <script src="./src/main.js" type="module"></script>
