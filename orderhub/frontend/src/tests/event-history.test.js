@@ -16,102 +16,80 @@ class EventTest {
     getName() {
         return this.#name;
     }
-
 }
 
-class EventHistoryTest {
-    #history;
 
-    constructor(maxSize) {
-        this.#history = new History(maxSize);
-    }
+describe("Testing Class History", () => {
+    test("Should create a history with empty params", () => {
+        const history = new History();
+        expect(history).toBeInstanceOf(History);
+    });
 
-    testMaxSizeWithNegativeValue() {
+    test("Should handle maxSize with negative value", () => {
         const history1 = new History(-5);
         const history2 = new History(-10);
 
-        console.assert(history1.getMaxSize() === 5, "Should be 5");
-        console.assert(history2.getMaxSize() === 10, "Should be 10");
-    }
+        expect(history1.getMaxSize()).toBe(5);
+        expect(history2.getMaxSize()).toBe(10);
+    });
 
-    testHistoryIsEmpty() {
-        console.assert(this.#history.isEmpty(), "Should be true");
-    }
+    test("Should be empty when created", () => {
+        const history = new History(10);
+        expect(history.isEmpty()).toBe(true);
+    });
 
-    testHistoryIsNotEmpty() {
+    test("Should not be empty after adding an event", () => {
         const history1 = new History(1);
         history1.pushEvent("login");
 
-        console.assert(history1.isEmpty() === false, "Should be false");
-    }
+        expect(history1.isEmpty()).toBe(false);
+    });
 
-    testHistoryIsFull() {
+    test("Should be full when reaching maxSize", () => {
         const history1 = new History(2);
 
         history1.pushEvent("login");
         history1.pushEvent("access-database");
-        console.assert(history1.isFull(), "Should be true");
-    }
+        expect(history1.isFull()).toBe(true);
+    });
 
-    testPushEventWithFullHistory() {
+    test("Should handle pushEvent when history is full", () => {
         const history1 = new History(1);
 
         history1.pushEvent("login");
-        console.assert(history1.pushEvent("access-database") === "access-database", "Should be access-database");
-        console.assert(history1.length === 1, "Should be 1");
-    }
+        expect(history1.pushEvent("access-database")).toBe("access-database");
+        expect(history1.length).toBe(1);
+    });
 
-    testPushStringEvent() {
+    test("Should push a string event correctly", () => {
         const event = "login";
         const history1 = new History(1);
 
-        console.assert(history1.pushEvent(event) === event, "Should be login");
-    }
+        expect(history1.pushEvent(event)).toBe(event);
+    });
 
-    testPushEventWithEventObject() {
+    test("Should push an Event object correctly", () => {
         const eventName = "login";
         const eventMessage = "User logged in";
         const event = new EventTest(eventName, eventMessage);
         const history1 = new History(1);
 
-        console.assert(history1.pushEvent(event) === event, "Should be event object");
-    }
+        expect(history1.pushEvent(event)).toBe(event);
+    });
 
-    testPopEvent() {
+    test("Should shift events correctly (FIFO)", () => {
         const history1 = new History(3);
 
         history1.pushEvent("login");
         history1.pushEvent("event 2");
 
-        console.assert(history1.shiftEvent() === "login", "Should be login");
-        console.assert(history1.shiftEvent() === "event 2", "Should be event 2");
-        console.assert(history1.shiftEvent() === null, "Should be null");
-    }
+        expect(history1.shiftEvent()).toBe("login");
+        expect(history1.shiftEvent()).toBe("event 2");
+        expect(history1.shiftEvent()).toBeNull();
+    });
 
-    testPopEventWithEmptyHistory() {
+    test("Should return null when shifting from empty history", () => {
         const history1 = new History(1);
-        console.assert(history1.shiftEvent() === null, "Should be null");
-    }
-
-}
-
-function test() {
-    const history = new EventHistoryTest(3);
-
-    // Max Size Tests
-    history.testMaxSizeWithNegativeValue();
-
-    // Is Empty and Full Test
-    history.testHistoryIsEmpty();
-    history.testHistoryIsNotEmpty();
-    history.testHistoryIsFull();
-    history.testPushEventWithFullHistory();
-
-    // Test Operations
-    history.testPushStringEvent();
-    history.testPushEventWithEventObject();
-    history.testPopEvent();
-    history.testPopEventWithEmptyHistory();
-}
-
-test();
+        expect(history1.shiftEvent()).toBeNull();
+    });
+});
