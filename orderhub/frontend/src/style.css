@@ -6,25 +6,18 @@
     --color-black: #000;
 
     /* Aside icons buttons */
-    --button-bg-hover: #b6b6b6;
-    --button-unselected-bg: #cecece;
+    --button-bg-hover: #B6B6B6;
+    --search-bar-bg-hover: #ECE6F0;
+    --button-unselected-bg: #CECECE;
 
     --maximus-space-medium: 8px;
     --maximus-space-large: 16px;
     --maximus-space-xlarge: 32px;
 
     --margin-s-display: 8px;
-    --margin-m-display: 16px;
-    --margin-l-display: 24px;
-    --margin-xl-display: 32px;
-}
-
-aside {
-    height: 100vh;
-    width: fit-content;
-    position: fixed;
-    margin-top: var(--margin-s-display);
-    margin-left: var(--margin-s-display);
+    --margin-m-display: 24px;
+    --margin-l-display: 32px;
+    --margin-xl-display: 64px;
 }
 
 header {

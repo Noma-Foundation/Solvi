@@ -1,5 +1,7 @@
 import $ from "jquery";
 
+import { LogInfo } from "../../../wailsjs/runtime/runtime";
+
 import { IComponentModel } from "../component-model.js";
 
 
@@ -61,13 +63,13 @@ export class MenuBar extends IComponentModel {
             const targetId = "#" + target.getAttribute("id");
             const state = this.setCurrentPageId(targetId);
             if (state) {
-                this.switchButtonState(target);
+                this.#switchButtonState(target);
                 this.#showCurrentAndPreviousPageIds();
             }
         });
     }
 
-    switchButtonState(target) {
+    #switchButtonState(target) {
         $(this.#previousPageId).removeClass("selected").addClass("unselected");
         $(target).removeClass("unselected").addClass("selected");
     }
@@ -94,8 +96,8 @@ export class MenuBar extends IComponentModel {
     }
 
     #showCurrentAndPreviousPageIds() {
-        console.log("Current page id = " + this.#currentPageId);
-        console.log("Previous page id = " + this.#previousPageId);
+        const message = this.#currentPageId.replace("#", "");
+        LogInfo(`Change Main Context display | Actual current page is ${message}`);
     }
 
 }

@@ -1,7 +1,7 @@
 .search-bar {
     display: flex;
     flex-wrap: nowrap;
-    background-color: #ECE6F0;
+    background-color: var(--search-bar-bg-hover);
     border-radius: 28px;
     width: fit-content;
     height: fit-content;
@@ -24,4 +24,15 @@
 
 #search-bar-input:focus {
     outline: none;
+}
+
+/* Styles for mobile and tablet */
+@media (max-width: 700px) { 
+    .search-bar input { 
+        display: none;
+    }
+
+    .search-bar img {
+        margin-right: 0px; 
+    }
 }
