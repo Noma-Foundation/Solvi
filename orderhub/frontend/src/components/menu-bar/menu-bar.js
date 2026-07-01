@@ -63,13 +63,13 @@ export class MenuBar extends IComponentModel {
             const targetId = "#" + target.getAttribute("id");
             const state = this.setCurrentPageId(targetId);
             if (state) {
-                this.switchButtonState(target);
+                this.#switchButtonState(target);
                 this.#showCurrentAndPreviousPageIds();
             }
         });
     }
 
-    switchButtonState(target) {
+    #switchButtonState(target) {
         $(this.#previousPageId).removeClass("selected").addClass("unselected");
         $(target).removeClass("unselected").addClass("selected");
     }
