@@ -20,13 +20,6 @@
     --margin-xl-display: 64px;
 }
 
-aside {
-    width: fit-content;
-    margin-left: var(--margin-s-display);
-    margin-top: var(--margin-s-display);
-    z-index: 0;
-}
-
 header {
     width: fit-content;
     position: fixed;

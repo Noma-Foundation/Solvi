@@ -19,12 +19,15 @@
 <body>
     <header id="app-header"></header>
     <div class="container-fluid m-0 p-0 d-flex vh-100">
-        <aside id="main-menu-bar"></aside>
+        <aside id="main-menu-bar" class="m-2 overflow-hidden"></aside>
         <main id="main-context" class="flex-grow-1 overflow-auto d-flex justify-content-center align-items-center">
             <h3>Hello, World!</h3>
         </main>
     </div>
-    <footer id="app-footer" class="container-fluid p-0"></footer>
+    <!-- display the system version at the right-bottom corner -->
+    <footer id="app-footer" class="container-fluid p-0 m-0 position-absolute bottom-0 pe-2 pb-1">
+        <p class="text-end m-0 p-0"><span>Version 1.0.0</span></p>
+    </footer>
     <script src="./src/main.js" type="module"></script>
     <!-- Import Bootstrap JS Framework -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
