@@ -32,7 +32,7 @@ export class MenuBar extends IComponentModel {
             <nav class="navigation-bar container-fluid px-0">
                 <ul>
                     <li class="selected" id="home-page" role="button" tabindex="0">
-                        <img src="./src/assets/icons/aside/home.svg" alt="Home">
+                        <img src="./assets/icons/aside/home.svg" alt="Home">
                     </li>
                     <!--
                     <li class="unselected" id="folder-page" role="button" tabindex="0">
@@ -111,7 +111,7 @@ export class MenuBar extends IComponentModel {
             <section class="container d-flex gap-4">
                 <article class="d-flex flex-column gap-2 justify-content-center align-items-center">
                     <div id="view-tickets-fab-button" class="fab-button" role="button">
-                        <img src="./src/assets/icons/core_functions/edit_ticket.svg"
+                        <img src="./assets/icons/core_functions/edit_ticket.svg"
                             alt="View all tickets button" />
                     </div>
                     <h6 class="text-center">View<br>tickets</h6>
