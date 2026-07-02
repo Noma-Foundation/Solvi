@@ -34,6 +34,7 @@ export class MenuBar extends IComponentModel {
                     <li class="selected" id="home-page" role="button" tabindex="0">
                         <img src="./src/assets/icons/aside/home.svg" alt="Home">
                     </li>
+                    <!--
                     <li class="unselected" id="folder-page" role="button" tabindex="0">
                         <img src="./src/assets/icons/aside/folder.svg" alt="Folder">
                     </li>
@@ -46,6 +47,7 @@ export class MenuBar extends IComponentModel {
                     <li class="unselected" id="calendar-page" role="button" tabindex="0">
                         <img src="./src/assets/icons/aside/calendar.svg" alt="Calendar">
                     </li>
+                    -->
                     <li class="unselected" id="notifications-page" role="button" tabindex="0">
                         <img src="./src/assets/icons/aside/notifications.svg" alt="Notifications">
                     </li>
