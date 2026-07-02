@@ -47,10 +47,10 @@ export class MenuBar extends IComponentModel {
                     <li class="unselected" id="calendar-page" role="button" tabindex="0">
                         <img src="./src/assets/icons/aside/calendar.svg" alt="Calendar">
                     </li>
-                    -->
                     <li class="unselected" id="notifications-page" role="button" tabindex="0">
                         <img src="./src/assets/icons/aside/notifications.svg" alt="Notifications">
                     </li>
+                    -->
                 </ul>
             </nav>
         `;
@@ -110,15 +110,9 @@ export class MenuBar extends IComponentModel {
         const templateOptionButtons = `
             <section class="container d-flex gap-4">
                 <article class="d-flex flex-column gap-2 justify-content-center align-items-center">
-                    <div class="fab-button" role="button">
+                    <div id="view-tickets-fab-button" class="fab-button" role="button">
                         <img src="./src/assets/icons/core_functions/edit_ticket.svg"
                             alt="View all tickets button" />
-                    </div>
-                    <h6 class="text-center">View<br>tickets</h6>
-                </article>
-                <article class="d-flex flex-column gap-2 justify-content-center align-items-center">
-                    <div class="fab-button" role="button">
-                        <img src="./src/assets/icons/core_functions/remove_ticket.svg" alt="Remove ticket button" />
                     </div>
                     <h6 class="text-center">View<br>tickets</h6>
                 </article>
