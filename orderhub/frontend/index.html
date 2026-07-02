@@ -14,6 +14,21 @@
     <link rel="stylesheet" href="./src/app.css" />
     <link rel="stylesheet" href="./src/components/menu-bar/menu-bar.css">
     <link rel="stylesheet" href="./src/components/search-bar/search-bar.css">
+    <!-- This options is used to display various information related to orders -->
+    <!-- Is used for beta testing -->
+    <style>
+        .fab-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            gap: 24px;
+            background-color: #2745FE;
+            border-radius: 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -21,7 +36,7 @@
     <div class="container-fluid m-0 p-0 d-flex vh-100">
         <aside id="main-menu-bar" class="m-2 overflow-hidden"></aside>
         <main id="main-context" class="flex-grow-1 overflow-auto d-flex justify-content-center align-items-center">
-            <h3>Hello, World!</h3>
+            <div id="app-main-context"></div>
         </main>
     </div>
     <!-- display the system version at the right-bottom corner -->

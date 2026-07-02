@@ -34,6 +34,7 @@ export class MenuBar extends IComponentModel {
                     <li class="selected" id="home-page" role="button" tabindex="0">
                         <img src="./src/assets/icons/aside/home.svg" alt="Home">
                     </li>
+                    <!--
                     <li class="unselected" id="folder-page" role="button" tabindex="0">
                         <img src="./src/assets/icons/aside/folder.svg" alt="Folder">
                     </li>
@@ -46,6 +47,7 @@ export class MenuBar extends IComponentModel {
                     <li class="unselected" id="calendar-page" role="button" tabindex="0">
                         <img src="./src/assets/icons/aside/calendar.svg" alt="Calendar">
                     </li>
+                    -->
                     <li class="unselected" id="notifications-page" role="button" tabindex="0">
                         <img src="./src/assets/icons/aside/notifications.svg" alt="Notifications">
                     </li>
@@ -53,6 +55,7 @@ export class MenuBar extends IComponentModel {
             </nav>
         `;
         $(this.#menuBarId).append(menuBarTemplate);
+        this.#changeContext();
     }
 
     bindEvents() {
@@ -65,6 +68,7 @@ export class MenuBar extends IComponentModel {
             if (state) {
                 this.#switchButtonState(target);
                 this.#showCurrentAndPreviousPageIds();
+                this.#changeContext();
             }
         });
     }
@@ -89,7 +93,7 @@ export class MenuBar extends IComponentModel {
     }
 
     /**
-     * @returns {string} - The current page id. 
+     * @returns {string} - The current page id with '#' prefix. 
      */
     getCurrentPageId() {
         return this.#currentPageId;
@@ -98,6 +102,34 @@ export class MenuBar extends IComponentModel {
     #showCurrentAndPreviousPageIds() {
         const message = this.#currentPageId.replace("#", "");
         LogInfo(`Change Main Context display | Actual current page is ${message}`);
+    }
+
+    #changeContext() {
+        const appMainContext = $("#app-main-context");
+
+        const templateOptionButtons = `
+            <section class="container d-flex gap-4">
+                <article class="d-flex flex-column gap-2 justify-content-center align-items-center">
+                    <div class="fab-button" role="button">
+                        <img src="./src/assets/icons/core_functions/edit_ticket.svg"
+                            alt="View all tickets button" />
+                    </div>
+                    <h6 class="text-center">View<br>tickets</h6>
+                </article>
+                <article class="d-flex flex-column gap-2 justify-content-center align-items-center">
+                    <div class="fab-button" role="button">
+                        <img src="./src/assets/icons/core_functions/remove_ticket.svg" alt="Remove ticket button" />
+                    </div>
+                    <h6 class="text-center">View<br>tickets</h6>
+                </article>
+            </section>
+        `;
+
+        if (this.#currentPageId == "#home-page") {
+            appMainContext.html(templateOptionButtons);
+        } else if (this.#currentPageId == "#notifications-page") {
+            appMainContext.html("");
+        }
     }
 
 }
