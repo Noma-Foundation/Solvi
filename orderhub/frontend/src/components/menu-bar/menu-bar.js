@@ -47,10 +47,10 @@ export class MenuBar extends IComponentModel {
                     <li class="unselected" id="calendar-page" role="button" tabindex="0">
                         <img src="./src/assets/icons/aside/calendar.svg" alt="Calendar">
                     </li>
-                    -->
                     <li class="unselected" id="notifications-page" role="button" tabindex="0">
                         <img src="./src/assets/icons/aside/notifications.svg" alt="Notifications">
                     </li>
+                    -->
                 </ul>
             </nav>
         `;
@@ -115,12 +115,6 @@ export class MenuBar extends IComponentModel {
                             alt="View all tickets button" />
                     </div>
                     <h6 class="text-center">View<br>tickets</h6>
-                </article>
-                <article class="d-flex flex-column gap-2 justify-content-center align-items-center">
-                    <div id="remove-ticket-fab-button" class="fab-button" role="button">
-                        <img src="./src/assets/icons/core_functions/remove_ticket.svg" alt="Remove ticket button" />
-                    </div>
-                    <h6 class="text-center">Delete<br>tickets</h6>
                 </article>
             </section>
         `;

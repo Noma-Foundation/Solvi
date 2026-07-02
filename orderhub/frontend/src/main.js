@@ -13,14 +13,10 @@ $(function () {
 
     // This code part is used to display and beta test the core functions
     const viewTicketButton = document.getElementById("view-tickets-fab-button");
-    const deleteTicketButton = document.getElementById("remove-ticket-fab-button");
 
     viewTicketButton.addEventListener("click", () => {
         OpenTerminal();
         LogDebug("Clicked in View Button | Open CMD for display tickets");
     });
 
-    deleteTicketButton.addEventListener("click", () => {
-        LogDebug("Clicked in Delete Button | Open CMD for delete tickets");
-    });
 });
