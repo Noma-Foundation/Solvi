@@ -4,6 +4,12 @@ import { LogInfo } from "../../../wailsjs/runtime/runtime";
 
 import { IComponentModel } from "../component-model.js";
 
+import homeIcon from "../../assets/icons/aside/home.svg";
+import folderIcon from "../../assets/icons/aside/folder.svg";
+import customerIcon from "../../assets/icons/aside/customer.svg";
+import inboxIcon from "../../assets/icons/aside/inbox.svg";
+import calendarIcon from "../../assets/icons/aside/calendar.svg";
+import notificationsIcon from "../../assets/icons/aside/notifications.svg";
 
 export class MenuBar extends IComponentModel {
     #menuBarId;
@@ -32,22 +38,22 @@ export class MenuBar extends IComponentModel {
             <nav class="navigation-bar container-fluid px-0">
                 <ul>
                     <li class="selected" id="home-page" role="button" tabindex="0">
-                        <img src="./assets/icons/aside/home.svg" alt="Home">
+                        <img src="${homeIcon}" alt="Home">
                     </li>
                     <li class="unselected" id="folder-page" role="button" tabindex="0">
-                        <img src="./assets/icons/aside/folder.svg" alt="Folder">
+                        <img src="${folderIcon}" alt="Folder">
                     </li>
                     <li class="unselected" id="customer-page" role="button" tabindex="0">
-                        <img src="./assets/icons/aside/customer.svg" alt="Customer">
+                        <img src="${customerIcon}" alt="Customer">
                     </li>
                     <li class="unselected" id="inbox-page" role="button" tabindex="0">
-                        <img src="./assets/icons/aside/inbox.svg" alt="Inbox">
+                        <img src="${inboxIcon}" alt="Inbox">
                     </li>
                     <li class="unselected" id="calendar-page" role="button" tabindex="0">
-                        <img src="./assets/icons/aside/calendar.svg" alt="Calendar">
+                        <img src="${calendarIcon}" alt="Calendar">
                     </li>
                     <li class="unselected" id="notifications-page" role="button" tabindex="0">
-                        <img src="./assets/icons/aside/notifications.svg" alt="Notifications">
+                        <img src="${notificationsIcon}" alt="Notifications">
                     </li>
                 </ul>
             </nav>
