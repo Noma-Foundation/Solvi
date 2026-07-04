@@ -218,14 +218,14 @@ O OrderHub não é o portal principal do cliente. Seu foco é a operação inter
 | RF-OH-05 | O sistema deve permitir gerenciar orçamentos vinculados a solicitações. | Alta |
 | RF-OH-06 | O sistema deve exibir ticket/orçamento com tabela de componentes internos. | Alta |
 | RF-OH-07 | O sistema deve permitir adicionar, editar e remover componentes do ticket/orçamento. | Alta |
-| RF-OH-08 | O sistema deve permitir selecionar componentes a partir de tabela de valores/catálogo. | Alta |
+| RF-OH-08 | O sistema deve apresentar login administrativo com todas as permissões para personalização. | Alta |
 | RF-OH-09 | O sistema deve permitir registrar componentes avulsos quando necessário. | Média |
 | RF-OH-10 | O sistema deve recalcular totais ao alterar componentes do orçamento. | Alta |
 | RF-OH-11 | O sistema deve permitir exportar orçamento/ticket detalhado como arquivo. | Alta |
 | RF-OH-12 | O sistema deve permitir atualizar status do serviço. | Alta |
 | RF-OH-13 | O sistema deve permitir gerenciar serviços: criar, atualizar, deletar e consultar. | Alta |
 | RF-OH-14 | O sistema deve permitir despachar ordem de serviço. | Alta |
-| RF-OH-15 | O sistema deve permitir salvar relatório de atendimento/serviço. | Média |
+| RF-OH-15 | O sistema deve calcular o valor de ICMS de acordo com cada estado. | Média |
 | RF-OH-16 | O sistema deve permitir gerenciar clientes relacionados às solicitações. | Média |
 | RF-OH-17 | O sistema deve permitir pesquisar pedidos, clientes, orçamentos e serviços. | Média |
 | RF-OH-18 | O sistema deve registrar histórico de alterações em status, orçamento e componentes. | Alta |
