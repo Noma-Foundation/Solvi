@@ -3,8 +3,6 @@ import $ from "jquery";
 import { LogInfo } from "../../../wailsjs/runtime/runtime";
 
 import { IComponentModel } from "../component-model.js";
-import { Home } from "../../views/home-page.js";
-import { Folder } from "../../views/folder-page.js";
 
 import homeIcon from "../../assets/icons/aside/home.svg";
 import folderIcon from "../../assets/icons/aside/folder.svg";
@@ -18,14 +16,12 @@ export class MenuBar extends IComponentModel {
     #currentPageId;
     #previousPageId;
     #menubarComponentList;
-    #contextId;
 
     constructor() {
         super();
         this.#menuBarId = "#main-menu-bar";
         this.#currentPageId = "#home-page";
         this.#previousPageId = null;
-        this.#contextId = "#app-main-context";
         this.#menubarComponentList = [
             "#home-page",
             "#folder-page",
@@ -75,7 +71,6 @@ export class MenuBar extends IComponentModel {
             if (state) {
                 this.#switchButtonState(target);
                 this.#showCurrentAndPreviousPageIds();
-                this.#changeContext(targetId);
             }
         });
     }
@@ -109,14 +104,6 @@ export class MenuBar extends IComponentModel {
     #showCurrentAndPreviousPageIds() {
         const message = this.#currentPageId.replace("#", "");
         LogInfo(`Change Main Context display | Actual current page is ${message}`);
-    }
-
-    #changeContext(context) {
-        if (context === "#home-page") {
-            $(this.#contextId).html(Home());
-        } else if (context === "#folder-page") {
-            $(this.#contextId).html(Folder());
-        }
     }
 
 }
