@@ -1,8 +1,8 @@
 
-export function Home() {
+export function Folder() {
     return (`
         <section>
-            <h1>Home Page</h1>
+            <h1>Folder Page</h1>
         </section>
     `)
 }
