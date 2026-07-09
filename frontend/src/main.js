@@ -7,14 +7,16 @@ import $ from "jquery";
 
 import { MenuBar } from "./components/menu-bar/menu-bar.js";
 import { SearchBar } from "./components/search-bar/search-bar.js";
-
-import { EventBus } from "./utils/event-bus.js";
+import { eventBus } from "./event-manager-singleton.js";
 
 $(function () {
     // Initialize main app components
     const menuBar = new MenuBar();
     const searchBar = new SearchBar();
-    const eventBus = new EventBus();
+
+    eventBus.subscribe("LOGGER", () => {
+        console.log("Hello, World!");
+    });
 
     // Set app version
     $("#app-version").text(`${pkg.version}`);
