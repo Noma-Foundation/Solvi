@@ -62,7 +62,7 @@ pnpm-debug.log*
 Thumbs.db
 
 # Template icons
-orderhub/frontend/components/tests/assets/*
+frontend/src/components/tests/assets/*
 
 # Remove md5 files
 *.md5
