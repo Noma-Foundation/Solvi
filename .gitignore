@@ -21,6 +21,7 @@ profile.cov
 orderhub/frontend/dist/
 orderhub/build/bin/
 node_modules/
+frontend/dist/
 
 # Go workspace file
 go.work
