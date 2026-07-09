@@ -18,9 +18,9 @@ profile.cov
 # vendor/
 
 # Replace build folders 
-orderhub/frontend/dist/
-orderhub/build/bin/
+build/bin/
 node_modules/
+frontend/dist/
 
 # Go workspace file
 go.work
@@ -42,6 +42,7 @@ go.work.sum
 *.sln
 *.sw?
 .agents/rules
+.codereview_report
 
 # Temporary Files
 *.tmp
