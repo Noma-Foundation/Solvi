@@ -43,6 +43,7 @@ go.work.sum
 *.sln
 *.sw?
 .agents/rules
+.codereview_report
 
 # Temporary Files
 *.tmp
