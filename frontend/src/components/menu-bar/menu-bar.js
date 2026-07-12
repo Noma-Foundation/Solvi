@@ -11,6 +11,8 @@ import inboxIcon from "../../assets/icons/aside/inbox.svg";
 import calendarIcon from "../../assets/icons/aside/calendar.svg";
 import notificationsIcon from "../../assets/icons/aside/notifications.svg";
 
+import penViewTicketIcon from "../../assets/icons/core_functions/edit_ticket.svg"
+
 export class MenuBar extends IComponentModel {
     #menuBarId;
     #currentPageId;
@@ -114,7 +116,7 @@ export class MenuBar extends IComponentModel {
             <section class="container d-flex gap-4">
                 <article class="d-flex flex-column gap-2 justify-content-center align-items-center">
                     <div id="view-tickets-fab-button" class="fab-button" role="button">
-                        <img src="./src/assets/icons/core_functions/edit_ticket.svg"
+                        <img src="${penViewTicketIcon}"
                             alt="View all tickets button" />
                     </div>
                     <h6 class="text-center">View<br>tickets</h6>
