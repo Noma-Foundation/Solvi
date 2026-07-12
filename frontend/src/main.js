@@ -8,6 +8,8 @@ import $ from "jquery";
 import { MenuBar } from "./components/menu-bar/menu-bar.js";
 import { SearchBar } from "./components/search-bar/search-bar.js";
 import { eventBus } from "./event-manager-singleton.js";
+import { OpenTerminal } from "../wailsjs/go/main/App.js";
+
 
 $(function () {
     // Initialize main app components
@@ -16,6 +18,14 @@ $(function () {
 
     eventBus.subscribe("LOGGER", () => {
         console.log("Hello, World!");
+    });
+
+    // This code part is used to display and beta test the core functions
+    const viewTicketButton = document.getElementById("view-tickets-fab-button");
+
+    viewTicketButton.addEventListener("click", () => {
+        OpenTerminal();
+        LogDebug("Clicked in View Tickets FAB Button | Open CMD to view all tickets");
     });
 
     // Set app version
