@@ -30,6 +30,11 @@ func (a *App) shutdown(ctx context.Context) {
 }
 
 func (a *App) OpenTerminal() error {
-	opener := utils.NewSystemTerminalOpener()
+	opener, err := utils.NewSystemTerminalOpener()
+
+	if err != nil {
+		runtime.LogError(a.ctx, "Error creating terminal opener struct:"+err.Error())
+		return err
+	}
 	return opener.OpenTerminal()
 }
