@@ -33,7 +33,7 @@ func (a *App) OpenTerminal() error {
 	opener, err := utils.NewSystemTerminalOpener()
 
 	if err != nil {
-		runtime.LogError(a.ctx, "Error creating terminal opener struct:"+err.Error())
+		runtime.LogError(a.ctx, "Error creating terminal opener:"+err.Error())
 		return err
 	}
 	return opener.OpenTerminal()

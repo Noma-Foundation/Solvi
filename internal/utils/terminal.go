@@ -29,6 +29,11 @@ func NewSystemTerminalOpener() (*systemTerminalOpener, error) {
 }
 
 func (s *systemTerminalOpener) OpenTerminal() error {
-	s.command = exec.Command("cmd", "/c", "start", "cmd")
+	switch runtime.GOOS {
+	case "windows":
+		s.command = exec.Command("cmd", "/c", "start", "cmd")
+	case "linux", "darwin":
+		s.command = exec.Command("bash", "-c", "start", "cmd")
+	}
 	return s.command.Start()
 }
