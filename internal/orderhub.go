@@ -7,6 +7,7 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
+// OrderHub is the main struct for the application.
 type OrderHub struct {
 	ctx context.Context
 }
