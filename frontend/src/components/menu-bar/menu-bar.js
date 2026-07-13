@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-import { LogDebug } from "../../../wailsjs/runtime/runtime";
+import { LogInfo } from "../../../wailsjs/runtime/runtime";
 
 import { IComponentModel } from "../component-model.js";
 
@@ -106,7 +106,7 @@ export class MenuBar extends IComponentModel {
 
     #showCurrentAndPreviousPageIds() {
         const message = this.#currentPageId.replace("#", "");
-        LogDebug(`Change Main Context display | Actual current page is ${message}`);
+        LogInfo(`Change Main Context display | Actual current page is ${message}`);
     }
 
     #changeContext() {
