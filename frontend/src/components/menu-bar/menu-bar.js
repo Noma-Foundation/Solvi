@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-import { LogInfo } from "../../../wailsjs/runtime/runtime";
+import { LogDebug } from "../../../wailsjs/runtime/runtime";
 
 import { IComponentModel } from "../component-model.js";
 
@@ -10,6 +10,8 @@ import customerIcon from "../../assets/icons/aside/customer.svg";
 import inboxIcon from "../../assets/icons/aside/inbox.svg";
 import calendarIcon from "../../assets/icons/aside/calendar.svg";
 import notificationsIcon from "../../assets/icons/aside/notifications.svg";
+
+import penViewTicketIcon from "../../assets/icons/core_functions/edit_ticket.svg"
 
 export class MenuBar extends IComponentModel {
     #menuBarId;
@@ -58,6 +60,7 @@ export class MenuBar extends IComponentModel {
                 </ul>
             </nav>
         `;
+        this.#changeContext();
         $(this.#menuBarId).append(menuBarTemplate);
     }
 
@@ -103,7 +106,30 @@ export class MenuBar extends IComponentModel {
 
     #showCurrentAndPreviousPageIds() {
         const message = this.#currentPageId.replace("#", "");
-        LogInfo(`Change Main Context display | Actual current page is ${message}`);
+        LogDebug(`Change Main Context display | Actual current page is ${message}`);
     }
+
+    #changeContext() {
+        const appMainContext = $("#app-main-context");
+
+        const templateOptionButtons = `
+            <section class="container d-flex gap-4">
+                <article class="d-flex flex-column gap-2 justify-content-center align-items-center">
+                    <div id="view-tickets-fab-button" class="fab-button" role="button">
+                        <img src="${penViewTicketIcon}"
+                            alt="View all tickets button" />
+                    </div>
+                    <h6 class="text-center">View<br>tickets</h6>
+                </article>
+            </section>
+        `;
+
+        if (this.#currentPageId == "#home-page") {
+            appMainContext.html(templateOptionButtons);
+        } else if (this.#currentPageId == "#notifications-page") {
+            appMainContext.html("");
+        }
+    }
+
 
 }
