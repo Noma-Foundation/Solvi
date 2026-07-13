@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"orderhub/internal"
+	"orderhub/internal/database"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -23,10 +24,25 @@ func NewApp(hub *internal.OrderHub) *App {
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 	a.hub.Init(ctx)
+	a.startDatabase()
 	runtime.LogInfo(ctx, "OrderHub environment started successfully")
 }
 
 // shutdown is called when the app is closing.
 func (a *App) shutdown(ctx context.Context) {
 	runtime.LogInfo(ctx, "OrderHub environment shutting down")
+}
+
+func (a *App) startDatabase() error {
+	conn, err := database.NewDatabaseConnection("orderhub")
+
+	if err != nil {
+		runtime.LogError(a.ctx, "Error trying to connect to database")
+		return nil
+	}
+
+	runtime.LogInfo(a.ctx,
+		"Database connected at: "+conn.ConnectedAt.Format("2006-01-02 15:04:05"))
+
+	return nil
 }
