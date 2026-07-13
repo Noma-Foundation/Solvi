@@ -7,6 +7,7 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 
+	"orderhub/internal"
 	"orderhub/internal/core"
 )
 
@@ -19,7 +20,8 @@ func main() {
 	 * This function contains the logic for initializing and running the application. Furthermore,
 	 * She represents the creation and execution of the Wails application.
 	 */
-	app := NewApp()
+	hub := internal.NewOrderHub()
+	app := NewApp(hub)
 	appMenu := core.BuildMenuBar()
 
 	err := wails.Run(&options.App{
@@ -35,6 +37,7 @@ func main() {
 		OnShutdown:       app.shutdown,
 		Bind: []any{
 			app,
+			hub,
 		},
 	})
 

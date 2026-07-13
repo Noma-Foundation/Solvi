@@ -8,7 +8,7 @@ import $ from "jquery";
 import { MenuBar } from "./components/menu-bar/menu-bar.js";
 import { SearchBar } from "./components/search-bar/search-bar.js";
 import { eventBus } from "./event-manager-singleton.js";
-import { OpenTerminal } from "../wailsjs/go/main/App.js";
+import { OpenTerminal } from "../wailsjs/go/internal/OrderHub.js";
 
 
 $(function () {
