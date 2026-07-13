@@ -1,10 +1,17 @@
 package database
 
+import "time"
+
 type DatabaseConnection struct {
 	DatabaseName string
+	ConnectedAt  time.Time
 	IsConnected  bool
 }
 
-func NewDatabaseConnection() (*DatabaseConnection, error) {
-	return &DatabaseConnection{}, nil
+func NewDatabaseConnection(databaseName string) (*DatabaseConnection, error) {
+	return &DatabaseConnection{
+		DatabaseName: databaseName,
+		ConnectedAt:  time.Now().UTC(),
+		IsConnected:  false,
+	}, nil
 }
