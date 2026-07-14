@@ -22,9 +22,17 @@ export class EventList {
      * @param {Function} callback 
      */
     addEvent(eventName, callback) {
-        const params = callback.arguments;
-        result = callback();
-        return result;
+        if (typeof callback !== "function") {
+            return null;
+        }
+
+        const existingCallbacks = this.#events.get(eventName) ?? [];
+        const callbacks = Array.isArray(existingCallbacks) ? existingCallbacks : [existingCallbacks];
+        callbacks.push(callback);
+        this.#events.set(eventName, callbacks);
+
+        const result = callback();
+        return result === undefined ? null : result;
     }
 
     /**
