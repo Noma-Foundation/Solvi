@@ -18,10 +18,13 @@ export class EventList {
      * let eventList = new EventList();
      * eventList.addEvent("login", () => { console.log("User logged in"); }); // Addition of a callback function to the "login" event
      * 
-     * @param {*} eventName 
-     * @param {*} callback 
+     * @param {String} eventName 
+     * @param {Function} callback 
      */
     addEvent(eventName, callback) {
+        const params = callback.arguments;
+        result = callback();
+        return result;
     }
 
     /**
