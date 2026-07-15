@@ -70,7 +70,7 @@ export class EventList {
 
     #checkIfCallbackIsFunctionOrClass(callback) {
         if (typeof callback !== "function" && typeof callback !== "object") {
-            // LogError(`Event callback must be a function, not a ${typeof callback}`);
+            LogError(`Event callback must be a function, not a ${typeof callback}`);
             return null;
         }
         return callback;
