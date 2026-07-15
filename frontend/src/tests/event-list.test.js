@@ -10,7 +10,6 @@ export class EventTest {
     }
 
     execute() {
-        console.log(this.#message);
     }
 
     getName() {
@@ -47,6 +46,22 @@ describe("Testing Class EventList", () => {
         const result = eventList.getEventByName("login");
 
         expect(result.length).toBeGreaterThan(0);
+    });
+
+    test("Test of events with the same name", () => {
+        const eventList = new EventList();
+        const objectsList = [
+            new EventTest("login", "First login success"),
+            new EventTest("logout", "Logout success"),
+            new EventTest("login", "Second login success")
+        ];
+
+        objectsList.forEach((object) => {
+            eventList.addEvent(object.getName(), object);
+        });
+
+        expect(eventList.getEventByName("login")).toHaveLength(2);
+        expect(eventList.getEventByName("logout")).toHaveLength(1);
     });
 
 });
