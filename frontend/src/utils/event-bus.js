@@ -12,6 +12,8 @@ export class EventBus {
 
     subscribe(eventName, callback) {
         // If the event exists, add the callback function to the array of callbacks for that event
+        this.#eventList.addEvent(eventName, callback);
+        this.#history.pushEvent(eventName);
     }
 
     unsubscribe(eventName, callback) {
