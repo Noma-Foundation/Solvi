@@ -44,9 +44,16 @@ export class EventList {
      * Removes an event from the event list based on the provided event name. If the event exists, it is removed from the map.
      * Otherwise, no action is taken and the system log will indicate that the event was not found.
      * 
-     * @param {*} eventName 
+     * @param {String} eventName 
+     * 
+     * @returns {Boolean} Return true if the event was deleted, otherwise return false.
      */
     removeEvent(eventName) {
+        if (this.#events.has(eventName)) {
+            return this.#events.delete(eventName); // Always return true
+        }
+        // LogError("The event name provided does not exist");
+        return false;
     }
 
     /**
@@ -70,7 +77,7 @@ export class EventList {
 
     #checkIfCallbackIsFunctionOrClass(callback) {
         if (typeof callback !== "function" && typeof callback !== "object") {
-            LogError(`Event callback must be a function, not a ${typeof callback}`);
+            // LogError(`Event callback must be a function, not a ${typeof callback}`);
             return null;
         }
         return callback;

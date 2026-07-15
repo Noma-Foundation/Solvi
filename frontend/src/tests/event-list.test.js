@@ -79,4 +79,7 @@ describe("Testing Class EventList", () => {
         expect(eventList.getEventByName("my-function")).toEqual(undefined);
     });
 
+    test("Remove an event from the event queue", () => {
+    });
+
 });
