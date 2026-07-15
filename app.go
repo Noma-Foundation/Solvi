@@ -34,6 +34,7 @@ func (a *App) shutdown(ctx context.Context) {
 }
 
 func (a *App) startDatabase() error {
+	var logMessage string
 	conn, err := database.NewDatabaseConnection("orderhub")
 
 	if err != nil {
@@ -41,8 +42,8 @@ func (a *App) startDatabase() error {
 		return nil
 	}
 
-	runtime.LogInfo(a.ctx,
-		"Database connected at: "+conn.ConnectedAt.Format("2006-01-02 15:04:05"))
+	logMessage = "Database connected at: "+conn.ConnectedAt.Format("2006-01-02 15:04:05")
+	runtime.LogInfo(a.ctx, logMessage)
 
 	return nil
 }

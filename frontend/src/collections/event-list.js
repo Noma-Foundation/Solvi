@@ -3,21 +3,41 @@ export class EventList {
     #events;
 
     /**
-     * Initialize the EventList, creating an empty map to store events.
+     * Initialize the EventList, creating an empty map to store events. 
+     * Each event map stores the event name as the key and a list of callback functions as the value.
      */
     constructor() {
         this.#events = new Map();
     }
 
     /**
+     * Adds event to the event list. Each event is stored in a map, where the key is the event name and
+     * the value is a list of callback functions associated with that event.
      * 
-     * @param {*} eventName 
-     * @param {*} callback 
+     * @example
+     * let eventList = new EventList();
+     * eventList.addEvent("login", () => { console.log("User logged in"); }); // Addition of a callback function to the "login" event
+     * 
+     * @param {String} eventName 
+     * @param {Function} callback 
      */
     addEvent(eventName, callback) {
+        if (typeof callback !== "function") {
+            return null;
+        }
+
+        const existingCallbacks = this.#events.get(eventName) ?? [];
+        const callbacks = Array.isArray(existingCallbacks) ? existingCallbacks : [existingCallbacks];
+        callbacks.push(callback);
+        this.#events.set(eventName, callbacks);
+
+        const result = callback();
+        return result === undefined ? null : result;
     }
 
     /**
+     * Removes an event from the event list based on the provided event name. If the event exists, it is removed from the map.
+     * Otherwise, no action is taken and the system log will indicate that the event was not found.
      * 
      * @param {*} eventName 
      */
@@ -26,6 +46,7 @@ export class EventList {
 
     /**
      * Get all events stored in the EventList.
+     * 
      * @returns {Map<String, Function>} Returns a copy of the events map.
      */
     getAllEvents() {
