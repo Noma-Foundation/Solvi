@@ -43,8 +43,10 @@ describe("Testing Class EventList", () => {
 
     test("Verify if object method can add a function as a value in the map", () => {
         const eventList = new EventList();
+        eventList.addEvent("login", new EventTest("login", "Logged in system!"));
+        const result = eventList.getEventByName("login");
 
-        expect(eventList.addEvent("login", new EventTest("login", "You are logged in!"))).toBeNull();
+        expect(result.length).toBeGreaterThan(0);
     });
 
 });
