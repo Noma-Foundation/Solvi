@@ -1,3 +1,5 @@
+// import { LogError } from "../../wailsjs/runtime/runtime.js";
+
 
 export class EventList {
     #events;
@@ -19,10 +21,13 @@ export class EventList {
      * eventList.addEvent("login", () => { console.log("User logged in"); }); // Addition of a callback function to the "login" event
      * 
      * @param {String} eventName 
-     * @param {Function} callback 
+     * @param {Function | Event} callback 
+     * 
+     * @returns {any} Return the return value of the callback function if it exists, otherwise return null.
      */
     addEvent(eventName, callback) {
-        if (typeof callback !== "function") {
+        const checker = this.#checkIfCallbackIsFunctionOrClass(callback);
+        if (checker == null) {
             return null;
         }
 
@@ -31,7 +36,7 @@ export class EventList {
         callbacks.push(callback);
         this.#events.set(eventName, callbacks);
 
-        const result = callback();
+        let result = this.#executeCallback(callback);
         return result === undefined ? null : result;
     }
 
@@ -45,12 +50,15 @@ export class EventList {
     }
 
     /**
-     * Get all events stored in the EventList.
+     * Get event by name
      * 
-     * @returns {Map<String, Function>} Returns a copy of the events map.
+     * @param {String} eventName
+     *  
+     * @returns {Function[]} Returns the array of callback functions.
      */
-    getAllEvents() {
-        return new Map(this.#events);
+    getEventByName(eventName) {
+        const event = this.#events.get(eventName);
+        return event;
     }
 
     /**
@@ -58,6 +66,25 @@ export class EventList {
      */
     clearAllEvents() {
         this.#events.clear();
+    }
+
+    #checkIfCallbackIsFunctionOrClass(callback) {
+        if (typeof callback !== "function" && !(callback instanceof Event)) {
+            // LogError(`Event callback must be a function, not a ${typeof callback}`);
+            return null;
+        }
+
+        return callback;
+    }
+
+    #executeCallback(callback) {
+        let result;
+        if (typeof callback === "function") {
+            result = callback();
+        } else if (callback && typeof callback.execute === "function") {
+            result = callback.execute();
+        }
+        return result;
     }
 
 }

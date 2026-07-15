@@ -1,7 +1,6 @@
 import { EventList } from "../collections/event-list";
 
-
-class EventTest {
+export class EventTest {
     #name;
     #message;
 
@@ -20,13 +19,12 @@ class EventTest {
 }
 
 
-
 describe("Testing Class EventList", () => {
     test("Test event with String and function parameter with return", () => {
         const eventList = new EventList();
         const result = "Hello, World!";
         const functionName = "print-name";
-        const callbackFunction = () => { 
+        const callbackFunction = () => {
             console.log("Hello, World!");
             return "Hello, World!";
         }
@@ -36,10 +34,17 @@ describe("Testing Class EventList", () => {
     test("Test event with String and function parameter without return", () => {
         const eventList = new EventList();
         const functionName = "print-name";
-        const callbackFunction = () => { 
+        const callbackFunction = () => {
             console.log("Print name!");
         }
-        expect(eventList.addEvent(functionName, callbackFunction)).toBeNull();
+        const result = eventList.addEvent(functionName, callbackFunction);
+        expect(result).toBeNull();
+    });
+
+    test("Verify if object method can add a function as a value in the map", () => {
+        const eventList = new EventList();
+
+        expect(eventList.addEvent("login", new EventTest("login", "You are logged in!"))).toBeNull();
     });
 
 });
