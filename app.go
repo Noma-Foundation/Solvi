@@ -38,12 +38,22 @@ func (a *App) startDatabase() error {
 	conn, err := database.NewDatabaseConnection("orderhub")
 
 	if err != nil {
+		runtime.LogError(a.ctx, "Error trying to instantiate database connection")
+		return nil
+	}
+
+	if err := conn.Connect(); err != nil {
 		runtime.LogError(a.ctx, "Error trying to connect to database")
 		return nil
 	}
 
-	logMessage = "Database connected at: "+conn.ConnectedAt.Format("2006-01-02 15:04:05")
+	logMessage = "Database connected at: " + conn.ConnectedAt.Format("2006-01-02 15:04:05")
 	runtime.LogInfo(a.ctx, logMessage)
+
+	if err := conn.Disconnect(); err != nil {
+		runtime.LogError(a.ctx, "Error trying to disconnect from database")
+		return nil
+	}
 
 	return nil
 }
