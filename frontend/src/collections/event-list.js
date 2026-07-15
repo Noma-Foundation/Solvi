@@ -64,7 +64,7 @@ export class EventList {
     /**
      * Clear all events stored in the EventList, restoring it to its initial empty state.
      */
-    clearAllEvents() {
+    clearEvents() {
         this.#events.clear();
     }
 

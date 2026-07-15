@@ -64,4 +64,19 @@ describe("Testing Class EventList", () => {
         expect(eventList.getEventByName("logout")).toHaveLength(1);
     });
 
+    test("Clear all events from the queue", () => {
+        const eventList = new EventList();
+        const functionName = "my-function";
+        const functionResult = () => {
+        }
+
+        eventList.addEvent(functionName, functionResult);
+        eventList.addEvent("login", functionResult);
+
+        eventList.clearEvents();
+
+        expect(eventList.getEventByName("login")).toEqual(undefined);
+        expect(eventList.getEventByName("my-function")).toEqual(undefined);
+    });
+
 });
