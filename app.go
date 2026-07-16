@@ -8,7 +8,7 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-var db database.DatabaseConnection
+var db database.DatabaseConnection // Database instance
 
 // App struct
 type App struct {
