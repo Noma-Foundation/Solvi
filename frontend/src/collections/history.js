@@ -2,10 +2,7 @@
 export class History {
     #events;
     #maxSize;
-    /**
-     * @type {Number} - Current length of the history.
-     */
-    length;
+    #length;
 
     /**
      * Initialize a new instance of `History`. `History` is a class that is used to 
@@ -17,7 +14,7 @@ export class History {
     constructor(maxSize) {
         this.#events = [];
         this.#maxSize = Number.isInteger(maxSize) ? Math.abs(maxSize) : 20;
-        this.length = 0;
+        this.#length = 0;
     }
 
     /**
@@ -32,7 +29,7 @@ export class History {
             this.#removeOldestEvent();
         }
         this.#events.push(event);
-        this.length++;
+        this.#length++;
         return event;
     }
 
@@ -44,7 +41,7 @@ export class History {
      */
     shiftEvent() {
         if (!this.isEmpty()) {
-            this.length--;
+            this.#length--;
             return this.#events.shift();
         }
         return null;
@@ -64,21 +61,21 @@ export class History {
      */
     clearHistory() {
         this.#events = [];
-        this.length = 0;
+        this.#length = 0;
     }
 
     /**
      * @returns {Boolean} - Return true value if the history is empty.
      */
     isEmpty() {
-        return this.length <= 0;
+        return this.#length <= 0;
     }
 
     /**
      * @returns {Boolean} - Return true value if the history is full.
      */
     isFull() {
-        return this.length >= this.#maxSize;
+        return this.#length >= this.#maxSize;
     }
 
     /**
@@ -97,8 +94,12 @@ export class History {
         return this.#maxSize;
     }
 
+    get length() {
+        return this.#length;
+    }
+
     #removeOldestEvent() {
         this.#events.shift();
-        this.length--;
+        this.#length--;
     }
 }

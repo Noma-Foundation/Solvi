@@ -15,3 +15,11 @@ func NewDatabaseConnection(databaseName string) (*DatabaseConnection, error) {
 		IsConnected:  false,
 	}, nil
 }
+
+func (db *DatabaseConnection) Connect() error {
+	return nil
+}
+
+func (db *DatabaseConnection) Disconnect() error {
+	return nil
+}
