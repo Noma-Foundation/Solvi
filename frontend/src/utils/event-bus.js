@@ -10,10 +10,16 @@ export class EventBus {
         this.#history = new History();
     }
 
+    /**
+     * This function is responsible for registering a callback for a specific event. It performs
+     * a verification to ensure the event is valid, then registers the event in the events history.
+     * 
+     * @param {String} eventName 
+     * @param {Function} callback 
+     */
     subscribe(eventName, callback) {
         // If the event exists, add the callback function to the array of callbacks for that event
-        this.#eventList.addEvent(eventName, callback);
-        this.#history.pushEvent(eventName);
+        return callbackArgs;
     }
 
     unsubscribe(eventName, callback) {

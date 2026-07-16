@@ -75,8 +75,8 @@ describe("Testing Class EventList", () => {
 
         eventList.clearEvents();
 
-        expect(eventList.getEventByName("login")).toEqual(null);
-        expect(eventList.getEventByName("my-function")).toEqual(null);
+        expect(eventList.getEventByName("login")).toBeNull();
+        expect(eventList.getEventByName("my-function")).toBeNull();
     });
 
     test("Remove an event from the event queue", () => {
@@ -87,7 +87,7 @@ describe("Testing Class EventList", () => {
 
         eventList.addEvent(functionName, functionResult);
         eventList.removeEvent(functionName);
-        expect(eventList.getEventByName(functionName)).toEqual(null);
+        expect(eventList.getEventByName(functionName)).toBeNull();
     });
 
     test("Get size of event list", () => {
