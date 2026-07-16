@@ -11,7 +11,7 @@ export class History {
      * @param {Number} maxSize - Set maximum number of events to store. 
      * @constructs
      */
-    constructor(maxSize) {
+    constructor(maxSize = 20) {
         this.#events = [];
         this.#maxSize = Number.isInteger(maxSize) ? Math.abs(maxSize) : 20;
         this.#length = 0;
