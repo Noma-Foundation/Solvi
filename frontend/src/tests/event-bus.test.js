@@ -1,3 +1,6 @@
+import { EventBus } from "../utils/event-bus.js";
+import { EventList } from "../collections/event-list.js";
+import { History } from "../collections/history.js";
 
 export class EventTest {
     #name;
@@ -18,6 +21,11 @@ export class EventTest {
 
 
 describe("Test event bus system (Integration test)", () => {
-    test("Test EventBus instance", () => { 
+    test("Testing event subscription without EventBus", () => {
+        const eventList = new EventList();
+        const history = new History(3);
+
+        const event1 = new EventTest("login", "User logged in!");
+        const event2 = new EventTest("logout", "User logged out!");
     });
 });
