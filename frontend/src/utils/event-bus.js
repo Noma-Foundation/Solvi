@@ -23,7 +23,6 @@ export class EventBus {
      * @param {Function} callback 
      */
     subscribe(eventName, callback) {
-        return callbackArgs;
     }
 
     unsubscribe(eventName, callback) {

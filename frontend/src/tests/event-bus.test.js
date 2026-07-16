@@ -19,6 +19,25 @@ export class EventTest {
     }
 }
 
+export class EventWithError {
+    #name
+    #message;
+
+    constructor(name, message) {
+        this.#name = name;
+        this.#message = message;
+    }
+
+    execute(message) { 
+        this.#message = message;
+        console.log(`Hello ${this.#message}!`); 
+    }
+
+    getName() {
+        return this.#name;
+    }
+}
+
 
 describe("Test event bus system (Integration test)", () => {
     test("Testing event subscription without EventBus", () => {
@@ -26,6 +45,19 @@ describe("Test event bus system (Integration test)", () => {
         const history = new History(3);
 
         const event1 = new EventTest("login", "User logged in!");
-        const event2 = new EventTest("logout", "User logged out!");
+
+        expect(eventList.addEvent(event1.getName(), event1)).toBe(null);
+        expect(eventList.addEvent("logout", () => { return "Hello, World!" })).toBe("Hello, World!");
+        history.pushEvent(event1.getName());
+        history.pushEvent("logout");
+
+        expect(history.getHistory()).toEqual(["login", "logout"]);
+    });
+
+    test("Testing EventBus with arguments in the execute function", () => {
+        const eventBus = new EventBus(1);
+        const myEvent = new EventWithError("login", "User logged in!");
+
+        expect(eventBus.subscribe(myEvent.getName(), myEvent)).toThrow(Error);
     });
 });
