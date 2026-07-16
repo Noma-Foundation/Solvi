@@ -65,7 +65,7 @@ export class EventList {
      */
     getEventByName(eventName) {
         const event = this.#events.get(eventName);
-        return event;
+        return event !== undefined ? event : null;
     }
 
     /**
@@ -73,6 +73,13 @@ export class EventList {
      */
     clearEvents() {
         this.#events.clear();
+    }
+
+    /**
+     * @returns {Number} Return the size of the event list.
+     */
+    get length() {
+        return this.#events.size;
     }
 
     #checkIfCallbackIsFunctionOrClass(callback) {

@@ -75,11 +75,31 @@ describe("Testing Class EventList", () => {
 
         eventList.clearEvents();
 
-        expect(eventList.getEventByName("login")).toEqual(undefined);
-        expect(eventList.getEventByName("my-function")).toEqual(undefined);
+        expect(eventList.getEventByName("login")).toEqual(null);
+        expect(eventList.getEventByName("my-function")).toEqual(null);
     });
 
     test("Remove an event from the event queue", () => {
+        const eventList = new EventList();
+        const functionName = "my-function";
+        const functionResult = () => {
+        }
+
+        eventList.addEvent(functionName, functionResult);
+        eventList.removeEvent(functionName);
+        expect(eventList.getEventByName(functionName)).toEqual(null);
+    });
+
+    test("Get size of event list", () => {
+        const eventList = new EventList();
+        const functionName = "my-function";
+        const functionResult = () => {
+        }
+
+        eventList.addEvent(functionName, functionResult);
+        eventList.addEvent("login", functionResult);
+
+        expect(eventList.length).toBe(2);
     });
 
 });
