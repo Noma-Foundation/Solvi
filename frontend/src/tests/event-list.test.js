@@ -102,4 +102,16 @@ describe("Testing Class EventList", () => {
         expect(eventList.length).toBe(2);
     });
 
+    test("Testing events with LogError external class", () => {
+    });
+
+    test("Testing non-existent event call", () => {
+    });
+
+    test("Testing clear all events", () => {
+    });
+
+    test("Testing method constructor of eventList", () => {
+    });
+
 });
