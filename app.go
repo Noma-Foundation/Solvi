@@ -2,13 +2,12 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"orderhub/internal"
 	"orderhub/internal/database"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
-
-var db database.DatabaseConnection // Database instance
 
 // App struct
 type App struct {
@@ -34,13 +33,13 @@ func (a *App) startup(ctx context.Context) {
 
 // shutdown is called when the app is closing.
 func (a *App) shutdown(ctx context.Context) {
-	a.finishDatabase(&db)
+	a.finishDatabase()
 	runtime.LogInfo(ctx, "OrderHub environment shutting down")
 }
 
 func (a *App) startDatabase() (*database.DatabaseConnection, error) {
 	var logMessage string
-	conn, err := database.NewDatabaseConnection("orderhub")
+	conn, dbConnection, err := database.NewDatabaseConnection("orderhub-test")
 
 	if err != nil {
 		runtime.LogError(a.ctx, "Error trying to instantiate database connection")
@@ -52,13 +51,14 @@ func (a *App) startDatabase() (*database.DatabaseConnection, error) {
 		return nil, nil
 	}
 
+	fmt.Println(dbConnection)
 	logMessage = "Database connected at: " + conn.ConnectedAt.Format("2006-01-02 15:04:05")
 	runtime.LogInfo(a.ctx, logMessage)
 
 	return conn, nil
 }
 
-func (a *App) finishDatabase(conn *database.DatabaseConnection) error {
-	runtime.LogInfo(a.ctx, "OrderHub disconnected from database at "+conn.ConnectedAt.Format("2006-01-02 15:04:05"))
+func (a *App) finishDatabase() error {
+	runtime.LogInfo(a.ctx, "OrderHub disconnected from database")
 	return nil
 }
