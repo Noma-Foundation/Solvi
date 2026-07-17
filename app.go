@@ -59,6 +59,6 @@ func (a *App) startDatabase() (*database.DatabaseConnection, error) {
 }
 
 func (a *App) finishDatabase(conn *database.DatabaseConnection) error {
-	runtime.LogDebug(a.ctx, conn.ConnectedAt.String())
+	runtime.LogInfo(a.ctx, "OrderHub disconnected from database at "+conn.ConnectedAt.Format("2006-01-02 15:04:05"))
 	return nil
 }
