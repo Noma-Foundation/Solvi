@@ -9,11 +9,12 @@ import (
 	_ "github.com/lib/pq"
 )
 
-const User = "postgres"
-
-const Host = "localhost"
-
-const Port = "5432"
+const (
+	User     = "postgres"
+	Host     = "localhost"
+	Port     = "5432"
+	Password = "admin"
+)
 
 type DatabaseConnection struct {
 	DatabaseName string
@@ -23,8 +24,8 @@ type DatabaseConnection struct {
 }
 
 func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseConnection, *sql.DB, error) {
-	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable",
-		Host, Port, User, databaseName)
+	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		Host, Port, User, Password, databaseName)
 	databaseConnection, err := sql.Open(User, psqlInfo)
 
 	if err != nil {
@@ -38,12 +39,4 @@ func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseC
 		ctx:          ctx,
 	}
 	return &databaseReturn, databaseConnection, nil
-}
-
-func (db *DatabaseConnection) Connect() error {
-	return nil
-}
-
-func (db *DatabaseConnection) Disconnect() error {
-	return nil
 }

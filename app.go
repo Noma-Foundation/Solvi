@@ -39,7 +39,9 @@ func (a *App) startup(ctx context.Context) {
 
 // shutdown is called when the app is closing.
 func (a *App) shutdown(ctx context.Context) {
-	a.closeDatabase(db)
+	if err := a.closeDatabase(db); err != nil {
+		runtime.LogError(ctx, err.Error())
+	}
 	runtime.LogInfo(ctx, "OrderHub environment shutting down")
 }
 
@@ -54,7 +56,7 @@ func (a *App) initializeDatabase(ctx context.Context) (*database.DatabaseConnect
 		return nil, errors.New(message)
 	}
 
-	if err := connInfo.Connect(); err != nil {
+	if err := db.Ping(); err != nil {
 		message = "Error trying to connect to database: " + err.Error()
 		runtime.LogError(a.ctx, message)
 		return nil, errors.New(message)
@@ -65,7 +67,10 @@ func (a *App) initializeDatabase(ctx context.Context) (*database.DatabaseConnect
 }
 
 func (a *App) closeDatabase(db *sql.DB) error {
-	db.Close()
+	if err := db.Close(); err != nil {
+		runtime.LogError(a.ctx, "Error trying to disconnect from database: "+err.Error())
+		return err
+	}
 	runtime.LogInfo(a.ctx, "OrderHub disconnected from database")
 	return nil
 }
