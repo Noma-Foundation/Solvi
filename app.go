@@ -2,13 +2,15 @@ package main
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 	"orderhub/internal"
 	"orderhub/internal/database"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-var db database.DatabaseConnection // Database instance
+var db *sql.DB
 
 // App struct
 type App struct {
@@ -27,38 +29,49 @@ func (a *App) startup(ctx context.Context) {
 	// Initialize application and database
 	a.ctx = ctx
 	a.hub.Init(ctx)
-	a.startDatabase()
 
+	if _, err := a.initializeDatabase(ctx); err != nil {
+		runtime.LogError(ctx, err.Error())
+		return
+	}
 	runtime.LogInfo(ctx, "OrderHub environment started successfully")
 }
 
 // shutdown is called when the app is closing.
 func (a *App) shutdown(ctx context.Context) {
-	a.finishDatabase(&db)
+	if err := a.closeDatabase(db); err != nil {
+		runtime.LogError(ctx, err.Error())
+		return
+	}
 	runtime.LogInfo(ctx, "OrderHub environment shutting down")
 }
 
-func (a *App) startDatabase() (*database.DatabaseConnection, error) {
-	var logMessage string
-	conn, err := database.NewDatabaseConnection("orderhub")
+func (a *App) initializeDatabase(ctx context.Context) (*database.DatabaseConnection, error) {
+	var message string
+	connInfo, d, err := database.NewDatabaseConnection(ctx, "orderhub-test")
+	db = d
 
 	if err != nil {
-		runtime.LogError(a.ctx, "Error trying to instantiate database connection")
-		return nil, nil
+		message = "Error trying to instantiate database connection: " + err.Error()
+		runtime.LogError(a.ctx, message)
+		return nil, errors.New(message)
 	}
 
-	if err := conn.Connect(); err != nil {
-		runtime.LogError(a.ctx, "Error trying to connect to database")
-		return nil, nil
+	if err := db.Ping(); err != nil {
+		message = "Error trying to connect to database: " + err.Error()
+		runtime.LogError(a.ctx, message)
+		return nil, errors.New(message)
 	}
 
-	logMessage = "Database connected at: " + conn.ConnectedAt.Format("2006-01-02 15:04:05")
-	runtime.LogInfo(a.ctx, logMessage)
-
-	return conn, nil
+	runtime.LogInfo(a.ctx, "Database connected: "+connInfo.DatabaseName)
+	return connInfo, nil
 }
 
-func (a *App) finishDatabase(conn *database.DatabaseConnection) error {
-	runtime.LogDebug(a.ctx, conn.ConnectedAt.String())
+func (a *App) closeDatabase(db *sql.DB) error {
+	if err := db.Close(); err != nil {
+		runtime.LogError(a.ctx, "Error trying to disconnect from database: "+err.Error())
+		return err
+	}
+	runtime.LogInfo(a.ctx, "OrderHub disconnected from database")
 	return nil
 }

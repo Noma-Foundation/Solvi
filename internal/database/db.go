@@ -1,25 +1,42 @@
 package database
 
-import "time"
+import (
+	"context"
+	"database/sql"
+	"fmt"
+	"time"
+
+	_ "github.com/lib/pq"
+)
+
+const (
+	User     = "postgres"
+	Host     = "localhost"
+	Port     = "5432"
+	Password = "admin"
+)
 
 type DatabaseConnection struct {
 	DatabaseName string
 	ConnectedAt  time.Time
 	IsConnected  bool
+	ctx          context.Context
 }
 
-func NewDatabaseConnection(databaseName string) (*DatabaseConnection, error) {
-	return &DatabaseConnection{
+func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseConnection, *sql.DB, error) {
+	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		Host, Port, User, Password, databaseName)
+	databaseConnection, err := sql.Open("postgres", psqlInfo)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	databaseReturn := DatabaseConnection{
 		DatabaseName: databaseName,
-		ConnectedAt:  time.Now().UTC(),
-		IsConnected:  false,
-	}, nil
-}
-
-func (db *DatabaseConnection) Connect() error {
-	return nil
-}
-
-func (db *DatabaseConnection) Disconnect() error {
-	return nil
+		ConnectedAt:  time.Now(),
+		IsConnected:  true,
+		ctx:          ctx,
+	}
+	return &databaseReturn, databaseConnection, nil
 }

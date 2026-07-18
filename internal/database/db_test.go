@@ -1,18 +1,25 @@
 package database_test
 
 import (
+	"context"
+	"errors"
 	"orderhub/internal/database"
 	"testing"
 )
 
-func TestCreateDatabaseConnectionStruct(t *testing.T) {
-	conn, err := database.NewDatabaseConnection("orderhub")
+func TestInstantiateDatabaseConnectionObject(t *testing.T) {
+	dbConn, _, err := database.NewDatabaseConnection(context.TODO(), "orderhub-test")
 
 	if err != nil {
-		t.Error("The program is crashed. The database connection is not establised.")
+		t.Fatal(errors.New("Error to instantiate database connection"))
 	}
 
-	if conn.DatabaseName != "orderhub" {
-		t.Error("The database name is not correct.")
+	if dbConn.IsConnected != true {
+		t.Fatal(errors.New("Database connection is not established"))
 	}
+
+	if dbConn.DatabaseName != "orderhub-test" {
+		t.Fatal(errors.New("Database name is incorrect"))
+	}
+
 }
