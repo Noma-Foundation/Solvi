@@ -2,12 +2,14 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"database/sql"
 	"orderhub/internal"
 	"orderhub/internal/database"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
+
+var db *sql.DB
 
 // App struct
 type App struct {
@@ -27,38 +29,35 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 	a.hub.Init(ctx)
 	a.startDatabase()
-
 	runtime.LogInfo(ctx, "OrderHub environment started successfully")
 }
 
 // shutdown is called when the app is closing.
 func (a *App) shutdown(ctx context.Context) {
-	a.finishDatabase()
+	a.finishDatabase(db)
 	runtime.LogInfo(ctx, "OrderHub environment shutting down")
 }
 
 func (a *App) startDatabase() (*database.DatabaseConnection, error) {
-	var logMessage string
-	conn, dbConnection, err := database.NewDatabaseConnection("orderhub-test")
+	connInfo, d, err := database.NewDatabaseConnection(a.ctx, "orderhub-test")
+	db = d
 
 	if err != nil {
 		runtime.LogError(a.ctx, "Error trying to instantiate database connection")
 		return nil, nil
 	}
 
-	if err := conn.Connect(); err != nil {
+	if err := connInfo.Connect(); err != nil {
 		runtime.LogError(a.ctx, "Error trying to connect to database")
 		return nil, nil
 	}
 
-	fmt.Println(dbConnection)
-	logMessage = "Database connected at: " + conn.ConnectedAt.Format("2006-01-02 15:04:05")
-	runtime.LogInfo(a.ctx, logMessage)
-
-	return conn, nil
+	runtime.LogInfo(a.ctx, "Database connected: "+connInfo.DatabaseName)
+	return connInfo, nil
 }
 
-func (a *App) finishDatabase() error {
+func (a *App) finishDatabase(db *sql.DB) error {
+	db.Close()
 	runtime.LogInfo(a.ctx, "OrderHub disconnected from database")
 	return nil
 }
