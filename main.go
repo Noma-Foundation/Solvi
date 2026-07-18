@@ -14,7 +14,7 @@ import (
 //go:embed all:frontend/dist
 var assets embed.FS
 
-//go:embed binaries/pqsql
+//go:embed all:binaries/pqsql
 var pgBinaries embed.FS
 
 func main() {
