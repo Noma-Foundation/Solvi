@@ -2,6 +2,8 @@ package main
 
 import (
 	"embed"
+	"fmt"
+	"strconv"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -26,7 +28,7 @@ func main() {
 	hub := internal.NewOrderHub()
 
 	entries, _ := pgBinaries.ReadDir("binaries/pqsql")
-	println("Postgres files bundled:", len(entries))
+	fmt.Println("DEBUG || Postgres files bundled: ", strconv.Itoa(len(entries)))
 
 	app := NewApp(hub)
 	appMenu := core.BuildMenuBar()
