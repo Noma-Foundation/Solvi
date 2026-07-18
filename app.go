@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"orderhub/internal"
 	"orderhub/internal/database"
 
@@ -28,35 +29,42 @@ func (a *App) startup(ctx context.Context) {
 	// Initialize application and database
 	a.ctx = ctx
 	a.hub.Init(ctx)
-	a.startDatabase()
+
+	if _, err := a.initializeDatabase(ctx); err != nil {
+		runtime.LogError(ctx, err.Error())
+		return
+	}
 	runtime.LogInfo(ctx, "OrderHub environment started successfully")
 }
 
 // shutdown is called when the app is closing.
 func (a *App) shutdown(ctx context.Context) {
-	a.finishDatabase(db)
+	a.closeDatabase(db)
 	runtime.LogInfo(ctx, "OrderHub environment shutting down")
 }
 
-func (a *App) startDatabase() (*database.DatabaseConnection, error) {
-	connInfo, d, err := database.NewDatabaseConnection(a.ctx, "orderhub-test")
+func (a *App) initializeDatabase(ctx context.Context) (*database.DatabaseConnection, error) {
+	var message string
+	connInfo, d, err := database.NewDatabaseConnection(ctx, "orderhub-test")
 	db = d
 
 	if err != nil {
-		runtime.LogError(a.ctx, "Error trying to instantiate database connection")
-		return nil, nil
+		message = "Error trying to instantiate database connection: " + err.Error()
+		runtime.LogError(a.ctx, message)
+		return nil, errors.New(message)
 	}
 
 	if err := connInfo.Connect(); err != nil {
-		runtime.LogError(a.ctx, "Error trying to connect to database")
-		return nil, nil
+		message = "Error trying to connect to database: " + err.Error()
+		runtime.LogError(a.ctx, message)
+		return nil, errors.New(message)
 	}
 
 	runtime.LogInfo(a.ctx, "Database connected: "+connInfo.DatabaseName)
 	return connInfo, nil
 }
 
-func (a *App) finishDatabase(db *sql.DB) error {
+func (a *App) closeDatabase(db *sql.DB) error {
 	db.Close()
 	runtime.LogInfo(a.ctx, "OrderHub disconnected from database")
 	return nil
