@@ -48,7 +48,7 @@ func (a *App) shutdown(ctx context.Context) {
 
 func (a *App) initializeDatabase(ctx context.Context) (*database.DatabaseConnection, error) {
 	var message string
-	connInfo, d, err := database.NewDatabaseConnection(ctx, "orderhub-test")
+	connInfo, d, err := database.NewDatabaseConnection(ctx, "postgres")
 	db = d
 
 	if err != nil {
