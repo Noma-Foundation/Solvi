@@ -21,6 +21,7 @@ profile.cov
 build/bin/
 node_modules/
 frontend/dist/
+binaries/*
 
 # Go workspace file
 go.work
