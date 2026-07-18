@@ -26,7 +26,7 @@ type DatabaseConnection struct {
 func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseConnection, *sql.DB, error) {
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		Host, Port, User, Password, databaseName)
-	databaseConnection, err := sql.Open(User, psqlInfo)
+	databaseConnection, err := sql.Open("postgres", psqlInfo)
 
 	if err != nil {
 		return nil, nil, err

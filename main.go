@@ -24,6 +24,7 @@ func main() {
 	 * She represents the creation and execution of the Wails application.
 	 */
 	hub := internal.NewOrderHub()
+
 	app := NewApp(hub)
 	appMenu := core.BuildMenuBar()
 
