@@ -28,7 +28,6 @@ func main() {
 	hub := internal.NewOrderHub()
 
 	entries, _ := pgBinaries.ReadDir("binaries/pqsql")
-	fmt.Println("DEBUG || Postgres files directory: ", pgBinaries)
 	fmt.Println("DEBUG || Postgres files bundled: ", strconv.Itoa(len(entries)))
 
 	app := NewApp(hub)
