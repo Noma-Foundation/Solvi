@@ -41,6 +41,7 @@ func (a *App) startup(ctx context.Context) {
 func (a *App) shutdown(ctx context.Context) {
 	if err := a.closeDatabase(db); err != nil {
 		runtime.LogError(ctx, err.Error())
+		return
 	}
 	runtime.LogInfo(ctx, "OrderHub environment shutting down")
 }
