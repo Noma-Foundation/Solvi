@@ -25,6 +25,9 @@ func main() {
 	 */
 	hub := internal.NewOrderHub()
 
+	entries, _ := pgBinaries.ReadDir("binaries/pqsql")
+	println("Postgres files bundled:", len(entries))
+
 	app := NewApp(hub)
 	appMenu := core.BuildMenuBar()
 
