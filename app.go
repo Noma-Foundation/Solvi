@@ -63,7 +63,7 @@ func (a *App) initializeDatabase(ctx context.Context) (*database.DatabaseConnect
 		return nil, errors.New(message)
 	}
 
-	runtime.LogInfo(a.ctx, "Database connected: "+connInfo.DatabaseName)
+	runtime.LogInfo(a.ctx, "Database connected at: "+connInfo.ConnectedAt.Format("2006-01-02 15:04:05"))
 	return connInfo, nil
 }
 
