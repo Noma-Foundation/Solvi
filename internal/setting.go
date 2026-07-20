@@ -8,8 +8,8 @@ import (
 type ServerSetting struct {
 	RunMode      string // debug, release, test
 	BindAddress  string
-	HTTPPort     uint16
-	DatabasePort uint16
+	HTTPPort     string
+	DatabasePort string
 	DatabaseHost string
 }
 
@@ -18,4 +18,16 @@ type Config struct {
 	OrderHub           *OrderHub
 	ServerSetting      *ServerSetting
 	fileSetting        *os.File
+}
+
+func NewServerSetting() *ServerSetting {
+	serverSetting := &ServerSetting{
+		RunMode:      "debug",
+		BindAddress:  "[IP_ADDRESS]",
+		HTTPPort:     "8080",
+		DatabasePort: database.Port,
+		DatabaseHost: database.Host,
+	}
+
+	return serverSetting
 }

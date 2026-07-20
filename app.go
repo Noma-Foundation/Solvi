@@ -11,6 +11,7 @@ import (
 )
 
 var db *sql.DB
+var serverSetting *internal.ServerSetting
 
 // App struct
 type App struct {
@@ -34,6 +35,8 @@ func (a *App) startup(ctx context.Context) {
 		runtime.LogError(ctx, err.Error())
 		return
 	}
+
+	serverSetting = internal.NewServerSetting()
 	runtime.LogInfo(ctx, "OrderHub environment started successfully")
 }
 
