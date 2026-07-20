@@ -6,8 +6,8 @@ import (
 )
 
 type ServerSetting struct {
-	RunMode      string // debug, release, test
-	BindAddress  string
+	RunMode      string // debug, test, production
+	BindAddress  string // Remove IP from here
 	HTTPPort     string
 	DatabasePort string
 	DatabaseHost string
