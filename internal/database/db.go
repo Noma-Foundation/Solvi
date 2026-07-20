@@ -29,7 +29,13 @@ func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseC
 	databaseConnection, err := sql.Open("postgres", psqlInfo)
 
 	if err != nil {
-		return nil, nil, err
+		databaseReturnErr := &DatabaseConnection{
+			DatabaseName: "",
+			ConnectedAt:  time.Time{},
+			IsConnected:  false,
+			ctx:          ctx,
+		}
+		return databaseReturnErr, nil, err
 	}
 
 	databaseReturn := DatabaseConnection{

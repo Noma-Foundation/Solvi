@@ -23,3 +23,12 @@ func TestInstantiateDatabaseConnectionObject(t *testing.T) {
 	}
 
 }
+
+func TestInstantiateDatabaseWithInvalidDB(t *testing.T) {
+	dbConn, _, _ := database.NewDatabaseConnection(context.TODO(), "")
+
+	if dbConn.DatabaseName != "" {
+		t.Fatal(errors.New("Database name should be empty"))
+	}
+
+}
