@@ -6,11 +6,11 @@ import (
 )
 
 type ServerSetting struct {
-	RunMode      string // debug, test, production
-	BindAddress  string // Remove IP from here
-	HTTPPort     string
-	DatabasePort string
-	DatabaseHost string
+	RunMode         string // debug, test, production
+	UnusedIPAddress string
+	HTTPPort        string
+	DatabasePort    string
+	DatabaseHost    string
 }
 
 type Config struct {
@@ -22,11 +22,11 @@ type Config struct {
 
 func NewServerSetting() *ServerSetting {
 	serverSetting := &ServerSetting{
-		RunMode:      "debug",
-		BindAddress:  "[IP_ADDRESS]",
-		HTTPPort:     "8080",
-		DatabasePort: database.Port,
-		DatabaseHost: database.Host,
+		RunMode:         "debug",
+		UnusedIPAddress: "[IP_ADDRESS]",
+		HTTPPort:        "8080",
+		DatabasePort:    database.Port,
+		DatabaseHost:    database.Host,
 	}
 
 	return serverSetting

@@ -12,6 +12,7 @@ import (
 
 var db *sql.DB
 var serverSetting *internal.ServerSetting
+var config *internal.Config
 
 // App struct
 type App struct {
