@@ -35,6 +35,7 @@ func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseC
 			IsConnected:  false,
 			ctx:          ctx,
 		}
+
 		return databaseReturnErr, nil, err
 	}
 
@@ -44,5 +45,6 @@ func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseC
 		IsConnected:  true,
 		ctx:          ctx,
 	}
+
 	return &databaseReturn, databaseConnection, nil
 }
