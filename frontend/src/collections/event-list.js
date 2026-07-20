@@ -1,5 +1,3 @@
-// import { LogError } from "../../wailsjs/runtime/runtime.js";
-
 
 export class EventList {
     #events;
@@ -84,7 +82,6 @@ export class EventList {
 
     #checkIfCallbackIsFunctionOrClass(callback) {
         if (typeof callback !== "function" && typeof callback !== "object") {
-            // LogError(`Event callback must be a function, not a ${typeof callback}`);
             return null;
         }
         return callback;
