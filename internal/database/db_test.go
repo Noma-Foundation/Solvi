@@ -8,7 +8,7 @@ import (
 )
 
 func TestInstantiateDatabaseConnectionObject(t *testing.T) {
-	dbConn, _, err := database.NewDatabaseConnection(context.TODO(), "postgres")
+	dbConn, _, err := database.NewDatabaseConnection(context.TODO(), "orderhub-test")
 
 	if err != nil {
 		t.Fatal(errors.New("Error to instantiate database connection"))
@@ -20,6 +20,15 @@ func TestInstantiateDatabaseConnectionObject(t *testing.T) {
 
 	if dbConn.DatabaseName != "orderhub-test" {
 		t.Fatal(errors.New("Database name is incorrect"))
+	}
+
+}
+
+func TestInstantiateDatabaseWithInvalidDB(t *testing.T) {
+	dbConn, _, _ := database.NewDatabaseConnection(context.TODO(), "")
+
+	if dbConn.DatabaseName != "" {
+		t.Fatal(errors.New("Database name should be empty"))
 	}
 
 }

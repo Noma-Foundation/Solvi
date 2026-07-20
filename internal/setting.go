@@ -31,3 +31,11 @@ func NewServerSetting() *ServerSetting {
 
 	return serverSetting
 }
+
+func NewConfig() *Config {
+	return &Config{}
+}
+
+func (c *Config) SetDatabaseConnection(db *database.DatabaseConnection) {
+	c.DatabaseConnection = db
+}
