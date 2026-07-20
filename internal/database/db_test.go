@@ -8,7 +8,7 @@ import (
 )
 
 func TestInstantiateDatabaseConnectionObject(t *testing.T) {
-	dbConn, _, err := database.NewDatabaseConnection(context.TODO(), "orderhub-test")
+	dbConn, _, err := database.NewDatabaseConnection(context.TODO(), "postgres")
 
 	if err != nil {
 		t.Fatal(errors.New("Error to instantiate database connection"))

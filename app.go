@@ -11,6 +11,8 @@ import (
 )
 
 var db *sql.DB
+var serverSetting *internal.ServerSetting
+var config *internal.Config
 
 // App struct
 type App struct {
@@ -29,11 +31,12 @@ func (a *App) startup(ctx context.Context) {
 	// Initialize application and database
 	a.ctx = ctx
 	a.hub.Init(ctx)
-
 	if _, err := a.initializeDatabase(ctx); err != nil {
 		runtime.LogError(ctx, err.Error())
 		return
 	}
+
+	serverSetting = internal.NewServerSetting()
 	runtime.LogInfo(ctx, "OrderHub environment started successfully")
 }
 
@@ -63,7 +66,10 @@ func (a *App) initializeDatabase(ctx context.Context) (*database.DatabaseConnect
 		return nil, errors.New(message)
 	}
 
-	runtime.LogInfo(a.ctx, "Database connected: "+connInfo.DatabaseName)
+	message = "Database connected at: " + connInfo.ConnectedAt.Format("2006-01-02 15:04:05")
+	runtime.LogInfo(a.ctx, message)
+
+	config.DatabaseConnection = connInfo
 	return connInfo, nil
 }
 

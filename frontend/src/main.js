@@ -8,6 +8,8 @@ import $ from "jquery";
 import { MenuBar } from "./components/menu-bar/menu-bar.js";
 import { SearchBar } from "./components/search-bar/search-bar.js";
 import { eventBus } from "./event-manager-singleton.js";
+
+import { LogDebug } from "../wailsjs/runtime/runtime.js";
 import { OpenTerminal } from "../wailsjs/go/internal/OrderHub.js";
 
 
@@ -17,7 +19,7 @@ $(function () {
     const searchBar = new SearchBar();
 
     eventBus.subscribe("LOGGER", () => {
-        console.log("Hello, World!");
+        LogDebug("Hello, World!");
     });
 
     // This code part is used to display and beta test the core functions
