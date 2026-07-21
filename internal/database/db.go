@@ -3,17 +3,27 @@ package database
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"time"
 
 	_ "github.com/lib/pq"
 )
 
+var (
+	databaseReturnErr = &DatabaseConnection{
+		DatabaseName: "",
+		ConnectedAt:  time.Time{},
+		IsConnected:  false,
+		ctx:          context.Background(),
+	}
+)
+
 const (
 	User     = "postgres"
 	Host     = "localhost"
 	Port     = "5432"
-	Password = "admin"
+	Password = "admin" // Change password later
 )
 
 type DatabaseConnection struct {
@@ -28,15 +38,12 @@ func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseC
 		Host, Port, User, Password, databaseName)
 	databaseConnection, err := sql.Open("postgres", psqlInfo)
 
-	if err != nil || databaseConnection == nil {
-		databaseReturnErr := &DatabaseConnection{
-			DatabaseName: "",
-			ConnectedAt:  time.Time{},
-			IsConnected:  false,
-			ctx:          ctx,
-		}
-
+	if err != nil {
 		return databaseReturnErr, nil, err
+	}
+
+	if databaseName == "" || databaseConnection == nil {
+		return databaseReturnErr, nil, errors.New("Invalid database name or port connection")
 	}
 
 	databaseReturn := DatabaseConnection{
