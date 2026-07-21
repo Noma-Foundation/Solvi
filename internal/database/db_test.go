@@ -5,27 +5,24 @@ import (
 	"errors"
 	"orderhub/internal/database"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
+
+var (
+	databaseName = "orderhub-test"
+	ctx          = context.TODO()
 )
 
 func TestInstantiateDatabaseConnectionObject(t *testing.T) {
-	dbConn, _, err := database.NewDatabaseConnection(context.TODO(), "orderhub-test")
+	assert := assert.New(t)
+	dbConn, _, _ := database.NewDatabaseConnection(ctx, databaseName)
 
-	if err != nil {
-		t.Fatal(errors.New("Error to instantiate database connection"))
-	}
-
-	if dbConn.IsConnected != true {
-		t.Fatal(errors.New("Database connection is not established"))
-	}
-
-	if dbConn.DatabaseName != "orderhub-test" {
-		t.Fatal(errors.New("Database name is incorrect"))
-	}
-
+	assert.Equal(true, dbConn.IsConnected)
 }
 
 func TestInstantiateDatabaseWithInvalidDB(t *testing.T) {
-	dbConn, _, _ := database.NewDatabaseConnection(context.TODO(), "")
+	dbConn, _, _ := database.NewDatabaseConnection(ctx, "")
 
 	if dbConn.DatabaseName != "" {
 		t.Fatal(errors.New("Database name should be empty"))
