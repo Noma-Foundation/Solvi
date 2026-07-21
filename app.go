@@ -35,6 +35,8 @@ func (a *App) startup(ctx context.Context) {
 	config = internal.NewConfig()
 	serverSetting = internal.NewServerSetting()
 
+	config.SetOrderHub(a.hub)
+
 	if connInfo, err := a.initializeDatabase(ctx); err != nil {
 		runtime.LogError(ctx, err.Error())
 		return

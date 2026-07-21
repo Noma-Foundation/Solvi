@@ -39,3 +39,7 @@ func NewConfig() *Config {
 func (c *Config) SetDatabaseConnection(db *database.DatabaseConnection) {
 	c.DatabaseConnection = db
 }
+
+func (c *Config) SetOrderHub(o *OrderHub) {
+	c.OrderHub = o
+}
