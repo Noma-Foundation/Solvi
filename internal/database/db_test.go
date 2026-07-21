@@ -2,7 +2,6 @@ package database_test
 
 import (
 	"context"
-	"errors"
 	"orderhub/internal/database"
 	"testing"
 
@@ -21,11 +20,11 @@ func TestInstantiateDatabaseConnectionObject(t *testing.T) {
 	assert.Equal(true, dbConn.IsConnected)
 }
 
-func TestInstantiateDatabaseWithInvalidDB(t *testing.T) {
-	dbConn, _, _ := database.NewDatabaseConnection(ctx, "")
+func TestInstantiateDatabaseWithInvalidName(t *testing.T) {
+	assert := assert.New(t)
+	dbConn, _, err := database.NewDatabaseConnection(ctx, "")
 
-	if dbConn.DatabaseName != "" {
-		t.Fatal(errors.New("Database name should be empty"))
-	}
-
+	assert.Equal(false, dbConn.IsConnected)
+	assert.Equal("", dbConn.DatabaseName)
+	assert.NotEqual(nil, err)
 }
