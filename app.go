@@ -42,6 +42,9 @@ func (a *App) startup(ctx context.Context) {
 		config.SetDatabaseConnection(connInfo)
 	}
 
+	config.SetOrderHub(a.hub)
+	config.SetServerSetting(serverSetting)
+
 	runtime.LogInfo(ctx, "OrderHub environment started successfully")
 }
 
