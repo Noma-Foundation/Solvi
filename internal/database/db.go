@@ -23,7 +23,7 @@ const (
 	User     = "postgres"
 	Host     = "localhost"
 	Port     = "5432"
-	Password = "admin"
+	Password = "admin" // Change password later
 )
 
 type DatabaseConnection struct {
