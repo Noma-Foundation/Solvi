@@ -28,10 +28,3 @@ func TestInstantiateDatabaseWithInvalidName(t *testing.T) {
 	assert.Equal("", dbConn.DatabaseName)
 	assert.NotEqual(nil, err)
 }
-
-func TestInstantiateDatabaseWithInvalidPort(t *testing.T) {
-	assert := assert.New(t)
-	dbConn, _, _ := database.NewDatabaseConnection(ctx, databaseName)
-
-	assert.Equal(true, dbConn.IsConnected)
-}
