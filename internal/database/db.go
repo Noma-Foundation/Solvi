@@ -52,6 +52,5 @@ func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseC
 		IsConnected:  true,
 		ctx:          ctx,
 	}
-
 	return &databaseReturn, databaseConnection, nil
 }
