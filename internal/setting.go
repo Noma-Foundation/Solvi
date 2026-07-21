@@ -43,3 +43,11 @@ func (c *Config) SetDatabaseConnection(db *database.DatabaseConnection) {
 func (c *Config) SetOrderHub(o *OrderHub) {
 	c.OrderHub = o
 }
+
+func (c *Config) SetServerSetting(s *ServerSetting) {
+	c.ServerSetting = s
+}
+
+func (c *Config) GetSettingFile() (*os.File, error) {
+	return c.fileSetting, nil
+}
