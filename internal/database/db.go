@@ -21,13 +21,6 @@ var (
 	}
 )
 
-var (
-	User     = "postgres"
-	Host     = "localhost"
-	Port     = "5432"
-	Password = "admin" // Change password later
-)
-
 type DatabaseConnection struct {
 	DatabaseName string
 	ConnectedAt  time.Time
