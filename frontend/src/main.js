@@ -21,12 +21,6 @@ $(function () {
     const menuBar = new MenuBar();
     const searchBar = new SearchBar();
 
-    eventBus.subscribe("LOGGER", () => {
-        LogDebug("Hello, World!");
-    });
-
     $("#app-main-context").html(Home());
-
-    // Set app version
     $("#app-version").text(`${pkg.version}`);
 });

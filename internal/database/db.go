@@ -35,21 +35,24 @@ type DatabaseConnection struct {
 	ctx          context.Context
 }
 
-func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseConnection, *sql.DB, error) {
+func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseConnection, error) {
 	_ = godotenv.Load()
 	psqlInfo := os.Getenv("DATABASE_DEVELOPMENT_URL")
 
 	databaseConnection, err := sql.Open("postgres", psqlInfo)
 
 	if err != nil {
-		return databaseReturnErr, nil, err
+		return databaseReturnErr, err
 	}
 
 	if databaseName == "" || databaseConnection == nil {
-		return databaseReturnErr, nil, errors.New("Invalid database name or port connection")
+		return databaseReturnErr, errors.New("Invalid database name or port connection")
 	}
 
-	// Garante que a tabela exista para evitar erros em consultas e facilita o desenvolvimento
+	if err := databaseConnection.Ping(); err != nil {
+		return databaseReturnErr, errors.New("Error pinging database")
+	}
+
 	_, _ = databaseConnection.Exec(`
 		CREATE TABLE IF NOT EXISTS budgets (
 			id SERIAL PRIMARY KEY,
@@ -60,7 +63,6 @@ func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseC
 		);
 	`)
 
-	// Armazena no pacote globalmente para acesso seguro e fácil
 	DB = databaseConnection
 
 	databaseReturn := DatabaseConnection{
@@ -69,5 +71,5 @@ func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseC
 		IsConnected:  true,
 		ctx:          ctx,
 	}
-	return &databaseReturn, databaseConnection, nil
+	return &databaseReturn, nil
 }

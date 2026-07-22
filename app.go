@@ -60,8 +60,8 @@ func (a *App) shutdown(ctx context.Context) {
 
 func (a *App) initializeDatabase(ctx context.Context) (*database.DatabaseConnection, error) {
 	var message string
-	connInfo, d, err := database.NewDatabaseConnection(ctx, "postgres")
-	db = d
+	connInfo, err := database.NewDatabaseConnection(ctx, "postgres")
+	db = database.DB
 
 	if err != nil {
 		message = "Error trying to instantiate database connection: " + err.Error()
