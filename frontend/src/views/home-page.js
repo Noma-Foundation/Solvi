@@ -1,5 +1,4 @@
 import '../components/ticket/ticket.js';
-import { GetTickets } from '../../wailsjs/go/internal/OrderHub.js';
 
 export function Home() {
     return (`

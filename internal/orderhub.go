@@ -3,22 +3,13 @@ package internal
 import (
 	"context"
 	"database/sql"
-	"errors"
-	"orderhub/internal/database"
 	"orderhub/internal/utils"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-type TicketView struct {
-	ID      string `json:"id"`
-	Client  string `json:"client"`
-	Budget  string `json:"budget"`
-	Address string `json:"address"`
-	Desc    string `json:"desc"`
-}
-
 // OrderHub is the main struct for the application.
+// Contains all configurations and utility tools
 type OrderHub struct {
 	ctx context.Context
 	DB  *sql.DB
@@ -43,33 +34,4 @@ func (o *OrderHub) OpenTerminal() error {
 		return err
 	}
 	return opener.OpenTerminal()
-}
-
-func (o *OrderHub) GetTickets() ([]TicketView, error) {
-	if database.DB == nil {
-		database.NewDatabaseConnection(o.ctx, "postgres")
-	}
-
-	if database.DB == nil {
-		return nil, errors.New("database not connected")
-	}
-
-	query := "SELECT id, client_name, total_price, client_address, service_description FROM budgets ORDER BY id DESC LIMIT 10"
-	rows, err := database.DB.Query(query)
-	if err != nil {
-		runtime.LogError(o.ctx, "Failed to fetch tickets: "+err.Error())
-		return nil, err
-	}
-	defer rows.Close()
-
-	var tickets []TicketView
-	for rows.Next() {
-		var t TicketView
-		if err := rows.Scan(&t.ID, &t.Client, &t.Budget, &t.Address, &t.Desc); err != nil {
-			return nil, err
-		}
-		tickets = append(tickets, t)
-	}
-
-	return tickets, nil
 }
