@@ -27,14 +27,6 @@ $(function () {
 
     Home();
 
-    // This code part is used to display and beta test the core functions
-    const viewTicketButton = document.getElementById("view-tickets-fab-button");
-
-    viewTicketButton.addEventListener("click", () => {
-        OpenTerminal();
-        LogDebug("Clicked in View Tickets FAB Button | Open CMD to view all tickets");
-    });
-
     // Set app version
     $("#app-version").text(`${pkg.version}`);
 });
