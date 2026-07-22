@@ -1,24 +1,37 @@
 import '../components/ticket/ticket.js';
+import { GetTickets } from '../../wailsjs/go/internal/OrderHub.js';
 
 export function Home() {
-    // Aqui no futuro os dados virão do banco de dados (Wails/Go Backend)
-    // Usando dados mockados para demonstrar a mecânica solicitada
-    const mockTickets = [
-        { id: "49801", client: "João Silva", budget: "R$ 1.985,84", address: "Rua A, 123", desc: "Instalação de câmeras e sensores." },
-        { id: "49802", client: "Maria Souza", budget: "R$ 3.450,00", address: "Av. B, 456", desc: "Manutenção na rede estruturada." },
-        { id: "49803", client: "Empresa XPTO", budget: "R$ 12.000,00", address: "Rodovia C, km 10", desc: "Projeto completo de segurança eletrônica." }
-    ];
+    // Como a chamada para o banco de dados via Wails é assíncrona,
+    // usamos setTimeout para rodar após o HTML base ser injetado.
+    setTimeout(async () => {
+        const container = document.getElementById('tickets-container');
+        if (!container) return;
 
-    const ticketsHtml = mockTickets.map(t => 
-        `<ticket-card ticket-id="${t.id}" client="${t.client}" budget="${t.budget}" address="${t.address}" description="${t.desc}"></ticket-card>`
-    ).join('');
+        try {
+            const tickets = await GetTickets();
+            if (!tickets || tickets.length === 0) {
+                container.innerHTML = '<p class="text-muted">Nenhum ticket encontrado no banco de dados.</p>';
+                return;
+            }
+
+            const ticketsHtml = tickets.map(t =>
+                `<ticket-card ticket-id="${t.id}" client="${t.client}" budget="${t.budget}" address="${t.address}" description="${t.desc}"></ticket-card>`
+            ).join('');
+
+            container.innerHTML = ticketsHtml;
+        } catch (err) {
+            console.error(err);
+            container.innerHTML = `<p class="text-danger">Erro ao carregar tickets do banco: ${err}</p>`;
+        }
+    }, 0);
 
     return (`
         <section class="container mt-4">
             <h1>Home Page</h1>
             <h4 class="mt-4 mb-3">Últimos Tickets</h4>
-            <div class="d-flex flex-wrap gap-3">
-                ${ticketsHtml}
+            <div id="tickets-container" class="d-flex flex-wrap gap-3">
+                <p>Carregando tickets...</p>
             </div>
         </section>
     `);

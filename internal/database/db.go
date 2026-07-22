@@ -4,9 +4,10 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
+	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
@@ -19,7 +20,7 @@ var (
 	}
 )
 
-const (
+var (
 	User     = "postgres"
 	Host     = "localhost"
 	Port     = "5432"
@@ -34,8 +35,10 @@ type DatabaseConnection struct {
 }
 
 func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseConnection, *sql.DB, error) {
-	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		Host, Port, User, Password, databaseName)
+	// Carrega as variáveis de ambiente do arquivo .env
+	_ = godotenv.Load()
+	psqlInfo := os.Getenv("DATABASE_URL")
+
 	databaseConnection, err := sql.Open("postgres", psqlInfo)
 
 	if err != nil {

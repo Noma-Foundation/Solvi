@@ -25,7 +25,7 @@ $(function () {
         LogDebug("Hello, World!");
     });
 
-    Home();
+    $("#app-main-context").html(Home());
 
     // Set app version
     $("#app-version").text(`${pkg.version}`);
