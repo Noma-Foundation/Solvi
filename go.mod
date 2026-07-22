@@ -3,6 +3,7 @@ module orderhub
 go 1.23.0
 
 require (
+	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.12.3
 	github.com/stretchr/testify v1.11.1
 	github.com/wailsapp/wails/v2 v2.12.0

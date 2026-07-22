@@ -1,0 +1,99 @@
+.card-ticket-closed {
+    max-width: 360px;
+    border: 1px solid #c4c4d0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.card-ticket-closed:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card-ticket-closed .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    background: transparent;
+    padding: 16px;
+}
+
+.card-ticket-closed .card-header button.btn-light {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid #c4c4d0;
+    border-radius: 100px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-ticket-closed .card-header button.btn-light img {
+    width: 24px;
+    height: 24px;
+}
+
+.card-ticket-open {
+    max-width: 360px;
+    border: 1px solid #c4c4d0;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
+}
+
+.card-ticket-open .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 16px 8px;
+    background: transparent;
+    border-bottom: 0px;
+}
+
+.card-ticket-open .card-body {
+    padding: 8px 16px 16px;
+    background: transparent;
+    border: 0px;
+}
+
+.card-ticket-open .card-body .ticket-budget {
+    color: #068e36;
+}
+
+.card-ticket-open .card-footer {
+    display: flex;
+    justify-items: right;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 16px 16px;
+    background: transparent;
+    border-top: 0px;
+}
+
+.card-ticket-open .card-footer div {
+    display: flex;
+    gap: 8px;
+}
+
+.card-ticket-open .card-footer button {
+    padding: 8px 16px 10px;
+    border-radius: 24px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+}
+
+.card-ticket-open .card-footer button.btn-light {
+    background: transparent;
+    border: 1px solid #c4c4d0;
+    color: #49454f;
+}
+
+.card-ticket-open .card-footer button.btn-primary {
+    background-color: #2745fe;
+    border: none;
+    color: #fff;
+}

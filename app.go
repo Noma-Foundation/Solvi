@@ -40,6 +40,7 @@ func (a *App) startup(ctx context.Context) {
 		return
 	} else {
 		config.SetDatabaseConnection(connInfo)
+		a.hub.DB = db
 	}
 
 	config.SetOrderHub(a.hub)
