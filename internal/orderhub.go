@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"orderhub/internal/database"
 	"orderhub/internal/utils"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -44,14 +45,17 @@ func (o *OrderHub) OpenTerminal() error {
 	return opener.OpenTerminal()
 }
 
-// GetTickets fetches the latest tickets from the database.
 func (o *OrderHub) GetTickets() ([]TicketView, error) {
-	if o.DB == nil {
+	if database.DB == nil {
+		database.NewDatabaseConnection(o.ctx, "postgres")
+	}
+
+	if database.DB == nil {
 		return nil, errors.New("database not connected")
 	}
 
-	query := "SELECT id, client_name, budget, address, description FROM budget ORDER BY id DESC LIMIT 10"
-	rows, err := o.DB.Query(query)
+	query := "SELECT id, client_name, total_price, client_address, service_description FROM budgets ORDER BY id DESC LIMIT 10"
+	rows, err := database.DB.Query(query)
 	if err != nil {
 		runtime.LogError(o.ctx, "Failed to fetch tickets: "+err.Error())
 		return nil, err

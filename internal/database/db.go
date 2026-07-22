@@ -12,6 +12,7 @@ import (
 )
 
 var (
+	DB                *sql.DB
 	databaseReturnErr = &DatabaseConnection{
 		DatabaseName: "",
 		ConnectedAt:  time.Time{},
@@ -48,6 +49,20 @@ func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseC
 	if databaseName == "" || databaseConnection == nil {
 		return databaseReturnErr, nil, errors.New("Invalid database name or port connection")
 	}
+
+	// Garante que a tabela exista para evitar erros em consultas e facilita o desenvolvimento
+	_, _ = databaseConnection.Exec(`
+		CREATE TABLE IF NOT EXISTS budgets (
+			id SERIAL PRIMARY KEY,
+			client_name VARCHAR(255),
+			budget VARCHAR(255),
+			address VARCHAR(255),
+			description TEXT
+		);
+	`)
+
+	// Armazena no pacote globalmente para acesso seguro e fácil
+	DB = databaseConnection
 
 	databaseReturn := DatabaseConnection{
 		DatabaseName: databaseName,

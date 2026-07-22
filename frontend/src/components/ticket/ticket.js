@@ -1,11 +1,12 @@
 import './ticket.css';
 
+import inboxIcon from "../../assets/icons/core_functions/remove_ticket.svg";
+
 export class TicketCard extends HTMLElement {
     constructor() {
         super();
         this.isOpen = false;
-        
-        // Define default properties
+
         this.ticketId = this.getAttribute('ticket-id') || '49801';
         this.client = this.getAttribute('client') || 'Client Name';
         this.budget = this.getAttribute('budget') || 'R$1985,84';
@@ -32,13 +33,12 @@ export class TicketCard extends HTMLElement {
                         <p class="m-0">${this.client}</p>
                     </div>
                     <button class="btn btn-light" arial-label="Archive">
-                        <img src="./src/assets/icons/move_to_inbox.png" />
+                        <img src="${inboxIcon}" alt="Inbox Icon" />
                     </button>
                 </article>
             </div>
             `;
-            
-            // Add event listeners for closed state
+
             this.querySelector('.card-ticket-closed').addEventListener('click', () => this.toggle());
         } else {
             this.innerHTML = `
@@ -49,7 +49,6 @@ export class TicketCard extends HTMLElement {
                         <p class="m-0">${this.client}</p>
                     </div>
                     <button class="btn btn-light" aria-label="More options">
-                        <img src="./src/assets/icons/more_icon.png" alt="" />
                     </button>
                 </div>
                 <div class="card-body">
@@ -71,8 +70,7 @@ export class TicketCard extends HTMLElement {
                 </div>
             </div>
             `;
-            
-            // Add event listeners for open state
+
             this.querySelector('.button-close-ticket').addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.toggle();
@@ -81,7 +79,6 @@ export class TicketCard extends HTMLElement {
     }
 }
 
-// Define the custom element
 if (!customElements.get('ticket-card')) {
     customElements.define('ticket-card', TicketCard);
 }

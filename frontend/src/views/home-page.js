@@ -2,14 +2,28 @@ import '../components/ticket/ticket.js';
 import { GetTickets } from '../../wailsjs/go/internal/OrderHub.js';
 
 export function Home() {
-    // Como a chamada para o banco de dados via Wails é assíncrona,
-    // usamos setTimeout para rodar após o HTML base ser injetado.
     setTimeout(async () => {
         const container = document.getElementById('tickets-container');
         if (!container) return;
 
         try {
-            const tickets = await GetTickets();
+            let tickets = null;
+            let retries = 5;
+            while (retries > 0) {
+                try {
+                    tickets = await GetTickets();
+                    break;
+                } catch (e) {
+                    if (e === "database not connected") {
+                        retries--;
+                        if (retries === 0) throw e;
+                        await new Promise(res => setTimeout(res, 800));
+                    } else {
+                        throw e;
+                    }
+                }
+            }
+
             if (!tickets || tickets.length === 0) {
                 container.innerHTML = '<p class="text-muted">Nenhum ticket encontrado no banco de dados.</p>';
                 return;
@@ -28,8 +42,6 @@ export function Home() {
 
     return (`
         <section class="container mt-4">
-            <h1>Home Page</h1>
-            <h4 class="mt-4 mb-3">Últimos Tickets</h4>
             <div id="tickets-container" class="d-flex flex-wrap gap-3">
                 <p>Carregando tickets...</p>
             </div>
