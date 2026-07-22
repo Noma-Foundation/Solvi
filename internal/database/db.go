@@ -21,13 +21,6 @@ var (
 	}
 )
 
-var (
-	User     = "postgres"
-	Host     = "localhost"
-	Port     = "5432"
-	Password = "admin" // Change password later
-)
-
 type DatabaseConnection struct {
 	DatabaseName string
 	ConnectedAt  time.Time
@@ -35,22 +28,20 @@ type DatabaseConnection struct {
 	ctx          context.Context
 }
 
-func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseConnection, *sql.DB, error) {
-	// Carrega as variáveis de ambiente do arquivo .env
+func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseConnection, error) {
 	_ = godotenv.Load()
-	psqlInfo := os.Getenv("DATABASE_URL")
+	psqlInfo := os.Getenv("DATABASE_DEVELOPMENT_URL")
 
 	databaseConnection, err := sql.Open("postgres", psqlInfo)
 
 	if err != nil {
-		return databaseReturnErr, nil, err
+		return databaseReturnErr, err
 	}
 
 	if databaseName == "" || databaseConnection == nil {
-		return databaseReturnErr, nil, errors.New("Invalid database name or port connection")
+		return databaseReturnErr, errors.New("Invalid database name or port connection")
 	}
 
-	// Garante que a tabela exista para evitar erros em consultas e facilita o desenvolvimento
 	_, _ = databaseConnection.Exec(`
 		CREATE TABLE IF NOT EXISTS budgets (
 			id SERIAL PRIMARY KEY,
@@ -61,14 +52,12 @@ func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseC
 		);
 	`)
 
-	// Armazena no pacote globalmente para acesso seguro e fácil
 	DB = databaseConnection
 
-	databaseReturn := DatabaseConnection{
+	return &DatabaseConnection{
 		DatabaseName: databaseName,
 		ConnectedAt:  time.Now(),
 		IsConnected:  true,
 		ctx:          ctx,
-	}
-	return &databaseReturn, databaseConnection, nil
+	}, nil
 }

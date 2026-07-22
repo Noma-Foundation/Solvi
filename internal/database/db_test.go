@@ -15,7 +15,7 @@ var (
 
 func TestInstantiateDatabaseConnectionObject(t *testing.T) {
 	assert := assert.New(t)
-	dbConn, _, err := database.NewDatabaseConnection(ctx, databaseName)
+	dbConn, err := database.NewDatabaseConnection(ctx, databaseName)
 
 	assert.Equal(true, dbConn.IsConnected)
 	assert.Equal("orderhub-test", dbConn.DatabaseName)
@@ -24,7 +24,7 @@ func TestInstantiateDatabaseConnectionObject(t *testing.T) {
 
 func TestInstantiateDatabaseWithInvalidName(t *testing.T) {
 	assert := assert.New(t)
-	dbConn, _, err := database.NewDatabaseConnection(ctx, "")
+	dbConn, err := database.NewDatabaseConnection(ctx, "")
 
 	assert.Equal(false, dbConn.IsConnected)
 	assert.Equal("", dbConn.DatabaseName)

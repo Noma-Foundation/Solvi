@@ -5,6 +5,13 @@ import (
 	"os"
 )
 
+var (
+	User     = "postgres"
+	Host     = "localhost"
+	Port     = "5432"
+	Password = "admin" // Change password later
+)
+
 type ServerSetting struct {
 	RunMode         string // debug, test, production
 	UnusedIPAddress string
@@ -25,8 +32,8 @@ func NewServerSetting() *ServerSetting {
 		RunMode:         "debug",
 		UnusedIPAddress: "[IP_ADDRESS]",
 		HTTPPort:        "8080",
-		DatabasePort:    database.Port,
-		DatabaseHost:    database.Host,
+		DatabasePort:    Port,
+		DatabaseHost:    Host,
 	}
 
 	return serverSetting
