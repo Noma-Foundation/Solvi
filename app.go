@@ -60,7 +60,7 @@ func (a *App) shutdown(ctx context.Context) {
 
 func (a *App) initializeDatabase(ctx context.Context) (*database.DatabaseConnection, error) {
 	var message string
-	connInfo, err := database.NewDatabaseConnection(ctx, "postgres")
+	conn, err := database.NewDatabaseConnection(ctx, "postgres")
 	db = database.DB
 
 	if err != nil {
@@ -75,10 +75,10 @@ func (a *App) initializeDatabase(ctx context.Context) (*database.DatabaseConnect
 		return nil, errors.New(message)
 	}
 
-	message = "Database connected at: " + connInfo.ConnectedAt.Format("2006-01-02 15:04:05")
+	message = "Database connected at: " + conn.ConnectedAt.Format("2006-01-02 15:04:05")
 	runtime.LogInfo(a.ctx, message)
 
-	return connInfo, nil
+	return conn, nil
 }
 
 func (a *App) closeDatabase(db *sql.DB) error {

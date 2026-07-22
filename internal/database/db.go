@@ -49,10 +49,6 @@ func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseC
 		return databaseReturnErr, errors.New("Invalid database name or port connection")
 	}
 
-	if err := databaseConnection.Ping(); err != nil {
-		return databaseReturnErr, errors.New("Error pinging database")
-	}
-
 	_, _ = databaseConnection.Exec(`
 		CREATE TABLE IF NOT EXISTS budgets (
 			id SERIAL PRIMARY KEY,
@@ -65,11 +61,10 @@ func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseC
 
 	DB = databaseConnection
 
-	databaseReturn := DatabaseConnection{
+	return &DatabaseConnection{
 		DatabaseName: databaseName,
 		ConnectedAt:  time.Now(),
 		IsConnected:  true,
 		ctx:          ctx,
-	}
-	return &databaseReturn, nil
+	}, nil
 }
