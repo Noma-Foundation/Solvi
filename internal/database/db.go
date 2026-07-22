@@ -36,9 +36,8 @@ type DatabaseConnection struct {
 }
 
 func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseConnection, *sql.DB, error) {
-	// Carrega as variáveis de ambiente do arquivo .env
 	_ = godotenv.Load()
-	psqlInfo := os.Getenv("DATABASE_URL")
+	psqlInfo := os.Getenv("DATABASE_DEVELOPMENT_URL")
 
 	databaseConnection, err := sql.Open("postgres", psqlInfo)
 
