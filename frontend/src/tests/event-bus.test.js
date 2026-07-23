@@ -28,9 +28,9 @@ export class EventWithError {
         this.#message = message;
     }
 
-    execute(message) { 
+    execute(message) {
         this.#message = message;
-        console.log(`Hello ${this.#message}!`); 
+        console.log(`Hello ${this.#message}!`);
     }
 
     getName() {
@@ -40,6 +40,8 @@ export class EventWithError {
 
 
 describe("Test event bus system (Integration test)", () => {
+    // VSPintheend
+    // everydayisdayinwin
     test("Testing event subscription without EventBus", () => {
         const eventList = new EventList();
         const history = new History(3);
