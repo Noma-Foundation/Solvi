@@ -42,6 +42,11 @@ func (a *App) startup(ctx context.Context) {
 		config.SetDatabaseConnection(connInfo)
 		a.hub.DB = db
 	}
+	// Load JWT
+	if err := a.startJWTDependency(); err != nil {
+		runtime.LogError(a.ctx, "Error trying to start JWT dependency: "+err.Error())
+		return
+	}
 
 	config.SetOrderHub(a.hub)
 	config.SetServerSetting(serverSetting)
@@ -87,5 +92,9 @@ func (a *App) closeDatabase(db *sql.DB) error {
 		return err
 	}
 	runtime.LogInfo(a.ctx, "OrderHub disconnected from database")
+	return nil
+}
+
+func (a *App) startJWTDependency() error {
 	return nil
 }
