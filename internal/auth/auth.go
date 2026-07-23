@@ -1,17 +1,11 @@
 package auth
 
-import (
-	"net/http"
-)
+import "time"
 
-func loginHandler(w http.ResponseWriter, r *http.Request) {
-	adminUsername := "admin"
-	adminUserPassword := "admin"
-
-	println("INF | Login attempt username: " + adminUsername)
-	println("INF | Login attempt password: " + adminUserPassword)
-}
-
-func protectedHandler(w http.ResponseWriter, r *http.Request) {
-	println("INF | Protected endpoint")
+type OAuth struct {
+	ClientUsername     string
+	ClientPassword     string
+	ClientID           string
+	AccessToken        string
+	RefreshAccessToken time.Time
 }
