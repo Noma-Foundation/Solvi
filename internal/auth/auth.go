@@ -9,3 +9,8 @@ type OAuth struct {
 	AccessToken        string
 	RefreshAccessToken time.Time
 }
+
+// NewOAuth creates a new OAuth connection
+func NewOAuth() *OAuth {
+	return &OAuth{}
+}
