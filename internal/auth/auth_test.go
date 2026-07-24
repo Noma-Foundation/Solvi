@@ -15,5 +15,5 @@ func TestCreateNewAuth(t *testing.T) {
 	assert.Equal("", oauth.AccessToken, "AccessToken should be initialized as an empty string")
 	assert.Equal("", oauth.ClientUsername, "ClientUsername should be initialized as an empty string")
 	assert.Equal("", oauth.ClientID, "ClientID should be initialized as an empty string")
-	assert.True(oauth.UpAccessToken.IsZero(), "UpAccessToken should be initialized as zero time")
+	assert.True(oauth.RefreshedAt.IsZero(), "RefreshedAt should be initialized as zero time")
 }
