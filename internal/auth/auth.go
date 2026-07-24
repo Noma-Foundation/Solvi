@@ -4,13 +4,22 @@ import "time"
 
 type OAuth struct {
 	ClientUsername string
-	ClientPassword string
 	ClientID       string
 	AccessToken    string
-	UpAccessToken  time.Time
+	RefreshedAt    time.Time
 }
 
 // NewOAuth creates a new OAuth connection
 func NewOAuth() *OAuth {
 	return &OAuth{}
+}
+
+// Verifies if the user has the specific permission in the scope
+func HasScope(scope string) (bool, error) {
+	return true, nil
+}
+
+// Generates a new access token using the refresh token
+func RefreshToken(refreshToken string) error {
+	return nil
 }

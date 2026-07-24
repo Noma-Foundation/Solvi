@@ -75,8 +75,15 @@ func (a *App) initializeDatabase(ctx context.Context) (*database.DatabaseConnect
 		return nil, errors.New(message)
 	}
 
+	if _, err := database.CreateDatabase("orderhub"); err != nil {
+		message = "Error trying to create database: " + err.Error()
+		runtime.LogError(a.ctx, message)
+		return nil, errors.New(message)
+	}
+
 	message = "Database connected at: " + conn.ConnectedAt.Format("2006-01-02 15:04:05")
 	runtime.LogInfo(a.ctx, message)
+	database.PrintDatabaseInfo(conn)
 
 	return conn, nil
 }
