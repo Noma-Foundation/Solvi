@@ -10,6 +10,7 @@ import $ from "jquery";
 import { MenuBar } from "./components/menu-bar/menu-bar.js";
 import { SearchBar } from "./components/search-bar/search-bar.js";
 import { eventBus } from "./event-manager-singleton.js";
+import { LoginPage } from "./components/login-page/login-page.js";
 import { Home } from "./views/home-page.js";
 
 import { LogDebug } from "../wailsjs/runtime/runtime.js";
@@ -21,6 +22,8 @@ $(function () {
     const context = "#app-main-context";
     const menuBar = new MenuBar();
     const searchBar = new SearchBar();
+
+    const loginPage = new LoginPage(context);
 
     eventBus.subscribe("login", () => {
         LogDebug("Login event received");
