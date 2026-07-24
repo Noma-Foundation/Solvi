@@ -77,6 +77,7 @@ func (a *App) initializeDatabase(ctx context.Context) (*database.DatabaseConnect
 
 	message = "Database connected at: " + conn.ConnectedAt.Format("2006-01-02 15:04:05")
 	runtime.LogInfo(a.ctx, message)
+	database.PrintDatabaseInfo(conn)
 
 	return conn, nil
 }
