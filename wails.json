@@ -9,5 +9,12 @@
   "author": {
     "name": "Paulo Matheus Serra Sampaio",
     "email": "paulo.matheusserrasamp@gmail.com"
+  },
+  "info": {
+    "companyName": "FixIT Support",
+    "productName": "OrderManager Systems",
+    "productVersion": "1.0.1",
+    "copyright": "Apache 2.0 License © 2025 FixIT Support.",
+    "comments": "A system designed for service order management and CRM."
   }
 }
