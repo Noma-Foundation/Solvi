@@ -26,6 +26,7 @@ func TestInstantiateDatabaseWithInvalidName(t *testing.T) {
 	assert := assert.New(t)
 	dbConn, err := database.NewDatabaseConnection(ctx, "")
 
+	database.PrintDatabaseInfo(dbConn)
 	assert.Equal(false, dbConn.IsConnected)
 	assert.Equal("", dbConn.DatabaseName)
 	assert.NotEqual(nil, err)
