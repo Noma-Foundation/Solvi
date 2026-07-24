@@ -6,11 +6,23 @@ import "./login-page.css";
 export class LoginPage extends IComponentModel {
     #context;
     #errorMessage;
+    #formId;
+    #registerButtonId;
+
+    #defineUserAccess;
+    #defineUserPassword;
+
+    #isLogged;
 
     constructor(context) {
         super();
         this.#context = context;
         this.#errorMessage = "Credenciais inválidas";
+        this.#formId = "#app-login-form";
+        this.#registerButtonId = "#register-btn";
+        this.#isLogged = false;
+        this.#defineUserAccess = "admin";
+        this.#defineUserPassword = "admin";
         this.init();
     }
 
@@ -35,6 +47,30 @@ export class LoginPage extends IComponentModel {
     }
 
     bindEvents() {
+        $(this.#formId).on("submit", (e) => {
+            e.preventDefault();
+            const result = this.#loginValidatorFake();
+
+            if (result) {
+                console.log("Login realizado com sucesso");
+                this.#isLogged = true;
+            } else {
+                console.log("Erro no login");
+            }
+        });
     }
 
+    #loginValidatorFake() {
+        const inputUserAccess = $(this.#formId).find("#user-access").val();
+        const inputUserPassword = $(this.#formId).find("#user-password").val();
+
+        if (inputUserAccess !== this.#defineUserAccess || inputUserPassword !== this.#defineUserPassword) {
+            console.log("Credenciais inválidas");
+            return false;
+        }
+
+        $(this.#formId).find("#user-access").val("");
+        $(this.#formId).find("#user-password").val("");
+        return true;
+    }
 }
