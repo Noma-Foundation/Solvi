@@ -5,10 +5,12 @@ import "./login-page.css";
 
 export class LoginPage extends IComponentModel {
     #context;
+    #errorMessage;
 
     constructor(context) {
         super();
         this.#context = context;
+        this.#errorMessage = "Credenciais inválidas";
         this.init();
     }
 
@@ -24,6 +26,7 @@ export class LoginPage extends IComponentModel {
                     <button id="login-btn" class="btn btn-primary w-50" type="submit">Login</button>
                     <button id="register-btn" class="btn btn-secondary w-50" type="button">Register</button>
                 </div>
+                <p id="error-message" class="text-danger mt-2" style="display: none; margin: 0 auto;">${this.#errorMessage}</p>
             </div>
         </form>
         `;
