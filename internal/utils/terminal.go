@@ -6,11 +6,8 @@ import (
 	"runtime"
 )
 
-type terminalOpener interface {
-	openTerminal() error
-}
-
 type systemTerminalOpener struct {
+	opener  TerminalOpener
 	command *exec.Cmd
 }
 
