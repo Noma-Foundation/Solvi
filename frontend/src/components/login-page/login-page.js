@@ -8,6 +8,7 @@ export class LoginPage extends IComponentModel {
     #errorMessage;
     #formId;
     #registerButtonId;
+    #errorMessageId;
 
     #defineUserAccess;
     #defineUserPassword;
@@ -20,6 +21,7 @@ export class LoginPage extends IComponentModel {
         this.#errorMessage = "Credenciais inválidas";
         this.#formId = "#app-login-form";
         this.#registerButtonId = "#register-btn";
+        this.#errorMessageId = "#error-message";
         this.#isLogged = false;
         this.#defineUserAccess = "admin";
         this.#defineUserPassword = "admin";
