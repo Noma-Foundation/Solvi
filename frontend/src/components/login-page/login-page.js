@@ -16,6 +16,8 @@ export class LoginPage extends IComponentModel {
     #formId;
     #registerButtonId;
     #errorMessageId;
+    #userAccessObject;
+    #userPasswordObject;
 
     #isLogged;
 
@@ -51,6 +53,8 @@ export class LoginPage extends IComponentModel {
         `;
 
         $(this.#context).html(this.template);
+        this.#userAccessObject = $(this.#formId).find("#user-access");
+        this.#userPasswordObject = $(this.#formId).find("#user-password");
     }
 
     bindEvents() {
@@ -69,53 +73,39 @@ export class LoginPage extends IComponentModel {
                 });
 
                 return "admin"
-            } else {
-                const isEmployee = this.#fakeLoginValidatorForNormalEmployee();
+            }
+            const isEmployee = this.#fakeLoginValidatorForNormalEmployee();
 
-                if (isEmployee) {
-                    console.log("Login normal realizado com sucesso");
-                    this.#isLogged = true;
-                    return "normal"
-                } else {
-                    console.log("Credenciais inválidas");
-                    $("#error-message").show();
-                    return null;
-                }
+            if (isEmployee) {
+                console.log("Login normal realizado com sucesso");
+                this.#isLogged = true;
+                return "normal"
+            } else {
+                console.log("Credenciais inválidas");
+                $("#error-message").show();
+                return null;
             }
         });
     }
 
-    #fakeLoginValidatorForAdmin() {
-        const inputUserAccess = $(this.#formId).find("#user-access").val();
-        const inputUserPassword = $(this.#formId).find("#user-password").val();
+    getIsLogged() {
+        return this.#isLogged;
+    }
 
-        if (inputUserAccess !== this.#defineUserAccess || inputUserPassword !== this.#defineUserPassword) {
-            console.log("Credenciais inválidas");
+    #fakeLoginValidatorForAdmin() {
+        if (this.#userAccessObject.val() !== this.#defineUserAccess || this.#userPasswordObject.val() !== this.#defineUserPassword) {
             return false;
         }
-
-        $(this.#formId).find("#user-access").val("");
-        $(this.#formId).find("#user-password").val("");
         $("#error-message").hide();
         return true;
     }
 
     #fakeLoginValidatorForNormalEmployee() {
-        const inputUserAccess = $(this.#formId).find("#user-access").val();
-        const inputUserPassword = $(this.#formId).find("#user-password").val();
-
         // Validate credentials and generate JWT token later
-        if (inputUserAccess !== this.#defineUserAccess || inputUserPassword !== this.#defineUserPassword) {
+        if (this.#userAccessObject.val() !== this.#defineUserAccess || this.#userPasswordObject.val() !== this.#defineUserPassword) {
             return false;
         }
-
-        $(this.#formId).find("#user-access").val("");
-        $(this.#formId).find("#user-password").val("");
         return true;
-    }
-
-    getIsLogged() {
-        return this.#isLogged
     }
 
 }

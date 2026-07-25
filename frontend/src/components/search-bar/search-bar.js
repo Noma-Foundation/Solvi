@@ -18,7 +18,7 @@ export class SearchBar extends IComponentModel {
             <div class="search-bar container p-0">
                 <input type="text" name="searchBar" id="search-bar-input" aria-label="Search"
                     placeholder="Search a ticket, folder or budget" tabindex="0">
-                <img src="${searchIcon}" alt="Search Button" role="button" tabindex="0">
+                <img src="${searchIcon}" alt="Search Button" role="button" tabindex="0" loading="lazy">
             </div>
         `;
         $(this.#headerId).append(searchBarTemplate);
