@@ -19,6 +19,10 @@ var assets embed.FS
 //go:embed all:binaries/pqsql
 var pgBinaries embed.FS
 
+type MyStructTest struct {
+	Name string
+}
+
 func main() {
 	/*
 	 * This is the main entry point for the OrderHub application.
