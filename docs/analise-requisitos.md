@@ -7,7 +7,7 @@ A solução é composta por dois sistemas complementares:
 1. **OrderRequester**: site/portal usado pelo comprador/cliente para solicitar um pedido, informar necessidades do serviço, visualizar uma estimativa de orçamento e exportar ou salvar o orçamento gerado.
 2. **OrderHub**: sistema de gestão usado por membros internos, suporte e organização para controlar solicitações recebidas, analisar serviços, gerenciar orçamentos, despachar ordens de serviço, acompanhar execução e atualizar status.
 
-Em termos conceituais, o **OrderRequester** é a camada de solicitação e entrada de demanda, enquanto o **OrderHub** é a camada de gestão operacional. O comprador interage com o OrderRequester, e os membros internos interagem com o OrderHub. Os dois sistemas compartilham informações por uma interface de comunicação e uma base de dados/API, formando um fluxo distribuído entre solicitação, análise, cálculo, gestão e execução.
+Em termos conceituais, o **OrderRequester** é a camada de solicitação e entrada de demanda, enquanto o **OrderHub** é a camada de gestão operacional. O comprador interage com o OrderRequester, e os membros internos interagem com o OrderHub. Os dois sistemas compartilham informações por uma interface de comunicação e uma base de dados/API, formando um fluxo distribuído entre solicitação, análise, cálculo, gestão e execução. Ambos os sistemas possuem bancos de dados separados.
 
 ### 1.1 Perfis de usuários
 
