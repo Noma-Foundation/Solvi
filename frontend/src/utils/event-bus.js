@@ -23,6 +23,8 @@ export class EventBus {
      * @param {Function} callback 
      */
     subscribe(eventName, callback) {
+        this.#eventList.addEvent(eventName, callback);
+        this.#history.pushEvent(eventName);
     }
 
     unsubscribe(eventName, callback) {
@@ -42,7 +44,7 @@ export class EventBus {
         this.#history.clearHistory();
     }
 
-    #dispatch(eventName, data) {
+    dispatch(eventName, data) {
         // If the event exists, iterate over the callbacks and execute them
     }
 

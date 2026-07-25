@@ -1,6 +1,10 @@
 import $ from "jquery";
 import { IComponentModel } from "../component-model.js";
 
+import { MenuBar } from "../menu-bar/menu-bar.js";
+import { SearchBar } from "../search-bar/search-bar.js";
+import { eventBus } from "../../event-manager-singleton.js";
+
 import "./login-page.css";
 
 export class LoginPage extends IComponentModel {
@@ -8,6 +12,7 @@ export class LoginPage extends IComponentModel {
     #errorMessage;
     #formId;
     #registerButtonId;
+    #errorMessageId;
 
     #defineUserAccess;
     #defineUserPassword;
@@ -20,6 +25,7 @@ export class LoginPage extends IComponentModel {
         this.#errorMessage = "Credenciais inválidas";
         this.#formId = "#app-login-form";
         this.#registerButtonId = "#register-btn";
+        this.#errorMessageId = "#error-message";
         this.#isLogged = false;
         this.#defineUserAccess = "admin";
         this.#defineUserPassword = "admin";
@@ -49,18 +55,36 @@ export class LoginPage extends IComponentModel {
     bindEvents() {
         $(this.#formId).on("submit", (e) => {
             e.preventDefault();
-            const result = this.#loginValidatorFake();
+            const isAdmin = this.#fakeLoginValidatorForAdmin();
 
-            if (result) {
-                console.log("Login realizado com sucesso");
+            if (isAdmin) {
+                console.log("Login administrativo realizado com sucesso");
                 this.#isLogged = true;
+
+                eventBus.subscribe("admin-login", () => {
+                    const menuBar = new MenuBar();
+                    const searchBar = new SearchBar();
+                    $(this.#formId).hide();
+                });
+
+                return "admin"
             } else {
-                console.log("Erro no login");
+                const isEmployee = this.#fakeLoginValidatorForNormalEmployee();
+
+                if (isEmployee) {
+                    console.log("Login normal realizado com sucesso");
+                    this.#isLogged = true;
+                    return "normal"
+                } else {
+                    console.log("Credenciais inválidas");
+                    $("#error-message").show();
+                    return null;
+                }
             }
         });
     }
 
-    #loginValidatorFake() {
+    #fakeLoginValidatorForAdmin() {
         const inputUserAccess = $(this.#formId).find("#user-access").val();
         const inputUserPassword = $(this.#formId).find("#user-password").val();
 
@@ -71,6 +95,26 @@ export class LoginPage extends IComponentModel {
 
         $(this.#formId).find("#user-access").val("");
         $(this.#formId).find("#user-password").val("");
+        $("#error-message").hide();
         return true;
     }
+
+    #fakeLoginValidatorForNormalEmployee() {
+        const inputUserAccess = $(this.#formId).find("#user-access").val();
+        const inputUserPassword = $(this.#formId).find("#user-password").val();
+
+        // Validate credentials and generate JWT token later
+        if (inputUserAccess !== this.#defineUserAccess || inputUserPassword !== this.#defineUserPassword) {
+            return false;
+        }
+
+        $(this.#formId).find("#user-access").val("");
+        $(this.#formId).find("#user-password").val("");
+        return true;
+    }
+
+    getIsLogged() {
+        return this.#isLogged
+    }
+
 }

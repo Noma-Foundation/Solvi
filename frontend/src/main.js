@@ -20,13 +20,9 @@ import { OpenTerminal } from "../wailsjs/go/internal/OrderHub.js";
 $(function () {
     // Initialize main app components
     const context = "#app-main-context";
-    const menuBar = new MenuBar();
-    const searchBar = new SearchBar();
-
-    const loginPage = new LoginPage(context);
 
     eventBus.subscribe("login", () => {
-        LogDebug("Login event received");
+        const loginPage = new LoginPage(context);
     });
 
     $("#app-version").text(`${pkg.version}`);
