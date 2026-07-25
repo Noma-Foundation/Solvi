@@ -49,18 +49,28 @@ export class LoginPage extends IComponentModel {
     bindEvents() {
         $(this.#formId).on("submit", (e) => {
             e.preventDefault();
-            const result = this.#loginValidatorFake();
+            const isAdmin = this.#fakeLoginValidatorForAdmin();
 
-            if (result) {
-                console.log("Login realizado com sucesso");
+            if (isAdmin) {
+                console.log("Login administrativo realizado com sucesso");
                 this.#isLogged = true;
+                return "admin"
             } else {
-                console.log("Erro no login");
+                const isEmployee = this.#fakeLoginValidatorForNormalEmployee();
+
+                if (isEmployee) {
+                    console.log("Login normal realizado com sucesso");
+                    this.#isLogged = true;
+                    return "normal"
+                } else {
+                    console.log("Credenciais inválidas");
+                    return null;
+                }
             }
         });
     }
 
-    #loginValidatorFake() {
+    #fakeLoginValidatorForAdmin() {
         const inputUserAccess = $(this.#formId).find("#user-access").val();
         const inputUserPassword = $(this.#formId).find("#user-password").val();
 
@@ -68,6 +78,17 @@ export class LoginPage extends IComponentModel {
             console.log("Credenciais inválidas");
             return false;
         }
+
+        $(this.#formId).find("#user-access").val("");
+        $(this.#formId).find("#user-password").val("");
+        return true;
+    }
+
+    #fakeLoginValidatorForNormalEmployee() {
+        const inputUserAccess = $(this.#formId).find("#user-access").val();
+        const inputUserPassword = $(this.#formId).find("#user-password").val();
+
+        // Validate credentials and generate JWT token
 
         $(this.#formId).find("#user-access").val("");
         $(this.#formId).find("#user-password").val("");
