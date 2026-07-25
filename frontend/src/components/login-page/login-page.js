@@ -1,6 +1,10 @@
 import $ from "jquery";
 import { IComponentModel } from "../component-model.js";
 
+import { MenuBar } from "../menu-bar/menu-bar.js";
+import { SearchBar } from "../search-bar/search-bar.js";
+import { eventBus } from "../../event-manager-singleton.js";
+
 import "./login-page.css";
 
 export class LoginPage extends IComponentModel {
@@ -56,6 +60,13 @@ export class LoginPage extends IComponentModel {
             if (isAdmin) {
                 console.log("Login administrativo realizado com sucesso");
                 this.#isLogged = true;
+
+                eventBus.subscribe("admin-login", () => {
+                    const menuBar = new MenuBar();
+                    const searchBar = new SearchBar();
+                    $(this.#formId).hide();
+                });
+
                 return "admin"
             } else {
                 const isEmployee = this.#fakeLoginValidatorForNormalEmployee();
@@ -101,4 +112,9 @@ export class LoginPage extends IComponentModel {
         $(this.#formId).find("#user-password").val("");
         return true;
     }
+
+    getIsLogged() {
+        return this.#isLogged
+    }
+
 }
