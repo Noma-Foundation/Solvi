@@ -10,12 +10,12 @@ import "./login-page.css";
 export class LoginPage extends IComponentModel {
     #context;
     #errorMessage;
+    #defineUserAccess;
+    #defineUserPassword;
+
     #formId;
     #registerButtonId;
     #errorMessageId;
-
-    #defineUserAccess;
-    #defineUserPassword;
 
     #isLogged;
 
@@ -23,18 +23,19 @@ export class LoginPage extends IComponentModel {
         super();
         this.#context = context;
         this.#errorMessage = "Credenciais inválidas";
+        this.#defineUserAccess = "admin";
+        this.#defineUserPassword = "admin";
+        this.#isLogged = false;
+
         this.#formId = "#app-login-form";
         this.#registerButtonId = "#register-btn";
         this.#errorMessageId = "#error-message";
-        this.#isLogged = false;
-        this.#defineUserAccess = "admin";
-        this.#defineUserPassword = "admin";
         this.init();
     }
 
     buildTemplate() {
         this.template = `
-        <form id="app-login-form">
+        <form id="${this.#formId.replace("#", "")}">
             <div class="container-fluid m-0 p-3 bg-light">
                 <div class="form-group d-flex flex-column gap-2">
                     <input type="text" name="userAccess" id="user-access" placeholder="Username or email..." required>
@@ -42,9 +43,9 @@ export class LoginPage extends IComponentModel {
                 </div>
                 <div class="form-group d-flex flex-row gap-2 mt-2">
                     <button id="login-btn" class="btn btn-primary w-50" type="submit">Login</button>
-                    <button id="register-btn" class="btn btn-secondary w-50" type="button">Register</button>
+                    <button id="${this.#registerButtonId.replace("#", "")}" class="btn btn-secondary w-50" type="button">Register</button>
                 </div>
-                <p id="error-message" class="text-danger mt-2" style="display: none; margin: 0 auto;">${this.#errorMessage}</p>
+                <p id="${this.#errorMessageId.replace("#", "")}" class="text-danger mt-2" style="display: none; margin: 0 auto;">${this.#errorMessage}</p>
             </div>
         </form>
         `;
