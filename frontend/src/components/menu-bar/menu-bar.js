@@ -40,6 +40,7 @@ export class MenuBar extends IComponentModel {
                     <li class="selected" id="home-page" role="button" tabindex="0">
                         <img src="${homeIcon}" alt="Home">
                     </li>
+                    <!--
                     <li class="unselected" id="folder-page" role="button" tabindex="0">
                         <img src="${folderIcon}" alt="Folder">
                     </li>
@@ -52,6 +53,7 @@ export class MenuBar extends IComponentModel {
                     <li class="unselected" id="calendar-page" role="button" tabindex="0">
                         <img src="${calendarIcon}" alt="Calendar">
                     </li>
+                    -->
                     <li class="unselected" id="notifications-page" role="button" tabindex="0">
                         <img src="${notificationsIcon}" alt="Notifications">
                     </li>
