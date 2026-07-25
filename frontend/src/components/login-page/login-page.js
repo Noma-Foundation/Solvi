@@ -64,6 +64,7 @@ export class LoginPage extends IComponentModel {
                     return "normal"
                 } else {
                     console.log("Credenciais inválidas");
+                    $("#error-message").show();
                     return null;
                 }
             }
@@ -81,6 +82,7 @@ export class LoginPage extends IComponentModel {
 
         $(this.#formId).find("#user-access").val("");
         $(this.#formId).find("#user-password").val("");
+        $("#error-message").hide();
         return true;
     }
 
@@ -88,7 +90,10 @@ export class LoginPage extends IComponentModel {
         const inputUserAccess = $(this.#formId).find("#user-access").val();
         const inputUserPassword = $(this.#formId).find("#user-password").val();
 
-        // Validate credentials and generate JWT token
+        // Validate credentials and generate JWT token later
+        if (inputUserAccess !== this.#defineUserAccess || inputUserPassword !== this.#defineUserPassword) {
+            return false;
+        }
 
         $(this.#formId).find("#user-access").val("");
         $(this.#formId).find("#user-password").val("");
