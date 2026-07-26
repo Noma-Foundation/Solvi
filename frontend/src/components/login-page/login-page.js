@@ -5,6 +5,8 @@ import { MenuBar } from "../menu-bar/menu-bar.js";
 import { SearchBar } from "../search-bar/search-bar.js";
 import { eventBus } from "../../event-manager-singleton.js";
 
+import { AuthLogin } from "../../../wailsjs/go/internal/OrderHub.js";
+
 import "./login-page.css";
 
 export class LoginPage extends IComponentModel {
@@ -101,9 +103,12 @@ export class LoginPage extends IComponentModel {
     }
 
     #fakeLoginValidatorForNormalEmployee() {
+        const employee = AuthLogin();
+
+        console.log(employee);
         // Validate credentials and generate JWT token later
-        if (this.#userAccessObject.val() !== this.#defineUserAccess || this.#userPasswordObject.val() !== this.#defineUserPassword) {
-            return false;
+        const validateFunction = async (employee) => {
+            console.log(employee);
         }
         return true;
     }

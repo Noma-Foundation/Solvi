@@ -3,6 +3,7 @@ package internal
 import (
 	"context"
 	"database/sql"
+	"orderhub/internal/auth"
 	"orderhub/internal/utils"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -37,5 +38,8 @@ func (o *OrderHub) OpenTerminal() error {
 }
 
 func (o *OrderHub) AuthLogin() string {
+	oath := auth.NewOAuth()
+	message := "New Oath object created: " + oath.AccessToken
+	runtime.LogInfo(o.ctx, message)
 	return "peixe2b"
 }

@@ -30,3 +30,14 @@ func CreateDatabase(databaseName string) (string, error) {
 	}
 	return dbName, nil
 }
+
+func ValidadeEmployeeExists(username string) bool {
+	exists := false
+	query := "SELECT EXISTS(SELECT 1 FROM employees WHERE username = $1)"
+	err := DB.QueryRow(query, username).Scan(&exists)
+
+	if err != nil {
+		return false
+	}
+	return exists
+}
