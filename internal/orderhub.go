@@ -35,3 +35,7 @@ func (o *OrderHub) OpenTerminal() error {
 	}
 	return opener.OpenTerminal()
 }
+
+func (o *OrderHub) AuthLogin() string {
+	return "peixe2b"
+}
