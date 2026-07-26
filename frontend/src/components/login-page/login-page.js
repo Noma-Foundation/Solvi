@@ -61,7 +61,7 @@ export class LoginPage extends IComponentModel {
         $(this.#formId).on("submit", async (e) => {
             e.preventDefault();
 
-            const isAdmin = this.#fakeLoginValidatorForAdmin();
+            const isAdmin = this.#loginForSupportAdmins();
 
             if (isAdmin) {
                 this.#isLogged = true;
@@ -75,7 +75,7 @@ export class LoginPage extends IComponentModel {
                 return;
             }
 
-            const isEmployee = await this.#fakeLoginValidatorForNormalEmployee();
+            const isEmployee = await this.#loginValidatorForUser();
 
             if (isEmployee) {
                 console.log("Login de funcionário realizado com sucesso");
@@ -95,7 +95,7 @@ export class LoginPage extends IComponentModel {
         return this.#isLogged;
     }
 
-    #fakeLoginValidatorForAdmin() {
+    #loginForSupportAdmins() {
         const user = this.#userAccessObject.val();
         const pass = this.#userPasswordObject.val();
 
@@ -105,7 +105,7 @@ export class LoginPage extends IComponentModel {
         return false;
     }
 
-    async #fakeLoginValidatorForNormalEmployee() {
+    async #loginValidatorForUser() {
         const user = this.#userAccessObject.val();
         const password = this.#userPasswordObject.val();
 
