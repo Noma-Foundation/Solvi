@@ -4,8 +4,11 @@ import { MenuBar } from "../menu-bar/menu-bar.js";
 import { SearchBar } from "../search-bar/search-bar.js";
 
 import { eventBus } from "../../event-manager-singleton.js";
-import { AuthLogin } from "../../../wailsjs/go/internal/OrderHub.js";
+
 import "./login-page.css";
+
+import { AuthLogin } from "../../../wailsjs/go/internal/OrderHub.js";
+import { LogError, LogInfo } from "../../../wailsjs/runtime/runtime.js";
 
 export class LoginPage extends IComponentModel {
     #context;
@@ -68,9 +71,8 @@ export class LoginPage extends IComponentModel {
                 this.#hideError();
                 $(this.#formId).hide();
 
-                eventBus.subscribe("append-components", () => {
-                    const menuBar = new MenuBar();
-                    const searchBar = new SearchBar();
+                eventBus.subscribe("append-components-support", () => {
+                    LogInfo("Enter in Support mode");
                 });
                 return;
             }
@@ -78,7 +80,6 @@ export class LoginPage extends IComponentModel {
             const isEmployee = await this.#loginValidatorForUser();
 
             if (isEmployee) {
-                console.log("Login de funcionário realizado com sucesso");
                 this.#isLogged = true;
                 this.#hideError();
                 $(this.#formId).hide();
@@ -86,7 +87,6 @@ export class LoginPage extends IComponentModel {
                 return;
             }
 
-            console.log("Credenciais inválidas");
             this.#showError();
         });
     }
@@ -111,16 +111,14 @@ export class LoginPage extends IComponentModel {
 
         try {
             const isValid = await AuthLogin(user, password);
-            console.log("Resposta do backend AuthLogin:", isValid);
 
             if (isValid === true) {
                 return true;
             } else {
-                console.log("Funcionário não encontrado ou senha inválida no backend.");
                 return false;
             }
         } catch (error) {
-            console.error("Erro ao comunicar com o backend Wails: ", error);
+            LogError("Error validating employee (Backend Error): " + error);
             return false;
         }
     }
