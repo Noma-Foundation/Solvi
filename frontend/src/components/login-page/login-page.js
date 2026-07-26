@@ -27,8 +27,8 @@ export class LoginPage extends IComponentModel {
         super();
         this.#context = context;
         this.#errorMessage = "Credenciais inválidas";
-        this.#defineUserAccess = "admin";
-        this.#defineUserPassword = "admin";
+        this.#defineUserAccess = "support";
+        this.#defineUserPassword = "support";
         this.#isLogged = false;
 
         this.#formId = "#app-login-form";
@@ -103,12 +103,14 @@ export class LoginPage extends IComponentModel {
     }
 
     #fakeLoginValidatorForNormalEmployee() {
-        const employee = AuthLogin();
+        const employee = AuthLogin($(this.#userAccessObject).val());
 
         console.log(employee);
         // Validate credentials and generate JWT token later
         const validateFunction = async (employee) => {
-            console.log(employee);
+            if (employee == false) {
+                return false;
+            }
         }
         return true;
     }

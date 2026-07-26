@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"orderhub/internal/auth"
+	"orderhub/internal/database"
 	"orderhub/internal/utils"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -37,9 +38,14 @@ func (o *OrderHub) OpenTerminal() error {
 	return opener.OpenTerminal()
 }
 
-func (o *OrderHub) AuthLogin() string {
+func (o *OrderHub) AuthLogin(username string) bool {
 	oath := auth.NewOAuth()
 	message := "New Oath object created: " + oath.AccessToken
 	runtime.LogInfo(o.ctx, message)
-	return "peixe2b"
+	runtime.LogDebug(o.ctx, username)
+
+	if database.ValidadeEmployeeExists(username) {
+		return true
+	}
+	return false
 }
