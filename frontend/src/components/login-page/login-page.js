@@ -1,21 +1,23 @@
 import $ from "jquery";
 import { IComponentModel } from "../component-model.js";
-
 import { MenuBar } from "../menu-bar/menu-bar.js";
 import { SearchBar } from "../search-bar/search-bar.js";
-import { eventBus } from "../../event-manager-singleton.js";
 
+import { eventBus } from "../../event-manager-singleton.js";
+import { AuthLogin } from "../../../wailsjs/go/internal/OrderHub.js";
 import "./login-page.css";
 
 export class LoginPage extends IComponentModel {
     #context;
     #errorMessage;
+    #defineUserAccess;
+    #defineUserPassword;
+
     #formId;
     #registerButtonId;
     #errorMessageId;
-
-    #defineUserAccess;
-    #defineUserPassword;
+    #userAccessObject;
+    #userPasswordObject;
 
     #isLogged;
 
@@ -23,18 +25,19 @@ export class LoginPage extends IComponentModel {
         super();
         this.#context = context;
         this.#errorMessage = "Credenciais inválidas";
+        this.#defineUserAccess = "support";
+        this.#defineUserPassword = "support";
+        this.#isLogged = false;
+
         this.#formId = "#app-login-form";
         this.#registerButtonId = "#register-btn";
         this.#errorMessageId = "#error-message";
-        this.#isLogged = false;
-        this.#defineUserAccess = "admin";
-        this.#defineUserPassword = "admin";
         this.init();
     }
 
     buildTemplate() {
         this.template = `
-        <form id="app-login-form">
+        <form id="${this.#formId.replace("#", "")}">
             <div class="container-fluid m-0 p-3 bg-light">
                 <div class="form-group d-flex flex-column gap-2">
                     <input type="text" name="userAccess" id="user-access" placeholder="Username or email..." required>
@@ -42,79 +45,91 @@ export class LoginPage extends IComponentModel {
                 </div>
                 <div class="form-group d-flex flex-row gap-2 mt-2">
                     <button id="login-btn" class="btn btn-primary w-50" type="submit">Login</button>
-                    <button id="register-btn" class="btn btn-secondary w-50" type="button">Register</button>
+                    <button id="${this.#registerButtonId.replace("#", "")}" class="btn btn-secondary w-50" type="button">Register</button>
                 </div>
-                <p id="error-message" class="text-danger mt-2" style="display: none; margin: 0 auto;">${this.#errorMessage}</p>
+                <p id="${this.#errorMessageId.replace("#", "")}" class="text-danger mt-2" style="display: none; margin: 0 auto;">${this.#errorMessage}</p>
             </div>
         </form>
         `;
 
         $(this.#context).html(this.template);
+        this.#userAccessObject = $(this.#formId).find("#user-access");
+        this.#userPasswordObject = $(this.#formId).find("#user-password");
     }
 
     bindEvents() {
-        $(this.#formId).on("submit", (e) => {
+        $(this.#formId).on("submit", async (e) => {
             e.preventDefault();
+
             const isAdmin = this.#fakeLoginValidatorForAdmin();
 
             if (isAdmin) {
-                console.log("Login administrativo realizado com sucesso");
                 this.#isLogged = true;
+                this.#hideError();
+                $(this.#formId).hide();
 
-                eventBus.subscribe("admin-login", () => {
+                eventBus.subscribe("append-components", () => {
                     const menuBar = new MenuBar();
                     const searchBar = new SearchBar();
-                    $(this.#formId).hide();
                 });
-
-                return "admin"
-            } else {
-                const isEmployee = this.#fakeLoginValidatorForNormalEmployee();
-
-                if (isEmployee) {
-                    console.log("Login normal realizado com sucesso");
-                    this.#isLogged = true;
-                    return "normal"
-                } else {
-                    console.log("Credenciais inválidas");
-                    $("#error-message").show();
-                    return null;
-                }
+                return;
             }
+
+            const isEmployee = await this.#fakeLoginValidatorForNormalEmployee();
+
+            if (isEmployee) {
+                console.log("Login de funcionário realizado com sucesso");
+                this.#isLogged = true;
+                this.#hideError();
+                $(this.#formId).hide();
+
+                return;
+            }
+
+            console.log("Credenciais inválidas");
+            this.#showError();
         });
     }
 
-    #fakeLoginValidatorForAdmin() {
-        const inputUserAccess = $(this.#formId).find("#user-access").val();
-        const inputUserPassword = $(this.#formId).find("#user-password").val();
-
-        if (inputUserAccess !== this.#defineUserAccess || inputUserPassword !== this.#defineUserPassword) {
-            console.log("Credenciais inválidas");
-            return false;
-        }
-
-        $(this.#formId).find("#user-access").val("");
-        $(this.#formId).find("#user-password").val("");
-        $("#error-message").hide();
-        return true;
-    }
-
-    #fakeLoginValidatorForNormalEmployee() {
-        const inputUserAccess = $(this.#formId).find("#user-access").val();
-        const inputUserPassword = $(this.#formId).find("#user-password").val();
-
-        // Validate credentials and generate JWT token later
-        if (inputUserAccess !== this.#defineUserAccess || inputUserPassword !== this.#defineUserPassword) {
-            return false;
-        }
-
-        $(this.#formId).find("#user-access").val("");
-        $(this.#formId).find("#user-password").val("");
-        return true;
-    }
-
     getIsLogged() {
-        return this.#isLogged
+        return this.#isLogged;
     }
 
+    #fakeLoginValidatorForAdmin() {
+        const user = this.#userAccessObject.val();
+        const pass = this.#userPasswordObject.val();
+
+        if (user === this.#defineUserAccess && pass === this.#defineUserPassword) {
+            return true;
+        }
+        return false;
+    }
+
+    async #fakeLoginValidatorForNormalEmployee() {
+        const user = this.#userAccessObject.val();
+        const password = this.#userPasswordObject.val();
+
+        try {
+            const isValid = await AuthLogin(user, password);
+            console.log("Resposta do backend AuthLogin:", isValid);
+
+            if (isValid === true) {
+                return true;
+            } else {
+                console.log("Funcionário não encontrado ou senha inválida no backend.");
+                return false;
+            }
+        } catch (error) {
+            console.error("Erro ao comunicar com o backend Wails: ", error);
+            return false;
+        }
+    }
+
+    #showError() {
+        $(this.#context).find(this.#errorMessageId).show();
+    }
+
+    #hideError() {
+        $(this.#context).find(this.#errorMessageId).hide();
+    }
 }

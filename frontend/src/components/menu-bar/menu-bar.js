@@ -38,24 +38,24 @@ export class MenuBar extends IComponentModel {
             <nav class="navigation-bar container-fluid px-0">
                 <ul>
                     <li class="selected" id="home-page" role="button" tabindex="0">
-                        <img src="${homeIcon}" alt="Home">
+                        <img src="${homeIcon}" alt="Home" loading="lazy">
                     </li>
                     <!--
                     <li class="unselected" id="folder-page" role="button" tabindex="0">
-                        <img src="${folderIcon}" alt="Folder">
+                        <img src="${folderIcon}" alt="Folder" loading="lazy">
                     </li>
                     <li class="unselected" id="customer-page" role="button" tabindex="0">
-                        <img src="${customerIcon}" alt="Customer">
+                        <img src="${customerIcon}" alt="Customer" loading="lazy">
                     </li>
                     <li class="unselected" id="inbox-page" role="button" tabindex="0">
-                        <img src="${inboxIcon}" alt="Inbox">
+                        <img src="${inboxIcon}" alt="Inbox" loading="lazy">
                     </li>
                     <li class="unselected" id="calendar-page" role="button" tabindex="0">
-                        <img src="${calendarIcon}" alt="Calendar">
+                        <img src="${calendarIcon}" alt="Calendar" loading="lazy">
                     </li>
                     -->
                     <li class="unselected" id="notifications-page" role="button" tabindex="0">
-                        <img src="${notificationsIcon}" alt="Notifications">
+                        <img src="${notificationsIcon}" alt="Notifications" loading="lazy">
                     </li>
                 </ul>
             </nav>

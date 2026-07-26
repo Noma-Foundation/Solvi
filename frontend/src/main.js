@@ -7,14 +7,10 @@ import "./app.css";
 
 import $ from "jquery";
 
-import { MenuBar } from "./components/menu-bar/menu-bar.js";
-import { SearchBar } from "./components/search-bar/search-bar.js";
 import { eventBus } from "./event-manager-singleton.js";
 import { LoginPage } from "./components/login-page/login-page.js";
-import { Home } from "./views/home-page.js";
 
 import { LogDebug } from "../wailsjs/runtime/runtime.js";
-import { OpenTerminal } from "../wailsjs/go/internal/OrderHub.js";
 
 
 $(function () {

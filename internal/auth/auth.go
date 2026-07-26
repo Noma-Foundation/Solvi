@@ -15,11 +15,11 @@ func NewOAuth() *OAuth {
 }
 
 // Verifies if the user has the specific permission in the scope
-func HasScope(scope string) (bool, error) {
+func (o *OAuth) HasScope(scope string) (bool, error) {
 	return true, nil
 }
 
 // Generates a new access token using the refresh token
-func RefreshToken(refreshToken string) error {
+func (o *OAuth) RefreshToken(refreshToken string) error {
 	return nil
 }
