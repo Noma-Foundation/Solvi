@@ -1,12 +1,10 @@
 import $ from "jquery";
 import { IComponentModel } from "../component-model.js";
-
 import { MenuBar } from "../menu-bar/menu-bar.js";
 import { SearchBar } from "../search-bar/search-bar.js";
+
 import { eventBus } from "../../event-manager-singleton.js";
-
 import { AuthLogin } from "../../../wailsjs/go/internal/OrderHub.js";
-
 import "./login-page.css";
 
 export class LoginPage extends IComponentModel {
@@ -60,33 +58,36 @@ export class LoginPage extends IComponentModel {
     }
 
     bindEvents() {
-        $(this.#formId).on("submit", (e) => {
+        $(this.#formId).on("submit", async (e) => {
             e.preventDefault();
+
             const isAdmin = this.#fakeLoginValidatorForAdmin();
 
             if (isAdmin) {
-                console.log("Login administrativo realizado com sucesso");
                 this.#isLogged = true;
+                this.#hideError();
+                $(this.#formId).hide();
 
-                eventBus.subscribe("admin-login", () => {
+                eventBus.subscribe("append-components", () => {
                     const menuBar = new MenuBar();
                     const searchBar = new SearchBar();
-                    $(this.#formId).hide();
                 });
-
-                return "admin"
+                return;
             }
-            const isEmployee = this.#fakeLoginValidatorForNormalEmployee();
+
+            const isEmployee = await this.#fakeLoginValidatorForNormalEmployee();
 
             if (isEmployee) {
-                console.log("Login normal realizado com sucesso");
+                console.log("Login de funcionário realizado com sucesso");
                 this.#isLogged = true;
-                return "normal"
-            } else {
-                console.log("Credenciais inválidas");
-                $("#error-message").show();
-                return null;
+                this.#hideError();
+                $(this.#formId).hide();
+
+                return;
             }
+
+            console.log("Credenciais inválidas");
+            this.#showError();
         });
     }
 
@@ -95,24 +96,40 @@ export class LoginPage extends IComponentModel {
     }
 
     #fakeLoginValidatorForAdmin() {
-        if (this.#userAccessObject.val() !== this.#defineUserAccess || this.#userPasswordObject.val() !== this.#defineUserPassword) {
-            return false;
+        const user = this.#userAccessObject.val();
+        const pass = this.#userPasswordObject.val();
+
+        if (user === this.#defineUserAccess && pass === this.#defineUserPassword) {
+            return true;
         }
-        $("#error-message").hide();
-        return true;
+        return false;
     }
 
-    #fakeLoginValidatorForNormalEmployee() {
-        const employee = AuthLogin($(this.#userAccessObject).val());
+    async #fakeLoginValidatorForNormalEmployee() {
+        const user = this.#userAccessObject.val();
+        const password = this.#userPasswordObject.val();
 
-        console.log(employee);
-        // Validate credentials and generate JWT token later
-        const validateFunction = async (employee) => {
-            if (employee == false) {
+        try {
+            const isValid = await AuthLogin(user, password);
+            console.log("Resposta do backend AuthLogin:", isValid);
+
+            if (isValid === true) {
+                return true;
+            } else {
+                console.log("Funcionário não encontrado ou senha inválida no backend.");
                 return false;
             }
+        } catch (error) {
+            console.error("Erro ao comunicar com o backend Wails: ", error);
+            return false;
         }
-        return true;
     }
 
+    #showError() {
+        $(this.#context).find(this.#errorMessageId).show();
+    }
+
+    #hideError() {
+        $(this.#context).find(this.#errorMessageId).hide();
+    }
 }
