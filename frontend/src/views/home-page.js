@@ -1,4 +1,3 @@
-import '../components/ticket/ticket.js';
 
 import pkg from '../../package.json';
 import { html } from '../utils/html.js';

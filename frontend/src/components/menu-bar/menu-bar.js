@@ -11,6 +11,8 @@ import inboxIcon from "../../assets/icons/aside/inbox.svg";
 import calendarIcon from "../../assets/icons/aside/calendar.svg";
 import notificationsIcon from "../../assets/icons/aside/notifications.svg";
 
+import { html } from "../../utils/html.js";
+
 export class MenuBar extends IComponentModel {
     #menuBarId;
     #currentPageId;
@@ -34,7 +36,7 @@ export class MenuBar extends IComponentModel {
     }
 
     buildTemplate() {
-        const menuBarTemplate = `
+        const menuBarTemplate = html`
             <nav class="navigation-bar container-fluid px-0">
                 <ul>
                     <li class="selected" id="home-page" role="button" tabindex="0">
