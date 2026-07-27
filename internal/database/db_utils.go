@@ -41,3 +41,21 @@ func ValidadeEmployeeExists(username string) bool {
 	}
 	return exists
 }
+
+func CreateEmployeeTable() {
+	exists := false
+	query := `
+	CREATE TABLE IF NOT EXISTS employees (
+		id SERIAL PRIMARY KEY,
+		name VARCHAR(255) NOT NULL,
+		username VARCHAR(255) NOT NULL,
+		password VARCHAR(255) NOT NULL,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	)`
+
+	DB.QueryRow(query).Scan(&exists)
+	if !exists {
+		DB.Exec(query)
+	}
+}
