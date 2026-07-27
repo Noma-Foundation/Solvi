@@ -3,11 +3,11 @@ package internal
 import (
 	"context"
 	"database/sql"
-	"orderhub/internal/auth"
 	"orderhub/internal/database"
 	"orderhub/internal/utils"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // OrderHub is the main struct for the application.
@@ -39,13 +39,20 @@ func (o *OrderHub) OpenTerminal() error {
 }
 
 func (o *OrderHub) AuthLogin(username string, password string) bool {
-	oath := auth.NewOAuth()
-	message := "New Oath object created: " + oath.AccessToken
-	runtime.LogInfo(o.ctx, message)
-	runtime.LogDebug(o.ctx, "User: "+username+" | Password: "+password)
-
-	if database.ValidadeEmployeeExists(username) {
-		return true
+	if !database.ValidadeEmployeeExists(username) {
+		return false
 	}
-	return false
+
+	hashPassword, err := database.GetPasswordHashByUsername(username)
+	if err != nil {
+		runtime.LogError(o.ctx, "Error trying to get password hash: "+err.Error())
+		return false
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(hashPassword), []byte(password))
+	if err != nil {
+		return false
+	}
+
+	return true
 }
