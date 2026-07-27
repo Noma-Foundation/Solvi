@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "private": true,
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Frontend and Interface for OrderHub Management System",
   "author": {
     "name": "Paulo Matheus",
@@ -17,8 +17,8 @@
   },
   "devDependencies": {
     "documentjs": "^0.5.5",
-    "jest": "^30.4.2",
-    "vite": "^3.0.7"
+    "jest": "^25.0.0",
+    "vite": "^8.1.5"
   },
   "type": "module",
   "dependencies": {

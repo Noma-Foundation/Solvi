@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans&display=swap');
+
 :root {
     --orderhub-brand-color: #2745FE;
     --accent-color: #360A73;
@@ -25,4 +27,12 @@ header {
     position: fixed;
     top: var(--margin-s-display);
     right: var(--margin-s-display);
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: normal;
+    user-select: none;
 }

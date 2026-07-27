@@ -2,6 +2,7 @@ import $ from "jquery";
 import { IComponentModel } from "../component-model.js";
 import { MenuBar } from "../menu-bar/menu-bar.js";
 import { SearchBar } from "../search-bar/search-bar.js";
+import { Home } from "../../views/home-page.js";
 
 import { eventBus } from "../../event-manager-singleton.js";
 
@@ -83,6 +84,14 @@ export class LoginPage extends IComponentModel {
                 this.#isLogged = true;
                 this.#hideError();
                 $(this.#formId).hide();
+
+                eventBus.subscribe("append-components-employee", () => {
+                    const menuBar = new MenuBar();
+                    const searchBar = new SearchBar();
+
+                    const context = $("#app-main-context");
+                    context.html(Home());
+                });
 
                 return;
             }
