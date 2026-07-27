@@ -90,7 +90,7 @@ export class LoginPage extends IComponentModel {
                     const searchBar = new SearchBar();
 
                     const context = $("#app-main-context");
-                    context.append(Home());
+                    context.html(Home());
                 });
 
                 return;
