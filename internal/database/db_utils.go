@@ -1,6 +1,7 @@
 package database
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -31,6 +32,7 @@ func CreateDatabase(databaseName string) (string, error) {
 	return dbName, nil
 }
 
+// ValidateEmployeeExists validates if an employee exists in the database
 func ValidadeEmployeeExists(username string) bool {
 	exists := false
 	query := "SELECT EXISTS(SELECT 1 FROM employees WHERE username = $1)"
@@ -42,8 +44,21 @@ func ValidadeEmployeeExists(username string) bool {
 	return exists
 }
 
-func CreateEmployeeTable() {
-	exists := false
+// GetPasswordHashByUsername retrieves the password hash for a given username
+func GetPasswordHashByUsername(username string) (string, error) {
+	var hash string
+
+	query := "SELECT password FROM employees WHERE username = $1"
+	err := DB.QueryRow(query, username).Scan(&hash)
+
+	if err != nil {
+		return "", err
+	}
+
+	return hash, nil
+}
+
+func CreateEmployeeTable() error {
 	query := `
 	CREATE TABLE IF NOT EXISTS employees (
 		id SERIAL PRIMARY KEY,
@@ -54,8 +69,9 @@ func CreateEmployeeTable() {
 		updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 	)`
 
-	DB.QueryRow(query).Scan(&exists)
-	if !exists {
-		DB.Exec(query)
+	_, err := DB.Exec(query)
+	if err != nil {
+		return errors.New("Error trying to create employee table: " + err.Error())
 	}
+	return nil
 }
