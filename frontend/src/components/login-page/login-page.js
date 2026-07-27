@@ -112,7 +112,7 @@ export class LoginPage extends IComponentModel {
         try {
             const isValid = await AuthLogin(user, password);
 
-            if (isValid === true) {
+            if (isValid) {
                 return true;
             } else {
                 return false;

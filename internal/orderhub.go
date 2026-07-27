@@ -3,7 +3,6 @@ package internal
 import (
 	"context"
 	"database/sql"
-	"orderhub/internal/auth"
 	"orderhub/internal/database"
 	"orderhub/internal/utils"
 
@@ -39,11 +38,6 @@ func (o *OrderHub) OpenTerminal() error {
 }
 
 func (o *OrderHub) AuthLogin(username string, password string) bool {
-	oath := auth.NewOAuth()
-	message := "New Oath object created: " + oath.AccessToken
-	runtime.LogInfo(o.ctx, message)
-	runtime.LogDebug(o.ctx, "User: "+username+" | Password: "+password)
-
 	if database.ValidadeEmployeeExists(username) {
 		return true
 	}
