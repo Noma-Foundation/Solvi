@@ -84,6 +84,11 @@ export class LoginPage extends IComponentModel {
                 this.#hideError();
                 $(this.#formId).hide();
 
+                eventBus.subscribe("append-components-employee", () => {
+                    const menuBar = new MenuBar();
+                    const searchBar = new SearchBar();
+                });
+
                 return;
             }
 
