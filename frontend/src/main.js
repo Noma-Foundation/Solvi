@@ -12,14 +12,19 @@ import { LoginPage } from "./components/login-page/login-page.js";
 
 import { LogDebug } from "../wailsjs/runtime/runtime.js";
 
+import { MenuBar } from "./components/menu-bar/menu-bar.js";
+import { SearchBar } from "./components/search-bar/search-bar.js";
 
 $(function () {
     // Initialize main app components
     const context = "#app-main-context";
 
-    eventBus.subscribe("login", () => {
-        const loginPage = new LoginPage(context);
-    });
+    const menuBar = new MenuBar();
+    const searchBar = new SearchBar();
+
+    //eventBus.subscribe("login", () => {
+    //    const loginPage = new LoginPage(context);
+    //});
 
     $("#app-version").text(`${pkg.version}`);
 });
