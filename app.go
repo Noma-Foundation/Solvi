@@ -31,6 +31,7 @@ func (a *App) startup(ctx context.Context) {
 	// Initialize application and database
 	a.ctx = ctx
 	a.hub.Init(ctx)
+	a.getSetting()
 
 	config = internal.NewConfig()
 	serverSetting = internal.NewServerSetting()
@@ -96,4 +97,17 @@ func (a *App) closeDatabase(db *sql.DB) error {
 	}
 	runtime.LogInfo(a.ctx, "OrderHub disconnected from database")
 	return nil
+}
+
+func (a *App) getSetting() {
+	runtime.LogInfo(a.ctx, "Get All software settings...")
+
+	dbService := database.NewDatabaseService()
+
+	if err := dbService.Save(database.DatabaseConfigFile{}); err != nil {
+		runtime.LogError(a.ctx, err.Error())
+		return
+	} else {
+		runtime.LogInfo(a.ctx, "Software settings loaded successfully")
+	}
 }
