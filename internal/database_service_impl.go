@@ -1,11 +1,4 @@
-package database
-
-import (
-	"errors"
-	"os"
-
-	"github.com/BurntSushi/toml"
-)
+package internal
 
 type appConfig struct {
 	Global         globalConfig      `toml:"global"`
@@ -52,38 +45,4 @@ type editorSettings struct {
 	FontForHeaders   string   `toml:"font-for-headers"`
 	AutoSave         bool     `toml:"auto-save"`
 	AllowedFileTypes []string `toml:"allowed_file_types"`
-}
-
-type DatabaseServiceImpl struct{}
-
-func NewDatabaseService() DatabaseService {
-	return &DatabaseServiceImpl{}
-}
-
-func (s *DatabaseServiceImpl) Save(configFile DatabaseConfigFile) error {
-	if configFile.DatabaseName == "" {
-		return errors.New("DatabaseName cannot be empty")
-	}
-	if configFile.FilePath == "" {
-		return errors.New("FilePath cannot be empty")
-	}
-
-	var cfg appConfig
-	if _, err := toml.DecodeFile(configFile.FilePath, &cfg); err != nil {
-		return errors.New("failed to read config file: " + err.Error())
-	}
-
-	cfg.Database.Name = configFile.DatabaseName
-
-	f, err := os.Create(configFile.FilePath)
-	if err != nil {
-		return errors.New("failed to open config file for writing: " + err.Error())
-	}
-	defer f.Close()
-
-	if err := toml.NewEncoder(f).Encode(cfg); err != nil {
-		return errors.New("failed to encode config file: " + err.Error())
-	}
-
-	return nil
 }
