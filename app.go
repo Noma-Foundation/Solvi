@@ -28,14 +28,18 @@ func NewApp(hub *internal.OrderHub) *App {
 // startup is called when the app starts. The context is saved
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
-	// Initialize application and database
+	// Initialize application and setting file
 	a.ctx = ctx
 	a.hub.Init(ctx)
-	a.setSettingsSystem()
+	if err := a.setSettingsSystem(); err != nil {
+		runtime.LogError(ctx, err.Error())
+		return
+	}
 
 	config = internal.NewConfig()
 	serverSetting = internal.NewServerSetting()
 
+	// Initialize database
 	if connInfo, err := a.initializeDatabase(ctx); err != nil {
 		runtime.LogError(ctx, err.Error())
 		return
@@ -44,6 +48,7 @@ func (a *App) startup(ctx context.Context) {
 		a.hub.DB = db
 	}
 
+	// Set OrderHub and ServerSetting to config
 	config.SetOrderHub(a.hub)
 	config.SetServerSetting(serverSetting)
 
