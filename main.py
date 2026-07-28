@@ -1,9 +1,12 @@
 import webview
 
+import backend as backend
+
 class Application:
 
     def __init__(self):
-        self.window = webview.create_window("Orderhub", "frontend/index.html")
+        self.api = backend.API()
+        self.window = webview.create_window("Orderhub", "frontend/index.html", js_api=self.api)
     
     def run(self): 
         webview.start(debug=True)
