@@ -31,7 +31,7 @@ func (a *App) startup(ctx context.Context) {
 	// Initialize application and database
 	a.ctx = ctx
 	a.hub.Init(ctx)
-	a.getSetting()
+	a.setSettingsSystem()
 
 	config = internal.NewConfig()
 	serverSetting = internal.NewServerSetting()
@@ -99,15 +99,6 @@ func (a *App) closeDatabase(db *sql.DB) error {
 	return nil
 }
 
-func (a *App) getSetting() {
-	runtime.LogInfo(a.ctx, "Get All software settings...")
-
-	dbService := database.NewDatabaseService()
-
-	if err := dbService.Save(database.DatabaseConfigFile{}); err != nil {
-		runtime.LogError(a.ctx, err.Error())
-		return
-	} else {
-		runtime.LogInfo(a.ctx, "Software settings loaded successfully")
-	}
+func (a *App) setSettingsSystem() error {
+	return nil
 }
