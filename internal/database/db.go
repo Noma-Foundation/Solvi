@@ -42,7 +42,7 @@ func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseC
 		return databaseReturnErr, errors.New("Invalid database name or port connection")
 	}
 
-	_, _ = databaseConnection.Exec(`
+	_, err = databaseConnection.Exec(`
 		CREATE TABLE IF NOT EXISTS budgets (
 			id SERIAL PRIMARY KEY,
 			client_name VARCHAR(255),
@@ -51,6 +51,10 @@ func NewDatabaseConnection(ctx context.Context, databaseName string) (*DatabaseC
 			description TEXT
 		);
 	`)
+
+	if err != nil {
+		return databaseReturnErr, err
+	}
 
 	DB = databaseConnection
 
