@@ -1,7 +1,10 @@
 package database
 
+type DatabaseConfigFile struct {
+	DatabaseName string
+	FilePath     string
+}
+
 type DatabaseService interface {
-	Connect(database string) error
-	Save(configFile DatabaseConnection) error
-	Disconnect() error
+	Save(configFile DatabaseConfigFile) error
 }
