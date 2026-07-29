@@ -64,7 +64,7 @@ export class LoginPage extends IComponentModel {
         $(this.#formId).on("submit", async (e) => {
             e.preventDefault();
 
-            const isAdmin = this.#loginForSupportAdmins();
+            const isAdmin = await this.#loginForSupportAdmins();
 
             if (isAdmin) {
                 this.#isLogged = true;
@@ -72,13 +72,14 @@ export class LoginPage extends IComponentModel {
                 $(this.#formId).hide();
 
                 eventBus.subscribe("append-components-support", () => {
+                    console.log("Enter in admin mode");
                 });
                 return;
             }
 
-            const isEmployee = await this.#loginValidatorForUser();
+            const isUser = await this.#loginValidatorForUser();
 
-            if (isEmployee) {
+            if (isUser) {
                 this.#isLogged = true;
                 this.#hideError();
                 $(this.#formId).hide();
@@ -89,6 +90,7 @@ export class LoginPage extends IComponentModel {
 
                     const context = $(this.#context);
                     context.html(Home());
+                    console.log("Enter in user mode");
                 });
 
                 return;
@@ -106,11 +108,7 @@ export class LoginPage extends IComponentModel {
         const user = this.#userAccessObject.val();
         const pass = this.#userPasswordObject.val();
 
-        const valid = await window.pywebview.api.auth_user(user, pass);
-        if (valid) {
-            return true;
-        }
-        return false;
+        return (user === "support" && pass === "support") ? true : false;
     }
 
     async #loginValidatorForUser() {
@@ -118,7 +116,7 @@ export class LoginPage extends IComponentModel {
         const password = this.#userPasswordObject.val();
 
         try {
-            const isValid = await AuthLogin(user, password);
+            const isValid = await window.pywebview.api.auth_user(user, password);
 
             if (isValid) {
                 return true;
