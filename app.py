@@ -1,6 +1,6 @@
 import webview
 
-import backend as backend
+import internal as backend
 
 class Application:
     window: any = None
