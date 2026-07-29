@@ -9,7 +9,7 @@ class API:
         self.database = backend.DatabaseConnection(
             port="5432",
             user="postgres",
-            host="http://localhost",
+            host="localhost",
             database="orderhub-test"
         )
 
