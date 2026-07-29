@@ -1,9 +1,11 @@
-import psycopg2
 import os
 
 import psycopg2
 
 from dataclasses import dataclass
+from dotenv import load_dotenv
+
+load_dotenv()
 
 @dataclass
 class DatabaseConnection:
@@ -16,11 +18,20 @@ class DatabaseConnection:
 
 
 def open_connection(connection: DatabaseConnection): 
-    conn = connection
-    connStr = "dbname=orderhub-test user=postgres password=admin host=localhost port=5432"
-
-    conn.connection = psycopg2.connect(connStr)
-    return conn
+    try:
+        conn = psycopg2.connect(
+            host=connection.host,
+            port=connection.port,
+            database=connection.database,
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD")
+        )
+        returnConn = connection
+        returnConn.connection = conn
+        return returnConn
+    except psycopg2.OperationalError as e:
+        print("Error connecting to database:", e)
+        return None
 
 
 def close_connection(conn: DatabaseConnection):
