@@ -22,7 +22,6 @@
   },
   "type": "module",
   "dependencies": {
-    "all": "^0.0.0",
     "bootstrap": "^5.3.8",
     "jquery": "^4.0.0"
   }
