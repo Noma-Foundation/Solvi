@@ -26,5 +26,6 @@ $(function () {
     //    const loginPage = new LoginPage(context);
     //});
 
+    console.log("Hello, World!");
     $("#app-version").text(`${pkg.version}`);
 });
