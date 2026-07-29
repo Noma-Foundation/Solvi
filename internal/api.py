@@ -16,9 +16,6 @@ class API:
         self.db = backend.open_connection(self.database)
 
     def auth_user(self, username: str, password: str):
-        if (username, password) == (self.MOCK_ADMIN_USERNAME, self.MOCK_ADMIN_PASSWORD):
-            return True
-        
         if self.db.connection:
             cursor = self.db.connection.cursor()
             cursor.execute("SELECT username FROM employees WHERE username = %s", (username,))
