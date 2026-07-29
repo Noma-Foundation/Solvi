@@ -102,11 +102,12 @@ export class LoginPage extends IComponentModel {
         return this.#isLogged;
     }
 
-    #loginForSupportAdmins() {
+    async #loginForSupportAdmins() {
         const user = this.#userAccessObject.val();
         const pass = this.#userPasswordObject.val();
 
-        if (user === this.#defineUserAccess && pass === this.#defineUserPassword) {
+        const valid = await window.pywebview.api.auth_user(user, pass);
+        if (valid) {
             return true;
         }
         return false;
