@@ -1,1 +1,1 @@
-from backend.utils.server import start_server
+from backend.utils.server import start_server, shutdown

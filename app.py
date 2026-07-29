@@ -24,3 +24,6 @@ class Application:
     
     def run(self): 
         webview.start(debug=self.dev_mode)
+
+    def on_shutdown(self):
+        backend.shutdown()

@@ -23,3 +23,7 @@ def start_server():
         print("VITE started! URL: http://localhost:5173")
         return True
     return False
+
+
+def shutdown():
+    print("Shutdown from VITE server...")
