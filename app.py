@@ -10,7 +10,7 @@ class Application:
         if dev_mode:
             self.url = "http://localhost:5173"
         else:
-            self.url = "frontend/index.html"
+            self.url = "frontend/dist/index.html"
         self.window: any = webview.create_window(
             title="Orderhub",
             url=self.url,

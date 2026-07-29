@@ -72,7 +72,6 @@ export class LoginPage extends IComponentModel {
                 $(this.#formId).hide();
 
                 eventBus.subscribe("append-components-support", () => {
-                    LogInfo("Enter in Support mode");
                 });
                 return;
             }
@@ -126,7 +125,6 @@ export class LoginPage extends IComponentModel {
                 return false;
             }
         } catch (error) {
-            LogError("Error validating employee (Backend Error): " + error);
             return false;
         }
     }

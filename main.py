@@ -20,10 +20,12 @@ def start_vite_if_dev():
         print("Waiting for VITE to compile and start...")
         time.sleep(3)
         print("VITE started! URL: http://localhost:5173")
+        return True
+    return False
 
 
 if __name__ == "__main__":  
-    start_vite_if_dev()
+    dev_mode = start_vite_if_dev()
     
-    app = Application(dev_mode=True)
+    app = Application(dev_mode=dev_mode)
     app.run()
