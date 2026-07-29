@@ -1,7 +1,5 @@
 import $ from "jquery";
 
-import { LogInfo } from "../../../wailsjs/runtime/runtime";
-
 import { IComponentModel } from "../component-model.js";
 
 import homeIcon from "../../assets/icons/aside/home.svg";
@@ -74,7 +72,6 @@ export class MenuBar extends IComponentModel {
             const state = this.setCurrentPageId(targetId);
             if (state) {
                 this.#switchButtonState(target);
-                this.#showCurrentAndPreviousPageIds();
             }
         });
     }
@@ -103,11 +100,6 @@ export class MenuBar extends IComponentModel {
      */
     getCurrentPageId() {
         return this.#currentPageId;
-    }
-
-    #showCurrentAndPreviousPageIds() {
-        const message = this.#currentPageId.replace("#", "");
-        LogInfo(`Change Main Context display | Actual current page is ${message}`);
     }
 
 }
