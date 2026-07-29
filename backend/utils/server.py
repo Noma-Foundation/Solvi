@@ -1,3 +1,4 @@
+import subprocess
 import sys
 import os
 import subprocess
@@ -25,5 +26,13 @@ def start_server():
     return False
 
 
-def shutdown():
+def shutdown(dev_mode):
+    if dev_mode:
+        id_process = subprocess.Popen(
+            "npm run dev",
+            cwd=os.path.join(os.getcwd(), "frontend"),
+            shell=True,
+            creationflags=subprocess.CREATE_NEW_CONSOLE
+        )
+        id_process.terminate()
     print("Shutdown from VITE server...")

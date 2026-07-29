@@ -26,4 +26,4 @@ class Application:
         webview.start(debug=self.dev_mode)
 
     def on_shutdown(self):
-        backend.shutdown()
+        backend.shutdown(self.dev_mode)
