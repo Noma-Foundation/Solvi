@@ -70,3 +70,9 @@ frontend/src/components/tests/assets/*
 
 # Remove setting files
 *.toml
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[codz]
+*$py.class
+*.pyc
