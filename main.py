@@ -2,6 +2,7 @@ import sys
 import os
 import subprocess
 import time
+
 from app import Application
 
 def start_vite_if_dev():
