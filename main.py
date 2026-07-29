@@ -1,14 +1,29 @@
-import webview
+import sys
+import os
+import subprocess
+import time
+from app import Application
 
-class Application:
+def start_vite_if_dev():
+    if '--dev' in sys.argv:
+        print("Initializing VITE...")
+        
+        frontend_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'frontend')
+        
+        subprocess.Popen(
+            "npm run dev", 
+            cwd=frontend_dir, 
+            shell=True,
+            creationflags=subprocess.CREATE_NEW_CONSOLE 
+        )
+        
+        print("Waiting for VITE to compile and start...")
+        time.sleep(3)
+        print("VITE started! URL: http://localhost:5173")
 
-    def __init__(self):
-        self.window = webview.create_window("Orderhub", "frontend/index.html")
+
+if __name__ == "__main__":  
+    start_vite_if_dev()
     
-    def run(self): 
-        webview.start(debug=True)
-
-
-if __name__ == "__main__":
-    app = Application()
+    app = Application(dev_mode=True)
     app.run()

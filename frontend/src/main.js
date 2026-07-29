@@ -10,8 +10,6 @@ import $ from "jquery";
 import { eventBus } from "./event-manager-singleton.js";
 import { LoginPage } from "./components/login-page/login-page.js";
 
-import { LogDebug } from "../wailsjs/runtime/runtime.js";
-
 import { MenuBar } from "./components/menu-bar/menu-bar.js";
 import { SearchBar } from "./components/search-bar/search-bar.js";
 
@@ -26,5 +24,6 @@ $(function () {
     //    const loginPage = new LoginPage(context);
     //});
 
+    console.log("Hello, World!");
     $("#app-version").text(`${pkg.version}`);
 });

@@ -17,11 +17,12 @@
   },
   "devDependencies": {
     "documentjs": "^0.5.5",
-    "jest": "^25.0.0",
+    "jest": "^30.4.2",
     "vite": "^8.1.5"
   },
   "type": "module",
   "dependencies": {
+    "all": "^0.0.0",
     "bootstrap": "^5.3.8",
     "jquery": "^4.0.0"
   }
