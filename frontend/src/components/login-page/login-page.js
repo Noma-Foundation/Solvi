@@ -8,9 +8,6 @@ import { eventBus } from "../../event-manager-singleton.js";
 
 import "./login-page.css";
 
-import { AuthLogin } from "../../../wailsjs/go/internal/OrderHub.js";
-import { LogError, LogInfo } from "../../../wailsjs/runtime/runtime.js";
-
 import { html } from "../../utils/html.js";
 
 export class LoginPage extends IComponentModel {

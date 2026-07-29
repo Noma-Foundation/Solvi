@@ -16,7 +16,8 @@ class Application:
             url=self.url,
             js_api=self.api,
             width=1080,
-            height=780
+            height=780,
+            resizable=True
         )
     
     def run(self): 

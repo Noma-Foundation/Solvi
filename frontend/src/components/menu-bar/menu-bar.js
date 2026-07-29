@@ -1,7 +1,5 @@
 import $ from "jquery";
 
-import { LogInfo } from "../../../wailsjs/runtime/runtime";
-
 import { IComponentModel } from "../component-model.js";
 
 import homeIcon from "../../assets/icons/aside/home.svg";
