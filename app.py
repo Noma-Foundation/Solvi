@@ -8,6 +8,7 @@ class Application:
     def __init__(self, dev_mode: bool):
         self.api = backend.API()
         self.dev_mode = dev_mode
+        self.os = backend.OperatingSystem()
         if dev_mode:
             self.url = "http://localhost:5173"
         else:
