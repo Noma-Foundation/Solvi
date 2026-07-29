@@ -20,9 +20,9 @@ class DatabaseConnection:
 def open_connection(connection: DatabaseConnection): 
     try:
         conn = psycopg2.connect(
-            host=os.getenv("DB_HOST"),
-            port=os.getenv("DB_PORT"),
-            database=os.getenv("DB_NAME"),
+            host=connection.host,
+            port=connection.port,
+            database=connection.database,
             user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASSWORD")
         )
