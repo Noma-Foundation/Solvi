@@ -7,24 +7,29 @@ class Application:
 
     def __init__(self, dev_mode: bool):
         self.api = backend.API()
-        self.dev_mode = dev_mode
         self.os: backend.OperatingSystem = backend.OperatingSystem()
+        self.__dev_mode = dev_mode
+        self.__oauth = None
+
         if dev_mode:
-            self.url = "http://localhost:5173"
+            self.__url = "http://localhost:5173"
         else:
-            self.url = "frontend/dist/index.html"
+            self.__url = "frontend/dist/index.html"
 
         Application.window = webview.create_window(
             title="Orderhub",
-            url=self.url,
+            url=self.__url,
             js_api=self.api,
             width=1080,
             height=720,
             resizable=True
         )
-    
+
     def run(self): 
-        webview.start(debug=self.dev_mode)
+        webview.start(debug=self.__dev_mode)
 
     def on_shutdown(self):
-        backend.shutdown(self.dev_mode)
+        backend.shutdown(self.__dev_mode)
+
+    def set_oauth(self, oauth):
+        self.__oauth = oauth
