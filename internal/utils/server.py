@@ -26,7 +26,7 @@ def start_server():
     return False
 
 
-def shutdown(dev_mode):
+def shutdown_server(dev_mode):
     if dev_mode:
         id_process = subprocess.Popen(
             "npm run dev",
@@ -35,4 +35,6 @@ def shutdown(dev_mode):
             creationflags=subprocess.CREATE_NEW_CONSOLE
         )
         id_process.terminate()
-    print("Shutdown from VITE server...")
+        print("Shutdown from VITE server...")
+    else:
+        print("Server not running in development mode. Shutdown aborted.")

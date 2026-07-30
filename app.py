@@ -1,3 +1,4 @@
+from internal import API
 import webview
 
 import internal as backend
@@ -7,24 +8,37 @@ class Application:
 
     def __init__(self, dev_mode: bool):
         self.api = backend.API()
-        self.dev_mode = dev_mode
-        self.os = backend.OperatingSystem()
+        self.os: backend.OperatingSystem = backend.OperatingSystem()
+        self.__dev_mode = dev_mode
+        self.__oauth = None
+
         if dev_mode:
-            self.url = "http://localhost:5173"
+            self.__url = "http://localhost:5173"
         else:
-            self.url = "frontend/dist/index.html"
+            self.__url = "frontend/dist/index.html"
 
         Application.window = webview.create_window(
             title="Orderhub",
-            url=self.url,
+            url=self.__url,
             js_api=self.api,
             width=1080,
             height=720,
             resizable=True
         )
-    
-    def run(self): 
-        webview.start(debug=self.dev_mode)
 
-    def on_shutdown(self):
-        backend.shutdown(self.dev_mode)
+    def run(self): 
+        webview.start(debug=self.__dev_mode)
+
+    def shutdown(self):
+        backend.shutdown_server(self.__dev_mode)
+        backend.close_connection(self.api.db)
+
+    @staticmethod
+    def get_window():
+        if Application.window is None:
+            raise Exception("Application window not initialized or already closed.")
+        return Application.window
+    
+    @staticmethod
+    def set_window(window: any):
+        Application.window = window
