@@ -23,16 +23,18 @@ class API:
     Should be used as a promise in the Frontend of the project through the command window.pywebview.api.auth_user(name, password).
     """
     def auth_user(self, username: str, password: str):
-        if self.db.connection:
+        if self.db and getattr(self.db, "connection", None):
             cursor = self.db.connection.cursor()
-            cursor.execute("SELECT username FROM employees WHERE username = %s", (username,))
-            getUsername = cursor.fetchone()
+            cursor.execute(
+                "SELECT username, password FROM employees WHERE username = %s",
+                (username,)
+            )
+
+            row = cursor.fetchone()
+            if not row:
+                return False
+
+            db_username, db_password_hash = row
+            return bcrypt.checkpw(password.encode(), db_password_hash.encode())
             
-            cursor.execute("SELECT password FROM employees WHERE username = %s", (username,))
-            getPassword = cursor.fetchone()
-            
-            is_valid = bcrypt.checkpw(password.encode('utf-8'), getPassword[0].encode('utf-8'))
-            
-            if getUsername and is_valid:
-                return True
         return False
