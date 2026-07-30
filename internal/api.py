@@ -1,6 +1,6 @@
 import bcrypt
 
-import internal as backend
+from internal.database import open_connection, DatabaseConnection
 
 class API:
     """
@@ -10,21 +10,21 @@ class API:
     """
 
     def __init__(self):
-        self.__database = backend.DatabaseConnection(
+        self.__database = DatabaseConnection(
             port="5432",
             user="postgres",
             host="localhost",
             database="orderhub-test"
         )
-        self.db = backend.open_connection(self.__database)
+        self.db = open_connection(self.__database)
 
     """
     Represents the authorization of an user. Returns True if the user is authorized, False otherwise.
     Should be used as a promise in the Frontend of the project through the command window.pywebview.api.auth_user(name, password).
     """
     def auth_user(self, username: str, password: str):
-        if self.__db.connection:
-            cursor = self.__db.connection.cursor()
+        if self.db.connection:
+            cursor = self.db.connection.cursor()
             cursor.execute("SELECT username FROM employees WHERE username = %s", (username,))
             getUsername = cursor.fetchone()
             
