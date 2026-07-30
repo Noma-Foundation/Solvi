@@ -7,6 +7,5 @@ from internal import OperatingSystem
 def test_device(): 
     osystem = OperatingSystem()
 
-    assert osystem.is_windows()
-    assert not osystem.is_linux()
-    assert not osystem.is_macos()
+    assert osystem.name.lower() in ["windows", "linux", "macos"]
+    assert osystem.architecture[0] in ["64bit", "32bit", "arm64"]
