@@ -16,7 +16,7 @@ class API:
             host="localhost",
             database="orderhub-test"
         )
-        self.__db = backend.open_connection(self.__database)
+        self.db = backend.open_connection(self.__database)
 
     """
     Represents the authorization of an user. Returns True if the user is authorized, False otherwise.

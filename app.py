@@ -1,3 +1,4 @@
+from internal import API
 import webview
 
 import internal as backend
@@ -29,7 +30,8 @@ class Application:
         webview.start(debug=self.__dev_mode)
 
     def shutdown(self):
-        backend.shutdown(self.__dev_mode)
+        backend.shutdown_server(self.__dev_mode)
+        backend.close_connection(self.api.db)
 
     @staticmethod
     def get_window():
