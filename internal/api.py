@@ -20,7 +20,7 @@ class API:
 
     """
     Represents the authorization of an user. Returns True if the user is authorized, False otherwise.
-    Should be used as a Promise in the Frontend of the project through the command window.pywebview.api.auth_user(name, password).
+    Should be used as a promise in the Frontend of the project through the command window.pywebview.api.auth_user(name, password).
     """
     def auth_user(self, username: str, password: str):
         if self.__db.connection:
