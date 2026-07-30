@@ -2,9 +2,9 @@ import internal as backend
 import bcrypt
 
 class API:
-    SUPPORT_LOGIN = ("support", "support")
-    MOCK_ADMIN_USERNAME = "peixe"
-    MOCK_ADMIN_PASSWORD = "admin"
+    """
+    A class to handle all API requests to the database.
+    """
 
     def __init__(self):
         self.database = backend.DatabaseConnection(
