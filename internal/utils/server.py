@@ -35,4 +35,6 @@ def shutdown(dev_mode):
             creationflags=subprocess.CREATE_NEW_CONSOLE
         )
         id_process.terminate()
-    print("Shutdown from VITE server...")
+        print("Shutdown from VITE server...")
+    else:
+        print("Server not running in development mode. Shutdown aborted.")

@@ -28,8 +28,15 @@ class Application:
     def run(self): 
         webview.start(debug=self.__dev_mode)
 
-    def on_shutdown(self):
+    def shutdown(self):
         backend.shutdown(self.__dev_mode)
 
-    def set_oauth(self, oauth):
-        self.__oauth = oauth
+    @staticmethod
+    def get_window():
+        if Application.window is None:
+            raise Exception("Application window not initialized or already closed.")
+        return Application.window
+    
+    @staticmethod
+    def set_window(window: any):
+        Application.window = window

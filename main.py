@@ -8,4 +8,4 @@ if __name__ == "__main__":
     
     app = Application(dev_mode=dev_mode)
     app.run()
-    app.on_shutdown()
+    app.shutdown()
