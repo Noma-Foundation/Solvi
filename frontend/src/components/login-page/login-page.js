@@ -1,9 +1,5 @@
 import $ from "jquery";
 import { IComponentModel } from "../component-model.js";
-import { MenuBar } from "../menu-bar/menu-bar.js";
-import { SearchBar } from "../search-bar/search-bar.js";
-import { Home } from "../../views/home-page.js";
-
 import { eventBus } from "../../event-manager-singleton.js";
 
 import "./login-page.css";
@@ -71,9 +67,8 @@ export class LoginPage extends IComponentModel {
                 this.#hideError();
                 $(this.#formId).hide();
 
-                eventBus.subscribe("append-components-support", () => {
-                    console.log("Enter in admin mode");
-                });
+                // notify that authentication succeeded for support/admin
+                eventBus.publishAsync("auth:success", { role: "support" });
                 return;
             }
 
@@ -84,11 +79,18 @@ export class LoginPage extends IComponentModel {
                 this.#hideError();
                 $(this.#formId).hide();
 
+<<<<<<< HEAD
                 const event = eventBus.subscribe("oauth:success", () => {
                     console.log("Enter in user mode");
                     return "employee";
                 });
                 return event();
+=======
+                // notify that authentication succeeded for regular employee
+                eventBus.publishAsync("auth:success", { role: "employee" });
+
+                return;
+>>>>>>> 65c56e41f464bc038ee63a664ea3dd6f49c4ed2f
             }
 
             this.#showError();
