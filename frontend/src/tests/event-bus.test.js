@@ -48,35 +48,37 @@ class SimpleEvent {
 
 
 describe("Test event bus system (Integration test)", () => {
-    // VSPintheend
-    // everydayisdayinwin
-    test("Testing event subscription without EventBus", () => {
+    test("Testing event registration and history (EventList)", () => {
         const eventList = new EventList();
         const history = new History(3);
 
         const event1 = new EventTest("login", "User logged in!");
 
-        expect(eventList.addEvent(event1.getName(), event1)).toBe(null);
-        expect(eventList.addEvent("logout", () => { return "Hello, World!" })).toBe("Hello, World!");
+        // addEvent now registers listeners and returns true
+        expect(eventList.addEvent(event1.getName(), event1)).toBe(true);
+        expect(eventList.getEventByName(event1.getName())).not.toBeNull();
+
+        expect(eventList.addEvent("logout", () => { return "Hello, World!" })).toBe(true);
+        expect(eventList.getEventByName("logout")).not.toBeNull();
+
         history.pushEvent(event1.getName());
         history.pushEvent("logout");
 
         expect(history.getHistory()).toEqual(["login", "logout"]);
     });
 
-    test("Testing EventBus with arguments in the execute function", () => {
+    test("subscribe throws when object.execute declares parameters", () => {
         const eventBus = new EventBus(1);
         const myEvent = new EventWithError("login", "User logged in!");
 
-        expect(eventBus.subscribe(myEvent.getName(), myEvent)).toThrow(Error);
+        // subscribe should validate and throw because execute accepts args
+        expect(() => eventBus.subscribe(myEvent.getName(), myEvent)).toThrow(Error);
     });
 
     test("subscribe and dispatch with function callback", () => {
         const eb = new EventBus(5);
         const fn = (data) => `got:${data}`;
-        const register = eb.subscribe("evt1", fn);
-        // register the event
-        register();
+        eb.subscribe("evt1", fn); // registers immediately
 
         const results = eb.dispatch("evt1", "payload");
         expect(results).toEqual(["got:payload"]);
@@ -87,8 +89,7 @@ describe("Test event bus system (Integration test)", () => {
     test("subscribe and dispatch with object callback (execute no args)", () => {
         const eb = new EventBus(5);
         const obj = new SimpleEvent("evt2");
-        const register = eb.subscribe("evt2", obj);
-        register();
+        eb.subscribe("evt2", obj);
         const results = eb.dispatch("evt2");
         expect(results[0]).toBe("ok");
         expect(obj.called).toBe(true);
@@ -98,8 +99,7 @@ describe("Test event bus system (Integration test)", () => {
         const eb = new EventBus(5);
         let called = false;
         const fn = (d) => { called = d === "x"; };
-        const register = eb.subscribe("a", fn);
-        register();
+        eb.subscribe("a", fn);
         eb.publishAsync("a", "x");
         setTimeout(() => {
             try {
@@ -115,8 +115,8 @@ describe("Test event bus system (Integration test)", () => {
         const eb = new EventBus(5);
         const fn1 = () => 1;
         const fn2 = () => 2;
-        const r1 = eb.subscribe("multi", fn1); r1();
-        const r2 = eb.subscribe("multi", fn2); r2();
+        eb.subscribe("multi", fn1);
+        eb.subscribe("multi", fn2);
         expect(eb.getEvent("multi").length).toBeGreaterThanOrEqual(2);
         eb.unsubscribe("multi", fn1);
         const remaining = eb.getEvent("multi");
@@ -127,7 +127,7 @@ describe("Test event bus system (Integration test)", () => {
 
     test("clearEventBus empties everything", () => {
         const eb = new EventBus(3);
-        const r = eb.subscribe("x", () => {}); r();
+        eb.subscribe("x", () => {});
         eb.clearEventBus();
         expect(eb.getHistory()).toEqual([]);
         expect(eb.getEvent("x")).toBeNull();
