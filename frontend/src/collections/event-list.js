@@ -1,4 +1,3 @@
-
 export class EventList {
     #events;
 
@@ -21,7 +20,7 @@ export class EventList {
      * @param {String} eventName 
      * @param {Function | Event} callback 
      * 
-     * @returns {any} Return the return value of the callback function if it exists, otherwise return null.
+     * @returns {Boolean} Return true when the listener was registered.
      */
     addEvent(eventName, callback) {
         const checker = this.#checkIfCallbackIsFunctionOrClass(callback);
@@ -34,8 +33,8 @@ export class EventList {
         callbacks.push(callback);
         this.#events.set(eventName, callbacks);
 
-        let result = this.#executeCallback(callback);
-        return result === undefined ? null : result;
+        // Do not execute the callback at registration time. Execution occurs when the event is published (dispatch/publishAsync).
+        return true;
     }
 
     /**
