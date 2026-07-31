@@ -20,7 +20,9 @@ $(function () {
     const loginPage = new LoginPage(context);
 
     // When authentication succeeds, the login page will publish 'auth:success'
-    const onAuth = eventBus.subscribe("auth:success", (data) => {
+    console.log('[main] registering auth:success handler');
+    eventBus.subscribe("auth:success", (data) => {
+        console.log('[main] auth:success received:', data);
         if (data && data.role === "employee") {
             contextManager.show("home", data);
         } else if (data && data.role === "support") {
@@ -29,5 +31,4 @@ $(function () {
             contextManager.show("home", data);
         }
     });
-    onAuth();
 });
