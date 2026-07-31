@@ -1,5 +1,8 @@
+import sys
+
+sys.path.append(".")
+
 import bcrypt
-import pytest
 
 from internal.api import API
 
