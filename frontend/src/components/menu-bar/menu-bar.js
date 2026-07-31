@@ -2,6 +2,8 @@ import $ from "jquery";
 
 import { IComponentModel } from "../component-model.js";
 
+import { contextManager } from "../../utils/context-manager.js";
+
 import homeIcon from "../../assets/icons/aside/home.svg";
 import folderIcon from "../../assets/icons/aside/folder.svg";
 import customerIcon from "../../assets/icons/aside/customer.svg";
@@ -90,6 +92,12 @@ export class MenuBar extends IComponentModel {
         if (this.#menubarComponentList.includes(value)) {
             this.#previousPageId = this.#currentPageId;
             this.#currentPageId = value;
+
+            if (value === "#home-page") {
+                contextManager.show("home")
+            } else if (value === "#notifications-page") {
+                contextManager.show("notification")
+            }
             return true;
         }
         return false;
