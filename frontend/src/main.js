@@ -16,17 +16,14 @@ $(function () {
     const context = "#app-main-context";
     $("#app-version").text(`${pkg.version}`);
 
-    // Directly instantiate the login page on startup so its template and events are bound immediately
     console.log("Open login page");
     const loginPage = new LoginPage(context);
 
     // When authentication succeeds, the login page will publish 'auth:success'
     const onAuth = eventBus.subscribe("auth:success", (data) => {
-        // data.role can be 'employee' or 'support' etc.
         if (data && data.role === "employee") {
             contextManager.show("home", data);
         } else if (data && data.role === "support") {
-            // If support should see another view, change the argument accordingly.
             contextManager.show("home", data);
         } else {
             contextManager.show("home", data);
