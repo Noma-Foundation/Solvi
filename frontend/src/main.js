@@ -7,16 +7,27 @@ import "./app.css";
 
 import $ from "jquery";
 
+import { contextManager } from "./utils/context-manager.js";
 import { eventBus } from "./event-manager-singleton.js";
 import { LoginPage } from "./components/login-page/login-page.js";
 
 $(function () {
     // Initialize main app components
     const context = "#app-main-context";
-
-    eventBus.subscribe("login", () => {
-        const loginPage = new LoginPage(context);
-    });
-
     $("#app-version").text(`${pkg.version}`);
+
+    console.log("Open login page");
+    const loginPage = new LoginPage(context);
+
+    // When authentication succeeds, the login page will publish 'auth:success'
+    const onAuth = eventBus.subscribe("auth:success", (data) => {
+        if (data && data.role === "employee") {
+            contextManager.show("home", data);
+        } else if (data && data.role === "support") {
+            contextManager.show("home", data);
+        } else {
+            contextManager.show("home", data);
+        }
+    });
+    onAuth();
 });

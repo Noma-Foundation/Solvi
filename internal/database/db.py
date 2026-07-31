@@ -3,9 +3,7 @@ import os
 import psycopg2
 
 from dataclasses import dataclass
-from dotenv import load_dotenv
-
-load_dotenv()
+from internal.config import DBConfig
 
 @dataclass
 class DatabaseConnection:
@@ -19,16 +17,17 @@ class DatabaseConnection:
 
 def open_connection(connection: DatabaseConnection): 
     try:
+        config = DBConfig()
         conn = psycopg2.connect(
-            host=connection.host,
-            port=connection.port,
-            database=connection.database,
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASSWORD")
+            host=config.host,
+            port=config.port,
+            database=config.database,
+            user=config.user,
+            password=config.password
         )
-        returnConn = connection
-        returnConn.connection = conn
-        return returnConn
+        rtnConn = connection
+        rtnConn.connection = conn
+        return rtnConn
     except psycopg2.OperationalError as e:
         print("Error connecting to database:", e)
         return None

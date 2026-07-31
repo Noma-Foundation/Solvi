@@ -16,54 +16,121 @@ export class EventBus {
     }
 
     /**
-     * This function is responsible for registering a callback for a specific event. It performs
-     * a verification to ensure the event is valid, then registers the event in the events history.
+     * Register a callback for a specific event. The listener is registered immediately
+     * and an unsubscribe function is returned.
      * 
      * @param {String} eventName 
-     * @param {Function} callback 
+     * @param {Function|Object} callback 
+     * @returns {Function} unsubscribe - call to remove this listener
      */
     subscribe(eventName, callback) {
+        if (typeof eventName !== "string") {
+            throw new Error("Event name must be a string");
+        }
+
+        if (typeof callback !== "function" && typeof callback !== "object") {
+            throw new Error("Callback must be a function or an object with an execute method");
+        }
+
+        // If the callback is an object with an execute method, ensure the execute signature accepts no arguments
+        // Keep this validation for backward compatibility with existing tests; you can remove it if you want
+        if (callback && typeof callback.execute === "function") {
+            if (callback.execute.length > 0) {
+                throw new Error("Event.execute must not receive arguments");
+            }
+        }
+
+        // Register listener immediately and push to history
         this.#eventList.addEvent(eventName, callback);
         this.#history.pushEvent(eventName);
+
+        // Return unsubscribe function
+        return () => this.unsubscribe(eventName, callback);
     }
 
-    unsubscribe(eventName, callback) {
-        // Remove the callback function from the event 
-        // Check if the event name exists and callback function 
+    unsubscribe(eventName, callback = null) {
+        // If no callback is provided, remove the whole event
+        if (callback === null) {
+            return this.#eventList.removeEvent(eventName);
+        }
+
+        // If a callback is provided, remove only that callback from the event's callback array
+        const callbacks = this.#eventList.getEventByName(eventName);
+        if (!callbacks) return false;
+
+        const filtered = callbacks.filter(cb => cb !== callback);
+        if (filtered.length === 0) {
+            return this.#eventList.removeEvent(eventName);
+        }
+
+        // Re-set the event with filtered callbacks (use internal API addEvent to overwrite)
+        // First clear the event, then re-add each callback
+        this.#eventList.removeEvent(eventName);
+        filtered.forEach(cb => this.#eventList.addEvent(eventName, cb));
+        return true;
     }
 
     publishAsync(eventName, data) {
-        // If the event exists, add the callback to a queue to be executed asynchronously
+        // Execute callbacks asynchronously
+        const callbacks = this.#eventList.getEventByName(eventName);
+        if (!callbacks) return null;
+
+        callbacks.forEach(cb => {
+            setTimeout(() => {
+                if (typeof cb === "function") {
+                    try { cb(data); } catch (e) { /* swallow errors */ }
+                } else if (cb && typeof cb.execute === "function") {
+                    try { cb.execute(data); } catch (e) { /* swallow errors */ }
+                }
+            }, 0);
+        });
+
+        return true;
     }
 
-    /**
-     * Clear all events and history from the EventBus
-     */
     clearEventBus() {
-        this.#eventList.clearAllEvents();
+        if (typeof this.#eventList.clearEvents === "function") {
+            this.#eventList.clearEvents();
+        } else if (typeof this.#eventList.clearAllEvents === "function") {
+            this.#eventList.clearAllEvents();
+        }
         this.#history.clearHistory();
     }
 
     dispatch(eventName, data) {
-        // If the event exists, iterate over the callbacks and execute them
+        const callbacks = this.#eventList.getEventByName(eventName);
+        if (!callbacks) return null;
+
+        const results = [];
+        callbacks.forEach(cb => {
+            try {
+                if (typeof cb === "function") {
+                    results.push(cb(data));
+                } else if (cb && typeof cb.execute === "function") {
+                    // Pass data to object-based callbacks as well for consistency
+                    results.push(cb.execute(data));
+                }
+            } catch (e) {
+                results.push(null);
+            }
+        });
+
+        return results;
     }
 
     getHistory() {
-        // Return the history of all events
         return this.#history.getHistory();
     }
 
     getEvent(eventName) {
-        // Check if the event already exists
-        // Return the event
+        return this.#eventList.getEventByName(eventName);
     }
 
-    /**
-     * @returns {Map<string, Array<Function>>} - Return the map of all events.
-     */
     getAllEvents() {
-        // Return all events
-        return this.#eventList.getAllEvents();
+        if (typeof this.#eventList.getAllEvents === "function") {
+            return this.#eventList.getAllEvents();
+        }
+        return null;
     }
 
 }

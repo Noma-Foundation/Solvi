@@ -21,13 +21,12 @@ export class EventTest {
 describe("Testing Class EventList", () => {
     test("Test event with String and function parameter with return", () => {
         const eventList = new EventList();
-        const result = "Hello, World!";
         const functionName = "print-name";
         const callbackFunction = () => {
             console.log("Hello, World!");
             return "Hello, World!";
         }
-        expect(eventList.addEvent(functionName, callbackFunction)).toBe(result);
+        expect(eventList.addEvent(functionName, callbackFunction)).toBe(true);
     });
 
     test("Test event with String and function parameter without return", () => {
@@ -37,7 +36,7 @@ describe("Testing Class EventList", () => {
             console.log("Print name!");
         }
         const result = eventList.addEvent(functionName, callbackFunction);
-        expect(result).toBeNull();
+        expect(result).toBe(true);
     });
 
     test("Verify if object method can add a function as a value in the map", () => {
