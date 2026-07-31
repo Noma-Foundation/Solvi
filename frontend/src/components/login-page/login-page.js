@@ -9,8 +9,6 @@ import { html } from "../../utils/html.js";
 export class LoginPage extends IComponentModel {
     #context;
     #errorMessage;
-    #defineUserAccess;
-    #defineUserPassword;
 
     #formId;
     #registerButtonId;
@@ -24,8 +22,6 @@ export class LoginPage extends IComponentModel {
         super();
         this.#context = context;
         this.#errorMessage = "Credenciais inválidas";
-        this.#defineUserAccess = "support";
-        this.#defineUserPassword = "support";
         this.#isLogged = false;
 
         this.#formId = "#app-login-form";
@@ -69,6 +65,7 @@ export class LoginPage extends IComponentModel {
 
                 // notify that authentication succeeded for support/admin
                 eventBus.publishAsync("auth:success", { role: "support" });
+
                 return;
             }
 
