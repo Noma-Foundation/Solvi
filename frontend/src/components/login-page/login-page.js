@@ -79,18 +79,14 @@ export class LoginPage extends IComponentModel {
                 this.#hideError();
                 $(this.#formId).hide();
 
-<<<<<<< HEAD
                 const event = eventBus.subscribe("oauth:success", () => {
                     console.log("Enter in user mode");
-                    return "employee";
                 });
-                return event();
-=======
-                // notify that authentication succeeded for regular employee
+
                 eventBus.publishAsync("auth:success", { role: "employee" });
+                event();
 
                 return;
->>>>>>> 65c56e41f464bc038ee63a664ea3dd6f49c4ed2f
             }
 
             this.#showError();
