@@ -101,7 +101,7 @@ describe("Testing Class EventList", () => {
         expect(eventList.length).toBe(2);
     });
 
-    test("Testing get event by name", () => {
+    test("Testing get event - return null when the event does not exist", () => {
         const eventList = new EventList();
         const functionName = "my-function";
         const functionResult = () => {
@@ -109,6 +109,17 @@ describe("Testing Class EventList", () => {
 
         eventList.addEvent(functionName, functionResult);
         expect(eventList.getEventByName("random-function")).toBeNull();
+    });
+
+    test("Get event callback", () => {
+        const eventList = new EventList();
+        const functionName = "my-function";
+        const functionResult = () => {
+            console.log("Hello, World!");
+        }
+
+        eventList.addEvent(functionName, functionResult);
+        expect(eventList.getEventByName(functionName)).toEqual([functionResult]);
     });
 
 });
