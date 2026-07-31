@@ -49,6 +49,25 @@ export class EventBus {
         return register;
     }
 
+    /**
+     * Remove a callback from an event or remove the entire event.
+     *
+     * If `callback` is omitted (or null) the whole event (all callbacks) will be removed.
+     * When a specific callback is supplied, the function removes only that callback from the
+     * array of callbacks associated with `eventName`. If no callbacks remain the event is removed.
+     *
+     * @param {String} eventName - The name of the event to modify or remove.
+     * @param {Function|Object|null} [callback=null] - The specific callback to remove. If omitted, the entire event is removed.
+     * @returns {Boolean} Returns true when the removal succeeded (event or callback removed), or false when the event was not found.
+     *
+     * @example
+     * const eb = new EventBus();
+     * const cb = () => {};
+     * const register = eb.subscribe('my-event', cb);
+     * register(); // register the callback
+     * eb.unsubscribe('my-event', cb); // removes the specific callback
+     * eb.unsubscribe('my-event'); // removes the event entirely
+     */
     unsubscribe(eventName, callback = null) {
         // If no callback is provided, remove the whole event
         if (callback === null) {
@@ -71,6 +90,24 @@ export class EventBus {
         return true;
     }
 
+    /**
+     * Publish an event asynchronously. All callbacks registered for `eventName` will be invoked
+     * on the next turn of the event loop (using setTimeout(..., 0)).
+     *
+     * For function callbacks the `data` argument is passed as the only parameter. For object callbacks
+     * (objects with an `execute` method) the implementation also attempts to call `execute(data)`.
+     * Any exceptions thrown by callbacks are caught and ignored to avoid disrupting other listeners.
+     *
+     * @param {String} eventName - The name of the event to publish.
+     * @param {*} [data] - Optional data to pass to the callbacks.
+     * @returns {Boolean|null} Returns `true` when callbacks were scheduled, or `null` if the event has no listeners.
+     *
+     * @example
+     * const eb = new EventBus();
+     * const cb = (payload) => console.log(payload);
+     * const r = eb.subscribe('async', cb); r();
+     * eb.publishAsync('async', { x: 1 });
+     */
     publishAsync(eventName, data) {
         // Execute callbacks asynchronously
         const callbacks = this.#eventList.getEventByName(eventName);
@@ -90,7 +127,17 @@ export class EventBus {
     }
 
     /**
-     * Clear all events and history from the EventBus
+     * Clear all events and history from the EventBus.
+     *
+     * This method attempts to use the exposed API of the underlying EventList. It will call
+     * `clearEvents()` when available or `clearAllEvents()` as a fallback. The event history is
+     * always cleared via History.clearHistory().
+     *
+     * @returns {void}
+     *
+     * @example
+     * const eb = new EventBus();
+     * eb.clearEventBus();
      */
     clearEventBus() {
         // Use EventList's clearEvents API
@@ -102,6 +149,26 @@ export class EventBus {
         this.#history.clearHistory();
     }
 
+    /**
+     * Dispatch an event synchronously. All listeners are invoked immediately and the return
+     * values from each listener are collected into an array which is returned to the caller.
+     *
+     * - Function listeners receive the `data` argument and their return value is collected.
+     * - Object listeners (with `execute` method) are invoked as `execute()` (no arguments) and their return value is collected.
+     *
+     * If any listener throws an error the error is caught and a `null` value is stored in the results
+     * array for that listener to preserve ordering.
+     *
+     * @param {String} eventName - The name of the event to dispatch.
+     * @param {*} [data] - Optional data passed to function listeners.
+     * @returns {Array<*>|null} Returns an array with the results of each listener invocation, or `null` if the event has no listeners.
+     *
+     * @example
+     * const eb = new EventBus();
+     * const fn = (d) => `prefix:${d}`;
+     * const r = eb.subscribe('sync', fn); r();
+     * const results = eb.dispatch('sync', 'payload'); // ['prefix:payload']
+     */
     dispatch(eventName, data) {
         const callbacks = this.#eventList.getEventByName(eventName);
         if (!callbacks) return null;
@@ -122,11 +189,36 @@ export class EventBus {
         return results;
     }
 
+    /**
+     * Return the current event history as an array. The history is a copy of the internal
+     * queue maintained by the History instance (FIFO). The array contains event names in
+     * insertion order (oldest first).
+     *
+     * @returns {Array<*>} An array with the names (or event objects) that were pushed into the history.
+     *
+     * @example
+     * const eb = new EventBus(5);
+     * eb.subscribe('x', () => {})() ;
+     * console.log(eb.getHistory()); // ['x']
+     */
     getHistory() {
         // Return the history of all events
         return this.#history.getHistory();
     }
 
+    /**
+     * Retrieve the callbacks registered for a given event name.
+     *
+     * @param {String} eventName - The event name to query.
+     * @returns {Array<Function|Object>|null} Returns an array with registered callbacks (functions or objects with execute), or `null` when the event does not exist.
+     *
+     * @example
+     * const eb = new EventBus();
+     * const fn = () => {};
+     * eb.subscribe('check', fn)();
+     * const callbacks = eb.getEvent('check');
+     * console.log(callbacks.length); // 1
+     */
     getEvent(eventName) {
         // Check if the event already exists
         // Return the event
