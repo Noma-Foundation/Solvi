@@ -84,7 +84,7 @@ export class LoginPage extends IComponentModel {
                 this.#hideError();
                 $(this.#formId).hide();
 
-                eventBus.subscribe("append-components-employee", () => {
+                const event = eventBus.subscribe("append-components-employee", () => {
                     const menuBar = new MenuBar();
                     const searchBar = new SearchBar();
 
@@ -92,6 +92,7 @@ export class LoginPage extends IComponentModel {
                     context.html(Home());
                     console.log("Enter in user mode");
                 });
+                event();
 
                 return;
             }

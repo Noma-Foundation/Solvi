@@ -14,9 +14,12 @@ $(function () {
     // Initialize main app components
     const context = "#app-main-context";
 
-    eventBus.subscribe("login", () => {
+    const login = eventBus.subscribe("login", () => {
+        console.log("Open login page")
         const loginPage = new LoginPage(context);
     });
+
+    login();
 
     $("#app-version").text(`${pkg.version}`);
 });
