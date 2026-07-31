@@ -69,6 +69,7 @@ export class LoginPage extends IComponentModel {
 
                 // notify that authentication succeeded for support/admin
                 eventBus.publishAsync("auth:success", { role: "support" });
+
                 return;
             }
 
