@@ -101,16 +101,14 @@ describe("Testing Class EventList", () => {
         expect(eventList.length).toBe(2);
     });
 
-    test("Testing events with LogError external class", () => {
-    });
+    test("Testing get event by name", () => {
+        const eventList = new EventList();
+        const functionName = "my-function";
+        const functionResult = () => {
+        }
 
-    test("Testing non-existent event call", () => {
-    });
-
-    test("Testing clear all events", () => {
-    });
-
-    test("Testing method constructor of eventList", () => {
+        eventList.addEvent(functionName, functionResult);
+        expect(eventList.getEventByName("random-function")).toBeNull();
     });
 
 });

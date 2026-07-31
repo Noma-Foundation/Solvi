@@ -22,11 +22,9 @@ $(function () {
     // When authentication succeeds, the login page will publish 'auth:success'
     const onAuth = eventBus.subscribe("auth:success", (data) => {
         if (data && data.role === "employee") {
-            contextManager.show("home", data);
+            console.log("Open in employee mode");
         } else if (data && data.role === "support") {
-            contextManager.show("home", data);
-        } else {
-            contextManager.show("home", data);
+            console.log("Open in support mode")
         }
     });
     onAuth();
