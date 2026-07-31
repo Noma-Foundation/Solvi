@@ -9,6 +9,9 @@ import $ from "jquery";
 
 import { contextManager } from "./utils/context-manager.js";
 import { eventBus } from "./event-manager-singleton.js";
+
+import { SearchBar } from "./components/search-bar/search-bar.js";
+import { MenuBar } from "./components/menu-bar/menu-bar.js";
 import { LoginPage } from "./components/login-page/login-page.js";
 
 $(function () {
@@ -25,6 +28,9 @@ $(function () {
         console.log('[main] auth:success received:', data);
         if (data && data.role === "employee") {
             console.log("Open in employee mode");
+
+            const menuBar = new MenuBar();
+            const searchBar = new SearchBar();
         } else if (data && data.role === "support") {
             console.log("Open in support mode")
         }
