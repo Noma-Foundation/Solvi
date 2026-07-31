@@ -1,6 +1,6 @@
 import bcrypt
 
-import internal as backend
+from internal.database import DatabaseConnection, open_connection
 
 class API:
     """
@@ -9,30 +9,47 @@ class API:
     the frontend.
     """
 
-    def __init__(self):
-        self.__database = backend.DatabaseConnection(
-            port="5432",
-            user="postgres",
-            host="localhost",
-            database="orderhub-test"
-        )
-        self.db = backend.open_connection(self.__database)
+    def __init__(self, db_config: DatabaseConnection = None):
+        if db_config is None:
+            db_config = DatabaseConnection()
+        self.__database = db_config
+        # open_connection may return None on failure
+        self.db = open_connection(self.__database)
 
-    """
-    Represents the authorization of an user. Returns True if the user is authorized, False otherwise.
-    Should be used as a promise in the Frontend of the project through the command window.pywebview.api.auth_user(name, password).
-    """
-    def auth_user(self, username: str, password: str):
-        if self.__db.connection:
-            cursor = self.__db.connection.cursor()
-            cursor.execute("SELECT username FROM employees WHERE username = %s", (username,))
-            getUsername = cursor.fetchone()
-            
-            cursor.execute("SELECT password FROM employees WHERE username = %s", (username,))
-            getPassword = cursor.fetchone()
-            
-            is_valid = bcrypt.checkpw(password.encode('utf-8'), getPassword[0].encode('utf-8'))
-            
-            if getUsername and is_valid:
-                return True
-        return False
+    def auth_user(self, username: str, password: str) -> bool:
+        """Authenticate user by username and password.
+
+        Returns True when authentication succeeds, False otherwise. This method is
+        defensive: it checks for a valid DB connection, closes cursors, and avoids
+        leaking exceptions to callers. Logging should be added in a real app.
+        """
+        try:
+            if not self.db or not getattr(self.db, "connection", None):
+                return False
+
+            conn = self.db.connection
+            cursor = conn.cursor()
+            try:
+                cursor.execute(
+                    "SELECT username, password FROM employees WHERE username = %s",
+                    (username,)
+                )
+                row = cursor.fetchone()
+            finally:
+                try:
+                    cursor.close()
+                except Exception:
+                    pass
+
+            if not row:
+                return False
+
+            db_username, db_password_hash = row
+            if not db_password_hash:
+                return False
+
+            # bcrypt.checkpw expects bytes
+            return bcrypt.checkpw(password.encode("utf-8"), db_password_hash.encode("utf-8"))
+        except Exception:
+            # Don't expose internals to the caller. In production replace with structured logging.
+            return False
