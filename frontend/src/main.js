@@ -28,9 +28,7 @@ $(function () {
         console.log('[main] auth:success received:', data);
         if (data && data.role === "employee") {
             console.log("Open in employee mode");
-
-            const menuBar = new MenuBar();
-            const searchBar = new SearchBar();
+            contextManager.show("home")
         } else if (data && data.role === "support") {
             console.log("Open in support mode")
         }
