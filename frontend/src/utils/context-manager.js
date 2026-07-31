@@ -1,5 +1,6 @@
 import $ from "jquery";
 import { Home } from "../views/home-page.js";
+import { Notification } from "../views/notification-page.js";
 import { MenuBar } from "../components/menu-bar/menu-bar.js";
 import { SearchBar } from "../components/search-bar/search-bar.js";
 
@@ -20,6 +21,7 @@ class ContextManager {
 
         // register default views
         this.register("home", (params) => Home(params));
+        this.register("notification", (params) => Notification(params));
     }
 
     /**
