@@ -84,17 +84,11 @@ export class LoginPage extends IComponentModel {
                 this.#hideError();
                 $(this.#formId).hide();
 
-                const event = eventBus.subscribe("append-components-employee", () => {
-                    const menuBar = new MenuBar();
-                    const searchBar = new SearchBar();
-
-                    const context = $(this.#context);
-                    context.html(Home());
+                const event = eventBus.subscribe("oauth:success", () => {
                     console.log("Enter in user mode");
+                    return "employee";
                 });
-                event();
-
-                return;
+                return event();
             }
 
             this.#showError();
