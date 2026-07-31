@@ -20,12 +20,13 @@ $(function () {
     const loginPage = new LoginPage(context);
 
     // When authentication succeeds, the login page will publish 'auth:success'
-    const onAuth = eventBus.subscribe("auth:success", (data) => {
+    console.log('[main] registering auth:success handler');
+    eventBus.subscribe("auth:success", (data) => {
+        console.log('[main] auth:success received:', data);
         if (data && data.role === "employee") {
             console.log("Open in employee mode");
         } else if (data && data.role === "support") {
             console.log("Open in support mode")
         }
     });
-    onAuth();
 });
