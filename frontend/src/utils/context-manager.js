@@ -22,6 +22,8 @@ class ContextManager {
         // register default views
         this.register("home", (params) => Home(params));
         this.register("notification", (params) => Notification(params));
+
+        console.log('[ContextManager] initialized, registered views:', Array.from(this._views.keys()));
     }
 
     /**
@@ -34,6 +36,7 @@ class ContextManager {
             throw new Error("Invalid view registration");
         }
         this._views.set(name, renderer);
+        console.log('[ContextManager] registered view:', name);
     }
 
     /**
@@ -43,6 +46,7 @@ class ContextManager {
      * @param {object} [params={}]
      */
     show(name, params = {}) {
+        console.log('[ContextManager] show called for:', name, 'params:', params, 'current:', this._current);
         const renderer = this._views.get(name);
         if (!renderer) {
             console.warn(`ContextManager: view '${name}' not registered.`);
@@ -52,14 +56,17 @@ class ContextManager {
         // ensure layout components exist (MenuBar appends into #main-menu-bar; SearchBar into #app-header)
         if (!this._menuBar) {
             this._menuBar = new MenuBar();
+            console.log('[ContextManager] MenuBar created');
         }
         if (!this._searchBar) {
             this._searchBar = new SearchBar();
+            console.log('[ContextManager] SearchBar created');
         }
 
         const content = renderer(params);
         $(this.contextSelector).html(content);
         this._current = name;
+        console.log('[ContextManager] view rendered:', name);
     }
 
     /**
@@ -82,6 +89,7 @@ class ContextManager {
             $("#app-header").empty();
             this._menuBar = null;
             this._searchBar = null;
+            console.log('[ContextManager] layout removed');
         }
     }
 }
