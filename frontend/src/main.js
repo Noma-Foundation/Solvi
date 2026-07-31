@@ -16,12 +16,9 @@ $(function () {
     const context = "#app-main-context";
     $("#app-version").text(`${pkg.version}`);
 
-    const login = eventBus.subscribe("login", () => {
-        console.log("Open login page")
-        const loginPage = new LoginPage(context);
-    });
-
-    login();
+    // Directly instantiate the login page on startup so its template and events are bound immediately
+    console.log("Open login page");
+    const loginPage = new LoginPage(context);
 
     // When authentication succeeds, the login page will publish 'auth:success'
     const onAuth = eventBus.subscribe("auth:success", (data) => {
