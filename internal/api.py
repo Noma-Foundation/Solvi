@@ -13,7 +13,6 @@ class API:
         if db_config is None:
             db_config = DatabaseConnection()
         self.__database = db_config
-        # open_connection may return None on failure
         self.db = open_connection(self.__database)
 
     def auth_user(self, username: str, password: str) -> bool:

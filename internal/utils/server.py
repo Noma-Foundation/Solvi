@@ -5,7 +5,7 @@ import subprocess
 import time
 
 
-def start_server():
+def start_server() -> bool:
     if '--dev' in sys.argv:
         print("Initializing VITE...")
         
@@ -26,7 +26,7 @@ def start_server():
     return False
 
 
-def shutdown_server(dev_mode):
+def shutdown_server(dev_mode: bool) -> None:
     if dev_mode:
         id_process = subprocess.Popen(
             "npm run dev",
