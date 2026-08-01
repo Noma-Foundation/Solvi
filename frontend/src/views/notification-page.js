@@ -10,7 +10,7 @@ export function Notification() {
         </section>
 
         <script>
-            console.log("Notification Page");
+            console.log("[CHANGE PAGE] Notification Page");
         </script>
     `;
 }

@@ -12,7 +12,7 @@ export function Home() {
         </section>
 
         <script>
-            console.log("Open HomePage");
+            console.log("[CHANGE PAGE] Home Page");
         </script>
     `;
 }

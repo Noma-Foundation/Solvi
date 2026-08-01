@@ -31,6 +31,7 @@ $(function () {
             contextManager.show("home")
         } else if (data && data.role === "support") {
             console.log("Open in support mode")
+            contextManager.show("home");
         }
     });
 });
