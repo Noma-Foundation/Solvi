@@ -7,6 +7,10 @@ export function Notification() {
             <div id="notification-page-container">
                 <h2>Notifications</h2>
             </div>
+            <div id="notification-list">
+                <ul id="notification-list-ul" class="list-group list-group-flush ">
+                </ul>
+            </div>
         </section>
 
         <script>
