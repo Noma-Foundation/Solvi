@@ -8,5 +8,9 @@ export function Notification() {
                 <h2>Notifications</h2>
             </div>
         </section>
+
+        <script>
+            console.log("Notification Page");
+        </script>
     `;
 }
