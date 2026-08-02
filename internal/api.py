@@ -4,6 +4,7 @@ import bcrypt
 from typing import List
 from internal.database import DatabaseConnection, open_connection
 from internal.models import Ticket
+from internal.config import DBConfig
 
 class API:
     """
@@ -16,7 +17,8 @@ class API:
         if db_config is None:
             db_config = DatabaseConnection()
         self.__database = db_config
-        self.db = open_connection(self.__database)
+        self.__dbconfig = DBConfig()
+        self.db = open_connection(self.__database, self.__dbconfig)
 
     def auth_user(self, username: str, password: str) -> bool:
         """Authenticate user by username and password.
@@ -60,13 +62,11 @@ class API:
         """
         It should return a list containing all the tickets listed in the database. This function synchronizes the data from the OrderRequester.
         """
-        my_tickets = [
-            Ticket(ticket_id=1, ticket_name="MyTicket"),
-            Ticket(ticket_id=2, ticket_name="Ticket 2"),
-            Ticket(ticket_id=3, ticket_name="Other Ticket")
-        ]
-        json_my_tickets = json.dumps([ticket.__dict__ for ticket in my_tickets])
-        return json_my_tickets
+        try:
+            print("Connecting to external database...")
+        except:
+            pass
+        return json.dumps([]) 
 
     def __set_connection(self) -> bool:
         pass

@@ -13,17 +13,17 @@ class DatabaseConnection:
     host: str = "localhost"
     database: str = "orderhub-test"
     connection = None
+    url: str = ""
 
 
-def open_connection(connection: DatabaseConnection): 
+def open_connection(connection: DatabaseConnection, config: DBConfig): 
     try:
-        config = DBConfig()
         conn = psycopg2.connect(
             host=config.host,
             port=config.port,
             database=config.database,
             user=config.user,
-            password=config.password
+            password=config.password,
         )
         rtnConn = connection
         rtnConn.connection = conn
