@@ -14,6 +14,7 @@ class DBConfig:
     password: str = os.getenv("DB_PASSWORD")
     database: str = os.getenv("DB_NAME")
     port: str = os.getenv("DB_PORT")
+    url: Optional[str] = os.getenv("DATABASE_URL")
 
 
 @dataclass

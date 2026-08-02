@@ -10,5 +10,9 @@ export function Home() {
                 <h3 style="margin: 0; font-weight: normal;">V${pkg.version}</h3>
             </div>
         </section>
+
+        <script>
+            console.log("[CHANGE PAGE] Home Page");
+        </script>
     `;
 }
