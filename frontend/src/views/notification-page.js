@@ -1,6 +1,5 @@
 import { html } from "../utils/html.js";
 
-
 export function Notification() {
     return html`
         <section class="container">

@@ -4,7 +4,7 @@ import { html } from "../../utils/html.js";
 /**
  * @implements {IComponentModel}
  */
-export class Notification extends IComponentModel {
+export class NotificationObject extends IComponentModel {
     #listId;
 
     constructor() {
@@ -14,16 +14,16 @@ export class Notification extends IComponentModel {
     }
 
     buildTemplate() {
-        const template = html`
-            <li class="list-group-item"></li>
-        `;
-
-        const list = document.getElementById(this.#listId);
-        list.appendChild(template);
     }
 
     bindEvents() {
 
+    }
+
+    template() {
+        return html`
+            <li class="list-group-item"></li>
+        `;
     }
 
 }
