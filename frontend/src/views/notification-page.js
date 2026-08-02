@@ -17,10 +17,7 @@ export function Notification() {
             
             async function add_tickets_to_list() { 
                 const tickets = await window.pywebview.api.get_tickets();
-                console.log(tickets);
-                tickets.forEach(ticket => {
-                    notification_list_ul.appendChild(document.createElement("li").textContent = ticket.ticket_name);
-                });
+                console.log("Tickets: " + tickets);
             }
             add_tickets_to_list();
         </script>
