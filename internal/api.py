@@ -63,3 +63,6 @@ class API:
         my_tickets = [Ticket(ticket_id=1, ticket_name="MyTicket")]
         json_my_tickets = json.dumps([ticket.__dict__ for ticket in my_tickets])
         return json_my_tickets
+
+    def __set_connection(self) -> bool:
+        pass

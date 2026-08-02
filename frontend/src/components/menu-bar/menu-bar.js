@@ -93,9 +93,9 @@ export class MenuBar extends IComponentModel {
             this.#previousPageId = this.#currentPageId;
             this.#currentPageId = value;
 
-            if (value === "#home-page") {
+            if (this.#currentPageId === "#home-page") {
                 contextManager.show("home")
-            } else if (value === "#notifications-page") {
+            } else if (this.#currentPageId === "#notifications-page") {
                 contextManager.show("notification")
             }
             return true;

@@ -3,7 +3,7 @@ import { html } from "../utils/html.js";
 
 export function Notification() {
     return html`
-        <section class="container mt-4">
+        <section class="container">
             <div id="notification-page-container">
                 <h2>Notifications</h2>
                 <ul id="notification-list-ul">
@@ -12,7 +12,7 @@ export function Notification() {
         </section>
 
         <script>
-            const notification_list_ul = document.getElementById("notification-list-ul")
+            var notification_list_ul = document.getElementById("notification-list-ul")
             
             async function add_tickets_to_list() { 
                 const tickets = await window.pywebview.api.get_tickets();
@@ -25,9 +25,9 @@ export function Notification() {
             }
 
             add_tickets_to_list().then(() => {
-                console.log("Tickets added");
+                console.log("Tickets fetched successfully.");
             }).catch((error) => {
-                console.log("Error: " + error);
+                console.log("Failed to fetch tickets: " + error);
             });
         </script>
     `;
