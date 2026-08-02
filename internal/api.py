@@ -1,3 +1,4 @@
+import json
 import bcrypt
 
 from typing import List
@@ -59,4 +60,6 @@ class API:
         """
         It should return a list containing all the tickets listed in the database. This function synchronizes the data from the OrderRequester.
         """
-        return [Ticket(ticket_id=1, ticket_name="My Ticket")]
+        my_tickets = [Ticket(ticket_id=1, ticket_name="MyTicket")]
+        json_my_tickets = json.dumps([ticket.__dict__ for ticket in my_tickets])
+        return json_my_tickets

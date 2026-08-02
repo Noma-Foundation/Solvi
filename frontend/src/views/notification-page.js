@@ -6,9 +6,8 @@ export function Notification() {
         <section class="container mt-4">
             <div id="notification-page-container">
                 <h2>Notifications</h2>
-            </div>
-            <div id="notification-list">
-                <ul id="notification-list-ul" class="list-group list-group-flush "></ul>
+                <ul id="notification-list-ul">
+                </ul>
             </div>
         </section>
 
@@ -17,9 +16,19 @@ export function Notification() {
             
             async function add_tickets_to_list() { 
                 const tickets = await window.pywebview.api.get_tickets();
-                console.log("Tickets: " + tickets);
+
+                for (const ticket of tickets) {
+                    const ticket_element = document.createElement("li");
+                    ticket_element.textContent = ticket.ticket_name;
+                    notification_list_ul.appendChild(ticket_element);
+                }
             }
-            add_tickets_to_list();
+
+            add_tickets_to_list().then(() => {
+                console.log("Tickets added");
+            }).catch((error) => {
+                console.log("Error: " + error);
+            });
         </script>
     `;
 }
