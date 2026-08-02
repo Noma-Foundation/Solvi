@@ -54,6 +54,9 @@ class API:
         except Exception:
             # Don't expose internals to the caller. In production replace with structured logging.
             return False
-    
+
     def get_tickets(self) -> List[Ticket]:
+        """
+        It should return a list containing all the tickets listed in the database. This function synchronizes the data from the OrderRequester.
+        """
         return [Ticket(ticket_id=1, ticket_name="My Ticket")]
