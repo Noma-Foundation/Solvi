@@ -1,6 +1,8 @@
 import bcrypt
 
+from typing import List
 from internal.database import DatabaseConnection, open_connection
+from internal.models import Ticket
 
 class API:
     """
@@ -52,3 +54,6 @@ class API:
         except Exception:
             # Don't expose internals to the caller. In production replace with structured logging.
             return False
+    
+    def get_tickets(self) -> List[Ticket]:
+        return [Ticket(ticket_id=1, ticket_name="My Ticket")]
