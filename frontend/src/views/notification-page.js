@@ -4,46 +4,33 @@ export function Notification() {
     return html`
         <section class="container">
             <div id="notification-page-container">
-                <h2>Tickets</h2>
-                <label for="ticket-price">Ticket Preço:</label>
-                <input type="text" id="ticket-price">
-                <label for="ticket-id">Ticket ID:</label>
-                <input type="text" id="ticket-id"><br>
-                <label for="ticket-description">Ticket Descrição:</label>
-                <input type="text" id="ticket-description">
-                <button id="add-ticket" class="btn">Add ticket</button>
+                <h2>Notifications</h2>
                 <ul id="notification-list-ul">
                 </ul>
             </div>
         </section>
 
         <script>
-            var notification_list_ul = document.getElementById("notification-list-ul")
-            var add_ticket_btn = document.getElementById("add-ticket")
-            var ticket_price_input = document.getElementById("ticket-price")
-            var ticket_id_input = document.getElementById("ticket-id")
-            var ticket_description_input = document.getElementById("ticket-description")
+            async function add_tickets_to_list() {
+                try {
+                    const ticketsJson = await window.pywebview.api.get_tickets();
+                    const tickets = JSON.parse(ticketsJson || '[]');
 
-            async function add_tickets_to_list() { 
-                const tickets = await window.pywebview.api.add_ticket();
+                    const notification_list_ul = document.getElementById("notification-list-ul");
+                    if (!notification_list_ul) return;
 
-                if (tickets) {
-                    const msg = ticket_id_input.value + "|" + ticket_price_input.value + "|" + ticket_description_input.value;
-                    const ticket_element = document.createElement("li");
-                    ticket_element.textContent = msg;
-                    notification_list_ul.appendChild(ticket_element);
+                    tickets.forEach(ticket => {
+                        const ticket_element = document.createElement("li");
+                        ticket_element.textContent = ticket.ticket_name || "";
+                        notification_list_ul.appendChild(ticket_element);
+                    });
+                } catch (error) {
+                    console.log("Failed to fetch tickets: " + error);
                 }
             }
 
-            add_ticket_btn.addEventListener("click", () => {
-                const ticket_price = ticket_price_input.value;
-                const ticket_id = ticket_id_input.value;
-                const ticket_description = ticket_description_input.value;
-                
-                window.pywebview.api.add_ticket(ticket_price, ticket_id, ticket_description);
-                add_tickets_to_list();
-            })
-            
+            // call once to populate list
+            add_tickets_to_list();
         </script>
     `;
 }

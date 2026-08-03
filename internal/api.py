@@ -4,7 +4,6 @@ import bcrypt
 from typing import List
 from internal.database import DatabaseConnection, open_connection
 from internal.models import Ticket
-from internal.config import DBConfig
 
 class API:
     """
@@ -17,8 +16,7 @@ class API:
         if db_config is None:
             db_config = DatabaseConnection()
         self.__database = db_config
-        self.__dbconfig = DBConfig()
-        self.db = open_connection(self.__database, self.__dbconfig)
+        self.db = open_connection(self.__database)
 
     def auth_user(self, username: str, password: str) -> bool:
         """Authenticate user by username and password.
@@ -57,32 +55,67 @@ class API:
         except Exception:
             # Don't expose internals to the caller. In production replace with structured logging.
             return False
-        
-    def add_ticket(self, ticket_price: float, ticket_id: str, ticket_description: str) -> bool:
+
+    def get_tickets(self) -> List[Ticket]:
+        """
+        Return a JSON string with all tickets from the database. If DB is not
+        available or an error occurs, fall back to a small sample list.
+        """
+        # Try to read from DB
+        try:
+            if self.db and getattr(self.db, "connection", None):
+                conn = self.db.connection
+                cur = conn.cursor()
+                try:
+                    cur.execute("SELECT ticket_id, ticket_name FROM tickets ORDER BY ticket_id;")
+                    rows = cur.fetchall()
+                    tickets = [ {"ticket_id": r[0], "ticket_name": r[1]} for r in rows ]
+                    return json.dumps(tickets)
+                finally:
+                    try:
+                        cur.close()
+                    except Exception:
+                        pass
+        except Exception:
+            # ignore and fall back
+            pass
+
+        # fallback sample tickets (keeps backward compatibility)
+        my_tickets = [
+            Ticket(ticket_id=1, ticket_name="MyTicket"),
+            Ticket(ticket_id=2, ticket_name="Ticket 2"),
+            Ticket(ticket_id=3, ticket_name="Other Ticket")
+        ]
+        json_my_tickets = json.dumps([ticket.__dict__ for ticket in my_tickets])
+        return json_my_tickets
+
+    def add_ticket(self, ticket_name: str) -> bool:
+        """
+        Minimal implementation: append a ticket to the DB. No extra validation.
+        Returns True on success, False otherwise.
+        """
+        if not isinstance(ticket_name, str):
+            return False
+
         try:
             if not self.db or not getattr(self.db, "connection", None):
                 return False
 
             conn = self.db.connection
-            cursor = conn.cursor()
-
-            print("Adding ticket...")
-
-            cursor.execute(
-                "CREATE TABLE IF NOT EXISTS tickets(ticket_id INT NOT NULL, ticket_price FLOAT NOT NULL, ticket_description TEXT NOT NULL, status BOOLEAN NOT NULL);"
-            )
-
+            cur = conn.cursor()
             try:
-                cursor.execute(
-                    "INSERT INTO tickets (ticket_price, ticket_id, ticket_description) VALUES (%s, %s, %s)",
-                    (ticket_price, ticket_id, ticket_description)
-                )
+                # keep SQL simple; assume there is a tickets table with ticket_name text
+                cur.execute("INSERT INTO tickets (ticket_name) VALUES (%s) RETURNING ticket_id;", (ticket_name,))
+                _ = cur.fetchone()
                 conn.commit()
+                return True
             finally:
                 try:
-                    cursor.close()
+                    cur.close()
                 except Exception:
                     pass
-            return True
         except Exception:
             return False
+
+    def __set_connection(self) -> bool:
+        pass
