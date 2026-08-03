@@ -7,7 +7,9 @@ class Application:
     window: any = None
 
     def __init__(self, dev_mode: bool):
-        self.api = backend.API()
+        self.__database = backend.DatabaseConnection()
+        self.__dbconfig = backend.DBConfig()
+        self.api = backend.API(self.__database, self.__dbconfig)
         self.os: backend.OperatingSystem = backend.OperatingSystem()
         self.__dev_mode = dev_mode
         self.__oauth = None

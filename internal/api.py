@@ -5,9 +5,9 @@ from internal.database import DatabaseConnection, open_connection
 from internal.config import DBConfig
 
 class API:
-    def __init__(self, db=None):
-        self.__database = DatabaseConnection()
-        self.__dbconfig = DBConfig()
+    def __init__(self, database: DatabaseConnection, dbconfig: DBConfig):
+        self.__database = database
+        self.__dbconfig = dbconfig
         self.db = open_connection(self.__database, self.__dbconfig)
 
     def auth_user(self, username: str, password: str) -> bool:
@@ -42,10 +42,8 @@ class API:
             if not db_password_hash:
                 return False
 
-            # bcrypt.checkpw expects bytes
             return bcrypt.checkpw(password.encode("utf-8"), db_password_hash.encode("utf-8"))
         except Exception:
-            # Don't expose internals to the caller. In production replace with structured logging.
             return False
 
     def add_ticket(self, description, price):
