@@ -47,7 +47,6 @@ class API:
         except Exception:
             return False
 
-    # --- Database helpers -------------------------------------------------
     def _ensure_tickets_table(self) -> bool:
         """Create the tickets table if it does not exist. Keep schema minimal.
         Fields: id SERIAL PRIMARY KEY, description TEXT, price REAL
@@ -79,7 +78,6 @@ class API:
             print("_ensure_tickets_table error:", e)
             return False
 
-    # --- Ticket API -------------------------------------------------------
     def get_ticket(self) -> str:
         """
         Load all tickets from the database and return a JSON string.
@@ -115,15 +113,14 @@ class API:
             print("get_ticket error:", e)
             return json.dumps([])
 
-    # keep backwards compatibility
     def get_tickets(self) -> str:
         return self.get_ticket()
 
     def add_ticket(self, description: Any, price: Optional[Any] = None) -> str:
         """
         Persist a ticket in the DB. Accepts either:
-          - add_ticket(description_str, price_val)
-          - add_ticket(json_string_or_dict) where object has description and price
+        - add_ticket(description_str, price_val)
+        - add_ticket(json_string_or_dict) where object has description and price
         Returns the created ticket as JSON string on success, or an empty JSON on failure.
         """
         # Normalize incoming args
@@ -131,13 +128,11 @@ class API:
         pr = None
         try:
             if price is None and isinstance(description, (str, bytes)):
-                # maybe JSON string
                 try:
                     obj = json.loads(description)
                     desc = obj.get("description")
                     pr = obj.get("price")
                 except Exception:
-                    # treat description as plain text
                     desc = description
                     pr = None
             elif isinstance(description, dict):

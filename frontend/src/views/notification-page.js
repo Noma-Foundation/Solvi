@@ -35,7 +35,7 @@ export function Notification() {
 
                     tickets.forEach(ticket => {
                         const ticket_element = document.createElement("li");
-                        ticket_element.textContent = `${ticket.description} ${ticket.price !== undefined ? ' - $' + ticket.price : ''}`;
+                        ticket_element.textContent = ticket.description;
                         ticket_element.dataset.ticketId = ticket.id || '';
                         notification_list_ul.appendChild(ticket_element);
                     });
