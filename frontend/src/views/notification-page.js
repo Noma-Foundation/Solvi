@@ -19,7 +19,6 @@ export function Notification() {
         </section>
 
         <script>
-        // Pega todos os tickets do backend e mostra na lista
         async function refreshList() {
             const json = await window.pywebview.api.get_tickets();
             const tickets = JSON.parse(json || '[]');
@@ -32,7 +31,6 @@ export function Notification() {
             });
         }
 
-        // Lê inputs, chama add_ticket e atualiza a lista
         async function addTicket() {
             const desc = document.getElementById('ticket-description').value;
             const priceVal = document.getElementById('ticket-price').value;
@@ -46,15 +44,12 @@ export function Notification() {
         }
 
         if (window.pywebview && window.pywebview.api && typeof window.pywebview.api.get_tickets === 'function') {
-        // API já disponível
             refreshList();
         } else {
-            // Se não estiver disponível ainda, tente novamente após curto atraso
             document.addEventListener('DOMContentLoaded', refreshList);
             setTimeout(refreshList, 200);
         }
 
-        // Torna as funções acessíveis globalmente (útil para testes no console)
         window.refreshList = refreshList;
         window.addTicket = addTicket;
     </script>
