@@ -57,16 +57,32 @@ class API:
         except Exception:
             # Don't expose internals to the caller. In production replace with structured logging.
             return False
-
-    def get_tickets(self) -> List[Ticket]:
-        """
-        It should return a list containing all the tickets listed in the database. This function synchronizes the data from the OrderRequester.
-        """
+        
+    def add_ticket(self, ticket_price: float, ticket_id: str, ticket_description: str) -> bool:
         try:
-            print("Connecting to external database...")
-        except:
-            pass
-        return json.dumps([]) 
+            if not self.db or not getattr(self.db, "connection", None):
+                return False
 
-    def __set_connection(self) -> bool:
-        pass
+            conn = self.db.connection
+            cursor = conn.cursor()
+
+            print("Adding ticket...")
+
+            cursor.execute(
+                "CREATE TABLE IF NOT EXISTS tickets(ticket_id INT NOT NULL, ticket_price FLOAT NOT NULL, ticket_description TEXT NOT NULL, status BOOLEAN NOT NULL);"
+            )
+
+            try:
+                cursor.execute(
+                    "INSERT INTO tickets (ticket_price, ticket_id, ticket_description) VALUES (%s, %s, %s)",
+                    (ticket_price, ticket_id, ticket_description)
+                )
+                conn.commit()
+            finally:
+                try:
+                    cursor.close()
+                except Exception:
+                    pass
+            return True
+        except Exception:
+            return False
