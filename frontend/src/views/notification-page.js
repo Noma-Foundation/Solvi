@@ -5,29 +5,67 @@ export function Notification() {
         <section class="container">
             <div id="notification-page-container">
                 <h2>Notifications</h2>
-                <ul id="notification-list-ul">
-                </ul>
+
+                <label for="ticket-description">Description</label>
+                <input id="ticket-description" placeholder="Description" />
+
+                <label for="ticket-price">Price</label>
+                <input id="ticket-price" placeholder="Price" type="number" step="0.01" />
+
+                <button id="add-ticket-button" type="button">Adicionar Ticket</button>
+
+                <ul id="notification-list-ul"></ul>
             </div>
         </section>
 
         <script>
-            var notification_list_ul = document.getElementById("notification-list-ul")
-            
-            async function add_tickets_to_list() { 
-                const tickets = await window.pywebview.api.get_tickets();
+        window.refreshList = async function() {
+            if (!(window.pywebview && window.pywebview.api && typeof window.pywebview.api.get_tickets === 'function')) return;
+            const ticketsJson = await window.pywebview.api.get_tickets();
+            const tickets = JSON.parse(ticketsJson || '[]');
+            const ul = document.getElementById('notification-list-ul');
+            if (!ul) return;
+            ul.innerHTML = '';
+            tickets.forEach(function(t) {
+            const li = document.createElement('li');
+            li.textContent = String(t.id) + ' - ' + (t.description || '') + (t.price !== undefined ? ' - $' + t.price : '');
+            ul.appendChild(li);
+            });
+        };
 
-                for(let i = 0; i < tickets.length; i++) {
-                    const ticket_element = document.createElement("li");
-                    ticket_element.textContent = JSON.parse(tickets)[i].ticket_name;
-                    notification_list_ul.appendChild(ticket_element);
-                }
+        window.addTicketHandler = async function() {
+            const descEl = document.getElementById('ticket-description');
+            const priceEl = document.getElementById('ticket-price');
+            const desc = descEl ? descEl.value : '';
+            const priceVal = priceEl ? priceEl.value : '';
+            const price = priceVal === '' ? null : Number(priceVal);
+
+            if (window.pywebview && window.pywebview.api && typeof window.pywebview.api.add_ticket === 'function') {
+                await window.pywebview.api.add_ticket(desc, price);
             }
 
-            add_tickets_to_list().then(() => {
-                console.log("Tickets fetched successfully.");
-            }).catch((error) => {
-                console.log("Failed to fetch tickets: " + error);
-            });
+            await window.refreshList();
+
+            if (descEl) descEl.value = '';
+            if (priceEl) priceEl.value = '';
+        };
+
+        (function initWhenReady() {
+            const iv = setInterval(function() {
+            const btn = document.getElementById('add-ticket-button');
+            const ul = document.getElementById('notification-list-ul');
+
+            if (btn && !btn.onclick) {
+                btn.onclick = window.addTicketHandler; // fallback simples
+            }
+
+            // se tudo pronto (API + UL), atualiza lista e para o polling
+            if (window.pywebview && window.pywebview.api && typeof window.pywebview.api.get_tickets === 'function' && ul) {
+                clearInterval(iv);
+                window.refreshList();
+            }
+            }, 100);
+        })();
         </script>
     `;
 }

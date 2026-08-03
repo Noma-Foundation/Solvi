@@ -1,22 +1,14 @@
 import json
 import bcrypt
 
-from typing import List
 from internal.database import DatabaseConnection, open_connection
-from internal.models import Ticket
+from internal.config import DBConfig
 
 class API:
-    """
-    A class to handle all API requests to the database. This class has an instance
-    of a database to communicate with it, as well as functions to communicate with
-    the frontend.
-    """
-
-    def __init__(self, db_config: DatabaseConnection = None):
-        if db_config is None:
-            db_config = DatabaseConnection()
-        self.__database = db_config
-        self.db = open_connection(self.__database)
+    def __init__(self, db=None):
+        self.__database = DatabaseConnection()
+        self.__dbconfig = DBConfig()
+        self.db = open_connection(self.__database, self.__dbconfig)
 
     def auth_user(self, username: str, password: str) -> bool:
         """Authenticate user by username and password.
@@ -56,17 +48,27 @@ class API:
             # Don't expose internals to the caller. In production replace with structured logging.
             return False
 
-    def get_tickets(self) -> List[Ticket]:
-        """
-        It should return a list containing all the tickets listed in the database. This function synchronizes the data from the OrderRequester.
-        """
-        my_tickets = [
-            Ticket(ticket_id=1, ticket_name="MyTicket"),
-            Ticket(ticket_id=2, ticket_name="Ticket 2"),
-            Ticket(ticket_id=3, ticket_name="Other Ticket")
-        ]
-        json_my_tickets = json.dumps([ticket.__dict__ for ticket in my_tickets])
-        return json_my_tickets
+    def add_ticket(self, description, price):
+        conn = self.db.connection
+        cur = conn.cursor()
+        cur.execute(
+            "INSERT INTO tickets (description, price) VALUES (%s, %s) RETURNING id, description, price;",
+            (description, float(price) if price is not None else None),
+        )
+        row = cur.fetchone()
+        conn.commit()
+        cur.close()
+        if row:
+            return json.dumps({"id": int(row[0]), "description": row[1], "price": float(row[2]) if row[2] is not None else 0.0})
+        return json.dumps({})
 
-    def __set_connection(self) -> bool:
-        pass
+    def get_tickets(self):
+        conn = self.db.connection
+        cur = conn.cursor()
+        cur.execute("SELECT id, description, price FROM tickets ORDER BY id;")
+        rows = cur.fetchall()
+        tickets = []
+        for r in rows:
+            tickets.append({"id": int(r[0]), "description": r[1], "price": float(r[2]) if r[2] is not None else 0.0})
+        cur.close()
+        return json.dumps(tickets)
