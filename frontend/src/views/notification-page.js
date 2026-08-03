@@ -19,32 +19,53 @@ export function Notification() {
         </section>
 
         <script>
-            async function refreshList() {
-                const api = window.pywebview && window.pywebview.api;
-                if (!api) return;
-                const ticketsJson = await api.get_tickets();
-                const tickets = JSON.parse(ticketsJson || '[]');
-                const ul = document.getElementById('notification-list-ul');
-                ul.innerHTML = '';
-                tickets.forEach(t => {
-                    const li = document.createElement('li');
-                    li.textContent = `${t.id} - ${t.description} ${t.price !== undefined ? '- $' + t.price : ''}`;
-                    ul.appendChild(li);
-                });
+        window.refreshList = async function() {
+            if (!(window.pywebview && window.pywebview.api && typeof window.pywebview.api.get_tickets === 'function')) return;
+            const ticketsJson = await window.pywebview.api.get_tickets();
+            const tickets = JSON.parse(ticketsJson || '[]');
+            const ul = document.getElementById('notification-list-ul');
+            if (!ul) return;
+            ul.innerHTML = '';
+            tickets.forEach(function(t) {
+            const li = document.createElement('li');
+            li.textContent = String(t.id) + ' - ' + (t.description || '') + (t.price !== undefined ? ' - $' + t.price : '');
+            ul.appendChild(li);
+            });
+        };
+
+        window.addTicketHandler = async function() {
+            const descEl = document.getElementById('ticket-description');
+            const priceEl = document.getElementById('ticket-price');
+            const desc = descEl ? descEl.value : '';
+            const priceVal = priceEl ? priceEl.value : '';
+            const price = priceVal === '' ? null : Number(priceVal);
+
+            if (window.pywebview && window.pywebview.api && typeof window.pywebview.api.add_ticket === 'function') {
+                await window.pywebview.api.add_ticket(desc, price);
             }
 
-            document.addEventListener('DOMContentLoaded', () => {
-                const btn = document.getElementById('add-ticket-button');
-                btn.addEventListener('click', async () => {
-                    const desc = document.getElementById('ticket-description').value;
-                    const priceVal = document.getElementById('ticket-price').value;
-                    const price = priceVal === '' ? null : Number(priceVal);
-                    await window.pywebview.api.add_ticket(desc, price);
-                    await refreshList();
-                });
+            await window.refreshList();
 
-                refreshList();
-            });
+            if (descEl) descEl.value = '';
+            if (priceEl) priceEl.value = '';
+        };
+
+        (function initWhenReady() {
+            const iv = setInterval(function() {
+            const btn = document.getElementById('add-ticket-button');
+            const ul = document.getElementById('notification-list-ul');
+
+            if (btn && !btn.onclick) {
+                btn.onclick = window.addTicketHandler; // fallback simples
+            }
+
+            // se tudo pronto (API + UL), atualiza lista e para o polling
+            if (window.pywebview && window.pywebview.api && typeof window.pywebview.api.get_tickets === 'function' && ul) {
+                clearInterval(iv);
+                window.refreshList();
+            }
+            }, 100);
+        })();
         </script>
     `;
 }

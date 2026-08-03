@@ -1,17 +1,56 @@
 import json
+import bcrypt
+
 from internal.database import DatabaseConnection, open_connection
+from internal.config import DBConfig
 
 class API:
     def __init__(self, db=None):
-        if db is None:
-            self.db = open_connection(DatabaseConnection())
-        else:
-            self.db = db
+        self.__database = DatabaseConnection()
+        self.__dbconfig = DBConfig()
+        self.db = open_connection(self.__database, self.__dbconfig)
+
+    def auth_user(self, username: str, password: str) -> bool:
+        """Authenticate user by username and password.
+
+        Returns True when authentication succeeds, False otherwise. This method is
+        defensive: it checks for a valid DB connection, closes cursors, and avoids
+        leaking exceptions to callers. Logging should be added in a real app.
+        """
+        try:
+            if not self.db or not getattr(self.db, "connection", None):
+                return False
+
+            conn = self.db.connection
+            cursor = conn.cursor()
+            try:
+                cursor.execute(
+                    "SELECT username, password FROM employees WHERE username = %s",
+                    (username,)
+                )
+                row = cursor.fetchone()
+            finally:
+                try:
+                    cursor.close()
+                except Exception:
+                    pass
+
+            if not row:
+                return False
+
+            db_username, db_password_hash = row
+            if not db_password_hash:
+                return False
+
+            # bcrypt.checkpw expects bytes
+            return bcrypt.checkpw(password.encode("utf-8"), db_password_hash.encode("utf-8"))
+        except Exception:
+            # Don't expose internals to the caller. In production replace with structured logging.
+            return False
 
     def add_ticket(self, description, price):
         conn = self.db.connection
         cur = conn.cursor()
-        cur.execute("CREATE TABLE IF NOT EXISTS tickets (id SERIAL PRIMARY KEY, description TEXT, price REAL);")
         cur.execute(
             "INSERT INTO tickets (description, price) VALUES (%s, %s) RETURNING id, description, price;",
             (description, float(price) if price is not None else None),
@@ -26,7 +65,6 @@ class API:
     def get_tickets(self):
         conn = self.db.connection
         cur = conn.cursor()
-        cur.execute("CREATE TABLE IF NOT EXISTS tickets (id SERIAL PRIMARY KEY, description TEXT, price REAL);")
         cur.execute("SELECT id, description, price FROM tickets ORDER BY id;")
         rows = cur.fetchall()
         tickets = []
