@@ -1,30 +1,22 @@
 import json
 import bcrypt
 
-from typing import List
+from typing import List, Optional, Any
 from internal.database import DatabaseConnection, open_connection
 from internal.models import Ticket
-from internal.config import DBConfig
+
 class API:
     """
-    A class to handle all API requests to the database. This class has an instance
-    of a database to communicate with it, as well as functions to communicate with
-    the frontend.
+    A class to handle all API requests to the database.
     """
 
     def __init__(self, db_config: DatabaseConnection = None):
         if db_config is None:
             db_config = DatabaseConnection()
         self.__database = db_config
-        self.db = open_connection(self.__database, DBConfig)
+        self.db = open_connection(self.__database)
 
     def auth_user(self, username: str, password: str) -> bool:
-        """Authenticate user by username and password.
-
-        Returns True when authentication succeeds, False otherwise. This method is
-        defensive: it checks for a valid DB connection, closes cursors, and avoids
-        leaking exceptions to callers. Logging should be added in a real app.
-        """
         try:
             if not self.db or not getattr(self.db, "connection", None):
                 return False
@@ -50,63 +42,30 @@ class API:
             if not db_password_hash:
                 return False
 
-            # bcrypt.checkpw expects bytes
             return bcrypt.checkpw(password.encode("utf-8"), db_password_hash.encode("utf-8"))
         except Exception:
-            # Don't expose internals to the caller. In production replace with structured logging.
             return False
 
-    def get_tickets(self) -> List[Ticket]:
+    # --- Database helpers -------------------------------------------------
+    def _ensure_tickets_table(self) -> bool:
+        """Create the tickets table if it does not exist. Keep schema minimal.
+        Fields: id SERIAL PRIMARY KEY, description TEXT, price REAL
         """
-        Return a JSON string with all tickets from the database. If DB is not
-        available or an error occurs, fall back to a small sample list.
-        """
-        # Try to read from DB
-        try:
-            if self.db and getattr(self.db, "connection", None):
-                conn = self.db.connection
-                cur = conn.cursor()
-                try:
-                    cur.execute("SELECT ticket_id, ticket_name FROM tickets ORDER BY ticket_id;")
-                    rows = cur.fetchall()
-                    tickets = [ {"ticket_id": r[0], "ticket_name": r[1]} for r in rows ]
-                    return json.dumps(tickets)
-                finally:
-                    try:
-                        cur.close()
-                    except Exception:
-                        pass
-        except Exception:
-            # ignore and fall back
-            pass
-
-        # fallback sample tickets (keeps backward compatibility)
-        my_tickets = [
-            Ticket(ticket_id=1, ticket_name="MyTicket"),
-            Ticket(ticket_id=2, ticket_name="Ticket 2"),
-            Ticket(ticket_id=3, ticket_name="Other Ticket")
-        ]
-        json_my_tickets = json.dumps([ticket.__dict__ for ticket in my_tickets])
-        return json_my_tickets
-
-    def add_ticket(self, ticket_name: str) -> bool:
-        """
-        Minimal implementation: append a ticket to the DB. No extra validation.
-        Returns True on success, False otherwise.
-        """
-        if not isinstance(ticket_name, str):
-            return False
-
         try:
             if not self.db or not getattr(self.db, "connection", None):
                 return False
-
             conn = self.db.connection
             cur = conn.cursor()
             try:
-                # keep SQL simple; assume there is a tickets table with ticket_name text
-                cur.execute("INSERT INTO tickets (ticket_name) VALUES (%s) RETURNING ticket_id;", (ticket_name,))
-                _ = cur.fetchone()
+                cur.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS tickets (
+                        id SERIAL PRIMARY KEY,
+                        description TEXT,
+                        price REAL
+                    );
+                    """
+                )
                 conn.commit()
                 return True
             finally:
@@ -116,6 +75,103 @@ class API:
                     pass
         except Exception:
             return False
+
+    # --- Ticket API -------------------------------------------------------
+    def get_ticket(self) -> str:
+        """
+        Load all tickets from the database and return a JSON string.
+        Ensures the tickets table exists before querying.
+        """
+        # Ensure table exists
+        self._ensure_tickets_table()
+
+        try:
+            if not self.db or not getattr(self.db, "connection", None):
+                return json.dumps([])
+
+            conn = self.db.connection
+            cur = conn.cursor()
+            try:
+                cur.execute("SELECT id, description, price FROM tickets ORDER BY id;")
+                rows = cur.fetchall()
+                tickets = []
+                for r in rows:
+                    tickets.append({
+                        "id": int(r[0]) if r[0] is not None else None,
+                        "description": r[1] if r[1] is not None else "",
+                        "price": float(r[2]) if r[2] is not None else 0.0,
+                    })
+                return json.dumps(tickets)
+            finally:
+                try:
+                    cur.close()
+                except Exception:
+                    pass
+        except Exception:
+            return json.dumps([])
+
+    # keep backwards compatibility
+    def get_tickets(self) -> str:
+        return self.get_ticket()
+
+    def add_ticket(self, description: Any, price: Optional[Any] = None) -> str:
+        """
+        Persist a ticket in the DB. Accepts either:
+          - add_ticket(description_str, price_val)
+          - add_ticket(json_string_or_dict) where object has description and price
+        Returns the created ticket as JSON string on success, or an empty JSON on failure.
+        """
+        # Normalize incoming args
+        desc = None
+        pr = None
+        try:
+            if price is None and isinstance(description, (str, bytes)):
+                # maybe JSON string
+                try:
+                    obj = json.loads(description)
+                    desc = obj.get("description")
+                    pr = obj.get("price")
+                except Exception:
+                    # treat description as plain text
+                    desc = description
+                    pr = None
+            elif isinstance(description, dict):
+                desc = description.get("description")
+                pr = description.get("price")
+            else:
+                desc = description
+                pr = price
+
+            if desc is None:
+                return json.dumps({})
+
+            # ensure table
+            if not self._ensure_tickets_table():
+                return json.dumps({})
+
+            if not self.db or not getattr(self.db, "connection", None):
+                return json.dumps({})
+
+            conn = self.db.connection
+            cur = conn.cursor()
+            try:
+                cur.execute(
+                    "INSERT INTO tickets (description, price) VALUES (%s, %s) RETURNING id, description, price;",
+                    (desc, float(pr) if pr is not None else None),
+                )
+                row = cur.fetchone()
+                conn.commit()
+                if row:
+                    ticket = {"id": int(row[0]), "description": row[1] if row[1] is not None else "", "price": float(row[2]) if row[2] is not None else 0.0}
+                    return json.dumps(ticket)
+                return json.dumps({})
+            finally:
+                try:
+                    cur.close()
+                except Exception:
+                    pass
+        except Exception:
+            return json.dumps({})
 
     def __set_connection(self) -> bool:
         pass
