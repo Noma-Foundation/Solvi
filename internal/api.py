@@ -5,9 +5,9 @@ from internal.database import DatabaseConnection, open_connection
 from internal.config import DBConfig
 
 class API:
-    def __init__(self, db=None):
-        self.__database = DatabaseConnection()
-        self.__dbconfig = DBConfig()
+    def __init__(self, database: DatabaseConnection, dbconfig: DBConfig):
+        self.__database = database
+        self.__dbconfig = dbconfig
         self.db = open_connection(self.__database, self.__dbconfig)
 
     def auth_user(self, username: str, password: str) -> bool:
