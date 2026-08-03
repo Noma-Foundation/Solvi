@@ -42,7 +42,6 @@ export class MenuBar extends IComponentModel {
                     <li class="selected" id="home-page" role="button" tabindex="0">
                         <img src="${homeIcon}" alt="Home" loading="lazy">
                     </li>
-                    <!--
                     <li class="unselected" id="folder-page" role="button" tabindex="0">
                         <img src="${folderIcon}" alt="Folder" loading="lazy">
                     </li>
@@ -55,7 +54,6 @@ export class MenuBar extends IComponentModel {
                     <li class="unselected" id="calendar-page" role="button" tabindex="0">
                         <img src="${calendarIcon}" alt="Calendar" loading="lazy">
                     </li>
-                    -->
                     <li class="unselected" id="notifications-page" role="button" tabindex="0">
                         <img src="${notificationsIcon}" alt="Notifications" loading="lazy">
                     </li>
@@ -95,6 +93,14 @@ export class MenuBar extends IComponentModel {
 
             if (this.#currentPageId === "#home-page") {
                 contextManager.show("home")
+            } else if (this.#currentPageId === "#folder-page") {
+                console.log("#folder-page")
+            } else if (this.#currentPageId === "#customer-page") {
+                console.log("#customer-page")
+            } else if (this.#currentPageId === "#inbox-page") {
+                console.log("#inbox-page")
+            } else if (this.#currentPageId === "#calendar-page") {
+                console.log("#calender")
             } else if (this.#currentPageId === "#notifications-page") {
                 contextManager.show("notification")
             }
