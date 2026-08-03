@@ -38,7 +38,7 @@ export function Notification() {
 
                     tickets.forEach(ticket => {
                         const ticket_element = document.createElement("li");
-                        ticket_element.textContent = `${ticket.description} ${ticket.price !== undefined ? ' - $' + ticket.price : ''}`;
+                        ticket_element.textContent = ticket.ticket_name;
                         ticket_element.dataset.ticketId = ticket.id || '';
                         notification_list_ul.appendChild(ticket_element);
                     });
@@ -65,7 +65,7 @@ export function Notification() {
                     if (created && created.id) {
                         const notification_list_ul = document.getElementById("notification-list-ul");
                         const ticket_element = document.createElement("li");
-                        ticket_element.textContent = `${created.description} - $${created.price}`;
+                        ticket_element.textContent = created.description;
                         ticket_element.dataset.ticketId = created.id;
                         notification_list_ul.appendChild(ticket_element);
 
@@ -82,7 +82,9 @@ export function Notification() {
 
             document.addEventListener('DOMContentLoaded', () => {
                 const form = document.getElementById('add-ticket-form');
-                if (form) form.addEventListener('submit', addTicketHandler);
+                if (form) {
+                    form.addEventListener('submit', addTicketHandler);
+                }
                 fetchAndRenderTickets();
             });
         </script>
