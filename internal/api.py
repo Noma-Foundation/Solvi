@@ -42,10 +42,8 @@ class API:
             if not db_password_hash:
                 return False
 
-            # bcrypt.checkpw expects bytes
             return bcrypt.checkpw(password.encode("utf-8"), db_password_hash.encode("utf-8"))
         except Exception:
-            # Don't expose internals to the caller. In production replace with structured logging.
             return False
 
     def add_ticket(self, description, price):
