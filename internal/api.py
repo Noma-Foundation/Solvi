@@ -4,7 +4,7 @@ import bcrypt
 from typing import List
 from internal.database import DatabaseConnection, open_connection
 from internal.models import Ticket
-
+from internal.config import DBConfig
 class API:
     """
     A class to handle all API requests to the database. This class has an instance
@@ -16,7 +16,7 @@ class API:
         if db_config is None:
             db_config = DatabaseConnection()
         self.__database = db_config
-        self.db = open_connection(self.__database)
+        self.db = open_connection(self.__database, DBConfig)
 
     def auth_user(self, username: str, password: str) -> bool:
         """Authenticate user by username and password.
