@@ -54,6 +54,7 @@ class API:
         """
         try:
             if not self.db or not getattr(self.db, "connection", None):
+                print("_ensure_tickets_table: no db connection")
                 return False
             conn = self.db.connection
             cur = conn.cursor()
@@ -74,7 +75,8 @@ class API:
                     cur.close()
                 except Exception:
                     pass
-        except Exception:
+        except Exception as e:
+            print("_ensure_tickets_table error:", e)
             return False
 
     # --- Ticket API -------------------------------------------------------
@@ -88,6 +90,7 @@ class API:
 
         try:
             if not self.db or not getattr(self.db, "connection", None):
+                print("get_ticket: no db connection")
                 return json.dumps([])
 
             conn = self.db.connection
@@ -108,7 +111,8 @@ class API:
                     cur.close()
                 except Exception:
                     pass
-        except Exception:
+        except Exception as e:
+            print("get_ticket error:", e)
             return json.dumps([])
 
     # keep backwards compatibility
@@ -144,13 +148,16 @@ class API:
                 pr = price
 
             if desc is None:
+                print("add_ticket: missing description")
                 return json.dumps({})
 
             # ensure table
             if not self._ensure_tickets_table():
+                print("add_ticket: ensure table failed")
                 return json.dumps({})
 
             if not self.db or not getattr(self.db, "connection", None):
+                print("add_ticket: no db connection")
                 return json.dumps({})
 
             conn = self.db.connection
@@ -165,13 +172,15 @@ class API:
                 if row:
                     ticket = {"id": int(row[0]), "description": row[1] if row[1] is not None else "", "price": float(row[2]) if row[2] is not None else 0.0}
                     return json.dumps(ticket)
+                print("add_ticket: insert returned no row")
                 return json.dumps({})
             finally:
                 try:
                     cur.close()
                 except Exception:
                     pass
-        except Exception:
+        except Exception as e:
+            print("add_ticket error:", e)
             return json.dumps({})
 
     def __set_connection(self) -> bool:
