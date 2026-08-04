@@ -38,8 +38,8 @@ class Application:
         )
 
     def shutdown(self, server_process: Popen = None):
-        backend.shutdown_server(server_process)
         backend.close_connection(self.api.db)
+        backend.shutdown_server(server_process)
 
     @staticmethod
     def get_window():
