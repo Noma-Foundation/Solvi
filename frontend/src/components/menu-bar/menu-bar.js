@@ -92,15 +92,15 @@ export class MenuBar extends IComponentModel {
             this.#currentPageId = value;
 
             if (this.#currentPageId === "#home-page") {
-                contextManager.show("home")
+                contextManager.show("home");
             } else if (this.#currentPageId === "#folder-page") {
-                console.log("#folder-page")
+                contextManager.show("folder");
             } else if (this.#currentPageId === "#customer-page") {
-                console.log("#customer-page")
+                contextManager.show("customer");
             } else if (this.#currentPageId === "#inbox-page") {
-                console.log("#inbox-page")
+                contextManager.show("inbox");
             } else if (this.#currentPageId === "#calendar-page") {
-                console.log("#calender")
+                contextManager.show("calendar");
             } else if (this.#currentPageId === "#notifications-page") {
                 contextManager.show("notification")
             }
