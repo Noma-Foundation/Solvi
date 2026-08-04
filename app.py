@@ -20,7 +20,7 @@ class Application:
             self.__url = "frontend/dist/index.html"
 
         Application.window = webview.create_window(
-            title="Orderhub",
+            title="Solvi",
             url=self.__url,
             js_api=self.api,
             width=1080,
