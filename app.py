@@ -29,7 +29,10 @@ class Application:
         )
 
     def run(self): 
-        webview.start(debug=self.__dev_mode)
+        webview.start(
+            debug=self.__dev_mode,
+            icon='./build/windows/icon.ico'
+        )
 
     def shutdown(self):
         backend.shutdown_server(self.__dev_mode)

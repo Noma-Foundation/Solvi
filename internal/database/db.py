@@ -35,5 +35,3 @@ def open_connection(connection: DatabaseConnection, config: DBConfig):
 
 def close_connection(conn: DatabaseConnection):
     conn.connection.close()
-    return conn
-
