@@ -1,0 +1,12 @@
+{
+    "sites": {
+        "docs": {
+            "glob": "src/**/*.{js,md}",
+            "out": "api"
+        },
+        "guides": {
+            "glob": "guides/**/*.md",
+            "templates": "./site/templates"
+        }
+    }
+}
