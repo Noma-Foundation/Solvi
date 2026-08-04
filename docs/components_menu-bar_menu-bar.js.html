@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/menu-bar/menu-bar.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/menu-bar/menu-bar.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import $ from "jquery";
+
+import { IComponentModel } from "../component-model.js";
+
+import { contextManager } from "../../utils/context-manager.js";
+
+import homeIcon from "../../assets/icons/aside/home.svg";
+import folderIcon from "../../assets/icons/aside/folder.svg";
+import customerIcon from "../../assets/icons/aside/customer.svg";
+import inboxIcon from "../../assets/icons/aside/inbox.svg";
+import calendarIcon from "../../assets/icons/aside/calendar.svg";
+import notificationsIcon from "../../assets/icons/aside/notifications.svg";
+
+import { html } from "../../utils/html.js";
+
+export class MenuBar extends IComponentModel {
+    #menuBarId;
+    #currentPageId;
+    #previousPageId;
+    #menubarComponentList;
+
+    constructor() {
+        super();
+        this.#menuBarId = "#main-menu-bar";
+        this.#currentPageId = "#home-page";
+        this.#previousPageId = null;
+        this.#menubarComponentList = [
+            "#home-page",
+            "#folder-page",
+            "#customer-page",
+            "#inbox-page",
+            "#calendar-page",
+            "#notifications-page"
+        ];
+        this.init();
+    }
+
+    buildTemplate() {
+        const menuBarTemplate = html`
+            &lt;nav class="navigation-bar container-fluid px-0">
+                &lt;ul>
+                    &lt;li class="selected" id="home-page" role="button" tabindex="0">
+                        &lt;img src="${homeIcon}" alt="Home" loading="lazy">
+                    &lt;/li>
+                    &lt;li class="unselected" id="folder-page" role="button" tabindex="0">
+                        &lt;img src="${folderIcon}" alt="Folder" loading="lazy">
+                    &lt;/li>
+                    &lt;li class="unselected" id="customer-page" role="button" tabindex="0">
+                        &lt;img src="${customerIcon}" alt="Customer" loading="lazy">
+                    &lt;/li>
+                    &lt;li class="unselected" id="inbox-page" role="button" tabindex="0">
+                        &lt;img src="${inboxIcon}" alt="Inbox" loading="lazy">
+                    &lt;/li>
+                    &lt;li class="unselected" id="calendar-page" role="button" tabindex="0">
+                        &lt;img src="${calendarIcon}" alt="Calendar" loading="lazy">
+                    &lt;/li>
+                    &lt;li class="unselected" id="notifications-page" role="button" tabindex="0">
+                        &lt;img src="${notificationsIcon}" alt="Notifications" loading="lazy">
+                    &lt;/li>
+                &lt;/ul>
+            &lt;/nav>
+        `;
+        $(this.#menuBarId).append(menuBarTemplate);
+    }
+
+    bindEvents() {
+        const allButtons = $(`${this.#menuBarId} ul li`);
+
+        allButtons.on("click", (event) => {
+            const target = event.currentTarget;
+            const targetId = "#" + target.getAttribute("id");
+            const state = this.setCurrentPageId(targetId);
+            if (state) {
+                this.#switchButtonState(target);
+            }
+        });
+    }
+
+    #switchButtonState(target) {
+        $(this.#previousPageId).removeClass("selected").addClass("unselected");
+        $(target).removeClass("unselected").addClass("selected");
+    }
+
+    /**
+     * @param {string} value 
+     * @returns {boolean} - True if the current page id is updated, false otherwise. 
+     */
+    setCurrentPageId(value) {
+        if (value === this.#currentPageId || !value) { return false; }
+        if (this.#menubarComponentList.includes(value)) {
+            this.#previousPageId = this.#currentPageId;
+            this.#currentPageId = value;
+
+            if (this.#currentPageId === "#home-page") {
+                contextManager.show("home");
+            } else if (this.#currentPageId === "#folder-page") {
+                contextManager.show("folder");
+            } else if (this.#currentPageId === "#customer-page") {
+                contextManager.show("customer");
+            } else if (this.#currentPageId === "#inbox-page") {
+                contextManager.show("inbox");
+            } else if (this.#currentPageId === "#calendar-page") {
+                contextManager.show("calendar");
+            } else if (this.#currentPageId === "#notifications-page") {
+                contextManager.show("notification")
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @returns {string} - The current page id with '#' prefix. 
+     */
+    getCurrentPageId() {
+        return this.#currentPageId;
+    }
+
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ContextManager.html">ContextManager</a></li><li><a href="EventBus_EventBus.html">EventBus</a></li><li><a href="EventList_EventList.html">EventList</a></li><li><a href="History.html">History</a></li><li><a href="IComponentModel.html">IComponentModel</a></li><li><a href="IEvent.html">IEvent</a></li><li><a href="NotificationObject.html">NotificationObject</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Aug 04 2026 15:14:43 GMT-0300 (Horário Padrão de Brasília)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
