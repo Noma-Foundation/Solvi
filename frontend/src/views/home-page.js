@@ -2,7 +2,7 @@
 import pkg from '../../package.json';
 import { html } from '../utils/html.js';
 
-export function Home() {
+export function HomePage() {
     return html`
         <section class="container mt-4">
             <div id="home-page-container" class="d-flex flex-column flex-wrap">

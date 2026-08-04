@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: components/notification/notification.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,46 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: components/notification/notification.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { IComponentModel } from "../component-model.js";
+import { html } from "../../utils/html.js";
 
+/**
+ * @implements {IComponentModel}
+ */
+export class NotificationObject extends IComponentModel {
+    #listId;
 
-    <h3> </h3>
+    constructor() {
+        super();
+        this.#listId = "notification-list-ul";
+        this.init();
+    }
 
+    buildTemplate() {
+    }
 
+    bindEvents() {
 
+    }
 
+    template() {
+        return html`
+            &lt;li class="list-group-item">&lt;/li>
+        `;
+    }
 
-
-
-
-
-
-    
-
-
-
-
-
+}</code></pre>
+        </article>
+    </section>
 
 
 
