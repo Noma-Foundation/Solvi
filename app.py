@@ -1,3 +1,4 @@
+import subprocess
 import webview
 
 import internal as backend
@@ -36,8 +37,8 @@ class Application:
             icon='./build/windows/icon.ico'
         )
 
-    def shutdown(self):
-        backend.shutdown_server(self.__dev_mode)
+    def shutdown(self, server_process: subprocess.Popen):
+        backend.shutdown_server(server_process)
         backend.close_connection(self.api.db)
 
     @staticmethod

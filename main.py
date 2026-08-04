@@ -4,8 +4,8 @@ from app import Application
 
 
 if __name__ == "__main__":  
-    dev_mode = internal.start_server()
+    server_process = internal.start_server()
     
-    app = Application(dev_mode=dev_mode)
+    app = Application(dev_mode=True)
     app.run()
-    app.shutdown()
+    app.shutdown(server_process)
