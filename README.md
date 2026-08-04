@@ -1,14 +1,14 @@
-# OrderManager
+# Solvi
 
 ## 1. Descrição
 
-O **OrderHub** é o sistema de gestão interno da sua operação. Ele recebe e consulta solicitações geradas pelo **OrderRequester**, permitindo realizar a triagem técnica, gerenciar orçamentos, controlar pedidos e ordens de serviço, atualizar seus status e apoiar a execução dos serviços pela organização.
+O **Solvi** é o sistema de gestão interno da sua operação. Ele recebe e consulta solicitações geradas pelo **OrderRequester**, permitindo realizar a triagem técnica, gerenciar orçamentos, controlar pedidos e ordens de serviço, atualizar seus status e apoiar a execução dos serviços pela organização.
 
-O **OrderHub** não é o portal principal do cliente. Seu foco está na operação interna, oferecendo suporte à equipe e centralizando a organização dos processos.
+O **Solvi** não é o portal principal do cliente. Seu foco está na operação interna, oferecendo suporte à equipe e centralizando a organização dos processos.
 
 ### 1.1 Principais características
 
-O **OrderHub** foi desenvolvido para ser leve, intuitivo e eficiente. Com poucos cliques, é possível adicionar chamados, gerar relatórios, gerenciar atividades e administrar funcionários.
+O **Solvi** foi desenvolvido para ser leve, intuitivo e eficiente. Com poucos cliques, é possível adicionar chamados, gerar relatórios, gerenciar atividades e administrar funcionários.
 
 O sistema conta com autenticação integrada e banco de dados local, dispensando conexão constante com a internet. Dessa forma, pode ser executado offline, garantindo maior desempenho, confiabilidade e consistência em toda a experiência de uso.
 
