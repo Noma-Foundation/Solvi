@@ -1,8 +1,12 @@
 import $ from "jquery";
-import { Home } from "../views/home-page.js";
-import { Notification } from "../views/notification-page.js";
+import { HomePage } from "../views/home-page.js";
+import { NotificationPage } from "../views/notification-page.js";
 import { MenuBar } from "../components/menu-bar/menu-bar.js";
 import { SearchBar } from "../components/search-bar/search-bar.js";
+import { FolderPage } from "../views/folder-page.js";
+import { CustomerPage } from "../views/customer-page.js";
+import { InboxPage } from "../views/inbox-page.js";
+import { CalendarPage } from "../views/calendar-page.js";
 
 /**
  * ContextManager centralizes view registration and rendering for the application.
@@ -20,8 +24,12 @@ class ContextManager {
         this._searchBar = null;
 
         // register default views
-        this.register("home", (params) => Home(params));
-        this.register("notification", (params) => Notification(params));
+        this.register("home", (params) => HomePage(params));
+        this.register("notification", (params) => NotificationPage(params));
+        this.register("folder", (params) => FolderPage(params));
+        this.register("customer", (params) => CustomerPage(params));
+        this.register("inbox", (params) => InboxPage(params));
+        this.register("calendar", (params) => CalendarPage(params));
 
         console.log('[ContextManager] initialized, registered views:', Array.from(this._views.keys()));
     }
@@ -58,10 +66,10 @@ class ContextManager {
             this._menuBar = new MenuBar();
             console.log('[ContextManager] MenuBar created');
         }
-        if (!this._searchBar) {
+        /*if (!this._searchBar) {
             this._searchBar = new SearchBar();
             console.log('[ContextManager] SearchBar created');
-        }
+        }*/
 
         const content = renderer(params);
         $(this.contextSelector).html(content);

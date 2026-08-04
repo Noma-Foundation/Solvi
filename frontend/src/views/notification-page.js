@@ -1,6 +1,6 @@
 import { html } from "../utils/html.js";
 
-export function Notification() {
+export function NotificationPage() {
     return html`
         <section class="container">
             <div id="notification-page-container" onload="refreshList()">
