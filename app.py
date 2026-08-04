@@ -1,7 +1,9 @@
-from internal import API
 import webview
 
 import internal as backend
+
+from internal import API
+
 
 class Application:
     window: any = None
