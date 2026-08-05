@@ -1,12 +1,12 @@
-import subprocess
 import sys
 import os
 import subprocess
 import time
 
 from typing import Union
+from subprocess import Popen, CREATE_NEW_CONSOLE
 
-def start_server() -> Union[subprocess.Popen, bool]:
+def start_server() -> Union[Popen, bool]:
     if '--dev' in sys.argv:
         print("Initializing VITE...")
         
@@ -17,7 +17,7 @@ def start_server() -> Union[subprocess.Popen, bool]:
             "npm run dev", 
             cwd=frontend_dir, 
             shell=True,
-            creationflags=subprocess.CREATE_NEW_CONSOLE 
+            creationflags=CREATE_NEW_CONSOLE 
         )
         
         print("Waiting for VITE to compile and start...")
