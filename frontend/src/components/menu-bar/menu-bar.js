@@ -96,20 +96,28 @@ export class MenuBar extends IComponentModel {
             this.#previousPageId = this.#currentPageId;
             this.#currentPageId = value;
 
-            if (this.#currentPageId === "#home-page") {
-                contextManager.show("home");
-            } else if (this.#currentPageId === "#folder-page") {
-                contextManager.show("folder");
-            } else if (this.#currentPageId === "#customer-page") {
-                contextManager.show("customer");
-            } else if (this.#currentPageId === "#inbox-page") {
-                contextManager.show("inbox");
-            } else if (this.#currentPageId === "#calendar-page") {
-                contextManager.show("calendar");
-            } else if (this.#currentPageId === "#notifications-page") {
-                contextManager.show("notification")
-            } else if (this.#currentPageId === "#spreadsheet-page") {
-                contextManager.show("spreadsheet");
+            switch (this.#currentPageId) {
+                case "#home-page":
+                    contextManager.show("home");
+                    break;
+                case "#folder-page":
+                    contextManager.show("folder");
+                    break;
+                case "#customer-page":
+                    contextManager.show("customer");
+                    break;
+                case "#inbox-page":
+                    contextManager.show("inbox");
+                    break;
+                case "#calendar-page":
+                    contextManager.show("calendar");
+                    break;
+                case "#notifications-page":
+                    contextManager.show("notification");
+                    break;
+                case "#spreadsheet-page":
+                    contextManager.show("spreadsheet");
+                    break;
             }
             return true;
         }
