@@ -2,6 +2,7 @@ import webview
 
 import internal as backend
 
+from subprocess import Popen
 from internal import API
 
 
@@ -36,9 +37,9 @@ class Application:
             icon='./build/windows/icon.ico'
         )
 
-    def shutdown(self):
-        backend.shutdown_server(self.__dev_mode)
+    def shutdown(self, server_process: Popen = None):
         backend.close_connection(self.api.db)
+        backend.shutdown_server(server_process)
 
     @staticmethod
     def get_window():

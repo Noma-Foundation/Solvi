@@ -1,13 +1,14 @@
 {
     "source": {
         "include": [
-            "src"
+            "src/",
+            "README.md"
         ],
         "includePattern": ".+\\.js$",
         "excludePattern": "(^|\\/|\\\\)_"
     },
     "opts": {
-        "destination": "./docs",
+        "destination": "../docs",
         "recurse": true
     }
 }

@@ -7,6 +7,7 @@ import { FolderPage } from "../views/folder-page.js";
 import { CustomerPage } from "../views/customer-page.js";
 import { InboxPage } from "../views/inbox-page.js";
 import { CalendarPage } from "../views/calendar-page.js";
+import { DashboardPage } from "../views/dashboard-page.js";
 
 /**
  * ContextManager centralizes view registration and rendering for the application.
@@ -30,6 +31,7 @@ class ContextManager {
         this.register("customer", (params) => CustomerPage(params));
         this.register("inbox", (params) => InboxPage(params));
         this.register("calendar", (params) => CalendarPage(params));
+        this.register("dashboard", (params) => DashboardPage(params));
 
         console.log('[ContextManager] initialized, registered views:', Array.from(this._views.keys()));
     }
@@ -66,10 +68,10 @@ class ContextManager {
             this._menuBar = new MenuBar();
             console.log('[ContextManager] MenuBar created');
         }
-        /*if (!this._searchBar) {
+        if (!this._searchBar) {
             this._searchBar = new SearchBar();
             console.log('[ContextManager] SearchBar created');
-        }*/
+        }
 
         const content = renderer(params);
         $(this.contextSelector).html(content);

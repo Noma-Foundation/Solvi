@@ -10,6 +10,7 @@ import customerIcon from "../../assets/icons/aside/customer.svg";
 import inboxIcon from "../../assets/icons/aside/inbox.svg";
 import calendarIcon from "../../assets/icons/aside/calendar.svg";
 import notificationsIcon from "../../assets/icons/aside/notifications.svg";
+import spreadsheetIcon from "../../assets/icons/aside/spreadsheet.svg";
 
 import { html } from "../../utils/html.js";
 
@@ -30,7 +31,8 @@ export class MenuBar extends IComponentModel {
             "#customer-page",
             "#inbox-page",
             "#calendar-page",
-            "#notifications-page"
+            "#notifications-page",
+            "#dashboard-page"
         ];
         this.init();
     }
@@ -57,6 +59,9 @@ export class MenuBar extends IComponentModel {
                     <li class="unselected" id="notifications-page" role="button" tabindex="0">
                         <img src="${notificationsIcon}" alt="Notifications" loading="lazy">
                     </li>
+                    <li class="unselected" id="dashboard-page" role="button" tabindex="0">
+                        <img src="${spreadsheetIcon}" alt="Dashboard" loading="lazy">
+                    </li>
                 </ul>
             </nav>
         `;
@@ -67,13 +72,23 @@ export class MenuBar extends IComponentModel {
         const allButtons = $(`${this.#menuBarId} ul li`);
 
         allButtons.on("click", (event) => {
-            const target = event.currentTarget;
-            const targetId = "#" + target.getAttribute("id");
-            const state = this.setCurrentPageId(targetId);
-            if (state) {
-                this.#switchButtonState(target);
-            }
+            this.#onclickButton(event);
         });
+
+        allButtons.on("keydown", (event) => {
+            this.#onclickButton(event);
+        });
+    }
+
+    #onclickButton(event) {
+        if (event.type !== "click" && event.key !== "Enter" && event.key !== " ") { return; }
+
+        const target = event.currentTarget;
+        const targetId = "#" + target.getAttribute("id");
+        const state = this.setCurrentPageId(targetId);
+        if (state) {
+            this.#switchButtonState(target);
+        }
     }
 
     #switchButtonState(target) {
@@ -91,18 +106,28 @@ export class MenuBar extends IComponentModel {
             this.#previousPageId = this.#currentPageId;
             this.#currentPageId = value;
 
-            if (this.#currentPageId === "#home-page") {
-                contextManager.show("home");
-            } else if (this.#currentPageId === "#folder-page") {
-                contextManager.show("folder");
-            } else if (this.#currentPageId === "#customer-page") {
-                contextManager.show("customer");
-            } else if (this.#currentPageId === "#inbox-page") {
-                contextManager.show("inbox");
-            } else if (this.#currentPageId === "#calendar-page") {
-                contextManager.show("calendar");
-            } else if (this.#currentPageId === "#notifications-page") {
-                contextManager.show("notification")
+            switch (this.#currentPageId) {
+                case "#home-page":
+                    contextManager.show("home");
+                    break;
+                case "#folder-page":
+                    contextManager.show("folder");
+                    break;
+                case "#customer-page":
+                    contextManager.show("customer");
+                    break;
+                case "#inbox-page":
+                    contextManager.show("inbox");
+                    break;
+                case "#calendar-page":
+                    contextManager.show("calendar");
+                    break;
+                case "#notifications-page":
+                    contextManager.show("notification");
+                    break;
+                case "#dashboard-page":
+                    contextManager.show("dashboard");
+                    break;
             }
             return true;
         }
