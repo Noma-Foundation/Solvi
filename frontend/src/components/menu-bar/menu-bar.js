@@ -108,6 +108,8 @@ export class MenuBar extends IComponentModel {
                 contextManager.show("calendar");
             } else if (this.#currentPageId === "#notifications-page") {
                 contextManager.show("notification")
+            } else if (this.#currentPageId === "#spreadsheet-page") {
+                contextManager.show("spreadsheet");
             }
             return true;
         }

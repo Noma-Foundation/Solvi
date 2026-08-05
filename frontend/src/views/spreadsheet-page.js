@@ -1,6 +1,6 @@
 import { NotCompleted } from "../utils/not-completed.js";
 
-export function NotificationPage() {
+export function SpreadsheetPage() {
     return NotCompleted();
 }
 
