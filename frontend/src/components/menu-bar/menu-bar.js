@@ -72,13 +72,23 @@ export class MenuBar extends IComponentModel {
         const allButtons = $(`${this.#menuBarId} ul li`);
 
         allButtons.on("click", (event) => {
-            const target = event.currentTarget;
-            const targetId = "#" + target.getAttribute("id");
-            const state = this.setCurrentPageId(targetId);
-            if (state) {
-                this.#switchButtonState(target);
-            }
+            this.#onclickButton(event);
         });
+
+        allButtons.on("keydown", (event) => {
+            this.#onclickButton(event);
+        });
+    }
+
+    #onclickButton(event) {
+        if (event.type !== "click" && event.key !== "Enter" && event.key !== " ") { return; }
+
+        const target = event.currentTarget;
+        const targetId = "#" + target.getAttribute("id");
+        const state = this.setCurrentPageId(targetId);
+        if (state) {
+            this.#switchButtonState(target);
+        }
     }
 
     #switchButtonState(target) {
