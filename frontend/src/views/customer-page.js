@@ -1,9 +1,6 @@
 import { html } from "../utils/html.js";
+import { NotCompleted } from "../utils/not-completed.js";
 
 export function CustomerPage() {
-    return html`
-        <div id="customer-page">
-            <h2>Customer Page</h2>
-        </div>
-    `;
+    return NotCompleted();
 }
