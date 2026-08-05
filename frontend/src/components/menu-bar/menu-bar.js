@@ -32,7 +32,7 @@ export class MenuBar extends IComponentModel {
             "#inbox-page",
             "#calendar-page",
             "#notifications-page",
-            "#spreadsheet-page"
+            "#dashboard-page"
         ];
         this.init();
     }
@@ -59,8 +59,8 @@ export class MenuBar extends IComponentModel {
                     <li class="unselected" id="notifications-page" role="button" tabindex="0">
                         <img src="${notificationsIcon}" alt="Notifications" loading="lazy">
                     </li>
-                    <li class="unselected" id="spreadsheet-page" role="button" tabindex="0">
-                        <img src="${spreadsheetIcon}" alt="Spreadsheet" loading="lazy">
+                    <li class="unselected" id="dashboard-page" role="button" tabindex="0">
+                        <img src="${spreadsheetIcon}" alt="Dashboard" loading="lazy">
                     </li>
                 </ul>
             </nav>
@@ -125,8 +125,8 @@ export class MenuBar extends IComponentModel {
                 case "#notifications-page":
                     contextManager.show("notification");
                     break;
-                case "#spreadsheet-page":
-                    contextManager.show("spreadsheet");
+                case "#dashboard-page":
+                    contextManager.show("dashboard");
                     break;
             }
             return true;

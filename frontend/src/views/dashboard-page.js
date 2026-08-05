@@ -1,6 +1,6 @@
 import { NotCompleted } from "../utils/not-completed.js";
 
-export function SpreadsheetPage() {
+export function DashboardPage() {
     return NotCompleted();
 }
 

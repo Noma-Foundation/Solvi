@@ -31,7 +31,7 @@ class ContextManager {
         this.register("customer", (params) => CustomerPage(params));
         this.register("inbox", (params) => InboxPage(params));
         this.register("calendar", (params) => CalendarPage(params));
-        this.register("spreadsheet", (params) => SpreadsheetPage(params));
+        this.register("dashboard", (params) => SpreadsheetPage(params));
 
         console.log('[ContextManager] initialized, registered views:', Array.from(this._views.keys()));
     }
