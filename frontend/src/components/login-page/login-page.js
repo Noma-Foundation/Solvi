@@ -2,9 +2,9 @@ import $ from "jquery";
 import { IComponentModel } from "../component-model.js";
 import { eventBus } from "../../event-manager-singleton.js";
 
-import "./login-page.css";
-
 import { html } from "../../utils/html.js";
+
+import "./login-page.css";
 
 export class LoginPage extends IComponentModel {
     #context;
