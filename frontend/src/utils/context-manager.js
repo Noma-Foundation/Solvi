@@ -1,8 +1,11 @@
 import $ from "jquery";
-import { HomePage } from "../views/home-page.js";
-import { NotificationPage } from "../views/notification-page.js";
+
 import { MenuBar } from "../components/menu-bar/menu-bar.js";
 import { SearchBar } from "../components/search-bar/search-bar.js";
+import { Setting } from "../components/setting/setting.js";
+
+import { HomePage } from "../views/home-page.js";
+import { NotificationPage } from "../views/notification-page.js";
 import { FolderPage } from "../views/folder-page.js";
 import { CustomerPage } from "../views/customer-page.js";
 import { InboxPage } from "../views/inbox-page.js";
@@ -22,6 +25,7 @@ class ContextManager {
         // layout components created once
         this._menuBar = null;
         this._searchBar = null;
+        this._setting = null;
 
         // register default views
         this.register("home", (params) => HomePage(params));
@@ -69,6 +73,10 @@ class ContextManager {
         if (!this._searchBar) {
             this._searchBar = new SearchBar();
             console.log('[ContextManager] SearchBar created');
+        }
+        if (!this._setting) {
+            this._setting = new Setting();
+            console.log('[ContextManager] Setting created');
         }
 
         const content = renderer(params);
