@@ -11,20 +11,18 @@ project_root = Path(SPECPATH).resolve()
 webview_datas, webview_binaries, webview_hiddenimports = collect_all("webview")
 pythonnet_datas, pythonnet_binaries, pythonnet_hiddenimports = collect_all("pythonnet")
 clr_datas, clr_binaries, clr_hiddenimports = collect_all("clr_loader")
-bcrypt_datas, bcrypt_binaries, bcrypt_hiddenimports = collect_all("bcrypt")
 psycopg2_binaries = collect_dynamic_libs("psycopg2")
 
 datas = [
     (str(project_root / "frontend" / "dist"), "frontend/dist"),
     (str(project_root / "build" / "windows" / "icon.ico"), "build/windows"),
 ]
-datas += webview_datas + pythonnet_datas + clr_datas + bcrypt_datas
+datas += webview_datas + pythonnet_datas + clr_datas
 
 binaries = (
     webview_binaries
     + pythonnet_binaries
     + clr_binaries
-    + bcrypt_binaries
     + psycopg2_binaries
 )
 
@@ -38,7 +36,6 @@ hiddenimports = list(
             "pythonnet",
             "bottle",
             "proxy_tools",
-            "bcrypt",
             "psycopg2",
             "dotenv",
             "internal",
@@ -55,7 +52,6 @@ hiddenimports = list(
         + webview_hiddenimports
         + pythonnet_hiddenimports
         + clr_hiddenimports
-        + bcrypt_hiddenimports
     )
 )
 
