@@ -15,7 +15,6 @@ class Application:
         self.api = backend.API(self.__database, self.__dbconfig)
         self.os: backend.OperatingSystem = backend.OperatingSystem()
         self.__dev_mode = dev_mode
-        self.__oauth = None
 
         if dev_mode:
             self.__url = "http://localhost:5173"
