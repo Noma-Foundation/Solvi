@@ -9,6 +9,7 @@ import $ from "jquery";
 
 import { contextManager } from "./utils/context-manager.js";
 import { eventBus } from "./event-manager-singleton.js";
+import { notificationService } from "./utils/notification-service.js";
 
 import { LoginPage } from "./components/login-page/login-page.js";
 
@@ -16,6 +17,8 @@ $(function () {
     // Initialize main app components
     const context = "#app-main-context";
     $("#app-version").text(`${pkg.version}`);
+
+    notificationService.start();
 
     console.log("Open login page");
     const loginPage = new LoginPage(context);

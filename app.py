@@ -3,7 +3,7 @@ import webview
 import internal as backend
 
 from subprocess import Popen
-from internal import API
+from internal.utils.paths import resource_path
 
 
 class Application:
@@ -20,7 +20,7 @@ class Application:
         if dev_mode:
             self.__url = "http://localhost:5173"
         else:
-            self.__url = "frontend/dist/index.html"
+            self.__url = str(resource_path("frontend", "dist", "index.html"))
 
         Application.window = webview.create_window(
             title="Solvi",
@@ -31,10 +31,11 @@ class Application:
             resizable=True
         )
 
-    def run(self): 
+    def run(self):
+        icon = resource_path("build", "windows", "icon.ico")
         webview.start(
             debug=self.__dev_mode,
-            icon='./build/windows/icon.ico'
+            icon=str(icon) if icon.exists() else None,
         )
 
     def shutdown(self, server_process: Popen = None):

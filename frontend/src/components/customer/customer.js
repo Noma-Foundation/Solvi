@@ -2,28 +2,10 @@ import $ from "jquery";
 
 import { html } from "../../utils/html.js";
 import { IComponentModel } from "../component-model.js";
+import { eventBus } from "../../event-manager-singleton.js";
+import { escapeHtml, parseApiResult } from "../../utils/api-helpers.js";
 
 import "./customer.css";
-
-function escapeHtml(value) {
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-}
-
-function parseApiResult(result) {
-    if (typeof result === "string") {
-        try {
-            return JSON.parse(result);
-        } catch {
-            return null;
-        }
-    }
-    return result;
-}
 
 /**
  * Interactive customer spreadsheet page (cards + local JSON via pywebview API).
@@ -213,10 +195,12 @@ export class CustomerManager extends IComponentModel {
                 return;
             }
 
+            eventBus.publishAsync("customer:created", result);
             $(this.#formId)[0].reset();
             await this.#loadCustomers();
         } catch {
             this.#showFormError("Erro ao adicionar cliente.");
+            eventBus.publishAsync("system:error", { message: "Erro ao adicionar cliente." });
         }
     }
 
@@ -230,10 +214,12 @@ export class CustomerManager extends IComponentModel {
             const raw = await window.pywebview.api.remove_customer(customerId);
             const result = parseApiResult(raw);
             if (result?.ok) {
+                eventBus.publishAsync("customer:removed", { id: customerId });
                 await this.#loadCustomers();
             }
         } catch {
             this.#showFormError("Erro ao remover cliente.");
+            eventBus.publishAsync("system:error", { message: "Erro ao remover cliente." });
         }
     }
 }
