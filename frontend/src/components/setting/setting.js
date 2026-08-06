@@ -4,6 +4,9 @@ import { html } from "../../utils/html.js";
 
 import { IComponentModel } from "../component-model.js";
 
+import settingIcon from "../../assets/icons/setting/setting.svg";
+
+import "./setting.css";
 
 export class Setting extends IComponentModel {
     #headerId;
@@ -16,7 +19,9 @@ export class Setting extends IComponentModel {
 
     buildTemplate() {
         const template = html`
-            <button>Setting</button>
+            <button id="setting-btn" class="btn">
+                <img src="${settingIcon}" alt="Setting" />
+            </button>
         `;
 
         $(this.#headerId).append(template);
