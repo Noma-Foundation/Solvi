@@ -2,8 +2,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 44px;
+    width: 42px;
+    height: 38px;
     padding: 4px;
     border-radius: 12px;
     background-color: var(--orderhub-brand-color);
