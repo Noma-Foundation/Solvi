@@ -1,6 +1,9 @@
-import { html } from "../utils/html.js";
-import { NotCompleted } from "../utils/not-completed.js";
+import { NotificationManager } from "../components/notification/notification.js";
 
 export function NotificationPage() {
-    return NotCompleted();
+    queueMicrotask(() => {
+        new NotificationManager("#app-main-context");
+    });
+
+    return `<section class="notification-page"><p class="notification-page__subtitle">Carregando notificações…</p></section>`;
 }
