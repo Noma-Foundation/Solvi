@@ -9,6 +9,7 @@ import webview
 
 from internal.database import DatabaseConnection, open_connection
 from internal.config import DBConfig
+from internal.utils.paths import data_dir
 
 ICMS_RATES = {
     "AC": 17.0, "AL": 17.0, "AP": 18.0, "AM": 18.0, "BA": 18.5,
@@ -79,12 +80,11 @@ class API:
     # ── Store ─────────────────────────────────────────────────────────────
 
     def _store_path(self) -> Path:
-        path = Path("data") / "app-data.json"
-        path.parent.mkdir(parents=True, exist_ok=True)
+        path = data_dir() / "app-data.json"
         return path
 
     def _legacy_customers_path(self) -> Path:
-        return Path("data") / "customers.json"
+        return data_dir() / "customers.json"
 
     def _default_store(self) -> dict:
         return {

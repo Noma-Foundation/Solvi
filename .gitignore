@@ -19,6 +19,9 @@ profile.cov
 
 # Replace build folders 
 build/bin/
+build/solvi/
+build/pyinstaller/
+dist/
 node_modules/
 frontend/dist/
 binaries/*
