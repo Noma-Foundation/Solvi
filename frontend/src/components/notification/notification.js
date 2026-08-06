@@ -1,10 +1,9 @@
 import { IComponentModel } from "../component-model.js";
-import { html } from "../../utils/html.js";
 
 /**
  * @implements {IComponentModel}
  */
-export class NotificationObject extends IComponentModel {
+export class NotificationComponent extends IComponentModel {
     #listId;
 
     constructor() {
@@ -18,12 +17,6 @@ export class NotificationObject extends IComponentModel {
 
     bindEvents() {
 
-    }
-
-    template() {
-        return html`
-            <li class="list-group-item"></li>
-        `;
     }
 
 }

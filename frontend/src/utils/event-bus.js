@@ -1,6 +1,10 @@
 import { EventList } from "../collections/event-list.js";
 import { History } from "../collections/history.js";
 
+/**
+ * EventBus handles decoupled communication between components via the Publish-Subscribe pattern.
+ * It manages event registration, synchronous and asynchronous dispatching, and maintains subscription history.
+ */
 export class EventBus {
     #maxHistorySize = 50;
     #eventList;
@@ -48,6 +52,14 @@ export class EventBus {
         return () => this.unsubscribe(eventName, callback);
     }
 
+    /**
+     * Unsubscribe a callback from a specific event.
+     * If no callback is provided, all listeners for the event are removed.
+     * 
+     * @param {String} eventName - The name of the event
+     * @param {Function|Object|null} [callback=null] - The specific callback to remove
+     * @returns {Boolean} True if successfully unsubscribed, false otherwise
+     */
     unsubscribe(eventName, callback = null) {
         // If no callback is provided, remove the whole event
         if (callback === null) {
@@ -70,6 +82,14 @@ export class EventBus {
         return true;
     }
 
+    /**
+     * Publish an event asynchronously. Callbacks will be executed in the next tick.
+     * Errors thrown by individual callbacks will be caught and ignored.
+     * 
+     * @param {String} eventName - The name of the event to publish
+     * @param {any} data - The data payload to pass to the callbacks
+     * @returns {Boolean|null} True if callbacks were found and executed, null if event list is empty
+     */
     publishAsync(eventName, data) {
         // Execute callbacks asynchronously
         const callbacks = this.#eventList.getEventByName(eventName);
@@ -88,6 +108,9 @@ export class EventBus {
         return true;
     }
 
+    /**
+     * Clear all registered events and reset the subscription history.
+     */
     clearEventBus() {
         if (typeof this.#eventList.clearEvents === "function") {
             this.#eventList.clearEvents();
@@ -97,6 +120,14 @@ export class EventBus {
         this.#history.clearHistory();
     }
 
+    /**
+     * Dispatch an event synchronously and collect return values of all callbacks.
+     * Errors thrown by individual callbacks will result in a null value in the return array.
+     * 
+     * @param {String} eventName - The name of the event to dispatch
+     * @param {any} data - The data payload to pass to the callbacks
+     * @returns {Array|null} Array of return values from callbacks, null if event list is empty
+     */
     dispatch(eventName, data) {
         const callbacks = this.#eventList.getEventByName(eventName);
         if (!callbacks) return null;
@@ -118,14 +149,30 @@ export class EventBus {
         return results;
     }
 
+    /**
+     * Get the subscription event history list.
+     * 
+     * @returns {Array} List of registered event names in subscription history
+     */
     getHistory() {
         return this.#history.getHistory();
     }
 
+    /**
+     * Get callbacks registered to a specific event.
+     * 
+     * @param {String} eventName - The name of the event
+     * @returns {Array|undefined} List of callbacks for the event
+     */
     getEvent(eventName) {
         return this.#eventList.getEventByName(eventName);
     }
 
+    /**
+     * Get all registered events and their callbacks.
+     * 
+     * @returns {Object|null} Collection of all registered events or null if not supported
+     */
     getAllEvents() {
         if (typeof this.#eventList.getAllEvents === "function") {
             return this.#eventList.getAllEvents();

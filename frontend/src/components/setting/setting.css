@@ -1,0 +1,11 @@
+#setting-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 40px;
+    height: 40px;
+
+    background-color: var(--orderhub-brand-color);
+
+}
