@@ -14,30 +14,6 @@ class API:
         self.__dbconfig = dbconfig
         self.db = open_connection(self.__database, self.__dbconfig)
 
-    def _customers_path(self) -> Path:
-        path = Path("data") / "customers.json"
-        path.parent.mkdir(parents=True, exist_ok=True)
-        return path
-
-    def _load_customers(self) -> list:
-        path = self._customers_path()
-        if not path.exists():
-            self._save_customers([])
-            return []
-        try:
-            with path.open("r", encoding="utf-8") as f:
-                data = json.load(f)
-            if not isinstance(data, list):
-                return []
-            return data
-        except (json.JSONDecodeError, OSError):
-            return []
-
-    def _save_customers(self, customers: list) -> None:
-        path = self._customers_path()
-        with path.open("w", encoding="utf-8") as f:
-            json.dump(customers, f, ensure_ascii=False, indent=2)
-
     def get_customers(self):
         return json.dumps(self._load_customers())
 
@@ -105,27 +81,26 @@ class API:
         except Exception:
             return False
 
-    def add_ticket(self, description, price):
-        conn = self.db.connection
-        cur = conn.cursor()
-        cur.execute(
-            "INSERT INTO tickets (description, price) VALUES (%s, %s) RETURNING id, description, price;",
-            (description, float(price) if price is not None else None),
-        )
-        row = cur.fetchone()
-        conn.commit()
-        cur.close()
-        if row:
-            return json.dumps({"id": int(row[0]), "description": row[1], "price": float(row[2]) if row[2] is not None else 0.0})
-        return json.dumps({})
+    def _customers_path(self) -> Path:
+        path = Path("data") / "customers.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        return path
 
-    def get_tickets(self):
-        conn = self.db.connection
-        cur = conn.cursor()
-        cur.execute("SELECT id, description, price FROM tickets ORDER BY id;")
-        rows = cur.fetchall()
-        tickets = []
-        for r in rows:
-            tickets.append({"id": int(r[0]), "description": r[1], "price": float(r[2]) if r[2] is not None else 0.0})
-        cur.close()
-        return json.dumps(tickets)
+    def _load_customers(self) -> list:
+        path = self._customers_path()
+        if not path.exists():
+            self._save_customers([])
+            return []
+        try:
+            with path.open("r", encoding="utf-8") as f:
+                data = json.load(f)
+            if not isinstance(data, list):
+                return []
+            return data
+        except (json.JSONDecodeError, OSError):
+            return []
+
+    def _save_customers(self, customers: list) -> None:
+        path = self._customers_path()
+        with path.open("w", encoding="utf-8") as f:
+            json.dump(customers, f, ensure_ascii=False, indent=2)
