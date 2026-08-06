@@ -19,7 +19,7 @@ export class Setting extends IComponentModel {
 
     buildTemplate() {
         const template = html`
-            <button id="setting-btn" class="btn">
+            <button id="setting-btn" class="btn btn-primary rounded-3" tabindex="0">
                 <img src="${settingIcon}" alt="Setting" />
             </button>
         `;
