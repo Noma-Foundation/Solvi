@@ -10,7 +10,6 @@ import customerIcon from "../../assets/icons/aside/customer.svg";
 import inboxIcon from "../../assets/icons/aside/inbox.svg";
 import calendarIcon from "../../assets/icons/aside/calendar.svg";
 import notificationsIcon from "../../assets/icons/aside/notifications.svg";
-import spreadsheetIcon from "../../assets/icons/aside/spreadsheet.svg";
 
 import { html } from "../../utils/html.js";
 
@@ -58,9 +57,6 @@ export class MenuBar extends IComponentModel {
                     </li>
                     <li class="unselected" id="notifications-page" role="button" tabindex="0">
                         <img src="${notificationsIcon}" alt="Notifications" loading="lazy">
-                    </li>
-                    <li class="unselected" id="dashboard-page" role="button" tabindex="0">
-                        <img src="${spreadsheetIcon}" alt="Dashboard" loading="lazy">
                     </li>
                 </ul>
             </nav>
@@ -124,9 +120,6 @@ export class MenuBar extends IComponentModel {
                     break;
                 case "#notifications-page":
                     contextManager.show("notification");
-                    break;
-                case "#dashboard-page":
-                    contextManager.show("dashboard");
                     break;
             }
             return true;
