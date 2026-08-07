@@ -1,7 +1,51 @@
 {
-  "customers": [],
+  "customers": [
+    {
+      "id": "76e42111-deba-4ce7-8657-4b0a7252c53c",
+      "name": "W",
+      "phone": "",
+      "email": "",
+      "description": "",
+      "cep": "",
+      "address": ""
+    }
+  ],
   "calendar": [],
   "folders": [],
   "budgets": [],
-  "notifications": []
+  "notifications": [
+    {
+      "id": "78244512-6232-4fe6-8ad7-c68470983a6e",
+      "title": "Cliente criado",
+      "description": "Cliente \"W\" cadastrado.",
+      "category": "cliente",
+      "level": "Sucesso",
+      "date": "2026-08-06",
+      "time": "21:29:23",
+      "read": false,
+      "createdAt": "2026-08-06T21:29:23.181852-03:00"
+    },
+    {
+      "id": "493be334-c48b-4226-97cc-5a738f1ae37f",
+      "title": "Cliente removido",
+      "description": "Cliente removido do sistema.",
+      "category": "cliente",
+      "level": "Aviso",
+      "date": "2026-08-06",
+      "time": "21:28:19",
+      "read": false,
+      "createdAt": "2026-08-06T21:28:19.208377-03:00"
+    },
+    {
+      "id": "2f9c71e1-a67a-4119-98fe-c7c1c128ba2c",
+      "title": "Cliente criado",
+      "description": "Cliente \"Teste\" cadastrado.",
+      "category": "cliente",
+      "level": "Sucesso",
+      "date": "2026-08-06",
+      "time": "21:27:57",
+      "read": false,
+      "createdAt": "2026-08-06T21:27:57.994847-03:00"
+    }
+  ]
 }
