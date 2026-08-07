@@ -142,7 +142,7 @@ export class CustomerManager extends IComponentModel {
             const description = escapeHtml(c.description || "—");
 
             return html`
-                <article class="card customer-card" data-customer-id="${id}">
+                <article class="card" data-customer-id="${id}">
                     <div class="card-header">
                         <p class="h5">${name}</p>
                     </div>
