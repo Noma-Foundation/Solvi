@@ -2,16 +2,20 @@ import os
 
 import psycopg2
 
+from dotenv import load_dotenv
 from dataclasses import dataclass
 from internal.config import DBConfig
+
+
+load_dotenv()
 
 @dataclass
 class DatabaseConnection:
     connection = None
-    port: str = "5432"
-    user: str = "postgres"
-    host: str = "localhost"
-    database: str = "orderhub-test"
+    port: str = os.getenv("DB_PORT")
+    user: str = os.getenv("DB_USER")
+    host: str = os.getenv("DB_HOST")
+    database: str = os.getenv("DB_NAME")
     connection = None
     url: str = ""
 
