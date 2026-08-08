@@ -3,28 +3,5 @@
   "calendar": [],
   "folders": [],
   "budgets": [],
-  "notifications": [
-    {
-      "id": "a1b0a9db-f572-4476-8a9e-0481a8f57183",
-      "title": "Cliente removido",
-      "description": "Cliente removido do sistema.",
-      "category": "cliente",
-      "level": "Aviso",
-      "date": "2026-08-08",
-      "time": "10:25:02",
-      "read": false,
-      "createdAt": "2026-08-08T10:25:02.071975-03:00"
-    },
-    {
-      "id": "e54d6a16-0cc0-4592-b012-005c2029aae6",
-      "title": "Cliente criado",
-      "description": "Cliente \"Teste\" cadastrado.",
-      "category": "cliente",
-      "level": "Sucesso",
-      "date": "2026-08-08",
-      "time": "10:24:58",
-      "read": false,
-      "createdAt": "2026-08-08T10:24:58.146033-03:00"
-    }
-  ]
+  "notifications": []
 }
