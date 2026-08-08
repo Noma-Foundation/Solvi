@@ -21,7 +21,7 @@ export class LoginPage extends IComponentModel {
     constructor(context) {
         super(); // que foda amor eu te amo muito porra 
         this.#context = context;
-        this.#errorMessage = "Credenciais inválidas";
+        this.#errorMessage = "Invalid credentials";
         this.#isLogged = false;
 
         this.#formId = "#app-login-form";
