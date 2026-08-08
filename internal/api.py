@@ -1,10 +1,10 @@
 import bcrypt
-import logging
+
+import psycopg2
 
 from internal.database import DatabaseConnection, open_connection
 from internal.config import DBConfig
 
-logger = logging.getLogger(__name__)
 
 class API:
     def __init__(self, database: DatabaseConnection, dbconfig: DBConfig):
@@ -14,12 +14,18 @@ class API:
 
     def auth_user(self, username: str, password: str) -> bool:
         """Authenticate user by username and password."""
-        try:
-            if not self.db or not getattr(self.db, "connection", None):
-                return False
+        if not self.db or not getattr(self.db, "connection", None):
+            print("auth_user: database connection unavailable")
+            return False
 
-            conn = self.db.connection
+        conn = self.db.connection
+        try:
             cursor = conn.cursor()
+        except (psycopg2.InterfaceError, psycopg2.OperationalError) as e:
+            print(f"auth_user: cursor open failed: {e}")
+            return False
+
+        try:
             try:
                 cursor.execute(
                     "SELECT username, password FROM employees WHERE username = %s",
@@ -40,5 +46,6 @@ class API:
                 return False
 
             return bcrypt.checkpw(password.encode("utf-8"), db_password_hash.encode("utf-8"))
-        except Exception:
+        except (psycopg2.Error, ValueError, TypeError) as e:
+            print(f"auth_user: query/check failed: {e}")
             return False

@@ -11,12 +11,11 @@ load_dotenv()
 
 @dataclass
 class DatabaseConnection:
-    connection = None
+    connection: object = None
     port: str = os.getenv("DB_PORT")
     user: str = os.getenv("DB_USER")
     host: str = os.getenv("DB_HOST")
     database: str = os.getenv("DB_NAME")
-    connection = None
     url: str = ""
 
 
@@ -38,4 +37,6 @@ def open_connection(connection: DatabaseConnection, config: DBConfig):
 
 
 def close_connection(conn: DatabaseConnection):
+    if conn is None or getattr(conn, "connection", None) is None:
+        return
     conn.connection.close()

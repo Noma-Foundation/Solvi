@@ -80,6 +80,9 @@ export class EventList {
     }
 
     #checkIfCallbackIsFunctionOrClass(callback) {
+        if (callback === null || callback === undefined) {
+            return null;
+        }
         if (typeof callback !== "function" && typeof callback !== "object") {
             return null;
         }
