@@ -42,7 +42,7 @@ class API:
     def __init__(self, database: DatabaseConnection, dbconfig: DBConfig):
         self.__database = database
         self.__dbconfig = dbconfig
-        self.db = open_connection(self.__database, self.__dbconfig)
+        # self.db = open_connection(self.__database, self.__dbconfig)
 
     # ── Store ─────────────────────────────────────────────────────────────
 

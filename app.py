@@ -38,7 +38,7 @@ class Application:
         )
 
     def shutdown(self, server_process: Popen = None):
-        backend.close_connection(self.api.db)
+        # backend.close_connection(self.api.db)
         backend.shutdown_server(server_process)
 
     @staticmethod
