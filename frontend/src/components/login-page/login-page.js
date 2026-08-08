@@ -94,7 +94,7 @@ export class LoginPage extends IComponentModel {
         const user = this.#userAccessObject.val();
         const pass = this.#userPasswordObject.val();
 
-        return (user === "support" && pass === "support") ? true : false;
+        return (user === this.#getSupportData() && pass === this.#getSupportData()) ? true : false;
     }
 
     async #loginValidatorForUser() {
@@ -121,4 +121,9 @@ export class LoginPage extends IComponentModel {
     #hideError() {
         $(this.#context).find(this.#errorMessageId).hide();
     }
+
+    #getSupportData() {
+        return "support"
+    }
+
 }
