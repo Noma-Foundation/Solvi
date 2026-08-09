@@ -6,7 +6,6 @@ from internal.utils import AuthenticationCodeError
 from internal.database import DatabaseConnection
 
 
-
 def open_connection(connection: DatabaseConnection, config: DBConfig) -> DatabaseConnection | AuthenticationCodeError:
     try:
         if config.url:
