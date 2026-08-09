@@ -8,7 +8,7 @@ internal.patch_get_screens()
 
 
 class Application:
-    window: any = None
+    window: object | None = None
 
     def __init__(self, dev_mode: bool):
         self.__database = internal.DatabaseConnection()
