@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append("../")
+sys.path.append(".")
 
 import bcrypt
 
@@ -34,7 +34,7 @@ def test_auth_user_no_db(monkeypatch):
     api = API.__new__(API)
     api.db = None
 
-    monkeypatch.setattr(API, "window", None)
+    monkeypatch.setattr(API, "_window", None)
 
     assert api.auth_user("any", "any") is AuthenticationCodeError.FATAL_ERROR
 
