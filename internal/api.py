@@ -67,4 +67,3 @@ class API:
             title="DatabaseError",
             message=error
         )
-
