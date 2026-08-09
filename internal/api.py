@@ -9,7 +9,7 @@ from internal.config import DBConfig
 
 
 class API:
-    window: webview.Window = None
+    _window: webview.Window = None
 
     def __init__(self, database: DatabaseConnection, dbconfig: DBConfig):
         self.__database = database
@@ -60,9 +60,9 @@ class API:
             return AuthenticationCodeError.FATAL_ERROR 
 
     def __open_error_message(self, error: str = "Database connection Error"):
-        if API.window is None:
+        if API._window is None:
             return
-        API.window.create_confirmation_dialog(
+        API._window.create_confirmation_dialog(
             title="DatabaseError",
             message=error
         )

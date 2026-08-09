@@ -1,9 +1,10 @@
 import webview
-
-import internal 
-
 from subprocess import Popen
+
+import internal
 from internal import API
+
+internal.patch_get_screens()
 
 
 class Application:
@@ -29,8 +30,10 @@ class Application:
             height=720,
             resizable=True
         )
+        API._window = Application.get_window()
+        print(API._window)
 
-    def run(self): 
+    def run(self):
         webview.start(
             debug=self.__dev_mode,
             icon='./build/bin/favicon.ico'
