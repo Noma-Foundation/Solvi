@@ -4,6 +4,7 @@ import psycopg2
 
 from dotenv import load_dotenv
 from dataclasses import dataclass
+
 from internal.config import DBConfig
 from internal.utils import AuthenticationCodeError
 

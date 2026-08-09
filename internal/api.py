@@ -12,7 +12,6 @@ class API:
     window: webview.Window = None
 
     def __init__(self, database: DatabaseConnection, dbconfig: DBConfig):
-        print("Start database")
         self.__database = database
         self.__dbconfig = dbconfig
         self.db = open_connection(self.__database, self.__dbconfig)
@@ -59,7 +58,7 @@ class API:
         except (psycopg2.Error, ValueError, TypeError) as e:
             self.__open_error_message()
             return AuthenticationCodeError.FATAL_ERROR 
-    
+
     def __open_error_message(self, error: str = "Database connection Error"):
         if API.window is None:
             return
