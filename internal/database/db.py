@@ -35,7 +35,7 @@ def open_connection(connection: DatabaseConnection, config: DBConfig) -> Databas
         rtnConn = connection
         rtnConn.connection = conn
         return rtnConn
-    except psycopg2.OperationalError as e:
+    except psycopg2.Error as e:
         return AuthenticationCodeError.CONNECTION_ERROR
 
 

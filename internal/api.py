@@ -17,15 +17,22 @@ class API:
         self.__dbconfig = dbconfig
         self.db = open_connection(self.__database, self.__dbconfig)
 
+        if isinstance(self.db, AuthenticationCodeError):
+            self.__open_error_message("Error initializing the database.")
+
     def auth_user(self, username: str, password: str) -> bool | int:
         """Authenticate user by username and password."""
+
+        # Check database connection
         if not self.db or not getattr(self.db, "connection", None):
+            self.__open_error_message()
             return AuthenticationCodeError.FATAL_ERROR
 
         conn = self.db.connection
         try:
             cursor = conn.cursor()
         except (psycopg2.InterfaceError, psycopg2.OperationalError) as e:
+            self.__open_error_message()
             return AuthenticationCodeError.FATAL_ERROR
 
         try:
@@ -51,11 +58,12 @@ class API:
 
             return bcrypt.checkpw(password.encode("utf-8"), db_password_hash.encode("utf-8"))
         except (psycopg2.Error, ValueError, TypeError) as e:
+            self.__open_error_message()
             return AuthenticationCodeError.FATAL_ERROR 
     
-    def __open_error_message(self):
+    def __open_error_message(self, error: str = "Database connection Error"):
         API.window.create_confirmation_dialog(
-            title="Error",
-            message="Database connection error. Please try again later."
+            title="DatabaseError",
+            message=error
         )
 
