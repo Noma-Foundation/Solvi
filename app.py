@@ -1,6 +1,6 @@
 import webview
 
-import internal as backend
+import internal 
 
 from subprocess import Popen
 from internal import API
@@ -11,10 +11,10 @@ class Application:
 
     def __init__(self, dev_mode: bool):
         print("Initialize variables")
-        self.__database = backend.DatabaseConnection()
-        self.__dbconfig = backend.DBConfig()
-        self.api = backend.API(self.__database, self.__dbconfig)
-        self.os: backend.OperatingSystem = backend.OperatingSystem()
+        self.__database = internal.DatabaseConnection()
+        self.__dbconfig = internal.DBConfig()
+        self.api = internal.API(self.__database, self.__dbconfig)
+        self.os = internal.OperatingSystem()
         self.__dev_mode = dev_mode
 
         if dev_mode:
@@ -22,7 +22,6 @@ class Application:
         else:
             self.__url = "frontend/dist/index.html"
 
-        print("Start application window")
         Application.window = webview.create_window(
             title="Solvi",
             url=self.__url,
