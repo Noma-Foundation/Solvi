@@ -24,6 +24,7 @@ def _enum_screens_win32() -> List[WebviewScreen]:
     )
 
     screens: List[WebviewScreen] = []
+    handles = []
 
     def _collect(hmonitor, _hdc, _lprect, _lparam):
         info = MONITORINFOEXW()
@@ -37,16 +38,14 @@ def _enum_screens_win32() -> List[WebviewScreen]:
                 frame=info.rcWork,
                 scale=1.0,
             ))
+            handles.append(hmonitor)
         return True
 
     user32.EnumDisplayMonitors(None, None, Callback(_collect), 0)
 
-    for screen in screens:
-        point = wintypes.POINT(screen.physical_x, screen.physical_y)
-        monitor = user32.MonitorFromPointW(point, 0)
+    for screen, hmonitor in zip(screens, handles):
         dpi_x, dpi_y = wintypes.UINT(0), wintypes.UINT(0)
-        if shcore.GetDpiForMonitor(monitor, 0,
-                                ctypes.byref(dpi_x), ctypes.byref(dpi_y)):
+        if shcore.GetDpiForMonitor(hmonitor, 0, ctypes.byref(dpi_x), ctypes.byref(dpi_y)):
             screen.scale = (dpi_x.value or 96) / 96.0
 
     return screens
