@@ -7,7 +7,7 @@ from internal.database.database import DatabaseConnection
 from internal.database.db import open_connection, close_connection
 
 
-def test_connection_with_params(mocker):
+def test_open_connection_and_connection_works(mocker):
     fake_conn = mocker.Mock()
     connect_mocker = mocker.patch("internal.database.db.psycopg2.connect", return_value=fake_conn) 
 
