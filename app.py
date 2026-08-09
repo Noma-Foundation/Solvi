@@ -29,6 +29,7 @@ class Application:
             height=720,
             resizable=True
         )
+        self.__verify_database_connection(self.api.db)
 
     def run(self): 
         webview.start(
@@ -41,11 +42,18 @@ class Application:
         backend.shutdown_server(server_process)
 
     @staticmethod
-    def get_window():
+    def get_window() -> webview.Window | Exception:
         if Application.window is None:
             raise Exception("Application window not initialized or already closed.")
         return Application.window
     
     @staticmethod
-    def set_window(window: any):
+    def set_window(window: any) -> None:
         Application.window = window
+
+    def __verify_database_connection(self, db: backend.DatabaseConnection) -> None:
+        if isinstance(db, backend.AuthenticationErrorCode) and db == backend.AuthenticationErrorCode.CONNECTION_ERROR:
+            Application.get_window().create_confirmation_dialog(
+                title="Error",
+                message="Database connection error. Please try again later."
+            )

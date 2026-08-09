@@ -9,6 +9,8 @@ from internal.config import DBConfig
 
 
 class API:
+    window: webview.Window = None
+
     def __init__(self, database: DatabaseConnection, dbconfig: DBConfig):
         self.__database = database
         self.__dbconfig = dbconfig
@@ -17,7 +19,7 @@ class API:
     def auth_user(self, username: str, password: str) -> bool | int:
         """Authenticate user by username and password."""
         if not self.db or not getattr(self.db, "connection", None):
-            return AuthenticationErrorCode.FATAL_ERROR 
+            return AuthenticationErrorCode.FATAL_ERROR
 
         conn = self.db.connection
         try:
@@ -48,3 +50,4 @@ class API:
             return bcrypt.checkpw(password.encode("utf-8"), db_password_hash.encode("utf-8"))
         except (psycopg2.Error, ValueError, TypeError) as e:
             return AuthenticationErrorCode.FATAL_ERROR 
+

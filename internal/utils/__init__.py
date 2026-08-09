@@ -6,6 +6,7 @@ from enum import IntEnum
 
 class AuthenticationErrorCode(IntEnum):
     FATAL_ERROR = 1001
+    CONNECTION_ERROR = 1002
 
 
 __all__ = [
