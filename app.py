@@ -10,6 +10,7 @@ class Application:
     window: any = None
 
     def __init__(self, dev_mode: bool):
+        print("Initialize variables")
         self.__database = backend.DatabaseConnection()
         self.__dbconfig = backend.DBConfig()
         self.api = backend.API(self.__database, self.__dbconfig)
@@ -21,6 +22,7 @@ class Application:
         else:
             self.__url = "frontend/dist/index.html"
 
+        print("Start application window")
         Application.window = webview.create_window(
             title="Solvi",
             url=self.__url,
@@ -29,7 +31,6 @@ class Application:
             height=720,
             resizable=True
         )
-        self.__verify_database_connection(self.api.db)
 
     def run(self): 
         webview.start(
@@ -51,9 +52,3 @@ class Application:
     def set_window(window: any) -> None:
         Application.window = window
 
-    def __verify_database_connection(self, db: backend.DatabaseConnection) -> None:
-        if isinstance(db, backend.AuthenticationErrorCode) and db == backend.AuthenticationErrorCode.CONNECTION_ERROR:
-            Application.get_window().create_confirmation_dialog(
-                title="Error",
-                message="Database connection error. Please try again later."
-            )

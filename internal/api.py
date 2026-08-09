@@ -4,7 +4,7 @@ import bcrypt
 import psycopg2
 
 from internal.database import DatabaseConnection, open_connection
-from internal.utils import AuthenticationErrorCode
+from internal.utils import AuthenticationCodeError
 from internal.config import DBConfig
 
 
@@ -12,6 +12,7 @@ class API:
     window: webview.Window = None
 
     def __init__(self, database: DatabaseConnection, dbconfig: DBConfig):
+        print("Start database")
         self.__database = database
         self.__dbconfig = dbconfig
         self.db = open_connection(self.__database, self.__dbconfig)
@@ -19,13 +20,13 @@ class API:
     def auth_user(self, username: str, password: str) -> bool | int:
         """Authenticate user by username and password."""
         if not self.db or not getattr(self.db, "connection", None):
-            return AuthenticationErrorCode.FATAL_ERROR
+            return AuthenticationCodeError.FATAL_ERROR
 
         conn = self.db.connection
         try:
             cursor = conn.cursor()
         except (psycopg2.InterfaceError, psycopg2.OperationalError) as e:
-            return AuthenticationErrorCode.FATAL_ERROR
+            return AuthenticationCodeError.FATAL_ERROR
 
         try:
             try:
@@ -50,7 +51,7 @@ class API:
 
             return bcrypt.checkpw(password.encode("utf-8"), db_password_hash.encode("utf-8"))
         except (psycopg2.Error, ValueError, TypeError) as e:
-            return AuthenticationErrorCode.FATAL_ERROR 
+            return AuthenticationCodeError.FATAL_ERROR 
     
     def __open_error_message(self):
         API.window.create_confirmation_dialog(
