@@ -9,7 +9,7 @@ from internal.config import DBConfig
 
 
 class API:
-    _window: webview.Window = None
+    _window: webview.Window | None = None
 
     def __init__(self, database: DatabaseConnection, dbconfig: DBConfig):
         self.__database = database
