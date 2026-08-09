@@ -1,11 +1,14 @@
-import ctypes
-from ctypes import wintypes
+import sys
 from typing import List
 
-from webview.screen import Screen as WebviewScreen
 
+def _enum_screens_win32() -> List:
+    """Return one WebviewScreen per monitor, with DPI-correct scale."""
+    import ctypes
+    from ctypes import wintypes
 
-def _enum_screens_win32() -> List[WebviewScreen]:
+    from webview.screen import Screen as WebviewScreen
+
     user32 = ctypes.WinDLL("user32", use_last_error=True)
     shcore = ctypes.WinDLL("shcore", use_last_error=True)
 
@@ -52,6 +55,7 @@ def _enum_screens_win32() -> List[WebviewScreen]:
 
 
 def patch_get_screens() -> None:
-    """Swap pywebview's UI-thread-only get_screens for the Win32 version."""
+    if sys.platform != "win32":
+        return
     import webview.platforms.winforms as _winforms
     _winforms.get_screens = _enum_screens_win32
