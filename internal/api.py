@@ -45,9 +45,16 @@ class API:
 
             db_username, db_password_hash = row
             if not db_password_hash:
+                self.__open_error_message()
                 return False
 
             return bcrypt.checkpw(password.encode("utf-8"), db_password_hash.encode("utf-8"))
         except (psycopg2.Error, ValueError, TypeError) as e:
             return AuthenticationErrorCode.FATAL_ERROR 
+    
+    def __open_error_message(self):
+        API.window.create_confirmation_dialog(
+            title="Error",
+            message="Database connection error. Please try again later."
+        )
 

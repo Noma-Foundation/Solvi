@@ -34,7 +34,7 @@ class Application:
     def run(self): 
         webview.start(
             debug=self.__dev_mode,
-            icon='./build/windows/icon.ico'
+            icon='./build/bin/favicon.ico'
         )
 
     def shutdown(self, server_process: Popen = None):
