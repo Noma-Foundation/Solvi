@@ -18,7 +18,7 @@ class API:
         self.db = open_connection(self.__database, self.__dbconfig)
 
         if isinstance(self.db, AuthenticationCodeError):
-            self.__open_error_message("Error initializing the database.")
+            print(f"[API] Database initialization failed: {self.db}")
 
     def auth_user(self, username: str, password: str) -> bool | int:
         """Authenticate user by username and password."""
@@ -62,6 +62,8 @@ class API:
             return AuthenticationCodeError.FATAL_ERROR 
     
     def __open_error_message(self, error: str = "Database connection Error"):
+        if API.window is None:
+            return
         API.window.create_confirmation_dialog(
             title="DatabaseError",
             message=error

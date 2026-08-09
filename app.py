@@ -31,6 +31,7 @@ class Application:
             height=720,
             resizable=True
         )
+        API.window = Application.window
 
     def run(self): 
         webview.start(

@@ -5,6 +5,7 @@ sys.path.append("../")
 import bcrypt
 
 from internal.api import API
+from internal.utils import AuthenticationCodeError
 
 
 class FakeCursor:
@@ -29,10 +30,13 @@ class FakeConn:
         return self._cursor
 
 
-def test_auth_user_no_db():
+def test_auth_user_no_db(monkeypatch):
     api = API.__new__(API)
     api.db = None
-    assert api.auth_user("any", "any") is False
+
+    monkeypatch.setattr(API, "window", None)
+
+    assert api.auth_user("any", "any") is AuthenticationCodeError.FATAL_ERROR
 
 
 def test_auth_user_user_not_found():
