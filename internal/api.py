@@ -23,7 +23,6 @@ class API:
     def auth_user(self, username: str, password: str) -> bool | int:
         """Authenticate user by username and password."""
 
-        # Check database connection
         if not self.db or not getattr(self.db, "connection", None):
             self.__open_error_message()
             return AuthenticationCodeError.FATAL_ERROR
