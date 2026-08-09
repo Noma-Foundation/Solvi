@@ -31,7 +31,6 @@ class Application:
             resizable=True
         )
         API._window = Application.get_window()
-        print(API._window)
 
     def run(self):
         webview.start(
