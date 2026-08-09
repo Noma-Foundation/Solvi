@@ -12,7 +12,7 @@ class API:
         self.__dbconfig = dbconfig
         self.db = open_connection(self.__database, self.__dbconfig)
 
-    def auth_user(self, username: str, password: str) -> bool:
+    def auth_user(self, username: str, password: str) -> bool | int:
         """Authenticate user by username and password."""
         if not self.db or not getattr(self.db, "connection", None):
             print("auth_user: database connection unavailable")
