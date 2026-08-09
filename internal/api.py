@@ -1,8 +1,10 @@
+import webview
 import bcrypt
 
 import psycopg2
 
 from internal.database import DatabaseConnection, open_connection
+from internal.utils import AuthenticationErrorCode
 from internal.config import DBConfig
 
 
@@ -15,15 +17,13 @@ class API:
     def auth_user(self, username: str, password: str) -> bool | int:
         """Authenticate user by username and password."""
         if not self.db or not getattr(self.db, "connection", None):
-            print("auth_user: database connection unavailable")
-            return False
+            return AuthenticationErrorCode.FATAL_ERROR 
 
         conn = self.db.connection
         try:
             cursor = conn.cursor()
         except (psycopg2.InterfaceError, psycopg2.OperationalError) as e:
-            print(f"auth_user: cursor open failed: {e}")
-            return False
+            return AuthenticationErrorCode.FATAL_ERROR
 
         try:
             try:
@@ -47,5 +47,4 @@ class API:
 
             return bcrypt.checkpw(password.encode("utf-8"), db_password_hash.encode("utf-8"))
         except (psycopg2.Error, ValueError, TypeError) as e:
-            print(f"auth_user: query/check failed: {e}")
-            return False
+            return AuthenticationErrorCode.FATAL_ERROR 

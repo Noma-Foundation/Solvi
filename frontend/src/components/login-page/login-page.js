@@ -3,7 +3,6 @@ import { IComponentModel } from "../component-model.js";
 import { eventBus } from "../../event-manager-singleton.js";
 
 import { html } from "../../utils/html.js";
-import { AuthenticationErrorCodes } from "../../utils/error-codes.js";
 
 import "./login-page.css";
 
