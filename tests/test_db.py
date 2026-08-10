@@ -69,5 +69,5 @@ def test_open_connection_returns_connection_error_on_psycopg2_failure(mocker):
     )
 
     result = open_connection(db, db_config)
-
+        
     assert result is DatabaseError.CONNECTION_ERROR
