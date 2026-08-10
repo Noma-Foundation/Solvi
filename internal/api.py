@@ -17,7 +17,7 @@ class API:
         self.db = open_connection(self.__database, self.__dbconfig)
 
         if isinstance(self.db, DatabaseError):
-            print(f"[API] Database initialization failed: {self.db}")
+            print("[ERROR] Database connection error:", self.db)
 
     def auth_user(self, username: str, password: str) -> bool | int:
         """Authenticate user by username and password."""
