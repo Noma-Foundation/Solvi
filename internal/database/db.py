@@ -2,11 +2,11 @@ import psycopg2
 
 
 from internal.config import DBConfig
-from internal.utils import AuthenticationCodeError
+from internal.utils import DatabaseError
 from internal.database import DatabaseConnection
 
 
-def open_connection(connection: DatabaseConnection, config: DBConfig) -> DatabaseConnection | AuthenticationCodeError:
+def open_connection(connection: DatabaseConnection, config: DBConfig) -> DatabaseConnection | DatabaseError:
     try:
         if config.url:
             conn = psycopg2.connect(config.url)
@@ -22,7 +22,7 @@ def open_connection(connection: DatabaseConnection, config: DBConfig) -> Databas
         rtnConn.connection = conn
         return rtnConn
     except psycopg2.Error as e:
-        return AuthenticationCodeError.CONNECTION_ERROR
+        return DatabaseError.CONNECTION_ERROR
 
 
 def close_connection(conn: DatabaseConnection):
