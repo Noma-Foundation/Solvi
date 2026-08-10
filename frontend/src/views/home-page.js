@@ -1,9 +1,8 @@
 
 import pkg from '../../package.json';
-import { html } from '../utils/html.js';
 
 export function HomePage() {
-    return html`
+    return `
         <section class="container mt-4">
             <div id="home-page-container" class="d-flex flex-column flex-wrap">
                 <h1><span style="color: var(--orderhub-brand-color); font-weight: 500; margin-bottom: 0;">Solvi</span> Software<br>Manager</h1>

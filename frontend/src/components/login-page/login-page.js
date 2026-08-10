@@ -2,9 +2,8 @@ import $ from "jquery";
 import { IComponentModel } from "../component-model.js";
 import { eventBus } from "../../event-manager-singleton.js";
 
-import { html } from "../../utils/html.js";
-
 import "./login-page.css";
+
 
 export class LoginPage extends IComponentModel {
     #context;
@@ -31,7 +30,7 @@ export class LoginPage extends IComponentModel {
     }
 
     buildTemplate() {
-        this.template = html`
+        this.template = `
         <form id="${this.#formId.replace("#", "")}">
             <div class="container-fluid m-0 p-3 bg-light">
                 <div class="form-group d-flex flex-column gap-2">
