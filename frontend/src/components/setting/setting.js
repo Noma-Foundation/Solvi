@@ -1,7 +1,5 @@
 import $ from "jquery";
 
-import { html } from "../../utils/html.js";
-
 import { IComponentModel } from "../component-model.js";
 
 import settingIcon from "../../assets/icons/setting/setting.svg";
@@ -16,7 +14,7 @@ export class Setting extends IComponentModel {
     }
 
     buildTemplate() {
-        const template = html`
+        const template = `
             <button id="setting-btn">
                 <img src="${settingIcon}" alt="Setting Button" />
             </button>
