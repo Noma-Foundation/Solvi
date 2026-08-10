@@ -8,4 +8,6 @@ class AuthenticationCodeError(IntEnum):
 
 class DatabaseError(IntEnum):
     FATAL_ERROR = 2001
-    CONNECTION_ERROR = 2002
+    QUERY_ERROR = 2002
+    CONNECTION_ERROR = 2003
+    CURSOR_ERROR = 2004

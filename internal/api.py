@@ -4,7 +4,7 @@ import bcrypt
 import psycopg2
 
 from internal.database import DatabaseConnection, open_connection
-from internal.utils import AuthenticationCodeError
+from internal.utils import AuthenticationCodeError, DatabaseError
 from internal.config import DBConfig
 
 
@@ -24,14 +24,14 @@ class API:
 
         if not self.db or not getattr(self.db, "connection", None):
             self.__open_error_message()
-            return AuthenticationCodeError.FATAL_ERROR
+            return DatabaseError.CONNECTION_ERROR
 
         conn = self.db.connection
         try:
             cursor = conn.cursor()
         except (psycopg2.InterfaceError, psycopg2.OperationalError) as e:
             self.__open_error_message()
-            return AuthenticationCodeError.FATAL_ERROR
+            return DatabaseError.CURSOR_ERROR
 
         try:
             try:
@@ -57,7 +57,7 @@ class API:
             return bcrypt.checkpw(password.encode("utf-8"), db_password_hash.encode("utf-8"))
         except (psycopg2.Error, ValueError, TypeError) as e:
             self.__open_error_message()
-            return AuthenticationCodeError.FATAL_ERROR 
+            return DatabaseError.QUERY_ERROR 
 
     def __open_error_message(self, error: str = "Database connection Error"):
         if API._window is None:
