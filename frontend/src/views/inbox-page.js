@@ -1,9 +1,6 @@
-import { BudgetManager } from "../components/inbox/inbox.js";
+import { html } from "../utils/html.js";
+import { NotCompleted } from "../utils/not-completed.js";
 
 export function InboxPage() {
-    queueMicrotask(() => {
-        new BudgetManager("#app-main-context");
-    });
-
-    return `<section class="inbox-page"><p class="inbox-page__subtitle">Carregando orçamentos…</p></section>`;
+    return NotCompleted()
 }

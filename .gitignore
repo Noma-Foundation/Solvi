@@ -19,9 +19,7 @@ profile.cov
 
 # Replace build folders 
 build/bin/
-build/solvi/
-build/pyinstaller/
-dist/
+build/windows/
 node_modules/
 frontend/dist/
 binaries/*
@@ -79,5 +77,3 @@ __pycache__/
 *.py[codz]
 *$py.class
 *.pyc
-
-*.spec

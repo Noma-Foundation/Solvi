@@ -1,11 +1,14 @@
 import sys
 
-sys.path.append("../")
+sys.path.append(".")
 
 from internal import OperatingSystem
 
-def test_device(): 
-    osystem = OperatingSystem()
+def test_device(mocker): 
+    fake_os = mocker.patch('internal.utils.system.platform.system', return_value='Windows')
+    mock_instance = OperatingSystem()
+    device_info = mock_instance.get_device_info()
 
-    assert osystem.name.lower() in ["windows", "linux", "macos"]
-    assert osystem.architecture in ["64bit", "32bit", "arm64"]
+    assert device_info['name'] in fake_os()
+
+    

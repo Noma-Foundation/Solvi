@@ -1,37 +1,31 @@
-import os
-
 import psycopg2
 
-from dataclasses import dataclass
+
 from internal.config import DBConfig
-
-@dataclass
-class DatabaseConnection:
-    connection = None
-    port: str = "5432"
-    user: str = "postgres"
-    host: str = "localhost"
-    database: str = "orderhub-test"
-    connection = None
-    url: str = ""
+from internal.utils import DatabaseError
+from internal.database import DatabaseConnection
 
 
-def open_connection(connection: DatabaseConnection, config: DBConfig): 
+def open_connection(connection: DatabaseConnection, config: DBConfig) -> DatabaseConnection | DatabaseError:
     try:
-        conn = psycopg2.connect(
-            host=config.host,
-            port=config.port,
-            database=config.database,
-            user=config.user,
-            password=config.password,
-        )
+        if config.url:
+            conn = psycopg2.connect(config.url)
+        else:
+            conn = psycopg2.connect(
+                host=config.host,
+                port=config.port,
+                database=config.database,
+                user=config.user,
+                password=config.password,
+            )
         rtnConn = connection
         rtnConn.connection = conn
         return rtnConn
-    except psycopg2.OperationalError as e:
-        print("Error connecting to database:", e)
-        return None
+    except psycopg2.Error as e:
+        return DatabaseError.CONNECTION_ERROR
 
 
 def close_connection(conn: DatabaseConnection):
+    if conn is None or getattr(conn, "connection", None) is None:
+        return
     conn.connection.close()
