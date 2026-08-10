@@ -4,7 +4,7 @@ import bcrypt
 import psycopg2
 
 from internal.database import DatabaseConnection, open_connection
-from internal.utils import AuthenticationCodeError, DatabaseError
+from internal.utils import DatabaseError
 from internal.config import DBConfig
 
 
@@ -16,7 +16,7 @@ class API:
         self.__dbconfig = dbconfig
         self.db = open_connection(self.__database, self.__dbconfig)
 
-        if isinstance(self.db, AuthenticationCodeError):
+        if isinstance(self.db, DatabaseError):
             print(f"[API] Database initialization failed: {self.db}")
 
     def auth_user(self, username: str, password: str) -> bool | int:

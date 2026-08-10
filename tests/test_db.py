@@ -6,7 +6,7 @@ import psycopg2
 
 from internal.config import DBConfig
 from internal.database.database import DatabaseConnection
-from internal.database.db import open_connection, close_connection
+from internal.database.db import open_connection
 from internal.utils import DatabaseError
 
 
