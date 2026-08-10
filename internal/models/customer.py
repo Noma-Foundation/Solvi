@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass
-class Ticket:
+class Customer:
     id: int
-    description: str
-    price: float
+    name: str
+    email: str
