@@ -18,9 +18,8 @@ def open_connection(connection: DatabaseConnection, config: DBConfig) -> Databas
                 user=config.user,
                 password=config.password,
             )
-        rtnConn = connection
-        rtnConn.connection = conn
-        return rtnConn
+        connection.connection = conn
+        return connection
     except psycopg2.Error as e:
         return DatabaseError.CONNECTION_ERROR
 
