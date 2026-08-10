@@ -56,19 +56,6 @@ export class LoginPage extends IComponentModel {
         $(this.#formId).on("submit", async (e) => {
             e.preventDefault();
 
-            const isAdmin = await this.#loginForSupportAdmins();
-
-            if (isAdmin) {
-                this.#isLogged = true;
-                this.#hideError();
-                $(this.#formId).hide();
-
-                // notify that authentication succeeded for support/admin
-                eventBus.publishAsync("auth:success", { role: "support" });
-
-                return;
-            }
-
             const isUser = await this.#loginValidatorForUser();
 
             if (isUser) {
@@ -88,13 +75,6 @@ export class LoginPage extends IComponentModel {
 
     getIsLogged() {
         return this.#isLogged;
-    }
-
-    async #loginForSupportAdmins() {
-        const user = this.#userAccessObject.val();
-        const pass = this.#userPasswordObject.val();
-
-        return (user === this.#getSupportData() && pass === this.#getSupportData()) ? true : false;
     }
 
     async #loginValidatorForUser() {
