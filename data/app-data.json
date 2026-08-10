@@ -1,0 +1,184 @@
+{
+  "customers": [],
+  "calendar": [],
+  "folders": [],
+  "budgets": [],
+  "notifications": [
+    {
+      "id": "693bf745-2034-4c7a-ac71-784a49f56a8b",
+      "title": "Orçamento criado",
+      "description": "Orçamento ORC-BDD79EC3 para Ana criado.",
+      "category": "orcamento",
+      "level": "Sucesso",
+      "date": "2026-08-10",
+      "time": "16:22:38",
+      "read": false,
+      "createdAt": "2026-08-10T16:22:38.064325-03:00"
+    },
+    {
+      "id": "d607498a-13be-4898-8908-9004ff25d83c",
+      "title": "Status do orçamento",
+      "description": "Orçamento ORC-789CBE0D agora está \"Aprovado\".",
+      "category": "orcamento",
+      "level": "Sucesso",
+      "date": "2026-08-10",
+      "time": "16:22:11",
+      "read": false,
+      "createdAt": "2026-08-10T16:22:11.342867-03:00"
+    },
+    {
+      "id": "39fe284d-4aab-4243-a968-09b42eb4963d",
+      "title": "Orçamento criado",
+      "description": "Orçamento ORC-789CBE0D para Pedro Miguel criado.",
+      "category": "orcamento",
+      "level": "Sucesso",
+      "date": "2026-08-10",
+      "time": "16:22:05",
+      "read": false,
+      "createdAt": "2026-08-10T16:22:05.303524-03:00"
+    },
+    {
+      "id": "9e5f3739-e86b-49b7-9b9f-fa45f6fe9052",
+      "title": "Cliente removido",
+      "description": "Cliente removido do sistema.",
+      "category": "cliente",
+      "level": "Aviso",
+      "date": "2026-08-10",
+      "time": "16:08:00",
+      "read": false,
+      "createdAt": "2026-08-10T16:08:00.976106-03:00"
+    },
+    {
+      "id": "5ac90d91-73ad-4b7f-b06e-af3fd7c4bbbe",
+      "title": "Cliente criado",
+      "description": "Cliente \"W\" cadastrado.",
+      "category": "cliente",
+      "level": "Sucesso",
+      "date": "2026-08-10",
+      "time": "16:07:59",
+      "read": false,
+      "createdAt": "2026-08-10T16:07:59.178587-03:00"
+    },
+    {
+      "id": "cb294ba3-2c43-4eaa-9dc0-1f4e89eb2514",
+      "title": "Cliente removido",
+      "description": "Cliente removido do sistema.",
+      "category": "cliente",
+      "level": "Aviso",
+      "date": "2026-08-06",
+      "time": "23:40:24",
+      "read": false,
+      "createdAt": "2026-08-06T23:40:24.000942-03:00"
+    },
+    {
+      "id": "7ecccf11-9f5d-46f9-a60e-d379caccd301",
+      "title": "Cliente removido",
+      "description": "Cliente removido do sistema.",
+      "category": "cliente",
+      "level": "Aviso",
+      "date": "2026-08-06",
+      "time": "23:40:23",
+      "read": false,
+      "createdAt": "2026-08-06T23:40:23.531746-03:00"
+    },
+    {
+      "id": "93fb7f8b-0864-4adb-ae95-067669c3a101",
+      "title": "Cliente removido",
+      "description": "Cliente removido do sistema.",
+      "category": "cliente",
+      "level": "Aviso",
+      "date": "2026-08-06",
+      "time": "23:40:22",
+      "read": false,
+      "createdAt": "2026-08-06T23:40:22.849788-03:00"
+    },
+    {
+      "id": "61841c28-bf95-4e1f-bcb5-9e08f36a1d66",
+      "title": "Cliente criado",
+      "description": "Cliente \"w\" cadastrado.",
+      "category": "cliente",
+      "level": "Sucesso",
+      "date": "2026-08-06",
+      "time": "23:40:17",
+      "read": false,
+      "createdAt": "2026-08-06T23:40:17.978569-03:00"
+    },
+    {
+      "id": "4770aaf5-5874-4d2f-a43c-77535128217f",
+      "title": "Cliente criado",
+      "description": "Cliente \"w\" cadastrado.",
+      "category": "cliente",
+      "level": "Sucesso",
+      "date": "2026-08-06",
+      "time": "23:40:08",
+      "read": false,
+      "createdAt": "2026-08-06T23:40:08.134366-03:00"
+    },
+    {
+      "id": "b49e72c2-294b-47f1-b748-88737fdbc7ef",
+      "title": "Orçamento criado",
+      "description": "Orçamento ew para ew criado.",
+      "category": "orcamento",
+      "level": "Sucesso",
+      "date": "2026-08-06",
+      "time": "23:39:49",
+      "read": false,
+      "createdAt": "2026-08-06T23:39:49.091142-03:00"
+    },
+    {
+      "id": "b921d07e-a319-4fb7-bc13-6d7dc856af40",
+      "title": "Orçamento criado",
+      "description": "Orçamento ew para ew criado.",
+      "category": "orcamento",
+      "level": "Sucesso",
+      "date": "2026-08-06",
+      "time": "23:39:44",
+      "read": false,
+      "createdAt": "2026-08-06T23:39:44.133873-03:00"
+    },
+    {
+      "id": "4ae2bacf-2db2-4b6a-a363-c83885d7e3d5",
+      "title": "Orçamento criado",
+      "description": "Orçamento ew para ew criado.",
+      "category": "orcamento",
+      "level": "Sucesso",
+      "date": "2026-08-06",
+      "time": "23:39:39",
+      "read": false,
+      "createdAt": "2026-08-06T23:39:39.055081-03:00"
+    },
+    {
+      "id": "78244512-6232-4fe6-8ad7-c68470983a6e",
+      "title": "Cliente criado",
+      "description": "Cliente \"W\" cadastrado.",
+      "category": "cliente",
+      "level": "Sucesso",
+      "date": "2026-08-06",
+      "time": "21:29:23",
+      "read": false,
+      "createdAt": "2026-08-06T21:29:23.181852-03:00"
+    },
+    {
+      "id": "493be334-c48b-4226-97cc-5a738f1ae37f",
+      "title": "Cliente removido",
+      "description": "Cliente removido do sistema.",
+      "category": "cliente",
+      "level": "Aviso",
+      "date": "2026-08-06",
+      "time": "21:28:19",
+      "read": false,
+      "createdAt": "2026-08-06T21:28:19.208377-03:00"
+    },
+    {
+      "id": "2f9c71e1-a67a-4119-98fe-c7c1c128ba2c",
+      "title": "Cliente criado",
+      "description": "Cliente \"Teste\" cadastrado.",
+      "category": "cliente",
+      "level": "Sucesso",
+      "date": "2026-08-06",
+      "time": "21:27:57",
+      "read": false,
+      "createdAt": "2026-08-06T21:27:57.994847-03:00"
+    }
+  ]
+}
