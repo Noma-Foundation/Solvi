@@ -36,7 +36,7 @@ export class MenuBar extends IComponentModel {
     }
 
     buildTemplate() {
-        const menuBarTemplate = `
+        const menuBarTemplate = /* html */ `
             <nav class="navigation-bar container-fluid px-0">
                 <ul>
                     <li class="selected" id="home-page" role="button" tabindex="0">

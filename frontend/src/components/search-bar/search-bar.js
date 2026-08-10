@@ -14,7 +14,7 @@ export class SearchBar extends IComponentModel {
     }
 
     buildTemplate() {
-        const searchBarTemplate = `
+        const searchBarTemplate = /* html */`
             <div class="search-bar container p-0">
                 <input type="text" name="searchBar" id="search-bar-input" aria-label="Search"
                     placeholder="Search a ticket, folder or budget" tabindex="0">

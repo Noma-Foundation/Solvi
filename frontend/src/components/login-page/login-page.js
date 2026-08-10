@@ -30,7 +30,7 @@ export class LoginPage extends IComponentModel {
     }
 
     buildTemplate() {
-        this.template = `
+        this.template = /* html */ `
         <form id="${this.#formId.replace("#", "")}">
             <div class="container-fluid m-0 p-3 bg-light">
                 <div class="form-group d-flex flex-column gap-2">
