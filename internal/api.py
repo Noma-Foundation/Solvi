@@ -17,20 +17,21 @@ class API:
         self.db = open_connection(self.__database, self.__dbconfig)
 
         if isinstance(self.db, DatabaseError):
-            print("[ERROR] Database connection error:", self.db)
+            raise Exception("[Error] Error to connect database")
+            
 
     def auth_user(self, username: str, password: str) -> bool | int:
         """Authenticate user by username and password."""
 
         if not self.db or not getattr(self.db, "connection", None):
-            self.__open_error_message()
+            self.__open_error_message(error="Database connection is none or null.")
             return DatabaseError.CONNECTION_ERROR
 
         conn = self.db.connection
         try:
             cursor = conn.cursor()
         except (psycopg2.InterfaceError, psycopg2.OperationalError) as e:
-            self.__open_error_message()
+            self.__open_error_message(error="Error opening cursor")
             return DatabaseError.CURSOR_ERROR
 
         try:
@@ -51,7 +52,6 @@ class API:
 
             db_username, db_password_hash = row
             if not db_password_hash:
-                self.__open_error_message()
                 return False
 
             return bcrypt.checkpw(password.encode("utf-8"), db_password_hash.encode("utf-8"))
@@ -66,3 +66,6 @@ class API:
             title="DatabaseError",
             message=error
         )
+
+    def __open_error_window(self, url=None):
+        pass

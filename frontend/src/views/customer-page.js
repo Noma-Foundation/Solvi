@@ -4,7 +4,7 @@ import { CustomerPageComponent } from "../components/customer/customer.js";
 
 export function CustomerPage() {
     queueMicrotask(() => {
-        new CustomerPageComponent();
+        const customer = new CustomerPageComponent();
     });
     return `<section class="customer-page"></section>`;
 }
