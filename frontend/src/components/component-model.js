@@ -6,7 +6,6 @@
  * @interface IComponentModel
  */
 export class IComponentModel {
-
     /**
      * @constructs
      */
@@ -42,4 +41,12 @@ export class IComponentModel {
      */
     bindEvents() { throw new Error("You must implement the bindEvents method."); }
 
+    /**
+     * Check if the component model is an interface.
+     * 
+     * @returns {Boolean} - Returns true if the component model is an interface, false otherwise.
+     */
+    componentModelIsInterface() { 
+        return true;
+    }
 }
