@@ -23,8 +23,10 @@ export class Setting extends IComponentModel {
         $(this.context).append(this.template);
     }
 
-    bindEvents() {
-
+    bindEvents() { 
+        $("#setting-btn").on("click", () => { 
+            window.pywebview.api.create_window("Setting"); 
+        }); 
     }
 
 }

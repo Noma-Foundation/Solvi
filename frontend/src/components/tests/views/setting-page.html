@@ -64,16 +64,30 @@
                 </div>
             </article>
 
-            <article class="setting-options" style="margin: 24px 24px;">
+            <article class="setting-options" style="display: flexbox; margin: 24px 24px; flex-direction: row;">
                 <h3>Display</h3>
                 <p>Customize your default interface viewing preferences.</p>
 
-                <div class="form-check form-check-inline">
-                    <input id="inlineCheckbox1" class="form-check-input" type="checkbox" data-toggle="switchbutton" data-style="mr-1" checked>
-                    <label for="inlineCheckbox1" class="form-check-label">Dark theme</label>
-                    <p>Switch between light and dark backgrounds</p>
+                <div class="d-flex flex-column">
+                    <div class="form-check form-check-inline">
+                        <input id="inlineCheckbox1" class="form-check-input" type="checkbox" data-toggle="switchbutton" data-style="mr-1">
+                        <label for="inlineCheckbox1" class="form-check-label" style="font-weight: 500;">Dark theme</label>
+                        <p>Switch between light and dark backgrounds</p>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input id="inlineCheckbox1" class="form-check-input" type="checkbox" data-toggle="switchbutton" data-style="mr-1" checked>
+                        <label for="inlineCheckbox1" class="form-check-label" style="font-weight: 500;">Reduce motion</label>
+                        <p>Minimize the amount of non-essential animation</p>
+                    </div>
+                </div>
+
+                <div style="display:flex; width: 100%; justify-content: end; gap: 18px;">
+                    <button class="btn">Exit</button>
+                    <button class="btn btn-primary">Save and apply</button>
                 </div>
             </article>
+
         </section>
     </div>
 </body>
