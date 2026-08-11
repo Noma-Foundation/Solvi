@@ -57,11 +57,13 @@ class API:
             self.__open_error_message()
             return DatabaseError.QUERY_ERROR 
 
-    def create_window(self, title: str):
+    def create_window(self, title: str, width: int = webview.Window.width, height: int = webview.Window.height):
         webview.create_window(
             title=title,
             url="http://localhost:5173/setting.html",
-            resizable=False
+            resizable=False,
+            width=width,
+            height=height
         )
 
     def __open_error_message(self, error: str = "Database connection Error"):
