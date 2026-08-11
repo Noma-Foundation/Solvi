@@ -49,4 +49,5 @@ export class IComponentModel {
     componentModelIsInterface() { 
         return true;
     }
+    
 }
