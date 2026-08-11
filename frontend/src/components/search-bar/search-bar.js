@@ -9,7 +9,7 @@ export class SearchBar extends IComponentModel {
 
     constructor() {
         super();
-        this.#headerId = "#app-header";
+        this.context = "#app-header";
         this.init();
     }
 
@@ -21,7 +21,7 @@ export class SearchBar extends IComponentModel {
                 <img src="${searchIcon}" alt="Search Button" role="button" tabindex="0" loading="lazy">
             </div>
         `;
-        $(this.#headerId).append(this.template);
+        $(this.context).append(this.template);
     }
 
     bindEvents() {

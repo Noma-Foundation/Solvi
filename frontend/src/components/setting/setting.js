@@ -9,7 +9,7 @@ export class Setting extends IComponentModel {
 
     constructor() {
         super();
-        this.#headerId = "#app-header";
+        this.context = "#app-header";
         this.init();
     }
 
@@ -20,7 +20,7 @@ export class Setting extends IComponentModel {
             </button>
         `;
 
-        $(this.#headerId).append(this.template);
+        $(this.context).append(this.template);
     }
 
     bindEvents() {

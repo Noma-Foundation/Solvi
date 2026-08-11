@@ -7,6 +7,7 @@
  */
 export class IComponentModel {
     #template = null;
+    #context = null;
 
     /**
      * @constructs { IComponentModel } - Creates an instance of IComponentModel.
@@ -84,6 +85,14 @@ export class IComponentModel {
      */
     set template(value) { 
         this.#template = value;
+    }
+
+    get context() { 
+        return this.#context;
+    }
+
+    set context(value) {
+        this.#context = value;
     }
 
 }
