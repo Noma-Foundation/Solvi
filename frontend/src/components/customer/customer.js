@@ -10,7 +10,7 @@ export class CustomerPageComponent extends IComponentModel {
 
     constructor(rootSelector = "#app-main-context") {
         super();
-        this.#rootSelector = rootSelector;
+        this.context = rootSelector;
         this.init();
     }
 
@@ -21,7 +21,7 @@ export class CustomerPageComponent extends IComponentModel {
             </section>
         `;
 
-        $(this.#rootSelector).html(this.template);
+        $(this.context).html(this.template);
     }
 
     bindEvents() { 
