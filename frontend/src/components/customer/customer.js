@@ -5,22 +5,23 @@ import { IComponentModel } from "../component-model.js";
 import "./customer.css";
 
 
-export class CustomerPageComponent extends IComponentModel { 
+export class CustomerPageComponent extends IComponentModel {
+    #rootSelector;
 
-    constructor() { 
+    constructor(rootSelector = "#app-main-context") {
         super();
-        this.context = "#main-context";
+        this.#rootSelector = rootSelector;
         this.init();
     }
 
     buildTemplate() {
         this.template = /* html */ `
-            <div>
-                <h1>Hello, World!</h1>
-            </div>
+            <section class="customer-page">
+                <h1>Clientes</h1>
+            </section>
         `;
 
-        $(this.context).html(this.template);
+        $(this.#rootSelector).html(this.template);
     }
 
     bindEvents() { 
