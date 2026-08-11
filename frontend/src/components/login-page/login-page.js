@@ -11,6 +11,7 @@ export class LoginPage extends IComponentModel {
     #formId;
     #registerButtonId;
     #errorMessageId;
+    
     #userAccessObject;
     #userPasswordObject;
 
