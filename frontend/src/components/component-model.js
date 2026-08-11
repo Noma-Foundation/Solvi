@@ -87,10 +87,20 @@ export class IComponentModel {
         this.#template = value;
     }
 
+    /**
+     * Gets the context of the component. The context is the DOM element where the component will be rendered.
+     * 
+     * @returns {String} - Returns the context of the component.
+     */
     get context() { 
         return this.#context;
     }
 
+    /**
+     * Sets the context of the component. The context is the DOM element where the component will be rendered.
+     * 
+     * @param {String} value - The context of the component.
+     */
     set context(value) {
         this.#context = value;
     }
