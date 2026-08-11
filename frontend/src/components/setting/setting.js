@@ -14,13 +14,13 @@ export class Setting extends IComponentModel {
     }
 
     buildTemplate() {
-        const template = `
+        this.template = `
             <button id="setting-btn">
                 <img src="${settingIcon}" alt="Setting Button" />
             </button>
         `;
 
-        $(this.#headerId).append(template);
+        $(this.#headerId).append(this.template);
     }
 
     bindEvents() {

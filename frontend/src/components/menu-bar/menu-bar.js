@@ -36,7 +36,7 @@ export class MenuBar extends IComponentModel {
     }
 
     buildTemplate() {
-        const menuBarTemplate = /* html */ `
+        this.template = /* html */ `
             <nav class="navigation-bar container-fluid px-0">
                 <ul>
                     <li class="selected" id="home-page" role="button" tabindex="0">
@@ -60,7 +60,7 @@ export class MenuBar extends IComponentModel {
                 </ul>
             </nav>
         `;
-        $(this.#menuBarId).append(menuBarTemplate);
+        $(this.#menuBarId).append(this.template);
     }
 
     bindEvents() {

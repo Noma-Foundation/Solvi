@@ -6,8 +6,10 @@
  * @interface IComponentModel
  */
 export class IComponentModel {
+    #template = null;
+
     /**
-     * @constructs
+     * @constructs { IComponentModel } - Creates an instance of IComponentModel.
      */
     constructor() { }
 
@@ -42,12 +44,46 @@ export class IComponentModel {
     bindEvents() { throw new Error("You must implement the bindEvents method."); }
 
     /**
-     * Check if the component model is an interface.
+     * Checks if the class is an interface.
      * 
-     * @returns {Boolean} - Returns true if the component model is an interface, false otherwise.
+     * @returns {Boolean} - Returns true if the class is an interface, false otherwise.
      */
-    componentModelIsInterface() { 
-        return true;
+    checkIfThisComponentIsInterface() { 
+        if (this.buildTemplate === IComponentModel.prototype.buildTemplate || this.bindEvents === IComponentModel.prototype.bindEvents) {
+            return true;
+        }
+        return false;
     }
-    
+
+    /**
+     * Checks if the other component is an interface.
+     * 
+     * @param {Component} otherComponent - Other component to check if it is an IComponentModel interface. 
+     * @returns {Boolean} - Returns true if the other component is an IComponentModel interface, false otherwise.
+     */
+    checkIfOtherComponentIsInterface(otherComponent) { 
+        if (otherComponent.buildTemplate === IComponentModel.prototype.buildTemplate || otherComponent.bindEvents === IComponentModel.prototype.bindEvents) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Gets the template of the component.
+     * 
+     * @returns {String} - Returns the template of the component.
+     */
+    get template() { 
+        return this.#template;
+    }
+
+    /**
+     * Sets the template of the component.
+     * 
+     * @param {String} value - The template of the component.
+     */
+    set template(value) { 
+        this.#template = value;
+    }
+
 }
