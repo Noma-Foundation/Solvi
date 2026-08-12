@@ -23,10 +23,14 @@
 }
 
 header {
-    width: fit-content;
-    position: fixed;
-    top: var(--margin-s-display);
-    right: var(--margin-s-display);
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    padding: var(--margin-s-display);
+    background-color: var(--light-color);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
 }
 
 h1,

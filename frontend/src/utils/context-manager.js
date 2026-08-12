@@ -1,7 +1,6 @@
 import $ from "jquery";
 
 import { MenuBar } from "../components/menu-bar/menu-bar.js";
-import { SearchBar } from "../components/search-bar/search-bar.js";
 import { Setting } from "../components/setting/setting.js";
 
 import { HomePage } from "../views/home-page.js";
@@ -69,10 +68,6 @@ class ContextManager {
         if (!this._menuBar) {
             this._menuBar = new MenuBar();
             console.log('[ContextManager] MenuBar created');
-        }
-        if (!this._searchBar) {
-            this._searchBar = new SearchBar();
-            console.log('[ContextManager] SearchBar created');
         }
         if (!this._setting) {
             this._setting = new Setting();

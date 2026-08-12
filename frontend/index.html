@@ -16,10 +16,10 @@
     <link rel="stylesheet" href="./src/components/setting/setting.css">
 </head>
 
-<body>
-    <header id="app-header" class="d-flex justify-content-end align-items-center m-2 gap-2"></header>
-    <div class="container-fluid m-0 p-0 d-flex vh-100">
-        <aside id="main-menu-bar" class="m-2 overflow-hidden"></aside>
+<body class="d-flex vh-100">
+    <aside id="main-menu-bar" class="m-2 overflow-hidden"></aside>
+    <div class="d-flex flex-column flex-grow-1 overflow-hidden">
+        <header id="app-header" class="d-flex justify-content-end align-items-center gap-2"></header>
         <main id="main-context" class="flex-grow-1 overflow-auto">
             <section id="app-main-context" class="container-fluid h-100 w-100 m-0 p-0"></section>
         </main>
