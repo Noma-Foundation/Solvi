@@ -1,7 +1,7 @@
 import webview
-from subprocess import Popen
-
 import internal
+
+from subprocess import Popen
 from internal import API
 
 internal.patch_get_screens()
