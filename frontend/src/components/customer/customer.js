@@ -27,14 +27,7 @@ export class CustomerPageComponent extends IComponentModel {
                     <input type="text" class="form-control customer-search-input" placeholder="Search by name...">
 
                     <ul class="customer-list list-unstyled d-flex flex-column gap-1 m-0 overflow-auto">
-                        <li class="customer-list-item d-flex align-items-center gap-2 p-2 rounded-3 active">
-                            <span class="customer-avatar d-flex align-items-center justify-content-center rounded-circle">CL</span>
-                            <span class="d-flex flex-column flex-grow-1 min-width-0">
-                                <span class="customer-list-item-name text-truncate fw-semibold">Nome do cliente</span>
-                                <span class="customer-list-item-subtitle text-truncate">Cidade / UF · Plano</span>
-                            </span>
-                            <span class="badge rounded-pill customer-status-badge status-ativo">ACTIVE</span>
-                        </li>
+                        ${this.#listObject()}
                     </ul>
                 </aside>
 
@@ -136,6 +129,19 @@ export class CustomerPageComponent extends IComponentModel {
         $("#delete-client-btn").on("click", () => {
             console.log("Delete client");
         });
+    }
+
+    #listObject() { 
+        return /* html */ `
+            <li class="customer-list-item d-flex align-items-center gap-2 p-2 rounded-3 active">
+                <span class="customer-avatar d-flex align-items-center justify-content-center rounded-circle">CL</span>
+                <span class="d-flex flex-column flex-grow-1 min-width-0">
+                    <span class="customer-list-item-name text-truncate fw-semibold">Nome do cliente</span>
+                    <span class="customer-list-item-subtitle text-truncate">Cidade / UF · Plano</span>
+                </span>
+                <span class="badge rounded-pill customer-status-badge status-pending">Pendente</span>
+            </li>
+        `;
     }
 
 }

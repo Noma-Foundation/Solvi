@@ -88,17 +88,17 @@
     font-weight: 600;
 }
 
-.status-ativo {
+.status-active {
     background-color: #E3F1FF;
     color: #0B63CE;
 }
 
-.status-pendente {
+.status-pending {
     background-color: #FFF1DA;
     color: #B26A00;
 }
 
-.status-inativo {
+.status-inactive {
     background-color: #F1F1F1;
     color: #6B6B6B;
 }
