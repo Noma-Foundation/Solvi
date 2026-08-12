@@ -25,7 +25,7 @@ export class Setting extends IComponentModel {
 
     bindEvents() { 
         $("#setting-btn").on("click", () => { 
-            window.pywebview.api.create_window("Setting", 550, 570); 
+            window.pywebview.api.create_window("Setting", 680, 570); 
         }); 
     }
 
