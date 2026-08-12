@@ -1,4 +1,6 @@
 import os 
+import logging
+
 import psycopg2
 
 from dotenv import load_dotenv
@@ -10,6 +12,7 @@ from internal.utils import DatabaseError
 
 load_dotenv()
 
+logger = logging.getLogger(__name__)
 
 @dataclass
 class DatabaseConnection:
@@ -30,12 +33,15 @@ def open_connection(connection: DatabaseConnection, config: DBConfig) -> Databas
                 password=os.getenv("DB_PASSWORD")
             )
         connection.connection = conn
+        logger.info("Database successfully connected.")
         return connection
     except psycopg2.Error as e:
+        logger.error("Error connecting to the database.")
         return DatabaseError.CONNECTION_ERROR
 
 
 def close_connection(conn: DatabaseConnection):
     if conn is None or getattr(conn, "connection", None) is None:
+        logger.warning("The database connection is null or None.")
         return
     conn.connection.close()
