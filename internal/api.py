@@ -1,11 +1,15 @@
+import logging
+
 import webview
 import bcrypt
-
 import psycopg2
 
 from internal.database import DatabaseConnection, open_connection
 from internal.utils import DatabaseError
 from internal.config import DBConfig
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename="solvi.log", level=logging.INFO)
 
 
 class API:
@@ -16,6 +20,7 @@ class API:
         self.__dev_mode = dev_mode
 
         if isinstance(self.db, DatabaseError):
+            logger.error("An unexpected operation occurred. The database connection is null.")
             raise Exception("[Error] Error to connect database")
 
 
@@ -23,14 +28,14 @@ class API:
         """Authenticate user by username and password."""
 
         if not self.db or not getattr(self.db, "connection", None):
-            self.__open_error_message(error="Database connection is none or null.")
+            logger.error("An unexpected operation occurred. The database connection is null.")
             return DatabaseError.CONNECTION_ERROR
 
         conn = self.db.connection
         try:
             cursor = conn.cursor()
         except (psycopg2.InterfaceError, psycopg2.OperationalError) as e:
-            self.__open_error_message(error="Error opening cursor")
+            logger.error("Error connecting with the cursor.")
             return DatabaseError.CURSOR_ERROR
 
         try:
@@ -43,8 +48,9 @@ class API:
             finally:
                 try:
                     cursor.close()
+                    logger.info("Cursor completed. Username and password captured.")
                 except Exception:
-                    pass
+                    logger.warning("Cursor completed. Username and password not captured.")
 
             if not row:
                 return False
@@ -55,7 +61,7 @@ class API:
 
             return bcrypt.checkpw(password.encode("utf-8"), db_password_hash.encode("utf-8"))
         except (psycopg2.Error, ValueError, TypeError) as e:
-            self.__open_error_message()
+            logger.error("Error while executing a query.")
             return DatabaseError.QUERY_ERROR 
 
     def create_window_setting(self, title: str, width: int, height: int):
@@ -67,14 +73,6 @@ class API:
             resizable=False,
             width=width,
             height=height
-        )
-
-    def __open_error_message(self, error: str = "Database connection Error"):
-        if API._window is None:
-            return
-        API._window.create_confirmation_dialog(
-            title="DatabaseError",
-            message=error
         )
 
     def __open_error_window(self, url=None):

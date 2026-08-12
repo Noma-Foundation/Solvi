@@ -1,0 +1,148 @@
+.customer-page {
+    /* clears the fixed #app-header (search bar) so content doesn't render underneath it */
+    padding-top: 80px;
+}
+
+/* --- List panel --- */
+
+.customer-list-panel {
+    width: 320px;
+    min-width: 320px;
+    border-right: 1px solid #EBEBEB;
+}
+
+.customer-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9A94A3;
+}
+
+.customer-add-btn {
+    background-color: var(--orderhub-brand-color);
+    border-color: var(--orderhub-brand-color);
+}
+
+.customer-search-input {
+    border-radius: 10px;
+}
+
+.customer-search-input:focus {
+    border-color: var(--orderhub-brand-color);
+    box-shadow: none;
+}
+
+.customer-count {
+    font-size: 0.8rem;
+    color: #9A94A3;
+}
+
+.customer-list-item {
+    cursor: pointer;
+}
+
+.customer-list-item:hover {
+    background-color: #F5F5F7;
+}
+
+.customer-list-item.active {
+    background-color: #EEF0FF;
+}
+
+.min-width-0 {
+    min-width: 0;
+}
+
+.customer-list-item-name {
+    font-size: 0.9rem;
+}
+
+.customer-list-item-subtitle {
+    font-size: 0.78rem;
+    color: #9A94A3;
+}
+
+/* --- Avatars --- */
+
+.customer-avatar {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background-color: #E4E1FA;
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.customer-avatar.large {
+    width: 48px;
+    height: 48px;
+    font-size: 1rem;
+}
+
+/* --- Status badges --- */
+
+.customer-status-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.status-ativo {
+    background-color: #E3F1FF;
+    color: #0B63CE;
+}
+
+.status-pendente {
+    background-color: #FFF1DA;
+    color: #B26A00;
+}
+
+.status-inativo {
+    background-color: #F1F1F1;
+    color: #6B6B6B;
+}
+
+/* --- Detail panel --- */
+
+.customer-stat-card {
+    background-color: #F7F7F9;
+}
+
+.customer-stat-value {
+    font-size: 1.4rem;
+}
+
+/* --- Sections --- */
+
+.customer-section-title {
+    margin: 0 0 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9A94A3;
+}
+
+.customer-info-card {
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 1.5rem;
+}
+
+.customer-notes {
+    display: block;
+}
+
+.customer-field-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #9A94A3;
+}
+
+.customer-field-value {
+    margin-top: 4px;
+}
