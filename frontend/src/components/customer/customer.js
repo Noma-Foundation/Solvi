@@ -72,10 +72,9 @@ export class CustomerPageComponent extends IComponentModel {
                 <aside class="customer-list-panel d-flex flex-column gap-3 p-3">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <p class="customer-eyebrow m-0">Base</p>
                             <h3 class="m-0">Clientes</h3>
                         </div>
-                        <button type="button" class="btn btn-primary customer-add-btn">Adicionar</button>
+                        <button type="button" class="btn btn-primary customer-add-btn" id="add-client-btn">Adicionar</button>
                     </div>
 
                     <input type="text" class="form-control customer-search-input" placeholder="Buscar por nome, CNPJ ou cidade">
@@ -97,7 +96,9 @@ export class CustomerPageComponent extends IComponentModel {
     }
 
     bindEvents() {
-
+        const addClientBtn = $("#add-client-btn").on("click", () => { 
+            console.log("Append client");
+        });    
     }
 
     #buildListItem(customer, isActive) {

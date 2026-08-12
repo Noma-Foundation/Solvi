@@ -22,6 +22,8 @@
 .customer-add-btn {
     background-color: var(--orderhub-brand-color);
     border-color: var(--orderhub-brand-color);
+    font-weight: 500;
+    border-radius: 12px;
 }
 
 .customer-search-input {

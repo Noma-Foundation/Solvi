@@ -18,13 +18,16 @@ $(function () {
     $("#app-version").text(`${pkg.version}`);
 
     console.log("Open login page");
-    const loginPage = new LoginPage(context);
+    // const loginPage = new LoginPage(context);
+
+    console.log("Open in employee mode");
+    contextManager.show("home")
 
     // When authentication succeeds, the login page will publish 'auth:success'
-    eventBus.subscribe("auth:success", (data) => {
+    /*eventBus.subscribe("auth:success", (data) => {
         if (data && data.role === "employee") {
             console.log("Open in employee mode");
             contextManager.show("home")
         }
-    });
+    });*/
 });
