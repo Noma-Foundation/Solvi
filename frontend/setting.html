@@ -5,13 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Setting</title>
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-        crossorigin="anonymous"
-    >
-
     <style>
         html, body {
             width: 100%;
@@ -155,37 +148,7 @@
         </main>
     </div>
 
-    <script>
-        const buttons = document.querySelectorAll("[data-setting]");
-        const sections = document.querySelectorAll("[data-section]");
-
-        buttons.forEach(button => {
-            button.addEventListener("click", () => {
-                const setting = button.dataset.setting;
-
-                buttons.forEach(btn => {
-                    btn.classList.remove("selected-setting");
-                });
-
-                button.classList.add("selected-setting");
-
-                sections.forEach(section => {
-                    section.classList.toggle(
-                        "d-none",
-                        section.dataset.section !== setting
-                    );
-                });
-            });
-        });
-
-        document.querySelector("#exit-settings").addEventListener("click", () => {
-            console.log("[LOG] Logging out of the system")
-        });
-
-        document.querySelector("#save-settings").addEventListener("click", () => {
-            console.log("[LOG] saving and applying settings.")
-        });
-    </script>
+    <script src="./src/setting-page.js" type="module"></script>
 
 </body>
 </html>
