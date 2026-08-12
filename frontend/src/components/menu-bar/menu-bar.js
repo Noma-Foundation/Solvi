@@ -5,7 +5,6 @@ import { IComponentModel } from "../component-model.js";
 import { contextManager } from "../../utils/context-manager.js";
 
 import homeIcon from "../../assets/icons/aside/home.svg";
-import folderIcon from "../../assets/icons/aside/folder.svg";
 import customerIcon from "../../assets/icons/aside/customer.svg";
 import inboxIcon from "../../assets/icons/aside/inbox.svg";
 import calendarIcon from "../../assets/icons/aside/calendar.svg";
@@ -41,9 +40,6 @@ export class MenuBar extends IComponentModel {
                 <ul>
                     <li class="selected" id="home-page" role="button" tabindex="0">
                         <img src="${homeIcon}" alt="Home" loading="lazy">
-                    </li>
-                    <li class="unselected" id="folder-page" role="button" tabindex="0">
-                        <img src="${folderIcon}" alt="Folder" loading="lazy">
                     </li>
                     <li class="unselected" id="customer-page" role="button" tabindex="0">
                         <img src="${customerIcon}" alt="Customer" loading="lazy">

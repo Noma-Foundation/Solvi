@@ -5,7 +5,6 @@ import { Setting } from "../components/setting/setting.js";
 
 import { HomePage } from "../views/home-page.js";
 import { NotificationPage } from "../views/notification-page.js";
-import { FolderPage } from "../views/folder-page.js";
 import { CustomerPage } from "../views/customer-page.js";
 import { InboxPage } from "../views/inbox-page.js";
 import { CalendarPage } from "../views/calendar-page.js";
@@ -29,7 +28,6 @@ class ContextManager {
         // register default views
         this.register("home", (params) => HomePage(params));
         this.register("notification", (params) => NotificationPage(params));
-        this.register("folder", (params) => FolderPage(params));
         this.register("customer", (params) => CustomerPage(params));
         this.register("inbox", (params) => InboxPage(params));
         this.register("calendar", (params) => CalendarPage(params));
