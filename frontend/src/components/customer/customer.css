@@ -17,8 +17,11 @@
 .customer-add-btn {
     background-color: var(--orderhub-brand-color);
     border-color: var(--orderhub-brand-color);
-    font-weight: 500;
     border-radius: 12px;
+}
+
+.button-font { 
+    font-weight: 500;
 }
 
 .customer-search-input {

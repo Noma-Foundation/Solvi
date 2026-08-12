@@ -74,12 +74,10 @@ export class CustomerPageComponent extends IComponentModel {
                         <div>
                             <h3 class="m-0">Clientes</h3>
                         </div>
-                        <button type="button" class="btn btn-primary customer-add-btn" id="add-client-btn">Adicionar</button>
+                        <button type="button" class="btn btn-primary customer-add-btn button-font" id="add-client-btn">Adicionar</button>
                     </div>
 
                     <input type="text" class="form-control customer-search-input" placeholder="Buscar por nome, CNPJ ou cidade">
-
-                    <p class="customer-count m-0">${MOCK_CUSTOMERS.length} de ${MOCK_CUSTOMERS.length} clientes</p>
 
                     <ul class="customer-list list-unstyled d-flex flex-column gap-1 m-0 overflow-auto">
                         ${MOCK_CUSTOMERS.map(customer => this.#buildListItem(customer, customer === selected)).join("")}
@@ -146,6 +144,11 @@ export class CustomerPageComponent extends IComponentModel {
                 <div class="card customer-info-card customer-notes">
                     <p class="m-0">${detail.notes}</p>
                 </div>
+            </section>
+
+            <section>
+                <button type="button" class="btn button-font">Delete</button>
+                <button type="button" class="btn btn-primary customer-add-btn button-font" id="add-client-btn">Edit</button>
             </section>
         `;
     }
