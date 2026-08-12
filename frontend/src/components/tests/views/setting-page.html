@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setting page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <style>
+        .selected-setting {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            gap: 12px;
+            margin: 0px 12px 0px 12px;
+            font-weight: 500;
+            background-color: #2744fe17;
+            width: 146px;
+        }
+
+        .selected-setting:hover {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            gap: 12px;
+            margin: 0px 12px 0px 12px;
+            font-weight: 500;
+            background-color: #2744fe17;
+            width: 146px;
+            border-color: #FFFFFF;
+        }
+
+        .unselected-setting {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            gap: 12px;
+            margin: 0px 12px 0px 12px;
+            font-weight: 500;
+            background-color: #FFFFFF;
+            width: 146px;
+            border-color: #FFFFFF;
+        }
+
+        .margin { 
+            margin: 20px 12px;
+        }
+
+        #aside-bar { 
+            border-right: 1px solid #CAC4D0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid margin p-0">
+        <section style="display: flex; height: 400px;">
+            <article id="aside-bar">
+                <div class="gap-2 m-sm-2">
+                    <button class="btn selected-setting"><img src="../../../assets/icons/setting/display.svg" alt="Display"> Display</button>
+                    <button class="btn unselected-setting"><img src="../../../assets/icons/setting/setting-btn.svg" alt="Settings"> Settings</button>
+                    <button class="btn unselected-setting"><img src="../../../assets/icons/setting/database.svg" alt="Database"> Database</button>
+                    <button class="btn unselected-setting"><img src="../../../assets/icons/setting/font.svg" alt="Font"> Font</button>
+                </div>
+            </article>
+
+            <article class="setting-options" style="display: flexbox; margin: 24px 24px; flex-direction: row;">
+                <h3>Display</h3>
+                <p>Customize your default interface viewing preferences.</p>
+
+                <div class="d-flex flex-column">
+                    <div class="form-check form-check-inline">
+                        <input id="inlineCheckbox1" class="form-check-input" type="checkbox" data-toggle="switchbutton" data-style="mr-1">
+                        <label for="inlineCheckbox1" class="form-check-label" style="font-weight: 500;">Dark theme</label>
+                        <p>Switch between light and dark backgrounds</p>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input id="inlineCheckbox1" class="form-check-input" type="checkbox" data-toggle="switchbutton" data-style="mr-1" checked>
+                        <label for="inlineCheckbox1" class="form-check-label" style="font-weight: 500;">Reduce motion</label>
+                        <p>Minimize the amount of non-essential animation</p>
+                    </div>
+                </div>
+
+                <div style="display:flex; width: 100%; justify-content: end; gap: 18px;">
+                    <button class="btn">Exit</button>
+                    <button class="btn btn-primary">Save and apply</button>
+                </div>
+            </article>
+
+        </section>
+    </div>
+</body>
+</html>

@@ -6,20 +6,20 @@ import "./login-page.css";
 
 
 export class LoginPage extends IComponentModel {
-    #context;
     #errorMessage;
 
     #formId;
     #registerButtonId;
     #errorMessageId;
+    
     #userAccessObject;
     #userPasswordObject;
 
     #isLogged;
 
     constructor(context) {
-        super(); // que foda amor eu te amo muito porra 
-        this.#context = context;
+        super();
+        this.context = context;
         this.#errorMessage = "Invalid credentials";
         this.#isLogged = false;
 
@@ -49,7 +49,7 @@ export class LoginPage extends IComponentModel {
         </div>
         `;
 
-        $(this.#context).html(this.template);
+        $(this.context).html(this.template);
         this.#userAccessObject = $(this.#formId).find("#user-access");
         this.#userPasswordObject = $(this.#formId).find("#user-password");
     }
@@ -97,11 +97,11 @@ export class LoginPage extends IComponentModel {
     }
 
     #showError() {
-        $(this.#context).find(this.#errorMessageId).show();
+        $(this.context).find(this.#errorMessageId).show();
     }
 
     #hideError() {
-        $(this.#context).find(this.#errorMessageId).hide();
+        $(this.context).find(this.#errorMessageId).hide();
     }
 
     #getSupportData() {
