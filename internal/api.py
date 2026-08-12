@@ -11,12 +11,13 @@ from internal.config import DBConfig
 class API:
     _window: webview.Window | None = None
 
-    def __init__(self, database: DatabaseConnection, dbconfig: DBConfig):
+    def __init__(self, database: DatabaseConnection, dbconfig: DBConfig, dev_mode: bool = False):
         self.db = open_connection(database, dbconfig)
+        self.__dev_mode = dev_mode
 
         if isinstance(self.db, DatabaseError):
             raise Exception("[Error] Error to connect database")
-            
+
 
     def auth_user(self, username: str, password: str) -> bool | int:
         """Authenticate user by username and password."""
@@ -58,9 +59,11 @@ class API:
             return DatabaseError.QUERY_ERROR 
 
     def create_window_setting(self, title: str, width: int, height: int):
+        url = "http://localhost:5173/setting.html" if self.__dev_mode else "frontend/dist/setting.html"
+        
         webview.create_window(
             title=title,
-            url="http://localhost:5173/setting.html",
+            url=url,
             resizable=False,
             width=width,
             height=height
