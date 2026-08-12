@@ -75,5 +75,8 @@ class API:
             height=height
         )
 
-    def __open_error_window(self, url=None):
+    def create_client(self): 
+        pass
+
+    def delete_client(self):
         pass
