@@ -14,11 +14,6 @@ load_dotenv()
 @dataclass
 class DatabaseConnection:
     url: str = os.getenv("DATABASE_URL")
-    port: str = os.getenv("DB_PORT")
-    user: str = os.getenv("DB_USER")
-    host: str = os.getenv("DB_HOST")
-    password: str = os.getenv("DB_PASSWORD")
-    database: str = os.getenv("DB_NAME")
     connection: object = None
 
 
@@ -28,11 +23,11 @@ def open_connection(connection: DatabaseConnection, config: DBConfig) -> Databas
             conn = psycopg2.connect(config.url)
         else:
             conn = psycopg2.connect(
-                host=config.host,
-                port=config.port,
-                database=config.database,
-                user=config.user,
-                password=config.password,
+                host=os.getenv("DB_HOST"),
+                port=os.getenv("DB_PORT"),
+                database=os.getenv("DB_NAME"),
+                user=os.getenv("DB_USER"),
+                password=os.getenv("DB_PASSWORD")
             )
         connection.connection = conn
         return connection
