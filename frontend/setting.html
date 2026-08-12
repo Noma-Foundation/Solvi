@@ -180,22 +180,11 @@
         });
 
         document.querySelector("#exit-settings").addEventListener("click", () => {
-            if (window.pywebview?.api?.close_settings_window) {
-                window.pywebview.api.close_settings_window();
-            } else {
-                window.close();
-            }
+            console.log("[LOG] Logging out of the system")
         });
 
         document.querySelector("#save-settings").addEventListener("click", () => {
-            const settings = {
-                darkTheme: document.querySelector("#dark-theme").checked,
-                reduceMotion: document.querySelector("#reduce-motion").checked
-            };
-
-            if (window.pywebview?.api?.save_settings) {
-                window.pywebview.api.save_settings(settings);
-            }
+            console.log("[LOG] saving and applying settings.")
         });
     </script>
 
