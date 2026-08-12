@@ -57,7 +57,7 @@ class API:
             self.__open_error_message()
             return DatabaseError.QUERY_ERROR 
 
-    def create_window(self, title: str, width: int = webview.Window.width, height: int = webview.Window.height):
+    def create_window_setting(self, title: str, width: int, height: int):
         webview.create_window(
             title=title,
             url="http://localhost:5173/setting.html",
