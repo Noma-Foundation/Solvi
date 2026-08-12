@@ -27,7 +27,7 @@ export class CustomerPageComponent extends IComponentModel {
                     <input type="text" class="form-control customer-search-input" placeholder="Search by name...">
 
                     <ul class="customer-list list-unstyled d-flex flex-column gap-1 m-0 overflow-auto">
-                        ${this.#listObject()}
+                        ${this.#listComponent()}
                     </ul>
                 </aside>
 
@@ -106,7 +106,7 @@ export class CustomerPageComponent extends IComponentModel {
                         </div>
                     </section>
 
-                    <section>
+                    <section class="d-flex justify-content-end align-items-center gap-3 p-0">
                         <button type="button" class="btn button-font" id="delete-client-btn">Delete</button>
                         <button type="button" class="btn btn-primary customer-add-btn button-font" id="edit-client-btn">Edit</button>
                     </section>
@@ -131,7 +131,7 @@ export class CustomerPageComponent extends IComponentModel {
         });
     }
 
-    #listObject() { 
+    #listComponent() { 
         return /* html */ `
             <li class="customer-list-item d-flex align-items-center gap-2 p-2 rounded-3 active">
                 <span class="customer-avatar d-flex align-items-center justify-content-center rounded-circle">CL</span>
