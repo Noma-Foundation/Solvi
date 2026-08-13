@@ -20,7 +20,10 @@ ICMS_RATES = {
     "SE": 18.0, "TO": 18.0,
 }
 
-BUDGET_STATUSES = {"Rascunho", "Enviado", "Aprovado", "Recusado"}
+BUDGET_STATUSES = {
+    "Rascunho", "Enviado", "Mensalidade a pagar", "Mensalidade em atraso",
+    "Mensalidade paga", "Aprovado", "Recusado", "Cancelado",
+}
 NOTIFICATION_LEVELS = {"Informação", "Aviso", "Erro", "Sucesso"}
 
 

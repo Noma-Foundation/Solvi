@@ -55,6 +55,11 @@ export class BudgetManager extends IComponentModel {
                     API indisponível. Abra o app via Solvi (pywebview).
                 </div>
 
+                <div class="budget-summary">
+                    <span class="budget-summary__label">Total (Mensalidade paga + Aprovado)</span>
+                    <strong id="budget-summary-total" class="budget-summary__value">R$ 0,00</strong>
+                </div>
+
                 <div class="inbox-page__toolbar">
                     <input type="search" id="budget-search" class="form-control" placeholder="Pesquisar cliente, número…">
                     <select id="budget-sort" class="form-select">
@@ -212,7 +217,16 @@ export class BudgetManager extends IComponentModel {
         return list;
     }
 
+    #renderSummary() {
+        const relevantStatuses = ["Mensalidade paga", "Aprovado"];
+        const total = this.#budgets
+            .filter((b) => relevantStatuses.includes(b.status))
+            .reduce((sum, b) => sum + (Number(b.total) || 0), 0);
+        $("#budget-summary-total").text(formatCurrency(total));
+    }
+
     #renderList() {
+        this.#renderSummary();
         const list = this.#filtered();
         const $list = $("#budget-list");
         if (!list.length) {
