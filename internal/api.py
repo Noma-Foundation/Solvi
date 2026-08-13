@@ -1,6 +1,8 @@
+import json
+
+import uuid
 import webview
 import bcrypt
-
 import psycopg2
 
 from internal.database import DatabaseConnection, open_connection
@@ -26,14 +28,13 @@ class API:
             self.__open_error_message()
             return AuthenticationCodeError.FATAL_ERROR
 
-<<<<<<< HEAD
         conn = self.db.connection
         try:
             cursor = conn.cursor()
         except (psycopg2.InterfaceError, psycopg2.OperationalError) as e:
             self.__open_error_message()
             return AuthenticationCodeError.FATAL_ERROR
-=======
+
     def _default_store(self) -> dict:
         return {
             "customers": [],
@@ -271,11 +272,11 @@ class API:
     def import_files(self, parent_id=""):
         parent_id = str(parent_id or "").strip()
         store = self._load_store()
+        
         if parent_id:
             parent = next((i for i in store["folders"] if str(i.get("id")) == parent_id), None)
             if not parent or parent.get("type") != "folder":
                 return _err("parent folder not found")
->>>>>>> 73fee27 (Add xref-main.html and unit tests for Customer model)
 
         try:
             try:
