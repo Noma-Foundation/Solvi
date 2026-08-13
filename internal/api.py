@@ -1,3 +1,4 @@
+import tomllib
 import logging
 
 import webview
@@ -7,6 +8,7 @@ import psycopg2
 from internal.database import DatabaseConnection, open_connection
 from internal.utils import DatabaseError
 from internal.config import DBConfig
+from internal.setting_api import SettingAPI
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="solvi.log", level=logging.INFO)
@@ -15,7 +17,7 @@ logging.basicConfig(filename="solvi.log", level=logging.INFO)
 class API:
     _window: webview.Window | None = None
 
-    def __init__(self, database: DatabaseConnection, dbconfig: DBConfig, dev_mode: bool = False):
+    def __init__(self, database: DatabaseConnection, dbconfig: DBConfig, dev_mode: bool = False) -> None:
         self.db = open_connection(database, dbconfig)
         self.__dev_mode = dev_mode
 
@@ -64,7 +66,7 @@ class API:
             logger.error("Error while executing a query.")
             return DatabaseError.QUERY_ERROR 
 
-    def create_window_setting(self, title: str, width: int, height: int):
+    def create_window_setting(self, title: str, width: int, height: int) -> None:
         url = "http://localhost:5173/setting.html" if self.__dev_mode else "frontend/dist/setting.html"
         
         webview.create_window(
@@ -72,7 +74,8 @@ class API:
             url=url,
             resizable=False,
             width=width,
-            height=height
+            height=height,
+            js_api=SettingAPI()
         )
 
     def create_client(self): 

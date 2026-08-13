@@ -20,11 +20,11 @@ class DBConfig:
 
 @dataclass
 class GlobalConfig: 
-    name: Optional[None] = None
-    version: Optional[None] = None
-    company_name: Optional[None] = None
-    timezone: Optional[None] = None
-    environment: Optional[None] = None
-    debug: Optional[None] = None
-    base_url: Optional[None] = None
-    maintainance_mode: Optional[None] = None
+    name: Optional[str] = None
+    version: Optional[str] = None
+    company_name: Optional[str] = None
+    timezone: Optional[str] = None
+    environment: Optional[str] = None
+    debug: Optional[str | bool] = None
+    base_url: Optional[str] = None
+    maintainance_mode: Optional[str | bool] = None
