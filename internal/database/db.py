@@ -26,11 +26,11 @@ def open_connection(connection: DatabaseConnection, config: DBConfig) -> Databas
             conn = psycopg2.connect(config.url)
         else:
             conn = psycopg2.connect(
-                host=os.getenv("DB_HOST"),
-                port=os.getenv("DB_PORT"),
-                database=os.getenv("DB_NAME"),
-                user=os.getenv("DB_USER"),
-                password=os.getenv("DB_PASSWORD")
+                host=config.host,
+                port=config.port,
+                database=config.database,
+                user=config.user,
+                password=config.password
             )
         connection.connection = conn
         logger.info("Database successfully connected.")

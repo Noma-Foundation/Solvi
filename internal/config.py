@@ -1,6 +1,7 @@
-from typing import Optional
 import os
+import tomllib
 
+from typing import Optional
 from dataclasses import dataclass
 from dotenv import load_dotenv
 
