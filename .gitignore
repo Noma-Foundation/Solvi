@@ -77,3 +77,21 @@ __pycache__/
 *.py[codz]
 *$py.class
 *.pyc
+
+# Developer tools' files
+.lite_workspace.lua
+
+# Neutralinojs binaries and builds
+solvi/bin
+solvi/dist
+
+# Neutralinojs client (minified)
+solvi/neutralino.js
+
+# Neutralinojs related files
+.storage
+*.log
+
+# Frontend build tooling
+solvi/node_modules/
+solvi/resources/assets/

@@ -12,6 +12,9 @@ import { eventBus } from "./event-manager-singleton.js";
 
 import { LoginPage } from "./components/login-page/login-page.js";
 
+Neutralino.init();
+Neutralino.events.on("windowClose", () => Neutralino.app.exit());
+
 $(function () {
     // Initialize main app components
     const context = "#app-main-context";

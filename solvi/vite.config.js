@@ -4,8 +4,12 @@ import { resolve } from 'node:path'
 export default defineConfig({
     base: './',
     build: {
-        outDir: 'dist',
-        emptyOutDir: true,
+        // Neutralino serves everything from resources/ (documentRoot in
+        // neutralino.config.json), so the app bundle has to land there.
+        // emptyOutDir stays false: resources/js/neutralino.js (client lib,
+        // restored by `neu update`) and resources/icons/ must survive rebuilds.
+        outDir: 'resources',
+        emptyOutDir: false,
 
         rolldownOptions: {
             input: {

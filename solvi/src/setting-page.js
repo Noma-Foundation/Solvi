@@ -1,6 +1,8 @@
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 
+Neutralino.init();
+
 const buttons = document.querySelectorAll("[data-setting]");
 const sections = document.querySelectorAll("[data-section]");
 
