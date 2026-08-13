@@ -68,6 +68,7 @@ class API:
 
     def create_window_setting(self, title: str, width: int, height: int) -> None:
         url = "http://localhost:5173/setting.html" if self.__dev_mode else "frontend/dist/setting.html"
+        api = SettingAPI()
         
         webview.create_window(
             title=title,
@@ -75,7 +76,7 @@ class API:
             resizable=False,
             width=width,
             height=height,
-            js_api=SettingAPI()
+            js_api=api
         )
 
     def create_client(self): 
