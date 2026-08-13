@@ -1,3 +1,4 @@
+import os
 import webview
 
 import internal as backend
@@ -33,8 +34,14 @@ class Application:
 
     def run(self):
         icon = resource_path("build", "windows", "icon.ico")
+        # SOLVI_DEBUG=1 opens DevTools (right-click > Inspect) in packaged
+        # builds too, for diagnosing frontend/pywebview bridge issues.
+        debug = self.__dev_mode or os.getenv("SOLVI_DEBUG") == "1"
+        remote_debug_port = os.getenv("SOLVI_REMOTE_DEBUG_PORT")
+        if remote_debug_port:
+            webview.settings["REMOTE_DEBUGGING_PORT"] = int(remote_debug_port)
         webview.start(
-            debug=self.__dev_mode,
+            debug=debug,
             icon=str(icon) if icon.exists() else None,
         )
 

@@ -1,5 +1,6 @@
 import os
 import sys
+import traceback
 from pathlib import Path
 
 # Must run before importing `internal` (package __init__ loads .env/config).
@@ -22,6 +23,19 @@ if __name__ == "__main__":
     # Never enable Vite/dev tools inside a packaged build.
     dev_mode = (not is_frozen()) and ("--dev" in sys.argv)
 
-    app = Application(dev_mode=dev_mode)
-    app.run()
-    app.shutdown(server_process)
+    app = None
+    try:
+        app = Application(dev_mode=dev_mode)
+        app.run()
+    except Exception:
+        # console=False in the packaged build swallows uncaught exceptions;
+        # write them out so they're diagnosable after install.
+        from internal.utils.paths import data_dir
+        crash_log = data_dir() / "crash.log"
+        with crash_log.open("a", encoding="utf-8") as f:
+            f.write(traceback.format_exc())
+            f.write("\n")
+        raise
+    finally:
+        if app is not None:
+            app.shutdown(server_process)
