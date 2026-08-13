@@ -40,7 +40,7 @@ def open_connection(connection: DatabaseConnection, config: DBConfig) -> Databas
         return DatabaseError.CONNECTION_ERROR
 
 
-def close_connection(conn: DatabaseConnection):
+def close_connection(conn: DatabaseConnection) -> None:
     if conn is None or getattr(conn, "connection", None) is None:
         logger.warning("The database connection is null or None.")
         return
