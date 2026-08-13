@@ -1,12 +1,11 @@
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass, asdict
 
 
 @dataclass
 class Customer:
-    id: int | str
+    id: str
     name: str
     phone: str = ""
-    cpf: str = ""
     email: str = ""
     description: str = ""
     cep: str = ""
@@ -20,10 +19,9 @@ class Customer:
         return cls(
             id=str(data.get("id", "")),
             name=str(data.get("name", "")),
-            phone=str(data.get("phone", "") or ""),
-            cpf=str(data.get("cpf", "") or ""),
-            email=str(data.get("email", "") or ""),
-            description=str(data.get("description", "") or ""),
-            cep=str(data.get("cep", "") or ""),
-            address=str(data.get("address", "") or ""),
+            phone=str(data.get("phone", "")),
+            email=str(data.get("email", "")),
+            description=str(data.get("description", "")),
+            cep=str(data.get("cep", "")),
+            address=str(data.get("address", "")),
         )

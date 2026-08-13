@@ -1,5 +1,9 @@
-import { NotCompleted } from "../utils/not-completed.js";
+import { CalendarManager } from "../components/calendar/calendar.js";
 
 export function CalendarPage() {
-    return NotCompleted();
+    queueMicrotask(() => {
+        new CalendarManager("#app-main-context");
+    });
+
+    return `<section class="calendar-page"><p class="calendar-page__subtitle">Carregando calendário…</p></section>`;
 }

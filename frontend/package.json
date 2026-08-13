@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "private": true,
-  "version": "3.1.4",
+  "version": "2.1.4",
   "description": "Frontend and Interface for Solvi Management System",
   "author": {
     "name": "Paulo Matheus",
@@ -16,8 +16,8 @@
     "doc": "jsdoc -c jsdoc.json"
   },
   "devDependencies": {
-    "jest": "^30.4.2",
     "jsdoc": "^4.0.3",
+    "jest": "^30.4.2",
     "vite": "^8.1.5"
   },
   "type": "module",

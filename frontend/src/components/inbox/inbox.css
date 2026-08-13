@@ -35,33 +35,6 @@
     margin-bottom: 1rem;
 }
 
-.inbox-page__summary {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.85rem 1rem;
-    margin-bottom: 1rem;
-    border-radius: 12px;
-    background: linear-gradient(90deg, #eef3ff, #f8fbff);
-    border: 1px solid #ccd8ff;
-}
-
-.inbox-page__summary > div {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-}
-
-.inbox-page__summary-label {
-    font-size: 0.78rem;
-    color: #6b7280;
-}
-
-.inbox-page__summary strong {
-    font-size: 1rem;
-    color: #1c1b1f;
-}
-
 .budget-list {
     display: flex;
     flex-direction: column;

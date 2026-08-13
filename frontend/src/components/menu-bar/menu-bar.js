@@ -11,6 +11,7 @@ import inboxIcon from "../../assets/icons/aside/inbox.svg";
 import calendarIcon from "../../assets/icons/aside/calendar.svg";
 import notificationsIcon from "../../assets/icons/aside/notifications.svg";
 
+import { html } from "../../utils/html.js";
 
 export class MenuBar extends IComponentModel {
     #menuBarId;
@@ -20,7 +21,7 @@ export class MenuBar extends IComponentModel {
 
     constructor() {
         super();
-        this.context = "#main-menu-bar";
+        this.#menuBarId = "#main-menu-bar";
         this.#currentPageId = "#home-page";
         this.#previousPageId = null;
         this.#menubarComponentList = [
@@ -36,7 +37,7 @@ export class MenuBar extends IComponentModel {
     }
 
     buildTemplate() {
-        this.template = /* html */ `
+        const menuBarTemplate = html`
             <nav class="navigation-bar container-fluid px-0">
                 <ul>
                     <li class="selected" id="home-page" role="button" tabindex="0">
@@ -60,11 +61,11 @@ export class MenuBar extends IComponentModel {
                 </ul>
             </nav>
         `;
-        $(this.context).append(this.template);
+        $(this.#menuBarId).append(menuBarTemplate);
     }
 
     bindEvents() {
-        const allButtons = $(`${this.context} ul li`);
+        const allButtons = $(`${this.#menuBarId} ul li`);
 
         allButtons.on("click", (event) => {
             this.#onclickButton(event);

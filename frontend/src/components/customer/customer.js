@@ -1,19 +1,22 @@
 import $ from "jquery";
 
-import { eventBus } from "../../event-manager-singleton.js";
+import { html } from "../../utils/html.js";
 import { IComponentModel } from "../component-model.js";
+import { eventBus } from "../../event-manager-singleton.js";
+import { escapeHtml, parseApiResult } from "../../utils/api-helpers.js";
 
 import "./customer.css";
 
-
+/**
+ * Interactive customer spreadsheet page (cards + local JSON via pywebview API).
+ * @implements {IComponentModel}
+ */
 export class CustomerManager extends IComponentModel {
     #rootSelector;
     #formId;
     #gridId;
     #errorId;
     #unavailableId;
-    #editingCustomerId;
-    #customers = [];
 
     constructor(rootSelector = "#app-main-context") {
         super();
@@ -22,81 +25,6 @@ export class CustomerManager extends IComponentModel {
         this.#gridId = "#customer-grid";
         this.#errorId = "#customer-form-error";
         this.#unavailableId = "#customer-api-unavailable";
-        this.#editingCustomerId = null;
-
-    }
-}
-
-
-const MOCK_CUSTOMERS = [
-    {
-        initials: "ST",
-        name: "Solvi Tecnologia LTDA",
-        subtitle: "São Paulo / SP · Enterprise",
-        status: "ativo",
-    },
-    {
-        initials: "MV",
-        name: "Mercado Vila Nova",
-        subtitle: "Campinas / SP · Profissional",
-        status: "ativo",
-        active: true,
-        detail: {
-            document: "Empresa (PJ) · 09.887.221/0001-33",
-            stats: [
-                { label: "Status", value: "Ativo" },
-                { label: "Aulas", value: "612" },
-                { label: "Valor pago", value: "R$ 1.120" },
-            ],
-            contact: [
-                { label: "E-mail", value: "financeiro@vilanova.com" },
-                { label: "Telefone", value: "(11) 94422-1180" },
-                { label: "Responsável", value: "Carlos Menezes" },
-                { label: "Cargo", value: "Sócio" },
-                { label: "Endereço", value: "Rua das Palmeiras, 214" },
-                { label: "Cidade / UF", value: "Campinas / SP" },
-            ],
-            contract: [
-                { label: "Plano", value: "Profissional" },
-                { label: "Início", value: "12/07/2025" },
-                { label: "Renovação", value: "12/07/2026" },
-                { label: "Documento", value: "09.887.221/0001-33" },
-            ],
-            notes: "Prefere contato por WhatsApp. Entregas concentradas no início de semana.",
-        },
-    },
-    {
-        initials: "JP",
-        name: "Juliana Prado",
-        subtitle: "Rio de Janeiro / RJ · Essencial",
-        status: "ativo",
-    },
-];
-
-const STATUS_LABEL = {
-    ACTIVE: "ACTIVE",
-    PENDING: "PENDING",
-    INACTIVE: "INACTIVE",
-};
-
-export class CustomerPageComponent extends IComponentModel {
-    #rootSelector;
-    #formId;
-    #gridId;
-    #errorId;
-    #unavailableId;
-    #editingCustomerId;
-    #customers = [];
-
-    constructor(rootSelector = "#app-main-context") {
-        super();
-        this.#rootSelector = rootSelector;
-        this.#formId = "#customer-form";
-        this.#gridId = "#customer-grid";
-        this.#errorId = "#customer-form-error";
-        this.#unavailableId = "#customer-api-unavailable";
-        this.#editingCustomerId = null;
-        this.context = rootSelector;
         this.init();
     }
 
@@ -120,10 +48,6 @@ export class CustomerPageComponent extends IComponentModel {
                         <input type="text" id="customer-phone" name="phone" placeholder="Telefone">
                     </div>
                     <div class="form-group">
-                        <label for="customer-cpf">CPF</label>
-                        <input type="text" id="customer-cpf" name="cpf" placeholder="000.000.000-00">
-                    </div>
-                    <div class="form-group">
                         <label for="customer-email">E-mail</label>
                         <input type="email" id="customer-email" name="email" placeholder="email@exemplo.com">
                     </div>
@@ -140,8 +64,7 @@ export class CustomerPageComponent extends IComponentModel {
                         <textarea id="customer-description" name="description" placeholder="Observações sobre o cliente"></textarea>
                     </div>
                     <div class="customer-form__actions">
-                        <button type="submit" class="btn btn-primary" id="customer-submit-button">Adicionar cliente</button>
-                        <button type="button" class="btn btn-outline-secondary" id="customer-cancel-edit" hidden>Cancelar edição</button>
+                        <button type="submit" class="btn btn-primary">Adicionar cliente</button>
                         <p id="customer-form-error" class="customer-form__error">Informe o nome do cliente.</p>
                     </div>
                 </form>
@@ -165,14 +88,6 @@ export class CustomerPageComponent extends IComponentModel {
             await this.#handleRemove(id);
         });
 
-        $(this.#gridId).on("click", "[data-edit-id]", (e) => {
-            const id = $(e.currentTarget).attr("data-edit-id");
-            if (!id) return;
-            this.#openEdit(id);
-        });
-
-        $("#customer-cancel-edit").on("click", () => this.#resetForm());
-
         this.#loadCustomers();
     }
 
@@ -195,7 +110,6 @@ export class CustomerPageComponent extends IComponentModel {
     async #loadCustomers() {
         if (!this.#apiAvailable()) {
             this.#showUnavailable();
-            this.#customers = [];
             this.#renderCards([]);
             return;
         }
@@ -203,11 +117,9 @@ export class CustomerPageComponent extends IComponentModel {
         try {
             const raw = await window.pywebview.api.get_customers();
             const customers = parseApiResult(raw);
-            this.#customers = Array.isArray(customers) ? customers : [];
-            this.#renderCards(this.#customers);
+            this.#renderCards(Array.isArray(customers) ? customers : []);
         } catch {
             this.#showUnavailable();
-            this.#customers = [];
             this.#renderCards([]);
         }
     }
@@ -225,26 +137,23 @@ export class CustomerPageComponent extends IComponentModel {
             const name = escapeHtml(c.name);
             const phone = escapeHtml(c.phone || "—");
             const email = escapeHtml(c.email || "—");
-            const cpf = escapeHtml(c.cpf || "—");
             const cep = escapeHtml(c.cep || "—");
             const address = escapeHtml(c.address || "—");
             const description = escapeHtml(c.description || "—");
 
             return html`
-                <article class="card" data-customer-id="${id}">
+                <article class="card customer-card" data-customer-id="${id}">
                     <div class="card-header">
                         <p class="h5">${name}</p>
                     </div>
                     <div class="card-body">
                         <p><span class="label">Telefone:</span> ${phone}</p>
                         <p><span class="label">E-mail:</span> ${email}</p>
-                        <p><span class="label">CPF:</span> ${cpf}</p>
                         <p><span class="label">CEP:</span> ${cep}</p>
                         <p><span class="label">Endereço:</span> ${address}</p>
                         <p><span class="label">Descrição:</span> ${description}</p>
                     </div>
                     <div class="card-footer">
-                        <button type="button" class="btn btn-edit" data-edit-id="${id}">Editar</button>
                         <button type="button" class="btn btn-remove" data-remove-id="${id}">Remover</button>
                     </div>
                 </article>
@@ -252,40 +161,6 @@ export class CustomerPageComponent extends IComponentModel {
         }).join("");
 
         $grid.html(cards);
-    }
-
-    #resetForm() {
-        this.#editingCustomerId = null;
-        $(this.#formId)[0].reset();
-        $("#customer-submit-button").text("Adicionar cliente");
-        $("#customer-cancel-edit").prop("hidden", true);
-        this.#hideFormError();
-    }
-
-    #openEdit(customerId) {
-        if (!this.#apiAvailable()) {
-            this.#showUnavailable();
-            return;
-        }
-
-        const customer = this.#findCustomerById(customerId);
-        if (!customer) return;
-
-        this.#editingCustomerId = customerId;
-        $("#customer-name").val(customer.name || "");
-        $("#customer-phone").val(customer.phone || "");
-        $("#customer-cpf").val(customer.cpf || "");
-        $("#customer-email").val(customer.email || "");
-        $("#customer-cep").val(customer.cep || "");
-        $("#customer-address").val(customer.address || "");
-        $("#customer-description").val(customer.description || "");
-        $("#customer-submit-button").text("Salvar edição");
-        $("#customer-cancel-edit").prop("hidden", false);
-        this.#hideFormError();
-    }
-
-    #findCustomerById(customerId) {
-        return this.#customers.find((customer) => String(customer.id) === String(customerId));
     }
 
     async #handleAdd() {
@@ -299,7 +174,6 @@ export class CustomerPageComponent extends IComponentModel {
 
         const name = $("#customer-name").val()?.toString().trim() ?? "";
         const phone = $("#customer-phone").val()?.toString().trim() ?? "";
-        const cpf = $("#customer-cpf").val()?.toString().trim() ?? "";
         const email = $("#customer-email").val()?.toString().trim() ?? "";
         const description = $("#customer-description").val()?.toString().trim() ?? "";
         const cep = $("#customer-cep").val()?.toString().trim() ?? "";
@@ -311,30 +185,8 @@ export class CustomerPageComponent extends IComponentModel {
         }
 
         try {
-            if (this.#editingCustomerId) {
-                const raw = await window.pywebview.api.update_customer(
-                    this.#editingCustomerId,
-                    name,
-                    phone,
-                    email,
-                    description,
-                    cep,
-                    address,
-                    cpf,
-                );
-                const result = parseApiResult(raw);
-                if (!result || result.error || result.ok === false) {
-                    this.#showFormError(result?.error || "Não foi possível editar o cliente.");
-                    return;
-                }
-                eventBus.publishAsync("customer:updated", result);
-                this.#resetForm();
-                await this.#loadCustomers();
-                return;
-            }
-
             const raw = await window.pywebview.api.add_customer(
-                name, phone, email, description, cep, address, cpf
+                name, phone, email, description, cep, address
             );
             const result = parseApiResult(raw);
 
@@ -347,8 +199,8 @@ export class CustomerPageComponent extends IComponentModel {
             $(this.#formId)[0].reset();
             await this.#loadCustomers();
         } catch {
-            this.#showFormError(this.#editingCustomerId ? "Erro ao editar cliente." : "Erro ao adicionar cliente.");
-            eventBus.publishAsync("system:error", { message: this.#editingCustomerId ? "Erro ao editar cliente." : "Erro ao adicionar cliente." });
+            this.#showFormError("Erro ao adicionar cliente.");
+            eventBus.publishAsync("system:error", { message: "Erro ao adicionar cliente." });
         }
     }
 

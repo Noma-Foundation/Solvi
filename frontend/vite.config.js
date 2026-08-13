@@ -1,17 +1,10 @@
 import { defineConfig } from 'vite'
-import { resolve } from 'node:path'
 
+// Relative base so assets load correctly from file:// in the desktop app.
 export default defineConfig({
-    base: './',
-    build: {
-        outDir: 'dist',
-        emptyOutDir: true,
-
-        rolldownOptions: {
-            input: {
-                main: resolve(import.meta.dirname, "index.html"),
-                setting: resolve(import.meta.dirname, "setting.html")
-            }
-        }
-    },
+  base: './',
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+  },
 })

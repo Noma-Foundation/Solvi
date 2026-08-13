@@ -1,18 +1,11 @@
 #setting-btn {
-    display: inline-flex;
-    align-items: center;
+    display: flex;
     justify-content: center;
-    width: 42px;
-    height: 42px;
-    padding: 4px;
-    border-radius: 12px;
-    background-color: var(--orderhub-brand-color);
-    border: none;
-    cursor: pointer;
-}
+    align-items: center;
 
-#setting-btn img {
-    display: block;
-    width: 24px;
-    height: 24px;
+    width: 40px;
+    height: 40px;
+
+    background-color: var(--orderhub-brand-color);
+
 }

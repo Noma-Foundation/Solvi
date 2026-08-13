@@ -1,35 +1,34 @@
 import $ from "jquery";
 
+import { html } from "../../utils/html.js";
+
 import { IComponentModel } from "../component-model.js";
 
 import settingIcon from "../../assets/icons/setting/setting.svg";
+
+import "./setting.css";
 
 export class Setting extends IComponentModel {
     #headerId;
 
     constructor() {
         super();
-        this.context = "#app-header";
+        this.#headerId = "#app-header";
         this.init();
     }
 
     buildTemplate() {
-        this.template = `
-            <button id="setting-btn">
-                <img src="${settingIcon}" alt="Setting Button" />
+        const template = html`
+            <button id="setting-btn" class="btn btn-primary rounded-3" tabindex="0">
+                <img src="${settingIcon}" alt="Setting" />
             </button>
         `;
 
-        $(this.context).append(this.template);
+        $(this.#headerId).append(template);
     }
 
     bindEvents() {
-        const window_width = 680;
-        const window_height = 570;
-        
-        $("#setting-btn").on("click", () => { 
-            window.pywebview.api.create_window_setting("Setting", window_width, window_height); 
-        }); 
+
     }
 
 }

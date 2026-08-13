@@ -1,9 +1,10 @@
-import os
-from dataclasses import dataclass
 from typing import Optional
+import os
 
+from dataclasses import dataclass
 from dotenv import load_dotenv
 
+# main.py also loads .env from the app directory when frozen.
 load_dotenv()
 
 

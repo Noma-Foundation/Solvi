@@ -1,1 +1,2 @@
-from internal.database.db import DatabaseConnection, open_connection, close_connection
+from .db import DatabaseConnection
+from .db import open_connection, close_connection

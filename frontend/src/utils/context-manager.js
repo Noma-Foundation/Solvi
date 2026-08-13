@@ -1,7 +1,9 @@
 import $ from "jquery";
 
 import { MenuBar } from "../components/menu-bar/menu-bar.js";
+import { SearchBar } from "../components/search-bar/search-bar.js";
 import { Setting } from "../components/setting/setting.js";
+import { NotificationBell } from "../components/notification-bell/notification-bell.js";
 
 import { HomePage } from "../views/home-page.js";
 import { NotificationPage } from "../views/notification-page.js";
@@ -24,6 +26,7 @@ class ContextManager {
         // layout components created once
         this._menuBar = null;
         this._searchBar = null;
+        this._notificationBell = null;
         this._setting = null;
 
         // register default views
@@ -68,11 +71,19 @@ class ContextManager {
         if (!this._menuBar) {
             this._menuBar = new MenuBar();
             console.log('[ContextManager] MenuBar created');
+        }/*
+        if (!this._searchBar) {
+            this._searchBar = new SearchBar();
+            console.log('[ContextManager] SearchBar created');
+        }
+        if (!this._notificationBell) {
+            this._notificationBell = new NotificationBell();
+            console.log('[ContextManager] NotificationBell created');
         }
         if (!this._setting) {
             this._setting = new Setting();
             console.log('[ContextManager] Setting created');
-        }
+        }*/
 
         const content = renderer(params);
         $(this.contextSelector).html(content);
@@ -100,6 +111,8 @@ class ContextManager {
             $("#app-header").empty();
             this._menuBar = null;
             this._searchBar = null;
+            this._notificationBell = null;
+            this._setting = null;
             console.log('[ContextManager] layout removed');
         }
     }

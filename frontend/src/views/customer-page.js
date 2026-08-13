@@ -1,10 +1,13 @@
-import { NotCompleted } from "../utils/not-completed.js";
-import { CustomerPageComponent } from "../components/customer/customer.js";
+import { CustomerManager } from "../components/customer/customer.js";
 
-
+/**
+ * Renders the customer page into the main context and wires interactions.
+ * ContextManager injects the return value as HTML; we mount the manager after.
+ */
 export function CustomerPage() {
     queueMicrotask(() => {
-        const customer = new CustomerPageComponent();
+        new CustomerManager("#app-main-context");
     });
-    return `<section class="customer-page"></section>`;
+
+    return `<section class="customer-page"><p class="customer-page__subtitle">Carregando clientes…</p></section>`;
 }

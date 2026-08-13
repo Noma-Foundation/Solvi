@@ -1,0 +1,38 @@
+.search-bar {
+    display: flex;
+    flex-wrap: nowrap;
+    background-color: var(--search-bar-bg-hover);
+    border-radius: 28px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.search-bar img {
+    padding: 8px;
+    cursor: pointer;
+    margin-right: 8px;
+}
+
+#search-bar-input {
+    background-color: transparent;
+    padding: 8px 24px 8px 24px;
+    margin-left: 8px;
+    border: none;
+    width: 18.75rem;
+    height: 3rem;
+}
+
+#search-bar-input:focus {
+    outline: none;
+}
+
+/* Styles for mobile and tablet */
+@media (max-width: 700px) { 
+    .search-bar input { 
+        display: none;
+    }
+
+    .search-bar img {
+        margin-right: 0px; 
+    }
+}

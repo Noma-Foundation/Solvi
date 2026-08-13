@@ -12,7 +12,7 @@ import {
 
 import "./inbox.css";
 
-const STATUSES = ["Rascunho", "Enviado", "Aprovado", "Recusado"];
+const STATUSES = ["Rascunho", "Enviado", "Mensalidade a pagar", "Mensalidade em atraso", "Mensalidade paga", "Aprovado", "Recusado", "Cancelado"];
 const UFS = [
     "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG",
     "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO",
@@ -64,17 +64,6 @@ export class BudgetManager extends IComponentModel {
                         <option value="total">Valor</option>
                         <option value="status">Status</option>
                     </select>
-                </div>
-
-                <div class="inbox-page__summary">
-                    <div>
-                        <span class="inbox-page__summary-label">Total dos orçamentos</span>
-                        <strong id="budget-total-summary">R$ 0,00</strong>
-                    </div>
-                    <div>
-                        <span class="inbox-page__summary-label">Orçamentos em aberto</span>
-                        <strong id="budget-open-count">0</strong>
-                    </div>
                 </div>
 
                 <div id="budget-list" class="budget-list"></div>
@@ -192,20 +181,11 @@ export class BudgetManager extends IComponentModel {
             this.#budgets = Array.isArray(budgets) ? budgets : [];
             this.#icmsRates = rates && typeof rates === "object" ? rates : {};
             this.#renderList();
-            this.#renderSummary();
         } catch {
             $("#budget-api-unavailable").addClass("is-visible");
             this.#budgets = [];
             this.#renderList();
-            this.#renderSummary();
         }
-    }
-
-    #renderSummary() {
-        const total = this.#budgets.reduce((sum, budget) => sum + Number(budget.total || 0), 0);
-        const openCount = this.#budgets.filter((b) => String(b.status || "").toLowerCase() !== "aprovado" && String(b.status || "").toLowerCase() !== "recusado").length;
-        $("#budget-total-summary").text(formatCurrency(total));
-        $("#budget-open-count").text(String(openCount));
     }
 
     #filtered() {

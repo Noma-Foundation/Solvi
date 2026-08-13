@@ -1,41 +1,37 @@
 import os
-from dataclasses import dataclass
 
 import psycopg2
-from dotenv import load_dotenv
 
+from dataclasses import dataclass
 from internal.config import DBConfig
-from internal.utils import DatabaseError
-
-
-load_dotenv()
-
 
 @dataclass
 class DatabaseConnection:
-    url: str = os.getenv("DATABASE_URL")
-    connection: object = None
+    connection = None
+    port: str = "5432"
+    user: str = "postgres"
+    host: str = "localhost"
+    database: str = "orderhub-test"
+    connection = None
+    url: str = ""
 
 
-def open_connection(connection: DatabaseConnection, config: DBConfig) -> DatabaseConnection | DatabaseError:
+def open_connection(connection: DatabaseConnection, config: DBConfig): 
     try:
-        if config.url:
-            conn = psycopg2.connect(config.url)
-        else:
-            conn = psycopg2.connect(
-                host=config.host or os.getenv("DB_HOST"),
-                port=config.port or os.getenv("DB_PORT"),
-                database=config.database or os.getenv("DB_NAME"),
-                user=config.user or os.getenv("DB_USER"),
-                password=config.password or os.getenv("DB_PASSWORD"),
-            )
-        connection.connection = conn
-        return connection
-    except psycopg2.Error:
-        return DatabaseError.CONNECTION_ERROR
+        conn = psycopg2.connect(
+            host=config.host,
+            port=config.port,
+            database=config.database,
+            user=config.user,
+            password=config.password,
+        )
+        rtnConn = connection
+        rtnConn.connection = conn
+        return rtnConn
+    except psycopg2.OperationalError as e:
+        print("Error connecting to database:", e)
+        return None
 
 
 def close_connection(conn: DatabaseConnection):
-    if conn is None or getattr(conn, "connection", None) is None:
-        return
     conn.connection.close()
