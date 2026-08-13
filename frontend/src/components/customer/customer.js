@@ -202,7 +202,7 @@ export class CustomerManager extends IComponentModel {
             this.#showFormError("Erro ao adicionar cliente.");
             eventBus.publishAsync("system:error", { message: "Erro ao adicionar cliente." });
         }
-    }
+    } 
 
     async #handleRemove(customerId) {
         if (!this.#apiAvailable()) {
