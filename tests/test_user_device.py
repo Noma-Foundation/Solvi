@@ -5,7 +5,8 @@ sys.path.append(".")
 from internal import OperatingSystem
 
 def test_device(mocker): 
-    fake_os = mocker.patch('internal.utils.system.platform.system', return_value='Windows')
+    import platform
+    fake_os = mocker.patch('internal.utils.system.platform.system', return_value=platform.system())
     mock_instance = OperatingSystem()
     device_info = mock_instance.get_device_info()
 

@@ -5,7 +5,7 @@ sys.path.append(".")
 import bcrypt
 
 from internal.api import API
-from internal.utils import AuthenticationCodeError
+from internal.utils import DatabaseError
 
 
 def test_auth_user_returns_fatal_error_when_db_is_none(mocker):
@@ -15,7 +15,7 @@ def test_auth_user_returns_fatal_error_when_db_is_none(mocker):
 
     result = api.auth_user("any", "any")
 
-    assert result is AuthenticationCodeError.FATAL_ERROR
+    assert result is DatabaseError.CONNECTION_ERROR
 
 
 def test_auth_user_returns_fatal_error_when_underlying_conn_is_none(mocker):
@@ -26,7 +26,7 @@ def test_auth_user_returns_fatal_error_when_underlying_conn_is_none(mocker):
 
     result = api.auth_user("any", "any")
 
-    assert result is AuthenticationCodeError.FATAL_ERROR
+    assert result is DatabaseError.CONNECTION_ERROR
 
 
 def test_auth_user_returns_false_when_user_not_found(mocker):
@@ -83,7 +83,7 @@ def test_auth_user_returns_fatal_error_on_psycopg2_error_during_cursor(mocker):
 
     result = api.auth_user("bob", "secret")
 
-    assert result is AuthenticationCodeError.FATAL_ERROR
+    assert result is DatabaseError.CURSOR_ERROR
 
 
 def test_auth_user_returns_fatal_error_on_psycopg2_error_during_query(mocker):
@@ -98,4 +98,4 @@ def test_auth_user_returns_fatal_error_on_psycopg2_error_during_query(mocker):
 
     result = api.auth_user("bob", "secret")
 
-    assert result is AuthenticationCodeError.FATAL_ERROR
+    assert result is DatabaseError.QUERY_ERROR

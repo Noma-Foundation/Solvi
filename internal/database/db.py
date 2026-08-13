@@ -1,9 +1,20 @@
+import os 
 import psycopg2
 
+from dotenv import load_dotenv
+from dataclasses import dataclass
 
 from internal.config import DBConfig
 from internal.utils import DatabaseError
-from internal.database import DatabaseConnection
+
+
+load_dotenv()
+
+
+@dataclass
+class DatabaseConnection:
+    url: str = os.getenv("DATABASE_URL")
+    connection: object = None
 
 
 def open_connection(connection: DatabaseConnection, config: DBConfig) -> DatabaseConnection | DatabaseError:
@@ -12,11 +23,11 @@ def open_connection(connection: DatabaseConnection, config: DBConfig) -> Databas
             conn = psycopg2.connect(config.url)
         else:
             conn = psycopg2.connect(
-                host=config.host,
-                port=config.port,
-                database=config.database,
-                user=config.user,
-                password=config.password,
+                host=os.getenv("DB_HOST"),
+                port=os.getenv("DB_PORT"),
+                database=os.getenv("DB_NAME"),
+                user=os.getenv("DB_USER"),
+                password=os.getenv("DB_PASSWORD")
             )
         connection.connection = conn
         return connection

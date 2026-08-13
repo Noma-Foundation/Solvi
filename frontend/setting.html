@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setting</title>
+
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .settings-container {
+            height: 100vh;
+        }
+
+        #aside-bar {
+            width: 176px;
+            min-width: 176px;
+            border-right: 1px solid #cac4d0;
+        }
+
+        .setting-button {
+            width: calc(100% - 8px);
+            margin: 2px 4px;
+            border: 0;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setting-button img {
+            width: 18px;
+            height: 18px;
+        }
+
+        .selected-setting {
+            background-color: #2744fe17 !important;
+        }
+
+        .selected-setting img {
+            filter: invert(26%) sepia(96%) saturate(4725%) hue-rotate(225deg) brightness(99%) contrast(102%);
+        }
+
+        .unselected-setting img {
+            filter: grayscale(100%);
+            opacity: .7;
+        }
+
+        .setting-content {
+            overflow-y: auto;
+        }
+
+        .setting-option p {
+            margin-left: 24px;
+        }
+        
+        span { 
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="settings-container container-fluid d-flex p-0 m-0">
+        <aside id="aside-bar" class="py-2 container">
+            <div class="d-flex flex-column">
+
+                <button class="btn setting-button selected-setting" data-setting="display">
+                    <img src="./src/assets/icons/setting/display.svg" alt="">
+                    <span>Display</span>
+                </button>
+
+                <button class="btn setting-button" data-setting="settings">
+                    <img src="./src/assets/icons/setting/setting-btn.svg" alt="">
+                    <span>Settings</span>
+                </button>
+
+                <button class="btn setting-button" data-setting="database">
+                    <img src="./src/assets/icons/setting/database.svg" alt="">
+                    <span>Database</span>
+                </button>
+
+                <button class="btn setting-button" data-setting="font">
+                    <img src="./src/assets/icons/setting/font.svg" alt="">
+                    <span>Font</span>
+                </button>
+
+            </div>
+        </aside>
+
+        <main class="flex-grow-1 d-flex flex-column p-4 overflow-hidden">
+            <div class="setting-content flex-grow-1 container">
+                <section data-section="display">
+                    <h3>Display</h3>
+                    <p class="mb-4">Customize your default interface viewing preferences.</p>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="dark-theme">
+                        <label class="form-check-label fw-medium" for="dark-theme">
+                            Dark theme
+                        </label>
+                        <p class="mb-0">Switch between light and dark backgrounds</p>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="reduce-motion" checked>
+                        <label class="form-check-label fw-medium" for="reduce-motion">
+                            Reduce motion
+                        </label>
+                        <p class="mb-0">Minimize the amount of non-essential animation</p>
+                    </div>
+                </section>
+
+                <section data-section="settings" class="d-none">
+                    <h3>Settings</h3>
+                    <p>Configure general application settings.</p>
+                    <p>Suas configurações gerais ficarão aqui.</p>
+                </section>
+
+                <section data-section="database" class="d-none">
+                    <h3>Database</h3>
+                    <p>Configure the application database.</p>
+                    <p>Suas configurações de banco de dados ficarão aqui.</p>
+                </section>
+
+                <section data-section="font" class="d-none">
+                    <h3>Font</h3>
+                    <p>Customize the application's typography.</p>
+                    <p>Suas configurações de fonte ficarão aqui.</p>
+                </section>
+            </div>
+
+            <div class="setting-actions d-flex justify-content-end gap-2 pt-3">
+                <button id="exit-settings" class="btn">
+                    Exit
+                </button>
+                <button id="save-settings" class="btn btn-primary">
+                    Save and apply
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="./src/setting-page.js" type="module"></script>
+
+</body>
+</html>

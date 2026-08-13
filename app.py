@@ -13,7 +13,7 @@ class Application:
     def __init__(self, dev_mode: bool):
         self.__database = internal.DatabaseConnection()
         self.__dbconfig = internal.DBConfig()
-        self.api = internal.API(self.__database, self.__dbconfig)
+        self.api = internal.API(self.__database, self.__dbconfig, dev_mode=dev_mode)
         self.os = internal.OperatingSystem()
         self.__dev_mode = dev_mode
 

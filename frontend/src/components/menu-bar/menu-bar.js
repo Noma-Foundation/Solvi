@@ -20,7 +20,7 @@ export class MenuBar extends IComponentModel {
 
     constructor() {
         super();
-        this.#menuBarId = "#main-menu-bar";
+        this.context = "#main-menu-bar";
         this.#currentPageId = "#home-page";
         this.#previousPageId = null;
         this.#menubarComponentList = [
@@ -36,7 +36,7 @@ export class MenuBar extends IComponentModel {
     }
 
     buildTemplate() {
-        const menuBarTemplate = /* html */ `
+        this.template = /* html */ `
             <nav class="navigation-bar container-fluid px-0">
                 <ul>
                     <li class="selected" id="home-page" role="button" tabindex="0">
@@ -60,11 +60,11 @@ export class MenuBar extends IComponentModel {
                 </ul>
             </nav>
         `;
-        $(this.#menuBarId).append(menuBarTemplate);
+        $(this.context).append(this.template);
     }
 
     bindEvents() {
-        const allButtons = $(`${this.#menuBarId} ul li`);
+        const allButtons = $(`${this.context} ul li`);
 
         allButtons.on("click", (event) => {
             this.#onclickButton(event);
