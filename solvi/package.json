@@ -1,21 +1,19 @@
 {
-  "name": "Solvi",
+  "name": "frontend",
   "private": true,
   "version": "3.1.4",
-  "description": "Solvi Management System — Neutralino.js desktop app",
+  "description": "Frontend and Interface for Solvi Management System",
   "author": {
     "name": "Paulo Matheus",
     "email": "paulo.matheusserrasam@gmail.com",
     "license": "Apache-2.0"
   },
   "scripts": {
-    "dev": "vite build --watch",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
-    "doc": "jsdoc -c jsdoc.json",
-    "neu:run": "neu run",
-    "neu:build": "neu build --release"
+    "doc": "jsdoc -c jsdoc.json"
   },
   "devDependencies": {
     "jest": "^30.4.2",
