@@ -1,17 +1,11 @@
 import $ from "jquery";
 
-<<<<<<< HEAD
-import { html } from "../../utils/html.js";
-import { IComponentModel } from "../component-model.js";
 import { eventBus } from "../../event-manager-singleton.js";
-import { escapeHtml, parseApiResult } from "../../utils/api-helpers.js";
+import { IComponentModel } from "../component-model.js";
 
 import "./customer.css";
 
-/**
- * Interactive customer spreadsheet page (cards + local JSON via pywebview API).
- * @implements {IComponentModel}
- */
+
 export class CustomerManager extends IComponentModel {
     #rootSelector;
     #formId;
@@ -29,10 +23,10 @@ export class CustomerManager extends IComponentModel {
         this.#errorId = "#customer-form-error";
         this.#unavailableId = "#customer-api-unavailable";
         this.#editingCustomerId = null;
-=======
-import { IComponentModel } from "../component-model.js";
 
-import "./customer.css";
+    }
+}
+
 
 const MOCK_CUSTOMERS = [
     {
@@ -87,16 +81,26 @@ const STATUS_LABEL = {
 
 export class CustomerPageComponent extends IComponentModel {
     #rootSelector;
+    #formId;
+    #gridId;
+    #errorId;
+    #unavailableId;
+    #editingCustomerId;
+    #customers = [];
 
     constructor(rootSelector = "#app-main-context") {
         super();
+        this.#rootSelector = rootSelector;
+        this.#formId = "#customer-form";
+        this.#gridId = "#customer-grid";
+        this.#errorId = "#customer-form-error";
+        this.#unavailableId = "#customer-api-unavailable";
+        this.#editingCustomerId = null;
         this.context = rootSelector;
->>>>>>> 21505cc3fae8f2e2fe015b74e2bb23f1cdba8a88
         this.init();
     }
 
     buildTemplate() {
-<<<<<<< HEAD
         const template = html`
             <section class="customer-page">
                 <h1 class="customer-page__title">Clientes</h1>
@@ -366,103 +370,4 @@ export class CustomerPageComponent extends IComponentModel {
             eventBus.publishAsync("system:error", { message: "Erro ao remover cliente." });
         }
     }
-=======
-        const selected = MOCK_CUSTOMERS.find(c => c.active) ?? MOCK_CUSTOMERS[0];
-
-        this.template = /* html */ `
-            <section class="customer-page d-flex h-100 w-100">
-                <aside class="customer-list-panel d-flex flex-column gap-3 p-3">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h3 class="m-0">Clientes</h3>
-                        </div>
-                        <button type="button" class="btn btn-primary customer-add-btn button-font" id="add-client-btn">Adicionar</button>
-                    </div>
-
-                    <input type="text" class="form-control customer-search-input" placeholder="Buscar por nome, CNPJ ou cidade">
-
-                    <ul class="customer-list list-unstyled d-flex flex-column gap-1 m-0 overflow-auto">
-                        ${MOCK_CUSTOMERS.map(customer => this.#buildListItem(customer, customer === selected)).join("")}
-                    </ul>
-                </aside>
-
-                <main class="customer-detail-panel flex-grow-1 p-4 overflow-auto d-flex flex-column gap-4">
-                    ${this.#buildDetail(selected)}
-                </main>
-            </section>
-        `;
-
-        $(this.context).html(this.template);
-    }
-
-    bindEvents() {
-        const addClientBtn = $("#add-client-btn").on("click", () => { 
-            console.log("Append client");
-        });    
-    }
-
-    #buildListItem(customer, isActive) {
-        return /* html */ `
-            <li class="customer-list-item d-flex align-items-center gap-2 p-2 rounded-3${isActive ? " active" : ""}">
-                <span class="customer-avatar d-flex align-items-center justify-content-center rounded-circle">${customer.initials}</span>
-                <span class="d-flex flex-column flex-grow-1 min-width-0">
-                    <span class="customer-list-item-name text-truncate fw-semibold">${customer.name}</span>
-                    <span class="customer-list-item-subtitle text-truncate">${customer.subtitle}</span>
-                </span>
-                <span class="badge rounded-pill customer-status-badge status-${customer.status}">${STATUS_LABEL[customer.status]}</span>
-            </li>
-        `;
-    }
-
-    #buildDetail(customer) {
-        const detail = customer.detail;
-
-        return /* html */ `
-            <div class="d-flex gap-3">
-                ${detail.stats.map(stat => /* html */ `
-                    <div class="customer-stat-card card border-0 flex-fill p-3">
-                        <p class="customer-field-label m-0">${stat.label}</p>
-                        <p class="customer-stat-value m-0 fw-semibold">${stat.value}</p>
-                    </div>
-                `).join("")}
-            </div>
-
-            <section>
-                <p class="customer-section-title">Contato</p>
-                <div class="card customer-info-card">
-                    ${this.#buildInfoGrid(detail.contact)}
-                </div>
-            </section>
-
-            <section>
-                <p class="customer-section-title">Contrato</p>
-                <div class="card customer-info-card">
-                    ${this.#buildInfoGrid(detail.contract)}
-                </div>
-            </section>
-
-            <section>
-                <p class="customer-section-title">Observações</p>
-                <div class="card customer-info-card customer-notes">
-                    <p class="m-0">${detail.notes}</p>
-                </div>
-            </section>
-
-            <section>
-                <button type="button" class="btn button-font">Delete</button>
-                <button type="button" class="btn btn-primary customer-add-btn button-font" id="add-client-btn">Edit</button>
-            </section>
-        `;
-    }
-
-    #buildInfoGrid(fields) {
-        return fields.map(field => /* html */ `
-            <div class="customer-info-field">
-                <p class="customer-field-label m-0">${field.label}</p>
-                <p class="customer-field-value m-0 fw-medium">${field.value}</p>
-            </div>
-        `).join("");
-    }
-
->>>>>>> 21505cc3fae8f2e2fe015b74e2bb23f1cdba8a88
 }

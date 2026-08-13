@@ -1,12 +1,10 @@
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
+
 
 @dataclass
 class Customer:
-    id: int
+    id: int | str
     name: str
-<<<<<<< HEAD
-    email: str
-=======
     phone: str = ""
     cpf: str = ""
     email: str = ""
@@ -29,4 +27,3 @@ class Customer:
             cep=str(data.get("cep", "") or ""),
             address=str(data.get("address", "") or ""),
         )
->>>>>>> 73fee27 (Add xref-main.html and unit tests for Customer model)

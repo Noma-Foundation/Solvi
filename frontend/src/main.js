@@ -17,16 +17,13 @@ $(function () {
     const context = "#app-main-context";
     $("#app-version").text(`${pkg.version}`);
 
-<<<<<<< HEAD
     //console.log("Open login page");
     //const loginPage = new LoginPage(context);
-=======
     console.log("Open login page");
     // const loginPage = new LoginPage(context);
 
     console.log("Open in employee mode");
     contextManager.show("home")
->>>>>>> 21505cc3fae8f2e2fe015b74e2bb23f1cdba8a88
 
     // When authentication succeeds, the login page will publish 'auth:success'
     /*eventBus.subscribe("auth:success", (data) => {
@@ -35,8 +32,4 @@ $(function () {
             contextManager.show("home")
         }
     });*/
-<<<<<<< HEAD
-    contextManager.show("home")
-=======
->>>>>>> 21505cc3fae8f2e2fe015b74e2bb23f1cdba8a88
 });

@@ -1,18 +1,14 @@
-<<<<<<< HEAD
 import json
-
-import uuid
-=======
 import logging
+import uuid
 
->>>>>>> 21505cc3fae8f2e2fe015b74e2bb23f1cdba8a88
-import webview
 import bcrypt
 import psycopg2
+import webview
 
+from internal.config import DBConfig
 from internal.database import DatabaseConnection, open_connection
 from internal.utils import DatabaseError
-from internal.config import DBConfig
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="solvi.log", level=logging.INFO)
@@ -40,9 +36,25 @@ class API:
         conn = self.db.connection
         try:
             cursor = conn.cursor()
-        except (psycopg2.InterfaceError, psycopg2.OperationalError) as e:
-            logger.error("Error connecting with the cursor.")
-            return DatabaseError.CURSOR_ERROR
+            cursor.execute(
+                "SELECT username, password FROM employees WHERE username = %s",
+                (username,),
+            )
+            row = cursor.fetchone()
+        except (psycopg2.InterfaceError, psycopg2.OperationalError, psycopg2.Error) as e:
+            logger.error("Error connecting with the cursor or query execution failed: %s", e)
+            return DatabaseError.QUERY_ERROR if "query" in str(e).lower() or "execute" in str(e).lower() else DatabaseError.CURSOR_ERROR
+
+        if row is None:
+            return False
+
+        stored_username, stored_hash = row
+        if not stored_hash:
+            return False
+
+        if bcrypt.checkpw(password.encode("utf-8"), stored_hash.encode("utf-8")):
+            return True
+        return False
 
     def _default_store(self) -> dict:
         return {
