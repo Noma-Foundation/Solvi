@@ -26,13 +26,21 @@ buttons.forEach(button => {
 });
 
 document.querySelector("#exit-settings").addEventListener("click", () => {
-    console.log("[LOG] Logging out of the system")
+    console.log("[LOG] Logging out of the system");
 });
 
 document.querySelector("#save-settings").addEventListener("click", () => {
-    console.log("[LOG] saving and applying settings.")
+    console.log("[LOG] saving and applying settings.");
 });
 
-$(function() { 
-    console.log("Hello, World!");
-});
+// Open Settings 
+async function ajust_settings() {
+    const message = await window.pywebview.api.message();
+    console.log(message);
+}
+
+if (window.pywebview && window.pywebview.api) {
+    ajust_settings();
+} else {
+    window.addEventListener("pywebviewready", ajust_settings);
+}
