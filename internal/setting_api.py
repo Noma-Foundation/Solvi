@@ -6,6 +6,6 @@ class SettingAPI:
     def __init__(self):
         self.global_vars = GlobalConfig()
 
-    def message(self):
+    def ajust_settings(self):
         print(self.global_vars)
         return "Hello, World!"

@@ -35,7 +35,7 @@ document.querySelector("#save-settings").addEventListener("click", () => {
 
 // Open Settings 
 async function ajust_settings() {
-    const message = await window.pywebview.api.message();
+    const message = await window.pywebview.api.ajust_settings();
     console.log(message);
 }
 
