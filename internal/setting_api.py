@@ -7,5 +7,4 @@ class SettingAPI:
         self.global_vars = GlobalConfig()
 
     def ajust_settings(self):
-        print(self.global_vars)
         return "Hello, World!"

@@ -27,4 +27,4 @@ class GlobalConfig:
     environment: Optional[str] = None
     debug: Optional[str | bool] = None
     base_url: Optional[str] = None
-    maintainance_mode: Optional[str | bool] = None
+    maintaince_mode: Optional[str | bool] = None
