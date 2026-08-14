@@ -8,12 +8,14 @@ export class CustomerPageComponent extends IComponentModel {
     #rootSelector;
     #clientSelected;
     #clientsLenght;
+    #clients;
 
     constructor(rootSelector = "#app-main-context") {
         super();
         this.context = rootSelector;
         this.#clientSelected = null;
         this.#clientsLenght = 0;
+        this.#clients = [];
         this.init();
     }
 
@@ -35,18 +37,26 @@ export class CustomerPageComponent extends IComponentModel {
                 </aside>
 
                 <main class="customer-detail-panel flex-grow-1 p-4 overflow-auto d-flex flex-column gap-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="customer-avatar large d-flex align-items-center justify-content-center rounded-circle" id="customer-detail-avatar">-</span>
+                        <div>
+                            <h4 class="m-0" id="customer-detail-name">Selecione um cliente</h4>
+                            <span class="badge rounded-pill customer-status-badge" id="customer-detail-status-badge">-</span>
+                        </div>
+                    </div>
+
                     <div class="d-flex gap-3">
                         <div class="customer-stat-card card border-0 flex-fill p-3">
                             <p class="customer-field-label m-0">Status</p>
-                            <p class="customer-stat-value m-0 fw-semibold">-</p>
+                            <p class="customer-stat-value m-0 fw-semibold" id="customer-detail-status">-</p>
                         </div>
                         <div class="customer-stat-card card border-0 flex-fill p-3">
                             <p class="customer-field-label m-0">Aulas</p>
-                            <p class="customer-stat-value m-0 fw-semibold">-</p>
+                            <p class="customer-stat-value m-0 fw-semibold" id="customer-detail-aulas">-</p>
                         </div>
                         <div class="customer-stat-card card border-0 flex-fill p-3">
                             <p class="customer-field-label m-0">Valor pago</p>
-                            <p class="customer-stat-value m-0 fw-semibold">-</p>
+                            <p class="customer-stat-value m-0 fw-semibold" id="customer-detail-valor-pago">-</p>
                         </div>
                     </div>
 
@@ -55,27 +65,27 @@ export class CustomerPageComponent extends IComponentModel {
                         <div class="card customer-info-card">
                             <div class="customer-info-field">
                                 <p class="customer-field-label m-0">E-mail</p>
-                                <p class="customer-field-value m-0 fw-medium">-</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-email">-</p>
                             </div>
                             <div class="customer-info-field">
                                 <p class="customer-field-label m-0">Telefone</p>
-                                <p class="customer-field-value m-0 fw-medium">-</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-telefone">-</p>
                             </div>
                             <div class="customer-info-field">
                                 <p class="customer-field-label m-0">Responsável</p>
-                                <p class="customer-field-value m-0 fw-medium">-</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-responsavel">-</p>
                             </div>
                             <div class="customer-info-field">
                                 <p class="customer-field-label m-0">Cargo</p>
-                                <p class="customer-field-value m-0 fw-medium">-</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-cargo">-</p>
                             </div>
                             <div class="customer-info-field">
                                 <p class="customer-field-label m-0">Endereço</p>
-                                <p class="customer-field-value m-0 fw-medium">-</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-endereco">-</p>
                             </div>
                             <div class="customer-info-field">
                                 <p class="customer-field-label m-0">Cidade / UF</p>
-                                <p class="customer-field-value m-0 fw-medium">-</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-cidade">-</p>
                             </div>
                         </div>
                     </section>
@@ -85,19 +95,19 @@ export class CustomerPageComponent extends IComponentModel {
                         <div class="card customer-info-card">
                             <div class="customer-info-field">
                                 <p class="customer-field-label m-0">Plano</p>
-                                <p class="customer-field-value m-0 fw-medium">-</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-plano">-</p>
                             </div>
                             <div class="customer-info-field">
                                 <p class="customer-field-label m-0">Início</p>
-                                <p class="customer-field-value m-0 fw-medium">-</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-inicio">-</p>
                             </div>
                             <div class="customer-info-field">
                                 <p class="customer-field-label m-0">Renovação</p>
-                                <p class="customer-field-value m-0 fw-medium">-</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-renovacao">-</p>
                             </div>
                             <div class="customer-info-field">
                                 <p class="customer-field-label m-0">Documento</p>
-                                <p class="customer-field-value m-0 fw-medium">-</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-documento">-</p>
                             </div>
                         </div>
                     </section>
@@ -105,7 +115,7 @@ export class CustomerPageComponent extends IComponentModel {
                     <section>
                         <p class="customer-section-title">Observações</p>
                         <div class="card customer-info-card customer-notes">
-                            <p class="m-0">-</p>
+                            <p class="m-0" id="customer-detail-notes">-</p>
                         </div>
                     </section>
 
@@ -143,23 +153,73 @@ export class CustomerPageComponent extends IComponentModel {
     #switchClientSelected(target) {
         $("#customer-list-ul .customer-list-item").removeClass("active");
         target.addClass("active");
-        this.#clientSelected = target.index();
+        this.#clientSelected = target.data("index");
+        this.#renderClientDetail(this.#clients[this.#clientSelected]);
     }
 
     #addClient() {
-        $("#customer-list-ul").append(this.#listComponent());
+        const client = {
+            name: "Nome do cliente",
+            initials: "CL",
+            cidadeUf: "Cidade / UF",
+            plano: "Plano",
+            status: "pending",
+            statusLabel: "Pendente",
+            aulas: "-",
+            valorPago: "-",
+            email: "-",
+            telefone: "-",
+            responsavel: "-",
+            cargo: "-",
+            endereco: "-",
+            inicio: "-",
+            renovacao: "-",
+            documento: "-",
+            observacoes: "-",
+        };
+        const index = this.#clientsLenght;
+        this.#clients.push(client);
+        $("#customer-list-ul").append(this.#listComponent(client, index));
         this.#clientsLenght++;
     }
 
-    #listComponent() {
+    #renderClientDetail(client) {
+        if (!client) { return; }
+
+        $("#customer-detail-avatar").text(client.initials);
+        $("#customer-detail-name").text(client.name);
+        $("#customer-detail-status-badge")
+            .attr("class", `badge rounded-pill customer-status-badge status-${client.status}`)
+            .text(client.statusLabel);
+
+        $("#customer-detail-status").text(client.statusLabel);
+        $("#customer-detail-aulas").text(client.aulas);
+        $("#customer-detail-valor-pago").text(client.valorPago);
+
+        $("#customer-detail-email").text(client.email);
+        $("#customer-detail-telefone").text(client.telefone);
+        $("#customer-detail-responsavel").text(client.responsavel);
+        $("#customer-detail-cargo").text(client.cargo);
+        $("#customer-detail-endereco").text(client.endereco);
+        $("#customer-detail-cidade").text(client.cidadeUf);
+
+        $("#customer-detail-plano").text(client.plano);
+        $("#customer-detail-inicio").text(client.inicio);
+        $("#customer-detail-renovacao").text(client.renovacao);
+        $("#customer-detail-documento").text(client.documento);
+
+        $("#customer-detail-notes").text(client.observacoes);
+    }
+
+    #listComponent(client, index) {
         return /* html */ `
-            <li class="customer-list-item d-flex align-items-center gap-2 p-2 rounded-3">
-                <span class="customer-avatar d-flex align-items-center justify-content-center rounded-circle">CL</span>
+            <li class="customer-list-item d-flex align-items-center gap-2 p-2 rounded-3" data-index="${index}">
+                <span class="customer-avatar d-flex align-items-center justify-content-center rounded-circle">${client.initials}</span>
                 <span class="d-flex flex-column flex-grow-1 min-width-0">
-                    <span class="customer-list-item-name text-truncate fw-semibold">Nome do cliente</span>
-                    <span class="customer-list-item-subtitle text-truncate">Cidade / UF · Plano</span>
+                    <span class="customer-list-item-name text-truncate fw-semibold">${client.name}</span>
+                    <span class="customer-list-item-subtitle text-truncate">${client.cidadeUf} · ${client.plano}</span>
                 </span>
-                <span class="badge rounded-pill customer-status-badge status-pending">Pendente</span>
+                <span class="badge rounded-pill customer-status-badge status-${client.status}">${client.statusLabel}</span>
             </li>
         `;
     }
