@@ -1,5 +1,8 @@
-import { NotCompleted } from "../utils/not-completed.js";
+import { InboxComponentPage } from "../components/inbox/inbox";
 
 export function InboxPage() {
-    return NotCompleted()
+    queueMicrotask(() => {
+        new InboxComponentPage();
+    });
+    return `<section class="inbox-page"></section>`;
 }

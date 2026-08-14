@@ -15,9 +15,9 @@ export class InboxComponentPage extends IComponentModel {
 
     buildTemplate() {
         this.template = /* html */ `
-            <div>
+            <header class="container-fluid p-3">
                 <h3>Registros</h3>
-            </div>
+            </header>
         `;
 
         $(this.context).html(this.template);
