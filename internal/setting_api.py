@@ -1,8 +1,11 @@
+from internal.config import GlobalConfig
+
 
 class SettingAPI:
 
     def __init__(self):
-        pass
+        self.global_vars = GlobalConfig()
 
     def message(self):
+        print(self.global_vars)
         return "Hello, World!"

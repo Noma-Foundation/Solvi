@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 
@@ -29,4 +31,8 @@ document.querySelector("#exit-settings").addEventListener("click", () => {
 
 document.querySelector("#save-settings").addEventListener("click", () => {
     console.log("[LOG] saving and applying settings.")
+});
+
+$(function() { 
+    console.log("Hello, World!");
 });
