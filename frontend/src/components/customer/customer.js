@@ -6,10 +6,14 @@ import "./customer.css";
 
 export class CustomerPageComponent extends IComponentModel {
     #rootSelector;
+    #clientSelected;
+    #clientsLenght;
 
     constructor(rootSelector = "#app-main-context") {
         super();
         this.context = rootSelector;
+        this.#clientSelected = null;
+        this.#clientsLenght = 0;
         this.init();
     }
 
@@ -26,8 +30,7 @@ export class CustomerPageComponent extends IComponentModel {
 
                     <input type="text" class="form-control customer-search-input" placeholder="Search by name...">
 
-                    <ul class="customer-list list-unstyled d-flex flex-column gap-1 m-0 overflow-auto">
-                        ${this.#listComponent()}
+                    <ul class="customer-list list-unstyled d-flex flex-column gap-1 m-0 overflow-auto" id="customer-list-ul">
                     </ul>
                 </aside>
 
@@ -118,8 +121,14 @@ export class CustomerPageComponent extends IComponentModel {
     }
 
     bindEvents() {
+        $("#customer-list-ul").on("click", (event) => {
+            const target = $(event.target).closest(".customer-list-item");
+            if (!target.length) { return; }
+            this.#switchClientSelected(target);
+        });
+        
         $("#add-client-btn").on("click", () => {
-            console.log("Append client");
+            this.#addClient();
         });
 
         $("#edit-client-btn").on("click", () => {
@@ -131,9 +140,20 @@ export class CustomerPageComponent extends IComponentModel {
         });
     }
 
-    #listComponent() { 
+    #switchClientSelected(target) {
+        $("#customer-list-ul .customer-list-item").removeClass("active");
+        target.addClass("active");
+        this.#clientSelected = target.index();
+    }
+
+    #addClient() {
+        $("#customer-list-ul").append(this.#listComponent());
+        this.#clientsLenght++;
+    }
+
+    #listComponent() {
         return /* html */ `
-            <li class="customer-list-item d-flex align-items-center gap-2 p-2 rounded-3 active">
+            <li class="customer-list-item d-flex align-items-center gap-2 p-2 rounded-3">
                 <span class="customer-avatar d-flex align-items-center justify-content-center rounded-circle">CL</span>
                 <span class="d-flex flex-column flex-grow-1 min-width-0">
                     <span class="customer-list-item-name text-truncate fw-semibold">Nome do cliente</span>
