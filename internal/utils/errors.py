@@ -1,6 +1,10 @@
 from enum import IntEnum
 
 
+class FileError(IntEnum):
+    OPEN_CONFIG_FILE_ERROR = 1001
+
+
 class DatabaseError(IntEnum):
     FATAL_ERROR = 2001
     QUERY_ERROR = 2002
