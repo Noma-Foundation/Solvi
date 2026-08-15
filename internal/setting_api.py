@@ -17,7 +17,7 @@ class SettingAPI:
         try:
             with open(path) as f:
                 data = tomllib.load(f)
-        except:
+        except FileNotFoundError:
             return FileError.OPEN_CONFIG_FILE_ERROR
 
         global_data = data.get("global", {})
