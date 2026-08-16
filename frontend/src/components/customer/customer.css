@@ -146,3 +146,10 @@
 .customer-field-value {
     margin-top: 4px;
 }
+
+/* --- Edit client modal --- */
+
+#edit-client-modal .modal-body {
+    max-height: 60vh;
+    overflow-y: auto;
+}
