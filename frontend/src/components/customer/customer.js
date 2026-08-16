@@ -11,15 +11,33 @@ const STATUS_LABELS = {
     inactive: "Inativo",
 };
 
+/**
+ * Customer management page. Renders a master-detail layout (client list on the
+ * left, selected client's details on the right) plus "add" and "edit" modals,
+ * and keeps an in-memory client list in sync with the DOM.
+ *
+ * @extends IComponentModel
+ */
 export class CustomerPageComponent extends IComponentModel {
+    /** @type {number|null} - ID of the currently selected client, or null when none is selected. */
     #clientSelected;
+    /** @type {Map<number, object>} - All known clients, keyed by client ID. */
     #clients;
+    /** @type {Map<number, JQuery>} - Cached jQuery reference to each client's `<li>` in the list, keyed by client ID. */
     #listItems;
+    /** @type {Modal} - Bootstrap modal instance for creating a client. */
     #addClientModal;
+    /** @type {Modal} - Bootstrap modal instance for editing the selected client. */
     #editClientModal;
+    /** @type {number} - Auto-incrementing ID assigned to the next client created client-side. */
     #nextClientId;
+    /** @type {object} - Cache of jQuery-wrapped static DOM elements, populated once by {@link #cacheDom}. */
     #dom;
 
+    /**
+     * @constructs {CustomerPageComponent}
+     * @param {String} [rootSelector="#app-main-context"] - Selector of the element this component is rendered into.
+     */
     constructor(rootSelector = "#app-main-context") {
         super();
         this.context = rootSelector;
@@ -30,6 +48,11 @@ export class CustomerPageComponent extends IComponentModel {
         this.init();
     }
 
+    /**
+     * Builds the page markup (client list panel, detail panel, add/edit modals),
+     * injects it into the DOM, caches element references, and instantiates the
+     * Bootstrap modals. Called once by {@link IComponentModel#init}.
+     */
     buildTemplate() {
         this.template = /* html */ `
             <section class="customer-page d-flex h-100 w-100">
@@ -281,6 +304,12 @@ export class CustomerPageComponent extends IComponentModel {
         this.#editClientModal = new Modal(document.getElementById("edit-client-modal"));
     }
 
+    /**
+     * Resolves and caches every static DOM element the component reads or
+     * writes repeatedly (detail fields, form inputs, buttons), so later
+     * operations reuse the jQuery wrappers instead of re-querying the DOM.
+     * Must run after the template has been injected into the page.
+     */
     #cacheDom() {
         this.#dom = {
             listUl: $("#customer-list-ul"),
@@ -333,6 +362,12 @@ export class CustomerPageComponent extends IComponentModel {
         };
     }
 
+    /**
+     * Wires up all user interactions: selecting a client in the list, opening
+     * the add/edit modals, submitting the add/edit forms, syncing the status
+     * label when the status dropdown changes, and deleting the selected client.
+     * Called once by {@link IComponentModel#init}, after {@link buildTemplate}.
+     */
     bindEvents() {
         const dom = this.#dom;
 
@@ -376,11 +411,23 @@ export class CustomerPageComponent extends IComponentModel {
         });
     }
 
+    /**
+     * Looks up the currently selected client.
+     *
+     * @returns {object|null} - The selected client, or null if none is selected.
+     */
     #getSelectedClient() {
         if (this.#clientSelected === null) { return null; }
         return this.#clients.get(this.#clientSelected) ?? null;
     }
 
+    /**
+     * Marks a client as the active selection: toggles the "active" class on the
+     * corresponding list items, re-renders the detail panel for the new
+     * selection, and enables the edit/delete buttons.
+     *
+     * @param {number} clientId - ID of the client to select.
+     */
     #switchClientSelected(clientId) {
         const previous = this.#getSelectedClient();
         if (previous) {
@@ -395,6 +442,14 @@ export class CustomerPageComponent extends IComponentModel {
         this.#dom.deleteClientBtn.prop("disabled", false);
     }
 
+    /**
+     * Reads the add-client form, calls the backend API to create the client,
+     * and on success builds a new client record (with placeholder defaults for
+     * fields the API doesn't return), stores it, appends its list item, and
+     * closes the modal. Shows an inline error and leaves the modal open on failure.
+     *
+     * @async
+     */
     async #addClient() {
         const name = this.#dom.addClientNameInput.val().trim();
         const email = this.#dom.addClientEmailInput.val().trim();
@@ -439,6 +494,11 @@ export class CustomerPageComponent extends IComponentModel {
         }
     }
 
+    /**
+     * Populates every field of the edit form with a client's current data.
+     *
+     * @param {object} client - The client whose data should fill the form.
+     */
     #fillEditForm(client) {
         const edit = this.#dom.edit;
         edit.name.val(client.name);
@@ -459,15 +519,35 @@ export class CustomerPageComponent extends IComponentModel {
         edit.notes.val(this.#toEditValue(client.observacoes));
     }
 
+    /**
+     * Converts a stored client value into what an edit form input should show:
+     * the placeholder "-" used for empty fields is displayed as an empty input.
+     *
+     * @param {String} value - Stored value (e.g. "-" or an actual value).
+     * @returns {String} - Value ready to be placed in a form input.
+     */
     #toEditValue(value) {
         return value === "-" ? "" : value;
     }
 
+    /**
+     * Converts a raw form input value back into the stored representation:
+     * trims it, and falls back to the "-" placeholder when left blank.
+     *
+     * @param {String} value - Raw value read from a form input.
+     * @returns {String} - Value ready to be stored on the client record.
+     */
     #fromEditValue(value) {
         const trimmed = value.trim();
         return trimmed || "-";
     }
 
+    /**
+     * Validates and applies the edit form's values to the selected client,
+     * updates its list item in place, re-renders the detail panel, and closes
+     * the edit modal. No-ops if no client is selected or required fields
+     * (name, e-mail) are empty.
+     */
     #editClient() {
         const client = this.#getSelectedClient();
         if (!client) { return; }
@@ -511,6 +591,11 @@ export class CustomerPageComponent extends IComponentModel {
         this.#editClientModal.hide();
     }
 
+    /**
+     * Removes the selected client from the in-memory list and the DOM, clears
+     * the selection, and resets the detail panel to its empty state. No-op if
+     * no client is selected.
+     */
     #deleteClient() {
         const client = this.#getSelectedClient();
         if (!client) { return; }
@@ -523,6 +608,10 @@ export class CustomerPageComponent extends IComponentModel {
         this.#resetClientDetail();
     }
 
+    /**
+     * Restores the detail panel to its placeholder state ("-" everywhere) and
+     * disables the edit/delete buttons. Used when no client is selected.
+     */
     #resetClientDetail() {
         this.#dom.editClientBtn.prop("disabled", true);
         this.#dom.deleteClientBtn.prop("disabled", true);
@@ -548,6 +637,13 @@ export class CustomerPageComponent extends IComponentModel {
         detail.notes.text("-");
     }
 
+    /**
+     * Derives up to two uppercase initials from a client's full name, used for
+     * the avatar bubble (e.g. "Ana Silva" -> "AS").
+     *
+     * @param {String} name - Full name to derive initials from.
+     * @returns {String} - Up to two uppercase initials.
+     */
     #getInitials(name) {
         return name
             .split(" ")
@@ -557,6 +653,13 @@ export class CustomerPageComponent extends IComponentModel {
             .join("");
     }
 
+    /**
+     * Renders a client's full data into the detail panel (avatar, name, status
+     * badge, stats, contact info, contract info and notes). No-op when called
+     * with no client.
+     *
+     * @param {object|null} client - The client to display, or null to skip rendering.
+     */
     #renderClientDetail(client) {
         if (!client) { return; }
 
@@ -586,6 +689,12 @@ export class CustomerPageComponent extends IComponentModel {
         detail.notes.text(client.observacoes);
     }
 
+    /**
+     * Builds the HTML markup for a client's row in the list panel.
+     *
+     * @param {object} client - The client to render a list item for.
+     * @returns {String} - HTML markup for the client's `<li>` list item.
+     */
     #listComponent(client) {
         return /* html */ `
             <li class="customer-list-item d-flex align-items-center gap-2 p-2 rounded-3" data-id="${client.id}">
