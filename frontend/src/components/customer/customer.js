@@ -29,8 +29,6 @@ export class CustomerPageComponent extends IComponentModel {
     #addClientModal;
     /** @type {Modal} - Bootstrap modal instance for editing the selected client. */
     #editClientModal;
-    /** @type {number} - Auto-incrementing ID assigned to the next client created client-side. */
-    #nextClientId;
     /** @type {object} - Cache of jQuery-wrapped static DOM elements, populated once by {@link #cacheDom}. */
     #dom;
 
@@ -44,8 +42,13 @@ export class CustomerPageComponent extends IComponentModel {
         this.#clientSelected = null;
         this.#clients = new Map();
         this.#listItems = new Map();
-        this.#nextClientId = 1;
         this.init();
+
+        if (window.pywebview && window.pywebview.api) {
+            this.#loadClients();
+        } else {
+            window.addEventListener("pywebviewready", () => this.#loadClients());
+        }
     }
 
     /**
@@ -443,6 +446,60 @@ export class CustomerPageComponent extends IComponentModel {
     }
 
     /**
+     * Fetches every client from the backend and renders them into the list
+     * panel. Called once during initialization, once the pywebview API is
+     * ready. Failures are logged and leave the list empty.
+     *
+     * @async
+     */
+    async #loadClients() {
+        try {
+            const customers = await window.pywebview.api.get_clients();
+
+            for (const customer of customers) {
+                const client = this.#buildClientRecord(customer);
+                this.#clients.set(client.id, client);
+
+                const $listItem = $(this.#listComponent(client));
+                this.#listItems.set(client.id, $listItem);
+                this.#dom.listUl.append($listItem);
+            }
+        } catch (error) {
+            console.error("[ERROR] Failed to load clients.", error);
+        }
+    }
+
+    /**
+     * Builds a client record from the backend's customer data, mapping its
+     * snake_case fields to the record shape the UI uses.
+     *
+     * @param {object} customer - Customer data returned by the backend.
+     * @returns {object} - Client record ready to be stored and rendered.
+     */
+    #buildClientRecord(customer) {
+        return {
+            id: customer.id,
+            name: customer.name,
+            initials: this.#getInitials(customer.name),
+            cidadeUf: customer.cidade_uf,
+            plano: customer.plano,
+            status: customer.status,
+            statusLabel: customer.status_label,
+            aulas: customer.aulas,
+            valorPago: customer.valor_pago,
+            email: customer.email,
+            telefone: customer.telefone,
+            responsavel: customer.responsavel,
+            cargo: customer.cargo,
+            endereco: customer.endereco,
+            inicio: customer.inicio,
+            renovacao: customer.renovacao,
+            documento: customer.documento,
+            observacoes: customer.observacoes,
+        };
+    }
+
+    /**
      * Reads the add-client form, calls the backend API to create the client,
      * and on success builds a new client record (with placeholder defaults for
      * fields the API doesn't return), stores it, appends its list item, and
@@ -460,27 +517,7 @@ export class CustomerPageComponent extends IComponentModel {
 
         try {
             const customer = await window.pywebview.api.add_client(name, email);
-
-            const client = {
-                id: this.#nextClientId++,
-                name: customer.name,
-                initials: this.#getInitials(customer.name),
-                cidadeUf: "Cidade / UF",
-                plano: "Plano",
-                status: "pending",
-                statusLabel: "Pendente",
-                aulas: "-",
-                valorPago: "-",
-                email: customer.email,
-                telefone: "-",
-                responsavel: "-",
-                cargo: "-",
-                endereco: "-",
-                inicio: "-",
-                renovacao: "-",
-                documento: "-",
-                observacoes: "-",
-            };
+            const client = this.#buildClientRecord(customer);
 
             this.#clients.set(client.id, client);
 
@@ -543,12 +580,15 @@ export class CustomerPageComponent extends IComponentModel {
     }
 
     /**
-     * Validates and applies the edit form's values to the selected client,
-     * updates its list item in place, re-renders the detail panel, and closes
-     * the edit modal. No-ops if no client is selected or required fields
-     * (name, e-mail) are empty.
+     * Validates the edit form, persists its values to the backend for the
+     * selected client, then updates its list item in place, re-renders the
+     * detail panel, and closes the edit modal. No-ops if no client is
+     * selected or required fields (name, e-mail) are empty. Shows an inline
+     * error and leaves the modal open on failure.
+     *
+     * @async
      */
-    #editClient() {
+    async #editClient() {
         const client = this.#getSelectedClient();
         if (!client) { return; }
 
@@ -559,36 +599,47 @@ export class CustomerPageComponent extends IComponentModel {
 
         if (!name || !email) { return; }
 
-        client.name = name;
-        client.email = email;
-        client.initials = this.#getInitials(name);
-        client.status = status;
-        client.statusLabel = edit.statusLabel.val().trim() || STATUS_LABELS[status];
-        client.aulas = this.#fromEditValue(edit.aulas.val());
-        client.valorPago = this.#fromEditValue(edit.valorPago.val());
-        client.telefone = this.#fromEditValue(edit.telefone.val());
-        client.responsavel = this.#fromEditValue(edit.responsavel.val());
-        client.cargo = this.#fromEditValue(edit.cargo.val());
-        client.endereco = this.#fromEditValue(edit.endereco.val());
-        client.cidadeUf = this.#fromEditValue(edit.cidade.val());
-        client.plano = this.#fromEditValue(edit.plano.val());
-        client.inicio = this.#fromEditValue(edit.inicio.val());
-        client.renovacao = this.#fromEditValue(edit.renovacao.val());
-        client.documento = this.#fromEditValue(edit.documento.val());
-        client.observacoes = this.#fromEditValue(edit.notes.val());
+        const statusLabel = edit.statusLabel.val().trim() || STATUS_LABELS[status];
+        const aulas = this.#fromEditValue(edit.aulas.val());
+        const valorPago = this.#fromEditValue(edit.valorPago.val());
+        const telefone = this.#fromEditValue(edit.telefone.val());
+        const responsavel = this.#fromEditValue(edit.responsavel.val());
+        const cargo = this.#fromEditValue(edit.cargo.val());
+        const endereco = this.#fromEditValue(edit.endereco.val());
+        const cidadeUf = this.#fromEditValue(edit.cidade.val());
+        const plano = this.#fromEditValue(edit.plano.val());
+        const inicio = this.#fromEditValue(edit.inicio.val());
+        const renovacao = this.#fromEditValue(edit.renovacao.val());
+        const documento = this.#fromEditValue(edit.documento.val());
+        const observacoes = this.#fromEditValue(edit.notes.val());
 
-        const $listItem = this.#listItems.get(client.id);
-        if ($listItem) {
-            $listItem.find(".customer-avatar").text(client.initials);
-            $listItem.find(".customer-list-item-name").text(client.name);
-            $listItem.find(".customer-list-item-subtitle").text(`${client.cidadeUf} · ${client.plano}`);
-            $listItem.find(".customer-status-badge")
-                .attr("class", `badge rounded-pill customer-status-badge status-${client.status}`)
-                .text(client.statusLabel);
+        this.#dom.editClientError.hide();
+
+        try {
+            const customer = await window.pywebview.api.edit_client(
+                client.id, name, email, status, statusLabel, aulas, valorPago,
+                telefone, responsavel, cargo, endereco, cidadeUf, plano,
+                inicio, renovacao, documento, observacoes
+            );
+
+            const updated = this.#buildClientRecord(customer);
+            this.#clients.set(updated.id, updated);
+
+            const $listItem = this.#listItems.get(updated.id);
+            if ($listItem) {
+                $listItem.find(".customer-avatar").text(updated.initials);
+                $listItem.find(".customer-list-item-name").text(updated.name);
+                $listItem.find(".customer-list-item-subtitle").text(`${updated.cidadeUf} · ${updated.plano}`);
+                $listItem.find(".customer-status-badge")
+                    .attr("class", `badge rounded-pill customer-status-badge status-${updated.status}`)
+                    .text(updated.statusLabel);
+            }
+
+            this.#renderClientDetail(updated);
+            this.#editClientModal.hide();
+        } catch (error) {
+            this.#dom.editClientError.show();
         }
-
-        this.#renderClientDetail(client);
-        this.#editClientModal.hide();
     }
 
     /**
