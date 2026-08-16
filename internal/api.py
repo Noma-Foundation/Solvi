@@ -5,10 +5,14 @@ import webview
 import bcrypt
 import psycopg2
 
+from dataclasses import asdict
+
 from internal.database import DatabaseConnection, open_connection
 from internal.utils import DatabaseError
 from internal.config import DBConfig
 from internal.setting_api import SettingAPI
+from internal.models import *
+
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="solvi.log", level=logging.INFO)
@@ -79,8 +83,13 @@ class API:
             js_api=api
         )
 
-    def create_client(self): 
-        pass
+    def add_client(self, name, email): 
+        customer = Customer(
+            name=name,
+            email=email
+        )
+
+        return asdict(customer)
 
     def delete_client(self):
         pass

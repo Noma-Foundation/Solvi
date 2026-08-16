@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { Modal } from "bootstrap";
 
 import { IComponentModel } from "../component-model.js";
 
@@ -9,6 +10,7 @@ export class CustomerPageComponent extends IComponentModel {
     #clientSelected;
     #clientsLenght;
     #clients;
+    #addClientModal;
 
     constructor(rootSelector = "#app-main-context") {
         super();
@@ -125,9 +127,38 @@ export class CustomerPageComponent extends IComponentModel {
                     </section>
                 </main>
             </section>
+
+            <div class="modal fade" id="add-client-modal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form id="add-client-form">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Novo cliente</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body d-flex flex-column gap-3">
+                                <div class="form-group">
+                                    <label for="add-client-name-input" class="form-label customer-field-label">Nome</label>
+                                    <input type="text" class="form-control" id="add-client-name-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="add-client-email-input" class="form-label customer-field-label">E-mail</label>
+                                    <input type="email" class="form-control" id="add-client-email-input" required>
+                                </div>
+                                <p class="text-danger m-0" id="add-client-error" style="display: none;">Não foi possível criar o cliente.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary customer-add-btn button-font">Salvar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         `;
 
         $(this.context).html(this.template);
+        this.#addClientModal = new Modal(document.getElementById("add-client-modal"));
     }
 
     bindEvents() {
@@ -138,6 +169,13 @@ export class CustomerPageComponent extends IComponentModel {
         });
         
         $("#add-client-btn").on("click", () => {
+            $("#add-client-form")[0].reset();
+            $("#add-client-error").hide();
+            this.#addClientModal.show();
+        });
+
+        $("#add-client-form").on("submit", (event) => {
+            event.preventDefault();
             this.#addClient();
         });
 
@@ -157,30 +195,55 @@ export class CustomerPageComponent extends IComponentModel {
         this.#renderClientDetail(this.#clients[this.#clientSelected]);
     }
 
-    #addClient() {
-        const client = {
-            name: "Nome do cliente",
-            initials: "CL",
-            cidadeUf: "Cidade / UF",
-            plano: "Plano",
-            status: "pending",
-            statusLabel: "Pendente",
-            aulas: "-",
-            valorPago: "-",
-            email: "-",
-            telefone: "-",
-            responsavel: "-",
-            cargo: "-",
-            endereco: "-",
-            inicio: "-",
-            renovacao: "-",
-            documento: "-",
-            observacoes: "-",
-        };
-        const index = this.#clientsLenght;
-        this.#clients.push(client);
-        $("#customer-list-ul").append(this.#listComponent(client, index));
-        this.#clientsLenght++;
+    async #addClient() {
+        const name = $("#add-client-name-input").val().trim();
+        const email = $("#add-client-email-input").val().trim();
+
+        if (!name || !email) { return; }
+
+        $("#add-client-error").hide();
+
+        try {
+            const customer = await window.pywebview.api.add_client(name, email);
+
+            const client = {
+                name: customer.name,
+                initials: this.#getInitials(customer.name),
+                cidadeUf: "Cidade / UF",
+                plano: "Plano",
+                status: "pending",
+                statusLabel: "Pendente",
+                aulas: "-",
+                valorPago: "-",
+                email: customer.email,
+                telefone: "-",
+                responsavel: "-",
+                cargo: "-",
+                endereco: "-",
+                inicio: "-",
+                renovacao: "-",
+                documento: "-",
+                observacoes: "-",
+            };
+
+            const index = this.#clientsLenght;
+            this.#clients.push(client);
+            $("#customer-list-ul").append(this.#listComponent(client, index));
+            this.#clientsLenght++;
+
+            this.#addClientModal.hide();
+        } catch (error) {
+            $("#add-client-error").show();
+        }
+    }
+
+    #getInitials(name) {
+        return name
+            .split(" ")
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((part) => part[0].toUpperCase())
+            .join("");
     }
 
     #renderClientDetail(client) {
