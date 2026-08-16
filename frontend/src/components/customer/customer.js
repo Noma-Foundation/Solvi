@@ -12,20 +12,20 @@ const STATUS_LABELS = {
 };
 
 export class CustomerPageComponent extends IComponentModel {
-    #rootSelector;
     #clientSelected;
-    #clientsLenght;
     #clients;
+    #listItems;
     #addClientModal;
     #editClientModal;
     #nextClientId;
+    #dom;
 
     constructor(rootSelector = "#app-main-context") {
         super();
         this.context = rootSelector;
         this.#clientSelected = null;
-        this.#clientsLenght = 0;
-        this.#clients = [];
+        this.#clients = new Map();
+        this.#listItems = new Map();
         this.#nextClientId = 1;
         this.init();
     }
@@ -276,71 +276,132 @@ export class CustomerPageComponent extends IComponentModel {
         `;
 
         $(this.context).html(this.template);
+        this.#cacheDom();
         this.#addClientModal = new Modal(document.getElementById("add-client-modal"));
         this.#editClientModal = new Modal(document.getElementById("edit-client-modal"));
     }
 
+    #cacheDom() {
+        this.#dom = {
+            listUl: $("#customer-list-ul"),
+            addClientBtn: $("#add-client-btn"),
+            addClientForm: $("#add-client-form"),
+            addClientError: $("#add-client-error"),
+            addClientNameInput: $("#add-client-name-input"),
+            addClientEmailInput: $("#add-client-email-input"),
+            editClientBtn: $("#edit-client-btn"),
+            deleteClientBtn: $("#delete-client-btn"),
+            editClientForm: $("#edit-client-form"),
+            editClientError: $("#edit-client-error"),
+            detail: {
+                avatar: $("#customer-detail-avatar"),
+                name: $("#customer-detail-name"),
+                statusBadge: $("#customer-detail-status-badge"),
+                status: $("#customer-detail-status"),
+                aulas: $("#customer-detail-aulas"),
+                valorPago: $("#customer-detail-valor-pago"),
+                email: $("#customer-detail-email"),
+                telefone: $("#customer-detail-telefone"),
+                responsavel: $("#customer-detail-responsavel"),
+                cargo: $("#customer-detail-cargo"),
+                endereco: $("#customer-detail-endereco"),
+                cidade: $("#customer-detail-cidade"),
+                plano: $("#customer-detail-plano"),
+                inicio: $("#customer-detail-inicio"),
+                renovacao: $("#customer-detail-renovacao"),
+                documento: $("#customer-detail-documento"),
+                notes: $("#customer-detail-notes"),
+            },
+            edit: {
+                name: $("#edit-client-name-input"),
+                status: $("#edit-client-status-input"),
+                statusLabel: $("#edit-client-status-label-input"),
+                aulas: $("#edit-client-aulas-input"),
+                valorPago: $("#edit-client-valor-pago-input"),
+                email: $("#edit-client-email-input"),
+                telefone: $("#edit-client-telefone-input"),
+                responsavel: $("#edit-client-responsavel-input"),
+                cargo: $("#edit-client-cargo-input"),
+                endereco: $("#edit-client-endereco-input"),
+                cidade: $("#edit-client-cidade-input"),
+                plano: $("#edit-client-plano-input"),
+                inicio: $("#edit-client-inicio-input"),
+                renovacao: $("#edit-client-renovacao-input"),
+                documento: $("#edit-client-documento-input"),
+                notes: $("#edit-client-notes-input"),
+            },
+        };
+    }
+
     bindEvents() {
-        $("#customer-list-ul").on("click", (event) => {
+        const dom = this.#dom;
+
+        dom.listUl.on("click", (event) => {
             const target = $(event.target).closest(".customer-list-item");
             if (!target.length) { return; }
-            this.#switchClientSelected(target);
+            this.#switchClientSelected(target.data("id"));
         });
-        
-        $("#add-client-btn").on("click", () => {
-            $("#add-client-form")[0].reset();
-            $("#add-client-error").hide();
+
+        dom.addClientBtn.on("click", () => {
+            dom.addClientForm[0].reset();
+            dom.addClientError.hide();
             this.#addClientModal.show();
         });
 
-        $("#add-client-form").on("submit", (event) => {
+        dom.addClientForm.on("submit", (event) => {
             event.preventDefault();
             this.#addClient();
         });
 
-        $("#edit-client-btn").on("click", () => {
+        dom.editClientBtn.on("click", () => {
             const client = this.#getSelectedClient();
             if (!client) { return; }
 
             this.#fillEditForm(client);
-            $("#edit-client-error").hide();
+            dom.editClientError.hide();
             this.#editClientModal.show();
         });
 
-        $("#edit-client-status-input").on("change", (event) => {
-            $("#edit-client-status-label-input").val(STATUS_LABELS[event.target.value] ?? "");
+        dom.edit.status.on("change", (event) => {
+            dom.edit.statusLabel.val(STATUS_LABELS[event.target.value] ?? "");
         });
 
-        $("#edit-client-form").on("submit", (event) => {
+        dom.editClientForm.on("submit", (event) => {
             event.preventDefault();
             this.#editClient();
         });
 
-        $("#delete-client-btn").on("click", () => {
+        dom.deleteClientBtn.on("click", () => {
             this.#deleteClient();
         });
     }
 
     #getSelectedClient() {
         if (this.#clientSelected === null) { return null; }
-        return this.#clients.find((client) => client.id === this.#clientSelected) ?? null;
+        return this.#clients.get(this.#clientSelected) ?? null;
     }
 
-    #switchClientSelected(target) {
-        $("#customer-list-ul .customer-list-item").removeClass("active");
-        target.addClass("active");
-        this.#clientSelected = target.data("id");
+    #switchClientSelected(clientId) {
+        const previous = this.#getSelectedClient();
+        if (previous) {
+            this.#listItems.get(previous.id)?.removeClass("active");
+        }
+
+        this.#clientSelected = clientId;
+        this.#listItems.get(clientId)?.addClass("active");
+
         this.#renderClientDetail(this.#getSelectedClient());
-        $("#edit-client-btn, #delete-client-btn").prop("disabled", false);
+        this.#dom.editClientBtn.prop("disabled", false);
+        this.#dom.deleteClientBtn.prop("disabled", false);
     }
 
     async #addClient() {
-        const name = $("#add-client-name-input").val().trim();
-        const email = $("#add-client-email-input").val().trim();
+        const name = this.#dom.addClientNameInput.val().trim();
+        const email = this.#dom.addClientEmailInput.val().trim();
 
         if (!name || !email) { return; }
 
-        $("#add-client-error").hide();
+        this.#dom.addClientError.hide();
 
         try {
             const customer = await window.pywebview.api.add_client(name, email);
@@ -366,33 +427,36 @@ export class CustomerPageComponent extends IComponentModel {
                 observacoes: "-",
             };
 
-            this.#clients.push(client);
-            $("#customer-list-ul").append(this.#listComponent(client));
-            this.#clientsLenght++;
+            this.#clients.set(client.id, client);
+
+            const $listItem = $(this.#listComponent(client));
+            this.#listItems.set(client.id, $listItem);
+            this.#dom.listUl.append($listItem);
 
             this.#addClientModal.hide();
         } catch (error) {
-            $("#add-client-error").show();
+            this.#dom.addClientError.show();
         }
     }
 
     #fillEditForm(client) {
-        $("#edit-client-name-input").val(client.name);
-        $("#edit-client-status-input").val(client.status);
-        $("#edit-client-status-label-input").val(client.statusLabel);
-        $("#edit-client-aulas-input").val(this.#toEditValue(client.aulas));
-        $("#edit-client-valor-pago-input").val(this.#toEditValue(client.valorPago));
-        $("#edit-client-email-input").val(client.email);
-        $("#edit-client-telefone-input").val(this.#toEditValue(client.telefone));
-        $("#edit-client-responsavel-input").val(this.#toEditValue(client.responsavel));
-        $("#edit-client-cargo-input").val(this.#toEditValue(client.cargo));
-        $("#edit-client-endereco-input").val(this.#toEditValue(client.endereco));
-        $("#edit-client-cidade-input").val(this.#toEditValue(client.cidadeUf));
-        $("#edit-client-plano-input").val(this.#toEditValue(client.plano));
-        $("#edit-client-inicio-input").val(this.#toEditValue(client.inicio));
-        $("#edit-client-renovacao-input").val(this.#toEditValue(client.renovacao));
-        $("#edit-client-documento-input").val(this.#toEditValue(client.documento));
-        $("#edit-client-notes-input").val(this.#toEditValue(client.observacoes));
+        const edit = this.#dom.edit;
+        edit.name.val(client.name);
+        edit.status.val(client.status);
+        edit.statusLabel.val(client.statusLabel);
+        edit.aulas.val(this.#toEditValue(client.aulas));
+        edit.valorPago.val(this.#toEditValue(client.valorPago));
+        edit.email.val(client.email);
+        edit.telefone.val(this.#toEditValue(client.telefone));
+        edit.responsavel.val(this.#toEditValue(client.responsavel));
+        edit.cargo.val(this.#toEditValue(client.cargo));
+        edit.endereco.val(this.#toEditValue(client.endereco));
+        edit.cidade.val(this.#toEditValue(client.cidadeUf));
+        edit.plano.val(this.#toEditValue(client.plano));
+        edit.inicio.val(this.#toEditValue(client.inicio));
+        edit.renovacao.val(this.#toEditValue(client.renovacao));
+        edit.documento.val(this.#toEditValue(client.documento));
+        edit.notes.val(this.#toEditValue(client.observacoes));
     }
 
     #toEditValue(value) {
@@ -408,9 +472,10 @@ export class CustomerPageComponent extends IComponentModel {
         const client = this.#getSelectedClient();
         if (!client) { return; }
 
-        const name = $("#edit-client-name-input").val().trim();
-        const email = $("#edit-client-email-input").val().trim();
-        const status = $("#edit-client-status-input").val();
+        const edit = this.#dom.edit;
+        const name = edit.name.val().trim();
+        const email = edit.email.val().trim();
+        const status = edit.status.val();
 
         if (!name || !email) { return; }
 
@@ -418,27 +483,29 @@ export class CustomerPageComponent extends IComponentModel {
         client.email = email;
         client.initials = this.#getInitials(name);
         client.status = status;
-        client.statusLabel = $("#edit-client-status-label-input").val().trim() || STATUS_LABELS[status];
-        client.aulas = this.#fromEditValue($("#edit-client-aulas-input").val());
-        client.valorPago = this.#fromEditValue($("#edit-client-valor-pago-input").val());
-        client.telefone = this.#fromEditValue($("#edit-client-telefone-input").val());
-        client.responsavel = this.#fromEditValue($("#edit-client-responsavel-input").val());
-        client.cargo = this.#fromEditValue($("#edit-client-cargo-input").val());
-        client.endereco = this.#fromEditValue($("#edit-client-endereco-input").val());
-        client.cidadeUf = this.#fromEditValue($("#edit-client-cidade-input").val());
-        client.plano = this.#fromEditValue($("#edit-client-plano-input").val());
-        client.inicio = this.#fromEditValue($("#edit-client-inicio-input").val());
-        client.renovacao = this.#fromEditValue($("#edit-client-renovacao-input").val());
-        client.documento = this.#fromEditValue($("#edit-client-documento-input").val());
-        client.observacoes = this.#fromEditValue($("#edit-client-notes-input").val());
+        client.statusLabel = edit.statusLabel.val().trim() || STATUS_LABELS[status];
+        client.aulas = this.#fromEditValue(edit.aulas.val());
+        client.valorPago = this.#fromEditValue(edit.valorPago.val());
+        client.telefone = this.#fromEditValue(edit.telefone.val());
+        client.responsavel = this.#fromEditValue(edit.responsavel.val());
+        client.cargo = this.#fromEditValue(edit.cargo.val());
+        client.endereco = this.#fromEditValue(edit.endereco.val());
+        client.cidadeUf = this.#fromEditValue(edit.cidade.val());
+        client.plano = this.#fromEditValue(edit.plano.val());
+        client.inicio = this.#fromEditValue(edit.inicio.val());
+        client.renovacao = this.#fromEditValue(edit.renovacao.val());
+        client.documento = this.#fromEditValue(edit.documento.val());
+        client.observacoes = this.#fromEditValue(edit.notes.val());
 
-        const listItem = $(`#customer-list-ul .customer-list-item[data-id="${client.id}"]`);
-        listItem.find(".customer-avatar").text(client.initials);
-        listItem.find(".customer-list-item-name").text(client.name);
-        listItem.find(".customer-list-item-subtitle").text(`${client.cidadeUf} · ${client.plano}`);
-        listItem.find(".customer-status-badge")
-            .attr("class", `badge rounded-pill customer-status-badge status-${client.status}`)
-            .text(client.statusLabel);
+        const $listItem = this.#listItems.get(client.id);
+        if ($listItem) {
+            $listItem.find(".customer-avatar").text(client.initials);
+            $listItem.find(".customer-list-item-name").text(client.name);
+            $listItem.find(".customer-list-item-subtitle").text(`${client.cidadeUf} · ${client.plano}`);
+            $listItem.find(".customer-status-badge")
+                .attr("class", `badge rounded-pill customer-status-badge status-${client.status}`)
+                .text(client.statusLabel);
+        }
 
         this.#renderClientDetail(client);
         this.#editClientModal.hide();
@@ -448,25 +515,37 @@ export class CustomerPageComponent extends IComponentModel {
         const client = this.#getSelectedClient();
         if (!client) { return; }
 
-        this.#clients = this.#clients.filter((item) => item.id !== client.id);
-        $(`#customer-list-ul .customer-list-item[data-id="${client.id}"]`).remove();
-        this.#clientsLenght--;
+        this.#clients.delete(client.id);
+        this.#listItems.get(client.id)?.remove();
+        this.#listItems.delete(client.id);
         this.#clientSelected = null;
 
         this.#resetClientDetail();
     }
 
     #resetClientDetail() {
-        $("#edit-client-btn, #delete-client-btn").prop("disabled", true);
+        this.#dom.editClientBtn.prop("disabled", true);
+        this.#dom.deleteClientBtn.prop("disabled", true);
 
-        $("#customer-detail-avatar").text("-");
-        $("#customer-detail-name").text("Selecione um cliente");
-        $("#customer-detail-status-badge").attr("class", "badge rounded-pill customer-status-badge").text("-");
+        const detail = this.#dom.detail;
+        detail.avatar.text("-");
+        detail.name.text("Selecione um cliente");
+        detail.statusBadge.attr("class", "badge rounded-pill customer-status-badge").text("-");
 
-        $("#customer-detail-status, #customer-detail-aulas, #customer-detail-valor-pago").text("-");
-        $("#customer-detail-email, #customer-detail-telefone, #customer-detail-responsavel, #customer-detail-cargo, #customer-detail-endereco, #customer-detail-cidade").text("-");
-        $("#customer-detail-plano, #customer-detail-inicio, #customer-detail-renovacao, #customer-detail-documento").text("-");
-        $("#customer-detail-notes").text("-");
+        detail.status.text("-");
+        detail.aulas.text("-");
+        detail.valorPago.text("-");
+        detail.email.text("-");
+        detail.telefone.text("-");
+        detail.responsavel.text("-");
+        detail.cargo.text("-");
+        detail.endereco.text("-");
+        detail.cidade.text("-");
+        detail.plano.text("-");
+        detail.inicio.text("-");
+        detail.renovacao.text("-");
+        detail.documento.text("-");
+        detail.notes.text("-");
     }
 
     #getInitials(name) {
@@ -481,29 +560,30 @@ export class CustomerPageComponent extends IComponentModel {
     #renderClientDetail(client) {
         if (!client) { return; }
 
-        $("#customer-detail-avatar").text(client.initials);
-        $("#customer-detail-name").text(client.name);
-        $("#customer-detail-status-badge")
+        const detail = this.#dom.detail;
+        detail.avatar.text(client.initials);
+        detail.name.text(client.name);
+        detail.statusBadge
             .attr("class", `badge rounded-pill customer-status-badge status-${client.status}`)
             .text(client.statusLabel);
 
-        $("#customer-detail-status").text(client.statusLabel);
-        $("#customer-detail-aulas").text(client.aulas);
-        $("#customer-detail-valor-pago").text(client.valorPago);
+        detail.status.text(client.statusLabel);
+        detail.aulas.text(client.aulas);
+        detail.valorPago.text(client.valorPago);
 
-        $("#customer-detail-email").text(client.email);
-        $("#customer-detail-telefone").text(client.telefone);
-        $("#customer-detail-responsavel").text(client.responsavel);
-        $("#customer-detail-cargo").text(client.cargo);
-        $("#customer-detail-endereco").text(client.endereco);
-        $("#customer-detail-cidade").text(client.cidadeUf);
+        detail.email.text(client.email);
+        detail.telefone.text(client.telefone);
+        detail.responsavel.text(client.responsavel);
+        detail.cargo.text(client.cargo);
+        detail.endereco.text(client.endereco);
+        detail.cidade.text(client.cidadeUf);
 
-        $("#customer-detail-plano").text(client.plano);
-        $("#customer-detail-inicio").text(client.inicio);
-        $("#customer-detail-renovacao").text(client.renovacao);
-        $("#customer-detail-documento").text(client.documento);
+        detail.plano.text(client.plano);
+        detail.inicio.text(client.inicio);
+        detail.renovacao.text(client.renovacao);
+        detail.documento.text(client.documento);
 
-        $("#customer-detail-notes").text(client.observacoes);
+        detail.notes.text(client.observacoes);
     }
 
     #listComponent(client) {
