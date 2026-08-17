@@ -6,9 +6,9 @@ import { IComponentModel } from "../component-model.js";
 import "./customer.css";
 
 const STATUS_LABELS = {
-    active: "Ativo",
-    pending: "Pendente",
-    inactive: "Inativo",
+    active: "Active",
+    pending: "Pending",
+    inactive: "Inactive",
 };
 
 /**
@@ -62,7 +62,7 @@ export class CustomerPageComponent extends IComponentModel {
                 <aside class="customer-list-panel d-flex flex-column gap-3 p-3">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <h3 class="m-0">Clientes</h3>
+                            <h3 class="m-0">Clients</h3>
                         </div>
                         <button type="button" class="btn btn-primary customer-add-btn button-font" id="add-client-btn">Add client</button>
                     </div>
@@ -77,7 +77,7 @@ export class CustomerPageComponent extends IComponentModel {
                     <div class="d-flex align-items-center gap-3">
                         <span class="customer-avatar large d-flex align-items-center justify-content-center rounded-circle" id="customer-detail-avatar">-</span>
                         <div>
-                            <h4 class="m-0" id="customer-detail-name">Selecione um cliente</h4>
+                            <h4 class="m-0" id="customer-detail-name">Select a client</h4>
                             <span class="badge rounded-pill customer-status-badge" id="customer-detail-status-badge">-</span>
                         </div>
                     </div>
@@ -88,69 +88,69 @@ export class CustomerPageComponent extends IComponentModel {
                             <p class="customer-stat-value m-0 fw-semibold" id="customer-detail-status">-</p>
                         </div>
                         <div class="customer-stat-card card border-0 flex-fill p-3">
-                            <p class="customer-field-label m-0">Aulas</p>
-                            <p class="customer-stat-value m-0 fw-semibold" id="customer-detail-aulas">-</p>
+                            <p class="customer-field-label m-0">Classes</p>
+                            <p class="customer-stat-value m-0 fw-semibold" id="customer-detail-classes">-</p>
                         </div>
                         <div class="customer-stat-card card border-0 flex-fill p-3">
-                            <p class="customer-field-label m-0">Valor pago</p>
-                            <p class="customer-stat-value m-0 fw-semibold" id="customer-detail-valor-pago">-</p>
+                            <p class="customer-field-label m-0">Amount paid</p>
+                            <p class="customer-stat-value m-0 fw-semibold" id="customer-detail-amount-paid">-</p>
                         </div>
                     </div>
 
                     <section>
-                        <p class="customer-section-title">Contato</p>
+                        <p class="customer-section-title">Contact</p>
                         <div class="card customer-info-card">
                             <div class="customer-info-field">
-                                <p class="customer-field-label m-0">E-mail</p>
+                                <p class="customer-field-label m-0">Email</p>
                                 <p class="customer-field-value m-0 fw-medium" id="customer-detail-email">-</p>
                             </div>
                             <div class="customer-info-field">
-                                <p class="customer-field-label m-0">Telefone</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-telefone">-</p>
+                                <p class="customer-field-label m-0">Phone</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-phone">-</p>
                             </div>
                             <div class="customer-info-field">
-                                <p class="customer-field-label m-0">Responsável</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-responsavel">-</p>
+                                <p class="customer-field-label m-0">Contact person</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-contact-person">-</p>
                             </div>
                             <div class="customer-info-field">
-                                <p class="customer-field-label m-0">Cargo</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-cargo">-</p>
+                                <p class="customer-field-label m-0">Job title</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-job-title">-</p>
                             </div>
                             <div class="customer-info-field">
-                                <p class="customer-field-label m-0">Endereço</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-endereco">-</p>
+                                <p class="customer-field-label m-0">Address</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-address">-</p>
                             </div>
                             <div class="customer-info-field">
-                                <p class="customer-field-label m-0">Cidade / UF</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-cidade">-</p>
+                                <p class="customer-field-label m-0">City / State</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-city-state">-</p>
                             </div>
                         </div>
                     </section>
 
                     <section>
-                        <p class="customer-section-title">Contrato</p>
+                        <p class="customer-section-title">Contract</p>
                         <div class="card customer-info-card">
                             <div class="customer-info-field">
-                                <p class="customer-field-label m-0">Plano</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-plano">-</p>
+                                <p class="customer-field-label m-0">Plan</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-plan">-</p>
                             </div>
                             <div class="customer-info-field">
-                                <p class="customer-field-label m-0">Início</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-inicio">-</p>
+                                <p class="customer-field-label m-0">Start date</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-start-date">-</p>
                             </div>
                             <div class="customer-info-field">
-                                <p class="customer-field-label m-0">Renovação</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-renovacao">-</p>
+                                <p class="customer-field-label m-0">Renewal date</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-renewal-date">-</p>
                             </div>
                             <div class="customer-info-field">
-                                <p class="customer-field-label m-0">Documento</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-documento">-</p>
+                                <p class="customer-field-label m-0">Document</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-document">-</p>
                             </div>
                         </div>
                     </section>
 
                     <section>
-                        <p class="customer-section-title">Observações</p>
+                        <p class="customer-section-title">Notes</p>
                         <div class="card customer-info-card customer-notes">
                             <p class="m-0" id="customer-detail-notes">-</p>
                         </div>
@@ -168,23 +168,23 @@ export class CustomerPageComponent extends IComponentModel {
                     <div class="modal-content">
                         <form id="add-client-form">
                             <div class="modal-header">
-                                <h5 class="modal-title">Novo cliente</h5>
+                                <h5 class="modal-title">New client</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body d-flex flex-column gap-3">
                                 <div class="form-group">
-                                    <label for="add-client-name-input" class="form-label customer-field-label">Nome</label>
+                                    <label for="add-client-name-input" class="form-label customer-field-label">Name</label>
                                     <input type="text" class="form-control" id="add-client-name-input" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="add-client-email-input" class="form-label customer-field-label">E-mail</label>
+                                    <label for="add-client-email-input" class="form-label customer-field-label">Email</label>
                                     <input type="email" class="form-control" id="add-client-email-input" required>
                                 </div>
-                                <p class="text-danger m-0" id="add-client-error" style="display: none;">Não foi possível criar o cliente.</p>
+                                <p class="text-danger m-0" id="add-client-error" style="display: none;">Could not create the client.</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-primary customer-add-btn button-font">Salvar</button>
+                                <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary customer-add-btn button-font">Save</button>
                             </div>
                         </form>
                     </div>
@@ -197,12 +197,12 @@ export class CustomerPageComponent extends IComponentModel {
                         <!-- Customer Editor -->
                         <form id="edit-client-form" class="">
                             <div class="modal-header">
-                                <h5 class="modal-title">Editar cliente</h5>
+                                <h5 class="modal-title">Edit client</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body d-flex flex-column gap-4">
                                 <div class="form-group">
-                                    <label for="edit-client-name-input" class="form-label customer-field-label">Nome</label>
+                                    <label for="edit-client-name-input" class="form-label customer-field-label">Name</label>
                                     <input type="text" class="form-control" id="edit-client-name-input" required>
                                 </div>
 
@@ -212,88 +212,88 @@ export class CustomerPageComponent extends IComponentModel {
                                         <div class="col-md-6 form-group">
                                             <label for="edit-client-status-input" class="form-label customer-field-label">Status</label>
                                             <select class="form-select" id="edit-client-status-input">
-                                                <option value="active">Ativo</option>
-                                                <option value="pending">Pendente</option>
-                                                <option value="inactive">Inativo</option>
+                                                <option value="active">Active</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="inactive">Inactive</option>
                                             </select>
                                         </div>
                                         <div class="col-md-6 form-group">
-                                            <label for="edit-client-status-label-input" class="form-label customer-field-label">Rótulo do status</label>
+                                            <label for="edit-client-status-label-input" class="form-label customer-field-label">Status label</label>
                                             <input type="text" class="form-control" id="edit-client-status-label-input">
                                         </div>
                                         <div class="col-md-6 form-group">
-                                            <label for="edit-client-aulas-input" class="form-label customer-field-label">Aulas</label>
-                                            <input type="text" class="form-control" id="edit-client-aulas-input">
+                                            <label for="edit-client-classes-input" class="form-label customer-field-label">Classes</label>
+                                            <input type="text" class="form-control" id="edit-client-classes-input">
                                         </div>
                                         <div class="col-md-6 form-group">
-                                            <label for="edit-client-valor-pago-input" class="form-label customer-field-label">Valor pago</label>
-                                            <input type="text" class="form-control" id="edit-client-valor-pago-input">
+                                            <label for="edit-client-amount-paid-input" class="form-label customer-field-label">Amount paid</label>
+                                            <input type="text" class="form-control" id="edit-client-amount-paid-input">
                                         </div>
                                     </div>
                                 </section>
 
                                 <section>
-                                    <p class="customer-section-title">Contato</p>
+                                    <p class="customer-section-title">Contact</p>
                                     <div class="row g-3">
                                         <div class="col-md-6 form-group">
-                                            <label for="edit-client-email-input" class="form-label customer-field-label">E-mail</label>
+                                            <label for="edit-client-email-input" class="form-label customer-field-label">Email</label>
                                             <input type="email" class="form-control" id="edit-client-email-input" required>
                                         </div>
                                         <div class="col-md-6 form-group">
-                                            <label for="edit-client-telefone-input" class="form-label customer-field-label">Telefone</label>
-                                            <input type="text" class="form-control" id="edit-client-telefone-input">
+                                            <label for="edit-client-phone-input" class="form-label customer-field-label">Phone</label>
+                                            <input type="text" class="form-control" id="edit-client-phone-input">
                                         </div>
                                         <div class="col-md-6 form-group">
-                                            <label for="edit-client-responsavel-input" class="form-label customer-field-label">Responsável</label>
-                                            <input type="text" class="form-control" id="edit-client-responsavel-input">
+                                            <label for="edit-client-contact-person-input" class="form-label customer-field-label">Contact person</label>
+                                            <input type="text" class="form-control" id="edit-client-contact-person-input">
                                         </div>
                                         <div class="col-md-6 form-group">
-                                            <label for="edit-client-cargo-input" class="form-label customer-field-label">Cargo</label>
-                                            <input type="text" class="form-control" id="edit-client-cargo-input">
+                                            <label for="edit-client-job-title-input" class="form-label customer-field-label">Job title</label>
+                                            <input type="text" class="form-control" id="edit-client-job-title-input">
                                         </div>
                                         <div class="col-md-6 form-group">
-                                            <label for="edit-client-endereco-input" class="form-label customer-field-label">Endereço</label>
-                                            <input type="text" class="form-control" id="edit-client-endereco-input">
+                                            <label for="edit-client-address-input" class="form-label customer-field-label">Address</label>
+                                            <input type="text" class="form-control" id="edit-client-address-input">
                                         </div>
                                         <div class="col-md-6 form-group">
-                                            <label for="edit-client-cidade-input" class="form-label customer-field-label">Cidade / UF</label>
-                                            <input type="text" class="form-control" id="edit-client-cidade-input">
+                                            <label for="edit-client-city-state-input" class="form-label customer-field-label">City / State</label>
+                                            <input type="text" class="form-control" id="edit-client-city-state-input">
                                         </div>
                                     </div>
                                 </section>
 
                                 <section>
-                                    <p class="customer-section-title">Contrato</p>
+                                    <p class="customer-section-title">Contract</p>
                                     <div class="row g-3">
                                         <div class="col-md-6 form-group">
-                                            <label for="edit-client-plano-input" class="form-label customer-field-label">Plano</label>
-                                            <input type="text" class="form-control" id="edit-client-plano-input">
+                                            <label for="edit-client-plan-input" class="form-label customer-field-label">Plan</label>
+                                            <input type="text" class="form-control" id="edit-client-plan-input">
                                         </div>
                                         <div class="col-md-6 form-group">
-                                            <label for="edit-client-inicio-input" class="form-label customer-field-label">Início</label>
-                                            <input type="text" class="form-control" id="edit-client-inicio-input">
+                                            <label for="edit-client-start-date-input" class="form-label customer-field-label">Start date</label>
+                                            <input type="text" class="form-control" id="edit-client-start-date-input">
                                         </div>
                                         <div class="col-md-6 form-group">
-                                            <label for="edit-client-renovacao-input" class="form-label customer-field-label">Renovação</label>
-                                            <input type="text" class="form-control" id="edit-client-renovacao-input">
+                                            <label for="edit-client-renewal-date-input" class="form-label customer-field-label">Renewal date</label>
+                                            <input type="text" class="form-control" id="edit-client-renewal-date-input">
                                         </div>
                                         <div class="col-md-6 form-group">
-                                            <label for="edit-client-documento-input" class="form-label customer-field-label">Documento</label>
-                                            <input type="text" class="form-control" id="edit-client-documento-input">
+                                            <label for="edit-client-document-input" class="form-label customer-field-label">Document</label>
+                                            <input type="text" class="form-control" id="edit-client-document-input">
                                         </div>
                                     </div>
                                 </section>
 
                                 <div class="form-group">
-                                    <label for="edit-client-notes-input" class="form-label customer-field-label">Observações</label>
+                                    <label for="edit-client-notes-input" class="form-label customer-field-label">Notes</label>
                                     <textarea class="form-control" id="edit-client-notes-input" rows="3"></textarea>
                                 </div>
 
-                                <p class="text-danger m-0" id="edit-client-error" style="display: none;">Não foi possível salvar as alterações.</p>
+                                <p class="text-danger m-0" id="edit-client-error" style="display: none;">Could not save the changes.</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-primary customer-add-btn button-font">Salvar</button>
+                                <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary customer-add-btn button-font">Save</button>
                             </div>
                         </form>
                     </div>
@@ -330,36 +330,36 @@ export class CustomerPageComponent extends IComponentModel {
                 name: $("#customer-detail-name"),
                 statusBadge: $("#customer-detail-status-badge"),
                 status: $("#customer-detail-status"),
-                aulas: $("#customer-detail-aulas"),
-                valorPago: $("#customer-detail-valor-pago"),
+                classes: $("#customer-detail-classes"),
+                amountPaid: $("#customer-detail-amount-paid"),
                 email: $("#customer-detail-email"),
-                telefone: $("#customer-detail-telefone"),
-                responsavel: $("#customer-detail-responsavel"),
-                cargo: $("#customer-detail-cargo"),
-                endereco: $("#customer-detail-endereco"),
-                cidade: $("#customer-detail-cidade"),
-                plano: $("#customer-detail-plano"),
-                inicio: $("#customer-detail-inicio"),
-                renovacao: $("#customer-detail-renovacao"),
-                documento: $("#customer-detail-documento"),
+                phone: $("#customer-detail-phone"),
+                contactPerson: $("#customer-detail-contact-person"),
+                jobTitle: $("#customer-detail-job-title"),
+                address: $("#customer-detail-address"),
+                cityState: $("#customer-detail-city-state"),
+                plan: $("#customer-detail-plan"),
+                startDate: $("#customer-detail-start-date"),
+                renewalDate: $("#customer-detail-renewal-date"),
+                document: $("#customer-detail-document"),
                 notes: $("#customer-detail-notes"),
             },
             edit: {
                 name: $("#edit-client-name-input"),
                 status: $("#edit-client-status-input"),
                 statusLabel: $("#edit-client-status-label-input"),
-                aulas: $("#edit-client-aulas-input"),
-                valorPago: $("#edit-client-valor-pago-input"),
+                classes: $("#edit-client-classes-input"),
+                amountPaid: $("#edit-client-amount-paid-input"),
                 email: $("#edit-client-email-input"),
-                telefone: $("#edit-client-telefone-input"),
-                responsavel: $("#edit-client-responsavel-input"),
-                cargo: $("#edit-client-cargo-input"),
-                endereco: $("#edit-client-endereco-input"),
-                cidade: $("#edit-client-cidade-input"),
-                plano: $("#edit-client-plano-input"),
-                inicio: $("#edit-client-inicio-input"),
-                renovacao: $("#edit-client-renovacao-input"),
-                documento: $("#edit-client-documento-input"),
+                phone: $("#edit-client-phone-input"),
+                contactPerson: $("#edit-client-contact-person-input"),
+                jobTitle: $("#edit-client-job-title-input"),
+                address: $("#edit-client-address-input"),
+                cityState: $("#edit-client-city-state-input"),
+                plan: $("#edit-client-plan-input"),
+                startDate: $("#edit-client-start-date-input"),
+                renewalDate: $("#edit-client-renewal-date-input"),
+                document: $("#edit-client-document-input"),
                 notes: $("#edit-client-notes-input"),
             },
         };
@@ -481,21 +481,21 @@ export class CustomerPageComponent extends IComponentModel {
             id: customer.id,
             name: customer.name,
             initials: this.#getInitials(customer.name),
-            cidadeUf: customer.cidade_uf,
-            plano: customer.plano,
+            cityState: customer.city_state,
+            plan: customer.plan,
             status: customer.status,
             statusLabel: customer.status_label,
-            aulas: customer.aulas,
-            valorPago: customer.valor_pago,
+            classes: customer.classes,
+            amountPaid: customer.amount_paid,
             email: customer.email,
-            telefone: customer.telefone,
-            responsavel: customer.responsavel,
-            cargo: customer.cargo,
-            endereco: customer.endereco,
-            inicio: customer.inicio,
-            renovacao: customer.renovacao,
-            documento: customer.documento,
-            observacoes: customer.observacoes,
+            phone: customer.phone,
+            contactPerson: customer.contact_person,
+            jobTitle: customer.job_title,
+            address: customer.address,
+            startDate: customer.start_date,
+            renewalDate: customer.renewal_date,
+            document: customer.document,
+            notes: customer.notes,
         };
     }
 
@@ -541,19 +541,19 @@ export class CustomerPageComponent extends IComponentModel {
         edit.name.val(client.name);
         edit.status.val(client.status);
         edit.statusLabel.val(client.statusLabel);
-        edit.aulas.val(this.#toEditValue(client.aulas));
-        edit.valorPago.val(this.#toEditValue(client.valorPago));
+        edit.classes.val(this.#toEditValue(client.classes));
+        edit.amountPaid.val(this.#toEditValue(client.amountPaid));
         edit.email.val(client.email);
-        edit.telefone.val(this.#toEditValue(client.telefone));
-        edit.responsavel.val(this.#toEditValue(client.responsavel));
-        edit.cargo.val(this.#toEditValue(client.cargo));
-        edit.endereco.val(this.#toEditValue(client.endereco));
-        edit.cidade.val(this.#toEditValue(client.cidadeUf));
-        edit.plano.val(this.#toEditValue(client.plano));
-        edit.inicio.val(this.#toEditValue(client.inicio));
-        edit.renovacao.val(this.#toEditValue(client.renovacao));
-        edit.documento.val(this.#toEditValue(client.documento));
-        edit.notes.val(this.#toEditValue(client.observacoes));
+        edit.phone.val(this.#toEditValue(client.phone));
+        edit.contactPerson.val(this.#toEditValue(client.contactPerson));
+        edit.jobTitle.val(this.#toEditValue(client.jobTitle));
+        edit.address.val(this.#toEditValue(client.address));
+        edit.cityState.val(this.#toEditValue(client.cityState));
+        edit.plan.val(this.#toEditValue(client.plan));
+        edit.startDate.val(this.#toEditValue(client.startDate));
+        edit.renewalDate.val(this.#toEditValue(client.renewalDate));
+        edit.document.val(this.#toEditValue(client.document));
+        edit.notes.val(this.#toEditValue(client.notes));
     }
 
     /**
@@ -600,26 +600,26 @@ export class CustomerPageComponent extends IComponentModel {
         if (!name || !email) { return; }
 
         const statusLabel = edit.statusLabel.val().trim() || STATUS_LABELS[status];
-        const aulas = this.#fromEditValue(edit.aulas.val());
-        const valorPago = this.#fromEditValue(edit.valorPago.val());
-        const telefone = this.#fromEditValue(edit.telefone.val());
-        const responsavel = this.#fromEditValue(edit.responsavel.val());
-        const cargo = this.#fromEditValue(edit.cargo.val());
-        const endereco = this.#fromEditValue(edit.endereco.val());
-        const cidadeUf = this.#fromEditValue(edit.cidade.val());
-        const plano = this.#fromEditValue(edit.plano.val());
-        const inicio = this.#fromEditValue(edit.inicio.val());
-        const renovacao = this.#fromEditValue(edit.renovacao.val());
-        const documento = this.#fromEditValue(edit.documento.val());
-        const observacoes = this.#fromEditValue(edit.notes.val());
+        const classes = this.#fromEditValue(edit.classes.val());
+        const amountPaid = this.#fromEditValue(edit.amountPaid.val());
+        const phone = this.#fromEditValue(edit.phone.val());
+        const contactPerson = this.#fromEditValue(edit.contactPerson.val());
+        const jobTitle = this.#fromEditValue(edit.jobTitle.val());
+        const address = this.#fromEditValue(edit.address.val());
+        const cityState = this.#fromEditValue(edit.cityState.val());
+        const plan = this.#fromEditValue(edit.plan.val());
+        const startDate = this.#fromEditValue(edit.startDate.val());
+        const renewalDate = this.#fromEditValue(edit.renewalDate.val());
+        const document_ = this.#fromEditValue(edit.document.val());
+        const notes = this.#fromEditValue(edit.notes.val());
 
         this.#dom.editClientError.hide();
 
         try {
             const customer = await window.pywebview.api.edit_client(
-                client.id, name, email, status, statusLabel, aulas, valorPago,
-                telefone, responsavel, cargo, endereco, cidadeUf, plano,
-                inicio, renovacao, documento, observacoes
+                client.id, name, email, status, statusLabel, classes, amountPaid,
+                phone, contactPerson, jobTitle, address, cityState, plan,
+                startDate, renewalDate, document_, notes
             );
 
             const updated = this.#buildClientRecord(customer);
@@ -629,7 +629,7 @@ export class CustomerPageComponent extends IComponentModel {
             if ($listItem) {
                 $listItem.find(".customer-avatar").text(updated.initials);
                 $listItem.find(".customer-list-item-name").text(updated.name);
-                $listItem.find(".customer-list-item-subtitle").text(`${updated.cidadeUf} · ${updated.plano}`);
+                $listItem.find(".customer-list-item-subtitle").text(`${updated.cityState} · ${updated.plan}`);
                 $listItem.find(".customer-status-badge")
                     .attr("class", `badge rounded-pill customer-status-badge status-${updated.status}`)
                     .text(updated.statusLabel);
@@ -678,22 +678,22 @@ export class CustomerPageComponent extends IComponentModel {
 
         const detail = this.#dom.detail;
         detail.avatar.text("-");
-        detail.name.text("Selecione um cliente");
+        detail.name.text("Select a client");
         detail.statusBadge.attr("class", "badge rounded-pill customer-status-badge").text("-");
 
         detail.status.text("-");
-        detail.aulas.text("-");
-        detail.valorPago.text("-");
+        detail.classes.text("-");
+        detail.amountPaid.text("-");
         detail.email.text("-");
-        detail.telefone.text("-");
-        detail.responsavel.text("-");
-        detail.cargo.text("-");
-        detail.endereco.text("-");
-        detail.cidade.text("-");
-        detail.plano.text("-");
-        detail.inicio.text("-");
-        detail.renovacao.text("-");
-        detail.documento.text("-");
+        detail.phone.text("-");
+        detail.contactPerson.text("-");
+        detail.jobTitle.text("-");
+        detail.address.text("-");
+        detail.cityState.text("-");
+        detail.plan.text("-");
+        detail.startDate.text("-");
+        detail.renewalDate.text("-");
+        detail.document.text("-");
         detail.notes.text("-");
     }
 
@@ -731,22 +731,22 @@ export class CustomerPageComponent extends IComponentModel {
             .text(client.statusLabel);
 
         detail.status.text(client.statusLabel);
-        detail.aulas.text(client.aulas);
-        detail.valorPago.text(client.valorPago);
+        detail.classes.text(client.classes);
+        detail.amountPaid.text(client.amountPaid);
 
         detail.email.text(client.email);
-        detail.telefone.text(client.telefone);
-        detail.responsavel.text(client.responsavel);
-        detail.cargo.text(client.cargo);
-        detail.endereco.text(client.endereco);
-        detail.cidade.text(client.cidadeUf);
+        detail.phone.text(client.phone);
+        detail.contactPerson.text(client.contactPerson);
+        detail.jobTitle.text(client.jobTitle);
+        detail.address.text(client.address);
+        detail.cityState.text(client.cityState);
 
-        detail.plano.text(client.plano);
-        detail.inicio.text(client.inicio);
-        detail.renovacao.text(client.renovacao);
-        detail.documento.text(client.documento);
+        detail.plan.text(client.plan);
+        detail.startDate.text(client.startDate);
+        detail.renewalDate.text(client.renewalDate);
+        detail.document.text(client.document);
 
-        detail.notes.text(client.observacoes);
+        detail.notes.text(client.notes);
     }
 
     /**
@@ -761,7 +761,7 @@ export class CustomerPageComponent extends IComponentModel {
                 <span class="customer-avatar d-flex align-items-center justify-content-center rounded-circle">${client.initials}</span>
                 <span class="d-flex flex-column flex-grow-1 min-width-0">
                     <span class="customer-list-item-name text-truncate fw-semibold">${client.name}</span>
-                    <span class="customer-list-item-subtitle text-truncate">${client.cidadeUf} · ${client.plano}</span>
+                    <span class="customer-list-item-subtitle text-truncate">${client.cityState} · ${client.plan}</span>
                 </span>
                 <span class="badge rounded-pill customer-status-badge status-${client.status}">${client.statusLabel}</span>
             </li>
