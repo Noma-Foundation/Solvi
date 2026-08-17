@@ -181,5 +181,11 @@ class API:
 
         return asdict(customer)
 
-    def delete_client(self):
-        pass
+    def delete_client(self, client_id):
+        """Remove the client matching `client_id`. Returns True if removed, False if not found."""
+        for index, customer in enumerate(self.clients):
+            if customer.id == client_id:
+                del self.clients[index]
+                return True
+
+        return False

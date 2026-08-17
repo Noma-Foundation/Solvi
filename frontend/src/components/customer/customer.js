@@ -643,20 +643,29 @@ export class CustomerPageComponent extends IComponentModel {
     }
 
     /**
-     * Removes the selected client from the in-memory list and the DOM, clears
-     * the selection, and resets the detail panel to its empty state. No-op if
-     * no client is selected.
+     * Persists the removal of the selected client to the backend, then removes
+     * it from the in-memory list and the DOM, clears the selection, and resets
+     * the detail panel to its empty state. No-op if no client is selected.
+     * Leaves the client in place on failure.
+     *
+     * @async
      */
-    #deleteClient() {
+    async #deleteClient() {
         const client = this.#getSelectedClient();
         if (!client) { return; }
 
-        this.#clients.delete(client.id);
-        this.#listItems.get(client.id)?.remove();
-        this.#listItems.delete(client.id);
-        this.#clientSelected = null;
+        try {
+            await window.pywebview.api.delete_client(client.id);
 
-        this.#resetClientDetail();
+            this.#clients.delete(client.id);
+            this.#listItems.get(client.id)?.remove();
+            this.#listItems.delete(client.id);
+            this.#clientSelected = null;
+
+            this.#resetClientDetail();
+        } catch (error) {
+            console.error("Failed to delete client:", error);
+        }
     }
 
     /**
