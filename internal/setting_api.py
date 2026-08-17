@@ -15,7 +15,7 @@ class SettingAPI:
 
     def ajust_settings(self, path: Path | str = DEFAULT_CONFIG_PATH) -> GlobalConfig | FileError.OPEN_CONFIG_FILE_ERROR:
         try:
-            with open(path) as f:
+            with open(path, "rb") as f:
                 data = tomllib.load(f)
         except FileNotFoundError:
             return FileError.OPEN_CONFIG_FILE_ERROR
@@ -25,3 +25,6 @@ class SettingAPI:
         self.__global_vars = GlobalConfig(**global_data)
 
         return self.__global_vars
+
+    def __create_setting_file_if_not_exist(self):
+        pass
