@@ -22,6 +22,7 @@ class Application:
         else:
             self.__url = "frontend/dist/index.html"
 
+    def initialize(self):
         Application.window = webview.create_window(
             title="Solvi",
             url=self.__url,
