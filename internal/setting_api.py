@@ -10,7 +10,7 @@ DEFAULT_CONFIG_PATH = Path(__file__).resolve().parent.parent / "config.toml"
 
 class SettingAPI:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.__global_vars = GlobalConfig()
 
     def ajust_settings(self, path: Path | str = DEFAULT_CONFIG_PATH) -> GlobalConfig | FileError.OPEN_CONFIG_FILE_ERROR:
@@ -26,5 +26,5 @@ class SettingAPI:
 
         return self.__global_vars
 
-    def __create_setting_file_if_not_exist(self):
+    def __create_setting_file_if_not_exist(self) -> None:
         pass
