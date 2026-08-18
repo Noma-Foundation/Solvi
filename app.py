@@ -10,7 +10,7 @@ internal.patch_get_screens()
 class Application:
     window: object | None = None
 
-    def __init__(self, dev_mode: bool):
+    def __init__(self, dev_mode: bool) -> None:
         self.__database = internal.DatabaseConnection()
         self.__dbconfig = internal.DBConfig()
         self.api = internal.API(self.__database, self.__dbconfig, dev_mode=dev_mode)
@@ -38,7 +38,7 @@ class Application:
             icon='./build/bin/favicon.ico'
         )
 
-    def shutdown(self, server_process: Popen = None):
+    def shutdown(self, server_process: Popen = None) -> None:
         internal.close_connection(self.api.db)
         internal.shutdown_server(server_process)
 
