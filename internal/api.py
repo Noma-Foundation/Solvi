@@ -50,7 +50,11 @@ class API:
         try:
             try:
                 cursor.execute(
-                    "SELECT username, password FROM employees WHERE username = %s",
+                    """
+                    SELECT username, password
+                    FROM employee
+                    WHERE username = %s
+                    """,
                     (username,)
                 )
                 row = cursor.fetchone()
@@ -65,13 +69,17 @@ class API:
                 return False
 
             db_username, db_password_hash = row
+
+            if db_username == "": 
+                return False 
+            
             if not db_password_hash:
                 return False
 
             return bcrypt.checkpw(password.encode("utf-8"), db_password_hash.encode("utf-8"))
         except (psycopg2.Error, ValueError, TypeError) as e:
             logger.error("Error while executing a query.")
-            return DatabaseError.QUERY_ERROR 
+            raise Exception("Error while executing a query.")
 
     def create_window_setting(self, title: str, width: int, height: int) -> None:
         url = "http://localhost:5173/setting.html" if self.__dev_mode else "frontend/dist/setting.html"

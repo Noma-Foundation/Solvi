@@ -2,6 +2,7 @@ import sys
 
 sys.path.append(".")
 
+import pytest
 import bcrypt
 
 from internal.api import API
@@ -39,7 +40,11 @@ def test_auth_user_returns_false_when_user_not_found(mocker):
 
     assert result is False
     api.db.connection.cursor.return_value.execute.assert_called_once_with(
-        "SELECT username, password FROM employees WHERE username = %s",
+        """
+                    SELECT username, password
+                    FROM employee
+                    WHERE username = %s
+                    """,
         ("no_user",),
     )
 
@@ -96,6 +101,5 @@ def test_auth_user_returns_fatal_error_on_psycopg2_error_during_query(mocker):
     api.db.connection.cursor.return_value = cursor_mock
     mocker.patch.object(API, "_window", None)
 
-    result = api.auth_user("bob", "secret")
-
-    assert result is DatabaseError.QUERY_ERROR
+    with pytest.raises(Exception, match="Error while executing a query."):
+        api.auth_user("bob", "secret")
