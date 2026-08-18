@@ -16,7 +16,7 @@ export class InboxComponentPage extends IComponentModel {
     buildTemplate() {
         this.template = /* html */ `
             <header class="container-fluid p-3">
-                <h3>Registros</h3>
+                <h3>Inbox</h3>
             </header>
         `;
 
