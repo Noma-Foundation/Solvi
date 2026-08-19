@@ -41,7 +41,7 @@ def test_auth_user_returns_false_when_user_not_found(mocker):
     assert result is False
     api.db.connection.cursor.return_value.execute.assert_called_once_with(
         """
-                    SELECT username, password
+                    SELECT employee_id, terant_id, username, password
                     FROM employee
                     WHERE username = %s
                     """,
@@ -54,7 +54,7 @@ def test_auth_user_returns_true_on_successful_authentication(mocker):
     api.db = mocker.Mock()
     api.db.connection = mocker.Mock()
     api.db.connection.cursor.return_value.fetchone.return_value = (
-        "bob", "$2b$12$hashplaceholder"
+        "employee-uuid", "tenant-uuid", "bob", "$2b$12$hashplaceholder"
     )
     mocker.patch.object(bcrypt, "checkpw", return_value=True)
 
@@ -62,6 +62,8 @@ def test_auth_user_returns_true_on_successful_authentication(mocker):
 
     assert result is True
     bcrypt.checkpw.assert_called_once_with(b"secret", b"$2b$12$hashplaceholder")
+    assert api.current_employee_id == "employee-uuid"
+    assert api.current_tenant_id == "tenant-uuid"
 
 
 def test_auth_user_returns_false_on_wrong_password(mocker):
@@ -69,7 +71,7 @@ def test_auth_user_returns_false_on_wrong_password(mocker):
     api.db = mocker.Mock()
     api.db.connection = mocker.Mock()
     api.db.connection.cursor.return_value.fetchone.return_value = (
-        "bob", "$2b$12$hashplaceholder"
+        "employee-uuid", "tenant-uuid", "bob", "$2b$12$hashplaceholder"
     )
     mocker.patch.object(bcrypt, "checkpw", return_value=False)
 

@@ -5,12 +5,6 @@ import { IComponentModel } from "../component-model.js";
 
 import "./customer.css";
 
-const STATUS_LABELS = {
-    active: "Active",
-    pending: "Pending",
-    inactive: "Inactive",
-};
-
 /**
  * Customer management page. Renders a master-detail layout (client list on the
  * left, selected client's details on the right) plus "add" and "edit" modals,
@@ -19,11 +13,11 @@ const STATUS_LABELS = {
  * @extends IComponentModel
  */
 export class CustomerPageComponent extends IComponentModel {
-    /** @type {number|null} - ID of the currently selected client, or null when none is selected. */
+    /** @type {string|null} - ID of the currently selected client, or null when none is selected. */
     #clientSelected;
-    /** @type {Map<number, object>} - All known clients, keyed by client ID. */
+    /** @type {Map<string, object>} - All known clients, keyed by client ID. */
     #clients;
-    /** @type {Map<number, JQuery>} - Cached jQuery reference to each client's `<li>` in the list, keyed by client ID. */
+    /** @type {Map<string, JQuery>} - Cached jQuery reference to each client's `<li>` in the list, keyed by client ID. */
     #listItems;
     /** @type {Modal} - Bootstrap modal instance for creating a client. */
     #addClientModal;
@@ -78,22 +72,6 @@ export class CustomerPageComponent extends IComponentModel {
                         <span class="customer-avatar large d-flex align-items-center justify-content-center rounded-circle" id="customer-detail-avatar">-</span>
                         <div>
                             <h4 class="m-0" id="customer-detail-name">Select a client</h4>
-                            <span class="badge rounded-pill customer-status-badge" id="customer-detail-status-badge">-</span>
-                        </div>
-                    </div>
-
-                    <div class="d-flex gap-3">
-                        <div class="customer-stat-card card border-0 flex-fill p-3">
-                            <p class="customer-field-label m-0">Status</p>
-                            <p class="customer-stat-value m-0 fw-semibold" id="customer-detail-status">-</p>
-                        </div>
-                        <div class="customer-stat-card card border-0 flex-fill p-3">
-                            <p class="customer-field-label m-0">Classes</p>
-                            <p class="customer-stat-value m-0 fw-semibold" id="customer-detail-classes">-</p>
-                        </div>
-                        <div class="customer-stat-card card border-0 flex-fill p-3">
-                            <p class="customer-field-label m-0">Amount paid</p>
-                            <p class="customer-stat-value m-0 fw-semibold" id="customer-detail-amount-paid">-</p>
                         </div>
                     </div>
 
@@ -108,51 +86,27 @@ export class CustomerPageComponent extends IComponentModel {
                                 <p class="customer-field-label m-0">Phone</p>
                                 <p class="customer-field-value m-0 fw-medium" id="customer-detail-phone">-</p>
                             </div>
-                            <div class="customer-info-field">
-                                <p class="customer-field-label m-0">Contact person</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-contact-person">-</p>
-                            </div>
-                            <div class="customer-info-field">
-                                <p class="customer-field-label m-0">Job title</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-job-title">-</p>
-                            </div>
-                            <div class="customer-info-field">
-                                <p class="customer-field-label m-0">Address</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-address">-</p>
-                            </div>
-                            <div class="customer-info-field">
-                                <p class="customer-field-label m-0">City / State</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-city-state">-</p>
-                            </div>
                         </div>
                     </section>
 
                     <section>
-                        <p class="customer-section-title">Contract</p>
+                        <p class="customer-section-title">Details</p>
                         <div class="card customer-info-card">
-                            <div class="customer-info-field">
-                                <p class="customer-field-label m-0">Plan</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-plan">-</p>
-                            </div>
-                            <div class="customer-info-field">
-                                <p class="customer-field-label m-0">Start date</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-start-date">-</p>
-                            </div>
-                            <div class="customer-info-field">
-                                <p class="customer-field-label m-0">Renewal date</p>
-                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-renewal-date">-</p>
-                            </div>
                             <div class="customer-info-field">
                                 <p class="customer-field-label m-0">Document</p>
                                 <p class="customer-field-value m-0 fw-medium" id="customer-detail-document">-</p>
                             </div>
+                            <div class="customer-info-field">
+                                <p class="customer-field-label m-0">Date of birth</p>
+                                <p class="customer-field-value m-0 fw-medium" id="customer-detail-date-of-birth">-</p>
+                            </div>
                         </div>
                     </section>
 
                     <section>
-                        <p class="customer-section-title">Notes</p>
+                        <p class="customer-section-title">Remark</p>
                         <div class="card customer-info-card customer-notes">
-                            <p class="m-0" id="customer-detail-notes">-</p>
+                            <p class="m-0" id="customer-detail-remark">-</p>
                         </div>
                     </section>
 
@@ -178,7 +132,7 @@ export class CustomerPageComponent extends IComponentModel {
                                 </div>
                                 <div class="form-group">
                                     <label for="add-client-email-input" class="form-label customer-field-label">Email</label>
-                                    <input type="email" class="form-control" id="add-client-email-input" required>
+                                    <input type="email" class="form-control" id="add-client-email-input">
                                 </div>
                                 <p class="text-danger m-0" id="add-client-error" style="display: none;">Could not create the client.</p>
                             </div>
@@ -192,101 +146,41 @@ export class CustomerPageComponent extends IComponentModel {
             </div>
 
             <div class="modal fade" id="edit-client-modal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-dialog modal-dialog-scrollable">
                     <div class="modal-content">
-                        <!-- Customer Editor -->
-                        <form id="edit-client-form" class="">
+                        <form id="edit-client-form">
                             <div class="modal-header">
                                 <h5 class="modal-title">Edit client</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body d-flex flex-column gap-4">
+                            <div class="modal-body d-flex flex-column gap-3">
                                 <div class="form-group">
                                     <label for="edit-client-name-input" class="form-label customer-field-label">Name</label>
                                     <input type="text" class="form-control" id="edit-client-name-input" required>
                                 </div>
 
-                                <section>
-                                    <p class="customer-section-title">Status</p>
-                                    <div class="row g-3">
-                                        <div class="col-md-6 form-group">
-                                            <label for="edit-client-status-input" class="form-label customer-field-label">Status</label>
-                                            <select class="form-select" id="edit-client-status-input">
-                                                <option value="active">Active</option>
-                                                <option value="pending">Pending</option>
-                                                <option value="inactive">Inactive</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label for="edit-client-status-label-input" class="form-label customer-field-label">Status label</label>
-                                            <input type="text" class="form-control" id="edit-client-status-label-input">
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label for="edit-client-classes-input" class="form-label customer-field-label">Classes</label>
-                                            <input type="text" class="form-control" id="edit-client-classes-input">
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label for="edit-client-amount-paid-input" class="form-label customer-field-label">Amount paid</label>
-                                            <input type="text" class="form-control" id="edit-client-amount-paid-input">
-                                        </div>
+                                <div class="row g-3">
+                                    <div class="col-md-6 form-group">
+                                        <label for="edit-client-email-input" class="form-label customer-field-label">Email</label>
+                                        <input type="email" class="form-control" id="edit-client-email-input">
                                     </div>
-                                </section>
-
-                                <section>
-                                    <p class="customer-section-title">Contact</p>
-                                    <div class="row g-3">
-                                        <div class="col-md-6 form-group">
-                                            <label for="edit-client-email-input" class="form-label customer-field-label">Email</label>
-                                            <input type="email" class="form-control" id="edit-client-email-input" required>
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label for="edit-client-phone-input" class="form-label customer-field-label">Phone</label>
-                                            <input type="text" class="form-control" id="edit-client-phone-input">
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label for="edit-client-contact-person-input" class="form-label customer-field-label">Contact person</label>
-                                            <input type="text" class="form-control" id="edit-client-contact-person-input">
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label for="edit-client-job-title-input" class="form-label customer-field-label">Job title</label>
-                                            <input type="text" class="form-control" id="edit-client-job-title-input">
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label for="edit-client-address-input" class="form-label customer-field-label">Address</label>
-                                            <input type="text" class="form-control" id="edit-client-address-input">
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label for="edit-client-city-state-input" class="form-label customer-field-label">City / State</label>
-                                            <input type="text" class="form-control" id="edit-client-city-state-input">
-                                        </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="edit-client-phone-input" class="form-label customer-field-label">Phone</label>
+                                        <input type="text" class="form-control" id="edit-client-phone-input">
                                     </div>
-                                </section>
-
-                                <section>
-                                    <p class="customer-section-title">Contract</p>
-                                    <div class="row g-3">
-                                        <div class="col-md-6 form-group">
-                                            <label for="edit-client-plan-input" class="form-label customer-field-label">Plan</label>
-                                            <input type="text" class="form-control" id="edit-client-plan-input">
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label for="edit-client-start-date-input" class="form-label customer-field-label">Start date</label>
-                                            <input type="text" class="form-control" id="edit-client-start-date-input">
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label for="edit-client-renewal-date-input" class="form-label customer-field-label">Renewal date</label>
-                                            <input type="text" class="form-control" id="edit-client-renewal-date-input">
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <label for="edit-client-document-input" class="form-label customer-field-label">Document</label>
-                                            <input type="text" class="form-control" id="edit-client-document-input">
-                                        </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="edit-client-document-input" class="form-label customer-field-label">Document</label>
+                                        <input type="text" class="form-control" id="edit-client-document-input">
                                     </div>
-                                </section>
+                                    <div class="col-md-6 form-group">
+                                        <label for="edit-client-date-of-birth-input" class="form-label customer-field-label">Date of birth</label>
+                                        <input type="date" class="form-control" id="edit-client-date-of-birth-input">
+                                    </div>
+                                </div>
 
                                 <div class="form-group">
-                                    <label for="edit-client-notes-input" class="form-label customer-field-label">Notes</label>
-                                    <textarea class="form-control" id="edit-client-notes-input" rows="3"></textarea>
+                                    <label for="edit-client-remark-input" class="form-label customer-field-label">Remark</label>
+                                    <textarea class="form-control" id="edit-client-remark-input" rows="3"></textarea>
                                 </div>
 
                                 <p class="text-danger m-0" id="edit-client-error" style="display: none;">Could not save the changes.</p>
@@ -328,48 +222,28 @@ export class CustomerPageComponent extends IComponentModel {
             detail: {
                 avatar: $("#customer-detail-avatar"),
                 name: $("#customer-detail-name"),
-                statusBadge: $("#customer-detail-status-badge"),
-                status: $("#customer-detail-status"),
-                classes: $("#customer-detail-classes"),
-                amountPaid: $("#customer-detail-amount-paid"),
                 email: $("#customer-detail-email"),
                 phone: $("#customer-detail-phone"),
-                contactPerson: $("#customer-detail-contact-person"),
-                jobTitle: $("#customer-detail-job-title"),
-                address: $("#customer-detail-address"),
-                cityState: $("#customer-detail-city-state"),
-                plan: $("#customer-detail-plan"),
-                startDate: $("#customer-detail-start-date"),
-                renewalDate: $("#customer-detail-renewal-date"),
                 document: $("#customer-detail-document"),
-                notes: $("#customer-detail-notes"),
+                dateOfBirth: $("#customer-detail-date-of-birth"),
+                remark: $("#customer-detail-remark"),
             },
             edit: {
                 name: $("#edit-client-name-input"),
-                status: $("#edit-client-status-input"),
-                statusLabel: $("#edit-client-status-label-input"),
-                classes: $("#edit-client-classes-input"),
-                amountPaid: $("#edit-client-amount-paid-input"),
                 email: $("#edit-client-email-input"),
                 phone: $("#edit-client-phone-input"),
-                contactPerson: $("#edit-client-contact-person-input"),
-                jobTitle: $("#edit-client-job-title-input"),
-                address: $("#edit-client-address-input"),
-                cityState: $("#edit-client-city-state-input"),
-                plan: $("#edit-client-plan-input"),
-                startDate: $("#edit-client-start-date-input"),
-                renewalDate: $("#edit-client-renewal-date-input"),
                 document: $("#edit-client-document-input"),
-                notes: $("#edit-client-notes-input"),
+                dateOfBirth: $("#edit-client-date-of-birth-input"),
+                remark: $("#edit-client-remark-input"),
             },
         };
     }
 
     /**
      * Wires up all user interactions: selecting a client in the list, opening
-     * the add/edit modals, submitting the add/edit forms, syncing the status
-     * label when the status dropdown changes, and deleting the selected client.
-     * Called once by {@link IComponentModel#init}, after {@link buildTemplate}.
+     * the add/edit modals, submitting the add/edit forms, and deleting the
+     * selected client. Called once by {@link IComponentModel#init}, after
+     * {@link buildTemplate}.
      */
     bindEvents() {
         const dom = this.#dom;
@@ -400,10 +274,6 @@ export class CustomerPageComponent extends IComponentModel {
             this.#editClientModal.show();
         });
 
-        dom.edit.status.on("change", (event) => {
-            dom.edit.statusLabel.val(STATUS_LABELS[event.target.value] ?? "");
-        });
-
         dom.editClientForm.on("submit", (event) => {
             event.preventDefault();
             this.#editClient();
@@ -429,7 +299,7 @@ export class CustomerPageComponent extends IComponentModel {
      * corresponding list items, re-renders the detail panel for the new
      * selection, and enables the edit/delete buttons.
      *
-     * @param {number} clientId - ID of the client to select.
+     * @param {string} clientId - ID of the client to select.
      */
     #switchClientSelected(clientId) {
         const previous = this.#getSelectedClient();
@@ -478,40 +348,30 @@ export class CustomerPageComponent extends IComponentModel {
      */
     #buildClientRecord(customer) {
         return {
-            id: customer.id,
+            id: customer.client_id,
             name: customer.name,
             initials: this.#getInitials(customer.name),
-            cityState: customer.city_state,
-            plan: customer.plan,
-            status: customer.status,
-            statusLabel: customer.status_label,
-            classes: customer.classes,
-            amountPaid: customer.amount_paid,
             email: customer.email,
-            phone: customer.phone,
-            contactPerson: customer.contact_person,
-            jobTitle: customer.job_title,
-            address: customer.address,
-            startDate: customer.start_date,
-            renewalDate: customer.renewal_date,
+            phoneNumber: customer.phone_number,
             document: customer.document,
-            notes: customer.notes,
+            dateOfBirth: customer.date_of_birth,
+            remark: customer.remark,
         };
     }
 
     /**
      * Reads the add-client form, calls the backend API to create the client,
-     * and on success builds a new client record (with placeholder defaults for
-     * fields the API doesn't return), stores it, appends its list item, and
-     * closes the modal. Shows an inline error and leaves the modal open on failure.
+     * and on success builds a new client record, stores it, appends its list
+     * item, and closes the modal. Shows an inline error and leaves the modal
+     * open on failure.
      *
      * @async
      */
     async #addClient() {
         const name = this.#dom.addClientNameInput.val().trim();
-        const email = this.#dom.addClientEmailInput.val().trim();
+        if (!name) { return; }
 
-        if (!name || !email) { return; }
+        const email = this.#dom.addClientEmailInput.val().trim() || null;
 
         this.#dom.addClientError.hide();
 
@@ -538,53 +398,20 @@ export class CustomerPageComponent extends IComponentModel {
      */
     #fillEditForm(client) {
         const edit = this.#dom.edit;
-        edit.name.val(client.name);
-        edit.status.val(client.status);
-        edit.statusLabel.val(client.statusLabel);
-        edit.classes.val(this.#toEditValue(client.classes));
-        edit.amountPaid.val(this.#toEditValue(client.amountPaid));
-        edit.email.val(client.email);
-        edit.phone.val(this.#toEditValue(client.phone));
-        edit.contactPerson.val(this.#toEditValue(client.contactPerson));
-        edit.jobTitle.val(this.#toEditValue(client.jobTitle));
-        edit.address.val(this.#toEditValue(client.address));
-        edit.cityState.val(this.#toEditValue(client.cityState));
-        edit.plan.val(this.#toEditValue(client.plan));
-        edit.startDate.val(this.#toEditValue(client.startDate));
-        edit.renewalDate.val(this.#toEditValue(client.renewalDate));
-        edit.document.val(this.#toEditValue(client.document));
-        edit.notes.val(this.#toEditValue(client.notes));
-    }
-
-    /**
-     * Converts a stored client value into what an edit form input should show:
-     * the placeholder "-" used for empty fields is displayed as an empty input.
-     *
-     * @param {String} value - Stored value (e.g. "-" or an actual value).
-     * @returns {String} - Value ready to be placed in a form input.
-     */
-    #toEditValue(value) {
-        return value === "-" ? "" : value;
-    }
-
-    /**
-     * Converts a raw form input value back into the stored representation:
-     * trims it, and falls back to the "-" placeholder when left blank.
-     *
-     * @param {String} value - Raw value read from a form input.
-     * @returns {String} - Value ready to be stored on the client record.
-     */
-    #fromEditValue(value) {
-        const trimmed = value.trim();
-        return trimmed || "-";
+        edit.name.val(client.name ?? "");
+        edit.email.val(client.email ?? "");
+        edit.phone.val(client.phoneNumber ?? "");
+        edit.document.val(client.document ?? "");
+        edit.dateOfBirth.val(client.dateOfBirth ?? "");
+        edit.remark.val(client.remark ?? "");
     }
 
     /**
      * Validates the edit form, persists its values to the backend for the
      * selected client, then updates its list item in place, re-renders the
      * detail panel, and closes the edit modal. No-ops if no client is
-     * selected or required fields (name, e-mail) are empty. Shows an inline
-     * error and leaves the modal open on failure.
+     * selected or the required name field is empty. Shows an inline error
+     * and leaves the modal open on failure.
      *
      * @async
      */
@@ -594,32 +421,19 @@ export class CustomerPageComponent extends IComponentModel {
 
         const edit = this.#dom.edit;
         const name = edit.name.val().trim();
+        if (!name) { return; }
+
         const email = edit.email.val().trim();
-        const status = edit.status.val();
-
-        if (!name || !email) { return; }
-
-        const statusLabel = edit.statusLabel.val().trim() || STATUS_LABELS[status];
-        const classes = this.#fromEditValue(edit.classes.val());
-        const amountPaid = this.#fromEditValue(edit.amountPaid.val());
-        const phone = this.#fromEditValue(edit.phone.val());
-        const contactPerson = this.#fromEditValue(edit.contactPerson.val());
-        const jobTitle = this.#fromEditValue(edit.jobTitle.val());
-        const address = this.#fromEditValue(edit.address.val());
-        const cityState = this.#fromEditValue(edit.cityState.val());
-        const plan = this.#fromEditValue(edit.plan.val());
-        const startDate = this.#fromEditValue(edit.startDate.val());
-        const renewalDate = this.#fromEditValue(edit.renewalDate.val());
-        const document_ = this.#fromEditValue(edit.document.val());
-        const notes = this.#fromEditValue(edit.notes.val());
+        const phoneNumber = edit.phone.val().trim();
+        const document_ = edit.document.val().trim();
+        const dateOfBirth = edit.dateOfBirth.val().trim() || null;
+        const remark = edit.remark.val().trim();
 
         this.#dom.editClientError.hide();
 
         try {
             const customer = await window.pywebview.api.edit_client(
-                client.id, name, email, status, statusLabel, classes, amountPaid,
-                phone, contactPerson, jobTitle, address, cityState, plan,
-                startDate, renewalDate, document_, notes
+                client.id, name, email, phoneNumber, document_, dateOfBirth, remark
             );
 
             const updated = this.#buildClientRecord(customer);
@@ -629,10 +443,7 @@ export class CustomerPageComponent extends IComponentModel {
             if ($listItem) {
                 $listItem.find(".customer-avatar").text(updated.initials);
                 $listItem.find(".customer-list-item-name").text(updated.name);
-                $listItem.find(".customer-list-item-subtitle").text(`${updated.cityState} · ${updated.plan}`);
-                $listItem.find(".customer-status-badge")
-                    .attr("class", `badge rounded-pill customer-status-badge status-${updated.status}`)
-                    .text(updated.statusLabel);
+                $listItem.find(".customer-list-item-subtitle").text(this.#listSubtitle(updated));
             }
 
             this.#renderClientDetail(updated);
@@ -679,22 +490,11 @@ export class CustomerPageComponent extends IComponentModel {
         const detail = this.#dom.detail;
         detail.avatar.text("-");
         detail.name.text("Select a client");
-        detail.statusBadge.attr("class", "badge rounded-pill customer-status-badge").text("-");
-
-        detail.status.text("-");
-        detail.classes.text("-");
-        detail.amountPaid.text("-");
         detail.email.text("-");
         detail.phone.text("-");
-        detail.contactPerson.text("-");
-        detail.jobTitle.text("-");
-        detail.address.text("-");
-        detail.cityState.text("-");
-        detail.plan.text("-");
-        detail.startDate.text("-");
-        detail.renewalDate.text("-");
         detail.document.text("-");
-        detail.notes.text("-");
+        detail.dateOfBirth.text("-");
+        detail.remark.text("-");
     }
 
     /**
@@ -714,8 +514,19 @@ export class CustomerPageComponent extends IComponentModel {
     }
 
     /**
-     * Renders a client's full data into the detail panel (avatar, name, status
-     * badge, stats, contact info, contract info and notes). No-op when called
+     * Builds the subtitle shown under a client's name in the list and detail
+     * panel: their email, falling back to phone number, or "-" if neither is set.
+     *
+     * @param {object} client - The client to derive a subtitle for.
+     * @returns {String} - The subtitle text.
+     */
+    #listSubtitle(client) {
+        return client.email || client.phoneNumber || "-";
+    }
+
+    /**
+     * Renders a client's full data into the detail panel (avatar, name,
+     * contact info, document/date of birth and remark). No-op when called
      * with no client.
      *
      * @param {object|null} client - The client to display, or null to skip rendering.
@@ -726,27 +537,12 @@ export class CustomerPageComponent extends IComponentModel {
         const detail = this.#dom.detail;
         detail.avatar.text(client.initials);
         detail.name.text(client.name);
-        detail.statusBadge
-            .attr("class", `badge rounded-pill customer-status-badge status-${client.status}`)
-            .text(client.statusLabel);
 
-        detail.status.text(client.statusLabel);
-        detail.classes.text(client.classes);
-        detail.amountPaid.text(client.amountPaid);
-
-        detail.email.text(client.email);
-        detail.phone.text(client.phone);
-        detail.contactPerson.text(client.contactPerson);
-        detail.jobTitle.text(client.jobTitle);
-        detail.address.text(client.address);
-        detail.cityState.text(client.cityState);
-
-        detail.plan.text(client.plan);
-        detail.startDate.text(client.startDate);
-        detail.renewalDate.text(client.renewalDate);
-        detail.document.text(client.document);
-
-        detail.notes.text(client.notes);
+        detail.email.text(client.email || "-");
+        detail.phone.text(client.phoneNumber || "-");
+        detail.document.text(client.document || "-");
+        detail.dateOfBirth.text(client.dateOfBirth || "-");
+        detail.remark.text(client.remark || "-");
     }
 
     /**
@@ -761,9 +557,8 @@ export class CustomerPageComponent extends IComponentModel {
                 <span class="customer-avatar d-flex align-items-center justify-content-center rounded-circle">${client.initials}</span>
                 <span class="d-flex flex-column flex-grow-1 min-width-0">
                     <span class="customer-list-item-name text-truncate fw-semibold">${client.name}</span>
-                    <span class="customer-list-item-subtitle text-truncate">${client.cityState} · ${client.plan}</span>
+                    <span class="customer-list-item-subtitle text-truncate">${this.#listSubtitle(client)}</span>
                 </span>
-                <span class="badge rounded-pill customer-status-badge status-${client.status}">${client.statusLabel}</span>
             </li>
         `;
     }

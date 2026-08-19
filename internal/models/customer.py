@@ -1,21 +1,17 @@
 from dataclasses import dataclass
+from typing import Optional
+
 
 @dataclass
 class Customer:
-    id: int
+    client_id: str
+    tenant_id: str
     name: str
-    email: str
-    status: str = "pending"
-    status_label: str = "Pending"
-    classes: str = "-"
-    amount_paid: str = "-"
-    phone: str = "-"
-    contact_person: str = "-"
-    job_title: str = "-"
-    address: str = "-"
-    city_state: str = "-"
-    plan: str = "-"
-    start_date: str = "-"
-    renewal_date: str = "-"
-    document: str = "-"
-    notes: str = "-"
+    employee_id: Optional[str] = None
+    email: Optional[str] = None
+    phone_number: Optional[str] = None
+    document: Optional[str] = None
+    date_of_birth: Optional[str] = None
+    remark: Optional[str] = None
+    create_at: Optional[str] = None
+    update_at: Optional[str] = None
