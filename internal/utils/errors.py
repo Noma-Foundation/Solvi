@@ -1,8 +1,6 @@
 
+class FileError(Exception): pass
 
-class FileError(Exception):
-    pass
+class DatabaseConnectionError(Exception): pass
 
-
-class DatabaseConnectionError(Exception):
-    pass
+class QueryError(Exception): pass

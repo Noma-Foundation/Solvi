@@ -9,6 +9,7 @@ from dataclasses import asdict
 from sqlalchemy import select, func
 from sqlalchemy.exc import SQLAlchemyError
 
+from internal.utils.errors import QueryError
 from internal.database import DatabaseConnection, open_connection
 from internal.config import DBConfig
 from internal.setting_api import SettingAPI
@@ -30,10 +31,13 @@ class API:
         self.current_tenant_id = None
 
     def auth_user(self, username: str, password: str) -> bool:
-        """Authenticate user by username and password."""
-        employee = self.__fetch(
-            select(EmployeeAccount).where(EmployeeAccount.username == username)
-        ).scalar_one_or_none()
+        try:
+            employee = self.db.session.execute(
+                select(EmployeeAccount).where(EmployeeAccount.username == username)
+            ).scalar_one_or_none()
+        except SQLAlchemyError:
+            logger.error("Error while executing a query.")
+            raise QueryError("Error while executing a query.")
 
         if not employee or not employee.username or not employee.password:
             return False
@@ -42,28 +46,23 @@ class API:
 
         self.current_employee_id = str(employee.employee_id)
         self.current_tenant_id = str(employee.tenant_id)
+        logger.info("Login successful. Existing credentials.")
         return True
 
     def get_clients(self):
-        """Return every client belonging to the authenticated tenant."""
-        self.__require_tenant("listing clients")
+        self.__require_tenant("Listing customers. Saving customers to the local database.")
 
-        clients = self.__fetch(
-            select(Client).where(Client.tenant_id == self.current_tenant_id).order_by(Client.name)
-        ).scalars().all()
+        try:
+            clients = self.db.session.execute(
+                select(Client).where(Client.tenant_id == self.current_tenant_id).order_by(Client.name)
+            ).scalars().all()
+        except SQLAlchemyError:
+            logger.error("Error while executing a query.")
+            raise Exception("Error while executing a query.")
         return [self.__client_to_dict(client) for client in clients]
 
-    def add_client(
-        self,
-        name,
-        email=None,
-        phone_number=None,
-        document=None,
-        date_of_birth=None,
-        remark=None,
-    ):
-        """Insert a new client for the authenticated tenant and return it as a dict."""
-        self.__require_tenant("adding a client")
+    def add_client(self, name, email=None, phone_number=None, document=None, date_of_birth=None, remark=None) -> None:
+        self.__require_tenant("Adding a customer to a cloud database.")
 
         client = Client(
             client_id=str(uuid.uuid4()),
@@ -77,21 +76,17 @@ class API:
             remark=remark,
         )
         self.db.session.add(client)
-        self.__commit(client)
+        try:
+            self.db.session.commit()
+            self.db.session.refresh(client)
+        except SQLAlchemyError:
+            self.db.session.rollback()
+            logger.error("Error while executing a query.")
+            raise Exception("Error while executing a query.")
         return self.__client_to_dict(client)
 
-    def edit_client(
-        self,
-        client_id,
-        name=None,
-        email=None,
-        phone_number=None,
-        document=None,
-        date_of_birth=None,
-        remark=None,
-    ):
-        """Update the client matching `client_id` and return it as a dict, or None if not found."""
-        self.__require_tenant("editing a client")
+    def edit_client(self, client_id, name=None, email=None, phone_number=None, document=None, date_of_birth=None, remark=None):
+        self.__require_tenant("Editing customer information.")
 
         fields = {
             column: value
@@ -116,7 +111,13 @@ class API:
             setattr(client, column, value)
         client.update_at = func.now()
 
-        self.__commit(client)
+        try:
+            self.db.session.commit()
+            self.db.session.refresh(client)
+        except SQLAlchemyError:
+            self.db.session.rollback()
+            logger.error("Error while executing a query.")
+            raise Exception("Error while executing a query.")
         return self.__client_to_dict(client)
 
     def delete_client(self, client_id):
@@ -127,7 +128,12 @@ class API:
             return False
 
         self.db.session.delete(client)
-        self.__commit()
+        try:
+            self.db.session.commit()
+        except SQLAlchemyError:
+            self.db.session.rollback()
+            logger.error("Error while executing a query.")
+            raise Exception("Error while executing a query.")
         return True
 
     def create_window_setting(self, title: str, width: int, height: int) -> None:
@@ -142,30 +148,12 @@ class API:
             height=height,
             js_api=api
         )
+        logger.info("Rendered settings page.")
 
     def __require_tenant(self, action: str) -> None:
-        """Raise if there is no authenticated tenant for the current session."""
         if not self.current_tenant_id:
             raise Exception(f"No authenticated tenant. Login before {action}.")
-
-    def __fetch(self, statement):
-        """Run a read-only select statement, wrapping SQLAlchemy errors."""
-        try:
-            return self.db.session.execute(statement)
-        except SQLAlchemyError:
-            logger.error("Error while executing a query.")
-            raise Exception("Error while executing a query.")
-
-    def __commit(self, instance=None) -> None:
-        """Commit the session and refresh `instance` with DB-computed values (e.g. timestamps)."""
-        try:
-            self.db.session.commit()
-            if instance is not None:
-                self.db.session.refresh(instance)
-        except SQLAlchemyError:
-            self.db.session.rollback()
-            logger.error("Error while executing a query.")
-            raise Exception("Error while executing a query.")
+        logger.info(action)
 
     def __client_to_dict(self, client: Client) -> dict:
         customer = Customer(

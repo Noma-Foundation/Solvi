@@ -13,7 +13,7 @@ class SettingAPI:
     def __init__(self) -> None:
         self.__global_vars = GlobalConfig()
 
-    def ajust_settings(self, path: Path | str = DEFAULT_CONFIG_PATH) -> GlobalConfig | FileError.OPEN_CONFIG_FILE_ERROR:
+    def ajust_settings(self, path: Path | str = DEFAULT_CONFIG_PATH) -> GlobalConfig | FileError:
         try:
             with open(path, "rb") as f:
                 data = tomllib.load(f)
