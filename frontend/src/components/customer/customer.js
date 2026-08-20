@@ -23,8 +23,6 @@ export class CustomerPageComponent extends IComponentModel {
     #addClientModal;
     /** @type {Modal} - Bootstrap modal instance for editing the selected client. */
     #editClientModal;
-    /** @type {object} - Cache of jQuery-wrapped static DOM elements, populated once by {@link #cacheDom}. */
-    #dom;
 
     /**
      * @constructs {CustomerPageComponent}
@@ -47,8 +45,8 @@ export class CustomerPageComponent extends IComponentModel {
 
     /**
      * Builds the page markup (client list panel, detail panel, add/edit modals),
-     * injects it into the DOM, caches element references, and instantiates the
-     * Bootstrap modals. Called once by {@link IComponentModel#init}.
+     * injects it into the DOM, and instantiates the Bootstrap modals. Called
+     * once by {@link IComponentModel#init}.
      */
     buildTemplate() {
         this.template = /* html */ `
@@ -196,47 +194,8 @@ export class CustomerPageComponent extends IComponentModel {
         `;
 
         $(this.context).html(this.template);
-        this.#cacheDom();
         this.#addClientModal = new Modal(document.getElementById("add-client-modal"));
         this.#editClientModal = new Modal(document.getElementById("edit-client-modal"));
-    }
-
-    /**
-     * Resolves and caches every static DOM element the component reads or
-     * writes repeatedly (detail fields, form inputs, buttons), so later
-     * operations reuse the jQuery wrappers instead of re-querying the DOM.
-     * Must run after the template has been injected into the page.
-     */
-    #cacheDom() {
-        this.#dom = {
-            listUl: $("#customer-list-ul"),
-            addClientBtn: $("#add-client-btn"),
-            addClientForm: $("#add-client-form"),
-            addClientError: $("#add-client-error"),
-            addClientNameInput: $("#add-client-name-input"),
-            addClientEmailInput: $("#add-client-email-input"),
-            editClientBtn: $("#edit-client-btn"),
-            deleteClientBtn: $("#delete-client-btn"),
-            editClientForm: $("#edit-client-form"),
-            editClientError: $("#edit-client-error"),
-            detail: {
-                avatar: $("#customer-detail-avatar"),
-                name: $("#customer-detail-name"),
-                email: $("#customer-detail-email"),
-                phone: $("#customer-detail-phone"),
-                document: $("#customer-detail-document"),
-                dateOfBirth: $("#customer-detail-date-of-birth"),
-                remark: $("#customer-detail-remark"),
-            },
-            edit: {
-                name: $("#edit-client-name-input"),
-                email: $("#edit-client-email-input"),
-                phone: $("#edit-client-phone-input"),
-                document: $("#edit-client-document-input"),
-                dateOfBirth: $("#edit-client-date-of-birth-input"),
-                remark: $("#edit-client-remark-input"),
-            },
-        };
     }
 
     /**
@@ -246,40 +205,38 @@ export class CustomerPageComponent extends IComponentModel {
      * {@link buildTemplate}.
      */
     bindEvents() {
-        const dom = this.#dom;
-
-        dom.listUl.on("click", (event) => {
+        $("#customer-list-ul").on("click", (event) => {
             const target = $(event.target).closest(".customer-list-item");
             if (!target.length) { return; }
             this.#switchClientSelected(target.data("id"));
         });
 
-        dom.addClientBtn.on("click", () => {
-            dom.addClientForm[0].reset();
-            dom.addClientError.hide();
+        $("#add-client-btn").on("click", () => {
+            $("#add-client-form")[0].reset();
+            $("#add-client-error").hide();
             this.#addClientModal.show();
         });
 
-        dom.addClientForm.on("submit", (event) => {
+        $("#add-client-form").on("submit", (event) => {
             event.preventDefault();
             this.#addClient();
         });
 
-        dom.editClientBtn.on("click", () => {
+        $("#edit-client-btn").on("click", () => {
             const client = this.#getSelectedClient();
             if (!client) { return; }
 
             this.#fillEditForm(client);
-            dom.editClientError.hide();
+            $("#edit-client-error").hide();
             this.#editClientModal.show();
         });
 
-        dom.editClientForm.on("submit", (event) => {
+        $("#edit-client-form").on("submit", (event) => {
             event.preventDefault();
             this.#editClient();
         });
 
-        dom.deleteClientBtn.on("click", () => {
+        $("#delete-client-btn").on("click", () => {
             this.#deleteClient();
         });
     }
@@ -311,8 +268,8 @@ export class CustomerPageComponent extends IComponentModel {
         this.#listItems.get(clientId)?.addClass("active");
 
         this.#renderClientDetail(this.#getSelectedClient());
-        this.#dom.editClientBtn.prop("disabled", false);
-        this.#dom.deleteClientBtn.prop("disabled", false);
+        $("#edit-client-btn").prop("disabled", false);
+        $("#delete-client-btn").prop("disabled", false);
     }
 
     /**
@@ -332,7 +289,7 @@ export class CustomerPageComponent extends IComponentModel {
 
                 const $listItem = $(this.#listComponent(client));
                 this.#listItems.set(client.id, $listItem);
-                this.#dom.listUl.append($listItem);
+                $("#customer-list-ul").append($listItem);
             }
         } catch (error) {
             console.error("[ERROR] Failed to load clients.", error);
@@ -368,12 +325,12 @@ export class CustomerPageComponent extends IComponentModel {
      * @async
      */
     async #addClient() {
-        const name = this.#dom.addClientNameInput.val().trim();
+        const name = $("#add-client-name-input").val().trim();
         if (!name) { return; }
 
-        const email = this.#dom.addClientEmailInput.val().trim() || null;
+        const email = $("#add-client-email-input").val().trim() || null;
 
-        this.#dom.addClientError.hide();
+        $("#add-client-error").hide();
 
         try {
             const customer = await window.pywebview.api.add_client(name, email);
@@ -383,11 +340,11 @@ export class CustomerPageComponent extends IComponentModel {
 
             const $listItem = $(this.#listComponent(client));
             this.#listItems.set(client.id, $listItem);
-            this.#dom.listUl.append($listItem);
+            $("#customer-list-ul").append($listItem);
 
             this.#addClientModal.hide();
         } catch (error) {
-            this.#dom.addClientError.show();
+            $("#add-client-error").show();
         }
     }
 
@@ -397,13 +354,12 @@ export class CustomerPageComponent extends IComponentModel {
      * @param {object} client - The client whose data should fill the form.
      */
     #fillEditForm(client) {
-        const edit = this.#dom.edit;
-        edit.name.val(client.name ?? "");
-        edit.email.val(client.email ?? "");
-        edit.phone.val(client.phoneNumber ?? "");
-        edit.document.val(client.document ?? "");
-        edit.dateOfBirth.val(client.dateOfBirth ?? "");
-        edit.remark.val(client.remark ?? "");
+        $("#edit-client-name-input").val(client.name ?? "");
+        $("#edit-client-email-input").val(client.email ?? "");
+        $("#edit-client-phone-input").val(client.phoneNumber ?? "");
+        $("#edit-client-document-input").val(client.document ?? "");
+        $("#edit-client-date-of-birth-input").val(client.dateOfBirth ?? "");
+        $("#edit-client-remark-input").val(client.remark ?? "");
     }
 
     /**
@@ -419,17 +375,16 @@ export class CustomerPageComponent extends IComponentModel {
         const client = this.#getSelectedClient();
         if (!client) { return; }
 
-        const edit = this.#dom.edit;
-        const name = edit.name.val().trim();
+        const name = $("#edit-client-name-input").val().trim();
         if (!name) { return; }
 
-        const email = edit.email.val().trim();
-        const phoneNumber = edit.phone.val().trim();
-        const document_ = edit.document.val().trim();
-        const dateOfBirth = edit.dateOfBirth.val().trim() || null;
-        const remark = edit.remark.val().trim();
+        const email = $("#edit-client-email-input").val().trim();
+        const phoneNumber = $("#edit-client-phone-input").val().trim();
+        const document_ = $("#edit-client-document-input").val().trim();
+        const dateOfBirth = $("#edit-client-date-of-birth-input").val().trim() || null;
+        const remark = $("#edit-client-remark-input").val().trim();
 
-        this.#dom.editClientError.hide();
+        $("#edit-client-error").hide();
 
         try {
             const customer = await window.pywebview.api.edit_client(
@@ -449,7 +404,7 @@ export class CustomerPageComponent extends IComponentModel {
             this.#renderClientDetail(updated);
             this.#editClientModal.hide();
         } catch (error) {
-            this.#dom.editClientError.show();
+            $("#edit-client-error").show();
         }
     }
 
@@ -484,17 +439,16 @@ export class CustomerPageComponent extends IComponentModel {
      * disables the edit/delete buttons. Used when no client is selected.
      */
     #resetClientDetail() {
-        this.#dom.editClientBtn.prop("disabled", true);
-        this.#dom.deleteClientBtn.prop("disabled", true);
+        $("#edit-client-btn").prop("disabled", true);
+        $("#delete-client-btn").prop("disabled", true);
 
-        const detail = this.#dom.detail;
-        detail.avatar.text("-");
-        detail.name.text("Select a client");
-        detail.email.text("-");
-        detail.phone.text("-");
-        detail.document.text("-");
-        detail.dateOfBirth.text("-");
-        detail.remark.text("-");
+        $("#customer-detail-avatar").text("-");
+        $("#customer-detail-name").text("Select a client");
+        $("#customer-detail-email").text("-");
+        $("#customer-detail-phone").text("-");
+        $("#customer-detail-document").text("-");
+        $("#customer-detail-date-of-birth").text("-");
+        $("#customer-detail-remark").text("-");
     }
 
     /**
@@ -534,15 +488,14 @@ export class CustomerPageComponent extends IComponentModel {
     #renderClientDetail(client) {
         if (!client) { return; }
 
-        const detail = this.#dom.detail;
-        detail.avatar.text(client.initials);
-        detail.name.text(client.name);
+        $("#customer-detail-avatar").text(client.initials);
+        $("#customer-detail-name").text(client.name);
 
-        detail.email.text(client.email || "-");
-        detail.phone.text(client.phoneNumber || "-");
-        detail.document.text(client.document || "-");
-        detail.dateOfBirth.text(client.dateOfBirth || "-");
-        detail.remark.text(client.remark || "-");
+        $("#customer-detail-email").text(client.email || "-");
+        $("#customer-detail-phone").text(client.phoneNumber || "-");
+        $("#customer-detail-document").text(client.document || "-");
+        $("#customer-detail-date-of-birth").text(client.dateOfBirth || "-");
+        $("#customer-detail-remark").text(client.remark || "-");
     }
 
     /**

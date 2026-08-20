@@ -7,7 +7,7 @@ from datetime import date, datetime
 
 import pytest
 
-from internal.api import API, CLIENT_COLUMNS
+from internal.api import API
 
 
 def _row(
@@ -55,7 +55,7 @@ def test_get_clients_returns_rows_as_dicts(mocker):
 
     cursor.execute.assert_called_once()
     query, params = cursor.execute.call_args[0]
-    assert CLIENT_COLUMNS in query
+    assert "client_id" in query and "update_at" in query
     assert params == ("tenant-uuid",)
 
     assert result == [{

@@ -18,12 +18,6 @@ from internal.models import *
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="solvi.log", level=logging.INFO)
 
-CLIENT_COLUMNS = (
-    "client_id, tenant_id, employee_id, name, email, "
-    "phone_number, document, date_of_birth, remark, create_at, update_at"
-)
-
-
 def _client_row_to_dict(row) -> dict:
     (
         client_id, tenant_id, employee_id, name, email,
@@ -114,31 +108,6 @@ class API:
             logger.error("Error while executing a query.")
             raise Exception("Error while executing a query.")
 
-    def create_window_setting(self, title: str, width: int, height: int) -> None:
-        url = "http://localhost:5173/setting.html" if self.__dev_mode else "frontend/dist/setting.html"
-        api = SettingAPI()
-        
-        webview.create_window(
-            title=title,
-            url=url,
-            resizable=False,
-            width=width,
-            height=height,
-            js_api=api
-        )
-
-    def __require_cursor(self):
-        """Open a cursor on the current DB connection, or return a DatabaseError."""
-        if not self.db or not getattr(self.db, "connection", None):
-            logger.error("An unexpected operation occurred. The database connection is null.")
-            return DatabaseError.CONNECTION_ERROR
-
-        try:
-            return self.db.connection.cursor()
-        except (psycopg2.InterfaceError, psycopg2.OperationalError):
-            logger.error("Error connecting with the cursor.")
-            return DatabaseError.CURSOR_ERROR
-
     def get_clients(self):
         """Return every client belonging to the authenticated tenant."""
         if not self.current_tenant_id:
@@ -151,8 +120,9 @@ class API:
         try:
             try:
                 cursor.execute(
-                    f"""
-                    SELECT {CLIENT_COLUMNS}
+                    """
+                    SELECT client_id, tenant_id, employee_id, name, email,
+                           phone_number, document, date_of_birth, remark, create_at, update_at
                     FROM client
                     WHERE tenant_id = %s
                     ORDER BY name
@@ -197,7 +167,8 @@ class API:
                         phone_number, document, date_of_birth, remark
                     )
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    RETURNING {CLIENT_COLUMNS}
+                    RETURNING client_id, tenant_id, employee_id, name, email,
+                              phone_number, document, date_of_birth, remark, create_at, update_at
                     """,
                     (
                         client_id, self.current_tenant_id, self.current_employee_id, name, email,
@@ -256,7 +227,8 @@ class API:
                     UPDATE client
                     SET {set_clause}, update_at = CURRENT_TIMESTAMP
                     WHERE client_id = %s AND tenant_id = %s
-                    RETURNING {CLIENT_COLUMNS}
+                    RETURNING client_id, tenant_id, employee_id, name, email,
+                              phone_number, document, date_of_birth, remark, create_at, update_at
                     """,
                     params
                 )
@@ -298,3 +270,28 @@ class API:
             conn.rollback()
             logger.error("Error while executing a query.")
             raise Exception("Error while executing a query.")
+
+    def create_window_setting(self, title: str, width: int, height: int) -> None:
+        url = "http://localhost:5173/setting.html" if self.__dev_mode else "frontend/dist/setting.html"
+        api = SettingAPI()
+        
+        webview.create_window(
+            title=title,
+            url=url,
+            resizable=False,
+            width=width,
+            height=height,
+            js_api=api
+        )
+
+    def __require_cursor(self):
+        """Open a cursor on the current DB connection, or return a DatabaseError."""
+        if not self.db or not getattr(self.db, "connection", None):
+            logger.error("An unexpected operation occurred. The database connection is null.")
+            return DatabaseError.CONNECTION_ERROR
+
+        try:
+            return self.db.connection.cursor()
+        except (psycopg2.InterfaceError, psycopg2.OperationalError):
+            logger.error("Error connecting with the cursor.")
+            return DatabaseError.CURSOR_ERROR
