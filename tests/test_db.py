@@ -2,33 +2,53 @@ import sys
 
 sys.path.append(".")
 
-import psycopg2
+import pytest
+
+from sqlalchemy.exc import SQLAlchemyError
 
 from internal.config import DBConfig
 from internal.database.db import DatabaseConnection, open_connection
-from internal.utils import DatabaseError
+from internal.utils import DatabaseConnectionError
 
 
 def test_open_connection_uses_url_when_provided(mocker):
-    fake_conn = mocker.Mock()
-    connect_mock = mocker.patch(
-        "internal.database.db.psycopg2.connect", return_value=fake_conn
+    fake_engine = mocker.MagicMock()
+    create_engine_mock = mocker.patch(
+        "internal.database.db.create_engine", return_value=fake_engine
     )
 
     db = DatabaseConnection()
-    db_url = "postgres://user:pwd@localhost:5432/test_db"
+    db_url = "postgresql://user:pwd@localhost:5432/test_db"
     db_config = DBConfig(url=db_url)
 
     result = open_connection(db, db_config)
 
-    assert result.connection is fake_conn
-    connect_mock.assert_called_once_with(db_url)
+    print(result)
+    print(db_url)
+    print(db_config)
+    
+    assert result.engine is fake_engine
+    assert result.session is not None
+    create_engine_mock.assert_called_once_with(db_url)
 
 
-def test_open_connection_returns_connection_error_on_psycopg2_failure(mocker):
+def test_open_connection_normalizes_postgres_scheme(mocker):
+    create_engine_mock = mocker.patch(
+        "internal.database.db.create_engine", return_value=mocker.MagicMock()
+    )
+
+    db = DatabaseConnection()
+    db_config = DBConfig(url="postgres://user:pwd@localhost:5432/test_db")
+
+    open_connection(db, db_config)
+
+    create_engine_mock.assert_called_once_with("postgresql://user:pwd@localhost:5432/test_db")
+
+
+def test_open_connection_raises_on_connection_failure(mocker):
     mocker.patch(
-        "internal.database.db.psycopg2.connect",
-        side_effect=psycopg2.OperationalError("connection refused"),
+        "internal.database.db.create_engine",
+        side_effect=SQLAlchemyError("connection refused"),
     )
 
     db = DatabaseConnection()
@@ -40,6 +60,5 @@ def test_open_connection_returns_connection_error_on_psycopg2_failure(mocker):
         password="test_password",
     )
 
-    result = open_connection(db, db_config)
-        
-    assert result is DatabaseError.CONNECTION_ERROR
+    with pytest.raises(DatabaseConnectionError):
+        open_connection(db, db_config)

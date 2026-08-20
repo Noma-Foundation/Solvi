@@ -18,7 +18,7 @@ class SettingAPI:
             with open(path, "rb") as f:
                 data = tomllib.load(f)
         except FileNotFoundError:
-            return FileError.OPEN_CONFIG_FILE_ERROR
+            raise FileError("Error opening configuration file. Configuration file does not exist.")
 
         global_data = data.get("global", {})
 

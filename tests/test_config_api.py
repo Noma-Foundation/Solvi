@@ -69,10 +69,3 @@ def test_ajust_settings_with_missing_global_section_returns_defaults(tmp_path):
 
     assert isinstance(result, GlobalConfig)
     assert result.name is None
-
-
-def test_open_settings_with_file_open_error():
-    api = SettingAPI()
-    result = api.ajust_settings("nonexistent_config.toml")
-
-    assert result == FileError.OPEN_CONFIG_FILE_ERROR

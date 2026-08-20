@@ -59,8 +59,6 @@ export class CustomerPageComponent extends IComponentModel {
                         <button type="button" class="btn btn-primary customer-add-btn button-font" id="add-client-btn">Add client</button>
                     </div>
 
-                    <input type="text" class="form-control customer-search-input" placeholder="Search by name...">
-
                     <ul class="customer-list list-unstyled d-flex flex-column gap-1 m-0 overflow-auto" id="customer-list-ul">
                     </ul>
                 </aside>

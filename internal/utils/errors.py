@@ -1,12 +1,8 @@
-from enum import IntEnum
 
 
-class FileError(IntEnum):
-    OPEN_CONFIG_FILE_ERROR = 1001
+class FileError(Exception):
+    pass
 
 
-class DatabaseError(IntEnum):
-    FATAL_ERROR = 2001
-    QUERY_ERROR = 2002
-    CONNECTION_ERROR = 2003
-    CURSOR_ERROR = 2004
+class DatabaseConnectionError(Exception):
+    pass
