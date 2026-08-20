@@ -1,4 +1,3 @@
-import tomllib
 import logging
 import uuid
 
@@ -17,28 +16,6 @@ from internal.models import *
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="solvi.log", level=logging.INFO)
-
-def _client_row_to_dict(row) -> dict:
-    (
-        client_id, tenant_id, employee_id, name, email,
-        phone_number, document, date_of_birth, remark, create_at, update_at,
-    ) = row
-
-    customer = Customer(
-        client_id=str(client_id),
-        tenant_id=str(tenant_id),
-        employee_id=str(employee_id) if employee_id else None,
-        name=name,
-        email=email,
-        phone_number=phone_number,
-        document=document,
-        date_of_birth=date_of_birth.isoformat() if date_of_birth else None,
-        remark=remark,
-        create_at=create_at.isoformat() if create_at else None,
-        update_at=update_at.isoformat() if update_at else None,
-    )
-    return asdict(customer)
-
 
 class API:
     _window: webview.Window | None = None
@@ -133,7 +110,7 @@ class API:
             finally:
                 cursor.close()
 
-            return [_client_row_to_dict(row) for row in rows]
+            return [self.__client_row_to_dict(row) for row in rows]
         except (psycopg2.Error, ValueError, TypeError):
             logger.error("Error while executing a query.")
             raise Exception("Error while executing a query.")
@@ -180,7 +157,7 @@ class API:
                 cursor.close()
 
             conn.commit()
-            return _client_row_to_dict(row)
+            return self.__client_row_to_dict(row)
         except (psycopg2.Error, ValueError, TypeError):
             conn.rollback()
             logger.error("Error while executing a query.")
@@ -237,7 +214,7 @@ class API:
                 cursor.close()
 
             conn.commit()
-            return _client_row_to_dict(row) if row else None
+            return self.__client_row_to_dict(row) if row else None
         except (psycopg2.Error, ValueError, TypeError):
             conn.rollback()
             logger.error("Error while executing a query.")
@@ -295,3 +272,24 @@ class API:
         except (psycopg2.InterfaceError, psycopg2.OperationalError):
             logger.error("Error connecting with the cursor.")
             return DatabaseError.CURSOR_ERROR
+
+    def __client_row_to_dict(self, row) -> dict:
+        (
+            client_id, tenant_id, employee_id, name, email,
+            phone_number, document, date_of_birth, remark, create_at, update_at,
+        ) = row
+
+        customer = Customer(
+            client_id=str(client_id),
+            tenant_id=str(tenant_id),
+            employee_id=str(employee_id) if employee_id else None,
+            name=name,
+            email=email,
+            phone_number=phone_number,
+            document=document,
+            date_of_birth=date_of_birth.isoformat() if date_of_birth else None,
+            remark=remark,
+            create_at=create_at.isoformat() if create_at else None,
+            update_at=update_at.isoformat() if update_at else None,
+        )
+        return asdict(customer)
