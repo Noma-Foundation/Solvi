@@ -1,47 +1,59 @@
-import os 
+import os
 import logging
-
-import psycopg2
 
 from dotenv import load_dotenv
 from dataclasses import dataclass
 
+from sqlalchemy import create_engine
+from sqlalchemy.engine import URL, Engine
+from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.exc import SQLAlchemyError
+
 from internal.config import DBConfig
-from internal.utils import DatabaseError
+from internal.utils import DatabaseConnectionError
 
 
 load_dotenv()
-
 logger = logging.getLogger(__name__)
 
 @dataclass
 class DatabaseConnection:
     url: str = os.getenv("DATABASE_URL")
-    connection: object = None
+    engine: Engine | None = None
+    session: Session | None = None
 
 
-def open_connection(connection: DatabaseConnection, config: DBConfig) -> DatabaseConnection | DatabaseError:
+def _build_url(config: DBConfig) -> str:
+    if config.url:
+        return config.url.replace("postgres://", "postgresql://", 1)
+
+    return str(URL.create(
+        "postgresql+psycopg2",
+        username=config.user,
+        password=config.password,
+        host=config.host,
+        port=int(config.port) if config.port else None,
+        database=config.database,
+    ))
+
+
+def open_connection(connection: DatabaseConnection, config: DBConfig) -> DatabaseConnection:
     try:
-        if config.url:
-            conn = psycopg2.connect(config.url)
-        else:
-            conn = psycopg2.connect(
-                host=config.host,
-                port=config.port,
-                database=config.database,
-                user=config.user,
-                password=config.password
-            )
-        connection.connection = conn
-        logger.info("Database successfully connected.")
-        return connection
-    except psycopg2.Error as e:
+        engine = create_engine(_build_url(config))
+        with engine.connect():
+            pass
+    except SQLAlchemyError:
         logger.error("Error connecting to the database.")
-        return DatabaseError.CONNECTION_ERROR
+        raise DatabaseConnectionError("Error connecting to the database.")
+
+    connection.engine = engine
+    connection.session = sessionmaker(bind=engine)()
+    logger.info("Database successfully connected.")
+    return connection
 
 
 def close_connection(conn: DatabaseConnection) -> None:
-    if conn is None or getattr(conn, "connection", None) is None:
+    if conn is None or getattr(conn, "session", None) is None:
         logger.warning("The database connection is null or None.")
         return
-    conn.connection.close()
+    conn.session.close()
