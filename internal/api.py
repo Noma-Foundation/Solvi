@@ -58,7 +58,7 @@ class API:
             ).scalars().all()
         except SQLAlchemyError:
             logger.error("Error while executing a query.")
-            raise Exception("Error while executing a query.")
+            raise QueryError("Error while executing a query.")
         return [self.__client_to_dict(client) for client in clients]
 
     def add_client(self, name, email=None, phone_number=None, document=None, date_of_birth=None, remark=None) -> None:
@@ -82,7 +82,7 @@ class API:
         except SQLAlchemyError:
             self.db.session.rollback()
             logger.error("Error while executing a query.")
-            raise Exception("Error while executing a query.")
+            raise QueryError("Error while executing a query.")
         return self.__client_to_dict(client)
 
     def edit_client(self, client_id, name=None, email=None, phone_number=None, document=None, date_of_birth=None, remark=None):
@@ -117,7 +117,7 @@ class API:
         except SQLAlchemyError:
             self.db.session.rollback()
             logger.error("Error while executing a query.")
-            raise Exception("Error while executing a query.")
+            raise QueryError("Error while executing a query.")
         return self.__client_to_dict(client)
 
     def delete_client(self, client_id):
@@ -133,7 +133,7 @@ class API:
         except SQLAlchemyError:
             self.db.session.rollback()
             logger.error("Error while executing a query.")
-            raise Exception("Error while executing a query.")
+            raise QueryError("Error while executing a query.")
         return True
 
     def create_window_setting(self, title: str, width: int, height: int) -> None:
