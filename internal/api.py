@@ -4,8 +4,6 @@ import uuid
 import webview
 import bcrypt
 
-from dataclasses import asdict
-
 from sqlalchemy import select, func
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -13,7 +11,7 @@ from internal.utils.errors import QueryError
 from internal.database import DatabaseConnection, open_connection
 from internal.config import DBConfig
 from internal.setting_api import SettingAPI
-from internal.models import Client, Customer, EmployeeAccount
+from internal.models import Client, EmployeeAccount
 
 
 logger = logging.getLogger(__name__)
@@ -156,17 +154,16 @@ class API:
         logger.info(action)
 
     def __client_to_dict(self, client: Client) -> dict:
-        customer = Customer(
-            client_id=str(client.client_id),
-            tenant_id=str(client.tenant_id),
-            employee_id=str(client.employee_id) if client.employee_id else None,
-            name=client.name,
-            email=client.email,
-            phone_number=client.phone_number,
-            document=client.document,
-            date_of_birth=client.date_of_birth.isoformat() if client.date_of_birth else None,
-            remark=client.remark,
-            create_at=client.create_at.isoformat() if client.create_at else None,
-            update_at=client.update_at.isoformat() if client.update_at else None,
-        )
-        return asdict(customer)
+        return {
+            "client_id": str(client.client_id),
+            "tenant_id": str(client.tenant_id),
+            "employee_id": str(client.employee_id) if client.employee_id else None,
+            "name": client.name,
+            "email": client.email,
+            "phone_number": client.phone_number,
+            "document": client.document,
+            "date_of_birth": client.date_of_birth.isoformat() if client.date_of_birth else None,
+            "remark": client.remark,
+            "create_at": client.create_at.isoformat() if client.create_at else None,
+            "update_at": client.update_at.isoformat() if client.update_at else None,
+        }

@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from datetime import date, datetime
 from typing import Optional
 
@@ -22,18 +21,3 @@ class Client(Base):
     remark: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     create_at: Mapped[Optional[datetime]] = mapped_column(DateTime, server_default=func.now())
     update_at: Mapped[Optional[datetime]] = mapped_column(DateTime, server_default=func.now())
-
-
-@dataclass
-class Customer:
-    client_id: str
-    tenant_id: str
-    name: str
-    employee_id: Optional[str] = None
-    email: Optional[str] = None
-    phone_number: Optional[str] = None
-    document: Optional[str] = None
-    date_of_birth: Optional[str] = None
-    remark: Optional[str] = None
-    create_at: Optional[str] = None
-    update_at: Optional[str] = None
