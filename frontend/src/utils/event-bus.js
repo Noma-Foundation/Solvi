@@ -36,19 +36,15 @@ export class EventBus {
             throw new Error("Callback must be a function or an object with an execute method");
         }
 
-        // If the callback is an object with an execute method, ensure the execute signature accepts no arguments
-        // Keep this validation for backward compatibility with existing tests; you can remove it if you want
         if (callback && typeof callback.execute === "function") {
             if (callback.execute.length > 0) {
                 throw new Error("Event.execute must not receive arguments");
             }
         }
 
-        // Register listener immediately and push to history
         this.#eventList.addEvent(eventName, callback);
         this.#history.pushEvent(eventName);
 
-        // Return unsubscribe function
         return () => this.unsubscribe(eventName, callback);
     }
 
@@ -61,12 +57,10 @@ export class EventBus {
      * @returns {Boolean} True if successfully unsubscribed, false otherwise
      */
     unsubscribe(eventName, callback = null) {
-        // If no callback is provided, remove the whole event
         if (callback === null) {
             return this.#eventList.removeEvent(eventName);
         }
 
-        // If a callback is provided, remove only that callback from the event's callback array
         const callbacks = this.#eventList.getEventByName(eventName);
         if (!callbacks) return false;
 
@@ -138,7 +132,6 @@ export class EventBus {
                 if (typeof cb === "function") {
                     results.push(cb(data));
                 } else if (cb && typeof cb.execute === "function") {
-                    // Pass data to object-based callbacks as well for consistency
                     results.push(cb.execute(data));
                 }
             } catch (e) {

@@ -1,27 +1,23 @@
-from dataclasses import dataclass, asdict
+from datetime import date, datetime
+from typing import Optional
+
+from sqlalchemy import Date, DateTime, String, func
+from sqlalchemy.orm import Mapped, mapped_column
+
+from internal.models.base import Base
 
 
-@dataclass
-class Customer:
-    id: str
-    name: str
-    phone: str = ""
-    email: str = ""
-    description: str = ""
-    cep: str = ""
-    address: str = ""
+class Client(Base):
+    __tablename__ = "client"
 
-    def to_dict(self) -> dict:
-        return asdict(self)
-
-    @classmethod
-    def from_dict(cls, data: dict) -> "Customer":
-        return cls(
-            id=str(data.get("id", "")),
-            name=str(data.get("name", "")),
-            phone=str(data.get("phone", "")),
-            email=str(data.get("email", "")),
-            description=str(data.get("description", "")),
-            cep=str(data.get("cep", "")),
-            address=str(data.get("address", "")),
-        )
+    client_id: Mapped[str] = mapped_column(String, primary_key=True)
+    tenant_id: Mapped[str] = mapped_column(String, nullable=False)
+    employee_id: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    name: Mapped[str] = mapped_column(String, nullable=False)
+    email: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    phone_number: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    document: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    date_of_birth: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
+    remark: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    create_at: Mapped[Optional[datetime]] = mapped_column(DateTime, server_default=func.now())
+    update_at: Mapped[Optional[datetime]] = mapped_column(DateTime, server_default=func.now())
