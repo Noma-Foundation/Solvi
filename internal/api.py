@@ -44,6 +44,7 @@ class API:
 
         self.current_employee_id = str(employee.employee_id)
         self.current_tenant_id = str(employee.tenant_id)
+
         logger.info("Login successful. Existing credentials.")
         return True
 
