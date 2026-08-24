@@ -46,8 +46,10 @@ def open_connection(connection: DatabaseConnection, config: DBConfig) -> Databas
         logger.error("Error connecting to the database.")
         raise DatabaseConnectionError("Error connecting to the database.")
 
+    s = sessionmaker(bind=engine)
+
     connection.engine = engine
-    connection.session = sessionmaker(bind=engine)()
+    connection.session = s()
     logger.info("Database successfully connected.")
     return connection
 

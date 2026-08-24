@@ -24,12 +24,16 @@ export class Setting extends IComponentModel {
     }
 
     bindEvents() {
+        $("#setting-btn").on("click", () => { 
+            this.#openWindowSetting();
+        }); 
+    }
+
+    #openWindowSetting() { 
         const window_width = 680;
         const window_height = 570;
-        
-        $("#setting-btn").on("click", () => { 
-            window.pywebview.api.create_window_setting("Setting", window_width, window_height); 
-        }); 
+    
+        window.pywebview.api.create_window_setting("Setting", window_width, window_height); 
     }
 
 }

@@ -22,6 +22,10 @@
     --margin-xl-display: 64px;
 }
 
+#main-menu-bar {
+    flex-shrink: 0;
+}
+
 header {
     width: 100%;
     box-sizing: border-box;

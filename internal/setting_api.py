@@ -1,6 +1,7 @@
 import tomllib
 
 from pathlib import Path
+from dataclasses import asdict
 
 from internal.config import GlobalConfig
 from internal.utils import FileError
@@ -14,6 +15,8 @@ class SettingAPI:
         self.__global_vars = GlobalConfig()
 
     def ajust_settings(self, path: Path | str = DEFAULT_CONFIG_PATH) -> GlobalConfig | FileError:
+        self.__create_setting_file_if_not_exist()
+        
         try:
             with open(path, "rb") as f:
                 data = tomllib.load(f)
@@ -24,7 +27,7 @@ class SettingAPI:
 
         self.__global_vars = GlobalConfig(**global_data)
 
-        return self.__global_vars
+        return asdict(self.__global_vars)
 
     def __create_setting_file_if_not_exist(self) -> None:
         pass

@@ -44,6 +44,7 @@ class API:
 
         self.current_employee_id = str(employee.employee_id)
         self.current_tenant_id = str(employee.tenant_id)
+
         logger.info("Login successful. Existing credentials.")
         return True
 
@@ -102,7 +103,7 @@ class API:
             return None
 
         client = self.db.session.get(Client, client_id)
-        if not client or client.tenant_id != self.current_tenant_id:
+        if not client or str(client.tenant_id) != self.current_tenant_id:
             return None
 
         for column, value in fields.items():
@@ -122,7 +123,7 @@ class API:
         self.__require_tenant("deleting a client")
 
         client = self.db.session.get(Client, client_id)
-        if not client or client.tenant_id != self.current_tenant_id:
+        if not client or str(client.tenant_id) != self.current_tenant_id:
             return False
 
         self.db.session.delete(client)
