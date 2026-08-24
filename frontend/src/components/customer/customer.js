@@ -179,6 +179,7 @@ export class CustomerPageComponent extends IComponentModel {
                                     <textarea class="form-control" id="edit-client-remark-input" rows="3"></textarea>
                                 </div>
 
+                                <!-- Error message -->
                                 <p class="text-danger m-0" id="edit-client-error" style="display: none;">Could not save the changes.</p>
                             </div>
                             <div class="modal-footer">
