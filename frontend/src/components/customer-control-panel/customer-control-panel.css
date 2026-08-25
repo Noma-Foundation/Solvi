@@ -1,0 +1,33 @@
+
+.customer-list-panel {
+    position: relative;
+    width: 1rem;
+    min-width: 320px;
+    flex-shrink: 0;
+    border-right: 1px solid #EBEBEB;
+}
+
+.customer-list-item {
+    cursor: pointer;
+}
+
+.customer-list-item:hover {
+    background-color: #F5F5F7;
+}
+
+.customer-list-item.active {
+    background-color: #EEF0FF;
+}
+
+.min-width-0 {
+    min-width: 0;
+}
+
+.customer-list-item-name {
+    font-size: 0.9rem;
+}
+
+.customer-list-item-subtitle {
+    font-size: 0.78rem;
+    color: #9A94A3;
+}
