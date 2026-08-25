@@ -1,5 +1,6 @@
 
 .customer-list-panel {
+    position: relative;
     width: 1rem;
     min-width: 320px;
     flex-shrink: 0;

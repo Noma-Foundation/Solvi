@@ -2,6 +2,7 @@ import $ from "jquery";
 import { Modal } from "bootstrap";
 
 import { IComponentModel } from "../component-model.js";
+import { setButtonLoading, setContainerLoading } from "../../utils/loading-state.js";
 
 import "./customer.css";
 
@@ -134,7 +135,7 @@ export class CustomerPageComponent extends IComponentModel {
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary customer-add-btn button-font">Save</button>
+                                <button type="submit" class="btn btn-primary customer-add-btn button-font" id="add-client-save-btn">Save</button>
                             </div>
                         </form>
                     </div>
@@ -184,7 +185,7 @@ export class CustomerPageComponent extends IComponentModel {
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary customer-add-btn button-font">Save</button>
+                                <button type="submit" class="btn btn-primary customer-add-btn button-font" id="edit-client-save-btn">Save</button>
                             </div>
                         </form>
                     </div>
@@ -279,6 +280,9 @@ export class CustomerPageComponent extends IComponentModel {
      * @async
      */
     async #loadClients() {
+        const $listPanel = $(".customer-list-panel");
+        setContainerLoading($listPanel, true);
+
         try {
             const customers = await window.pywebview.api.get_clients();
 
@@ -292,6 +296,8 @@ export class CustomerPageComponent extends IComponentModel {
             }
         } catch (error) {
             console.error("[ERROR] Failed to load clients.", error);
+        } finally {
+            setContainerLoading($listPanel, false);
         }
     }
 
@@ -331,6 +337,9 @@ export class CustomerPageComponent extends IComponentModel {
 
         $("#add-client-error").hide();
 
+        const $saveBtn = $("#add-client-save-btn");
+        setButtonLoading($saveBtn, true);
+
         try {
             const customer = await window.pywebview.api.add_client(name, email);
             const client = this.#buildClientRecord(customer);
@@ -344,6 +353,8 @@ export class CustomerPageComponent extends IComponentModel {
             this.#addClientModal.hide();
         } catch (error) {
             $("#add-client-error").show();
+        } finally {
+            setButtonLoading($saveBtn, false);
         }
     }
 
@@ -385,6 +396,9 @@ export class CustomerPageComponent extends IComponentModel {
 
         $("#edit-client-error").hide();
 
+        const $saveBtn = $("#edit-client-save-btn");
+        setButtonLoading($saveBtn, true);
+
         try {
             const customer = await window.pywebview.api.edit_client(
                 client.id, name, email, phoneNumber, document_, dateOfBirth, remark
@@ -404,6 +418,8 @@ export class CustomerPageComponent extends IComponentModel {
             this.#editClientModal.hide();
         } catch (error) {
             $("#edit-client-error").show();
+        } finally {
+            setButtonLoading($saveBtn, false);
         }
     }
 
@@ -419,6 +435,9 @@ export class CustomerPageComponent extends IComponentModel {
         const client = this.#getSelectedClient();
         if (!client) { return; }
 
+        const $deleteBtn = $("#delete-client-btn");
+        setButtonLoading($deleteBtn, true);
+
         try {
             await window.pywebview.api.delete_client(client.id);
 
@@ -427,9 +446,13 @@ export class CustomerPageComponent extends IComponentModel {
             this.#listItems.delete(client.id);
             this.#clientSelected = null;
 
+            // resetClientDetail() disables this button as part of clearing the
+            // selection, so restore the loading state first to avoid re-enabling it.
+            setButtonLoading($deleteBtn, false);
             this.#resetClientDetail();
         } catch (error) {
             console.error("Failed to delete client:", error);
+            setButtonLoading($deleteBtn, false);
         }
     }
 

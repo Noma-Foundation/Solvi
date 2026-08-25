@@ -1,6 +1,7 @@
 import $ from "jquery";
 import { IComponentModel } from "../component-model.js";
 import { eventBus } from "../../event-manager-singleton.js";
+import { setButtonLoading } from "../../utils/loading-state.js";
 
 import "./login-page.css";
 
@@ -55,6 +56,9 @@ export class LoginPage extends IComponentModel {
         $(this.#formId).on("submit", async (e) => {
             e.preventDefault();
 
+            const $loginBtn = $("#login-btn");
+            setButtonLoading($loginBtn, true);
+
             const isUser = await this.#loginValidatorForUser();
 
             if (isUser) {
@@ -67,6 +71,7 @@ export class LoginPage extends IComponentModel {
                 return;
             }
 
+            setButtonLoading($loginBtn, false);
             this.#showError();
         });
     }
