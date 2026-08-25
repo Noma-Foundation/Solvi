@@ -1,6 +1,5 @@
 import tomllib
 
-from pathlib import Path
 from dataclasses import asdict
 
 from internal.config import GlobalConfig
