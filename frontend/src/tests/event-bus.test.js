@@ -1,6 +1,6 @@
-import { EventBus } from "../utils/event-bus.js";
-import { EventList } from "../collections/event-list.js";
-import { History } from "../collections/history.js";
+import { EventBus } from "../../framework/event-bus.js";
+import { EventList } from "../../framework/event-list.js";
+import { History } from "../../framework/history.js";
 
 export class EventTest {
     #name;

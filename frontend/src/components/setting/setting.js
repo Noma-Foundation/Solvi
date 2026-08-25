@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-import { IComponentModel } from "../component-model.js";
+import { IComponentModel } from "../../../framework/component-model.js";
 
 import settingIcon from "../../assets/icons/setting/setting.svg";
 

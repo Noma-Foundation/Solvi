@@ -1,4 +1,4 @@
-import { IComponentModel } from "../components/component-model.js";
+import { IComponentModel } from "../../framework/component-model.js";
 
 class MyComponentWithoutImplementation {
 }

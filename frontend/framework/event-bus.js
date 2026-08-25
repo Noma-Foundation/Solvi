@@ -1,5 +1,5 @@
-import { EventList } from "../collections/event-list.js";
-import { History } from "../collections/history.js";
+import { EventList } from "./event-list.js";
+import { History } from "./history.js";
 
 /**
  * EventBus handles decoupled communication between components via the Publish-Subscribe pattern.

@@ -1,4 +1,4 @@
-import { EventList } from "../collections/event-list";
+import { EventList } from "../../framework/event-list";
 
 export class EventTest {
     #name;
