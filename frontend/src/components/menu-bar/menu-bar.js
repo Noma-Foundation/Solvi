@@ -24,12 +24,10 @@ export class MenuBar extends IComponentModel {
         this.#previousPageId = null;
         this.#menubarComponentList = [
             "#home-page",
-            "#folder-page",
             "#customer-page",
             "#inbox-page",
             "#calendar-page",
-            "#notifications-page",
-            "#dashboard-page"
+            "#notifications-page"
         ];
         this.init();
     }
@@ -101,9 +99,6 @@ export class MenuBar extends IComponentModel {
                 case "#home-page":
                     contextManager.show("home");
                     break;
-                case "#folder-page":
-                    contextManager.show("folder");
-                    break;
                 case "#customer-page":
                     contextManager.show("customer");
                     break;
@@ -120,13 +115,6 @@ export class MenuBar extends IComponentModel {
             return true;
         }
         return false;
-    }
-
-    /**
-     * @returns {string} - The current page id with '#' prefix. 
-     */
-    getCurrentPageId() {
-        return this.#currentPageId;
     }
 
 }

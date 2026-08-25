@@ -35,6 +35,7 @@ def test_auth_user_returns_false_when_user_not_found(api):
 
 def test_auth_user_returns_true_on_successful_authentication(api):
     password_hash = bcrypt.hashpw(b"secret", bcrypt.gensalt()).decode("utf-8")
+    
     api.db.session.add(EmployeeAccount(
         employee_id="employee-uuid",
         tenant_id="tenant-uuid",
@@ -52,6 +53,7 @@ def test_auth_user_returns_true_on_successful_authentication(api):
 
 def test_auth_user_returns_false_on_wrong_password(api):
     password_hash = bcrypt.hashpw(b"secret", bcrypt.gensalt()).decode("utf-8")
+
     api.db.session.add(EmployeeAccount(
         employee_id="employee-uuid",
         tenant_id="tenant-uuid",

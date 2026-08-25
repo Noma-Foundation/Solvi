@@ -105,8 +105,4 @@ export class IComponentModel {
         this.#context = value;
     }
 
-    static getContext() { 
-        return this.template; 
-    }
-
 }

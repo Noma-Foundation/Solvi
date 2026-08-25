@@ -1,12 +1,9 @@
 import tomllib
 
-from pathlib import Path
 from dataclasses import asdict
 
 from internal.config import GlobalConfig
 from internal.utils import FileError
-
-DEFAULT_CONFIG_PATH = Path(__file__).resolve().parent.parent / "config.toml"
 
 
 class SettingAPI:
@@ -14,8 +11,8 @@ class SettingAPI:
     def __init__(self) -> None:
         self.__global_vars = GlobalConfig()
 
-    def ajust_settings(self, path: Path | str = DEFAULT_CONFIG_PATH) -> GlobalConfig | FileError:
-        self.__create_setting_file_if_not_exist()
+    def ajust_settings(self, path: str = "config.toml") -> GlobalConfig | FileError:
+        self._create_setting_file_if_not_exist()
         
         try:
             with open(path, "rb") as f:
@@ -29,5 +26,5 @@ class SettingAPI:
 
         return asdict(self.__global_vars)
 
-    def __create_setting_file_if_not_exist(self) -> None:
+    def _create_setting_file_if_not_exist(self) -> None:
         pass

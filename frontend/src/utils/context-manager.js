@@ -11,7 +11,7 @@ import { CalendarPage } from "../views/calendar-page.js";
 
 /**
  * ContextManager centralizes view registration and rendering for the application.
- * It is responsible for creating layout components (MenuBar, SearchBar) once and
+ * It is responsible for creating layout components (MenuBar, Setting) once and
  * rendering registered views inside the main application context (#app-main-context).
  */
 class ContextManager {
@@ -22,7 +22,6 @@ class ContextManager {
 
         // layout components created once
         this._menuBar = null;
-        this._searchBar = null;
         this._setting = null;
 
         // register default views
@@ -60,7 +59,7 @@ class ContextManager {
             return;
         }
 
-        // ensure layout components exist (MenuBar appends into #main-menu-bar; SearchBar into #app-header)
+        // ensure layout components exist (MenuBar appends into #main-menu-bar; Setting into #app-header)
         if (!this._menuBar) {
             this._menuBar = new MenuBar();
         }
@@ -74,14 +73,6 @@ class ContextManager {
     }
 
     /**
-     * Get current active view name
-     * @returns {string|null}
-     */
-    getCurrent() {
-        return this._current;
-    }
-
-    /**
      * Clear current view content and optionally remove layout components.
      * @param {boolean} [removeLayout=false]
      */
@@ -92,7 +83,6 @@ class ContextManager {
             $("#main-menu-bar").empty();
             $("#app-header").empty();
             this._menuBar = null;
-            this._searchBar = null;
         }
     }
 }

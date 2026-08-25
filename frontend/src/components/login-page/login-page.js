@@ -15,13 +15,10 @@ export class LoginPage extends IComponentModel {
     #userAccessObject;
     #userPasswordObject;
 
-    #isLogged;
-
     constructor(context) {
         super();
         this.context = context;
         this.#errorMessage = "Invalid credentials";
-        this.#isLogged = false;
 
         this.#formId = "#app-login-form";
         this.#registerButtonId = "#register-btn";
@@ -61,7 +58,6 @@ export class LoginPage extends IComponentModel {
             const isUser = await this.#loginValidatorForUser();
 
             if (isUser) {
-                this.#isLogged = true;
                 this.#hideError();
                 $(this.#formId).hide();
 
@@ -73,10 +69,6 @@ export class LoginPage extends IComponentModel {
 
             this.#showError();
         });
-    }
-
-    getIsLogged() {
-        return this.#isLogged;
     }
 
     async #loginValidatorForUser() {
@@ -102,10 +94,6 @@ export class LoginPage extends IComponentModel {
 
     #hideError() {
         $(this.context).find(this.#errorMessageId).hide();
-    }
-
-    #getSupportData() {
-        return "support"
     }
 
 }
