@@ -1,5 +1,5 @@
 import $ from "jquery";
-import { IComponentModel } from "../../../framework/component-model.js";
+import { IComponentModel } from "../../../framework/interfaces/component-model.js";
 import { eventBus } from "../../event-manager-singleton.js";
 import { setButtonLoading } from "../../utils/loading-state.js";
 

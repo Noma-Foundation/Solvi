@@ -1,7 +1,7 @@
 import $ from "jquery";
 import { Modal } from "bootstrap";
 
-import { IComponentModel } from "../../../framework/component-model.js";
+import { IComponentModel } from "../../../framework/interfaces/component-model.js";
 import { setButtonLoading, setContainerLoading } from "../../utils/loading-state.js";
 
 import "./customer.css";

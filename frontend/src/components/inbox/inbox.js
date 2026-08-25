@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-import { IComponentModel } from "../../../framework/component-model.js";
+import { IComponentModel } from "../../../framework/interfaces/component-model.js";
 
 import "./inbox.css";
 
