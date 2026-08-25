@@ -19,4 +19,5 @@ def test_setting_file_with_incorrect_file():
 
 
 def test_create_file_if_not_exist(mocker):
-    pass
+    api = SettingAPI()
+    fake_config_file = mocker.patch()
