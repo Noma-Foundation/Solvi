@@ -89,14 +89,4 @@ export class EventList {
         return callback;
     }
 
-    #executeCallback(callback) {
-        let result;
-        if (typeof callback === "function") {
-            result = callback();
-        } else if (callback && typeof callback.execute === "function") {
-            result = callback.execute();
-        }
-        return result;
-    }
-
 }

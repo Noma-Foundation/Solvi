@@ -161,16 +161,4 @@ export class EventBus {
         return this.#eventList.getEventByName(eventName);
     }
 
-    /**
-     * Get all registered events and their callbacks.
-     * 
-     * @returns {Object|null} Collection of all registered events or null if not supported
-     */
-    getAllEvents() {
-        if (typeof this.#eventList.getAllEvents === "function") {
-            return this.#eventList.getAllEvents();
-        }
-        return null;
-    }
-
 }

@@ -56,7 +56,8 @@ class API:
                 select(Client).where(Client.tenant_id == self.current_tenant_id).order_by(Client.name)
             ).scalars().all()
 
-            self.clients = clients
+            print("Tenant id:", self.current_tenant_id)
+            print("Employee id:", self.current_employee_id)
         except SQLAlchemyError:
             logger.error("Error while executing a query.")
             raise QueryError("Error while executing a query.")
