@@ -8,7 +8,7 @@ internal.patch_get_screens()
 
 
 class Application:
-    window: object | None = None
+    window: webview.Window | None = None
 
     def __init__(self, dev_mode: bool) -> None:
         self.__database = internal.DatabaseConnection()
@@ -39,12 +39,12 @@ class Application:
             icon='./build/bin/favicon.ico'
         )
 
-    def shutdown(self, server_process: Popen = None) -> None:
+    def shutdown(self, server_process: Popen) -> None:
         internal.close_connection(self.api.db)
         internal.shutdown_server(server_process)
 
     @staticmethod
-    def get_window() -> webview.Window | Exception:
+    def get_window() -> webview.Window:
         if Application.window is None:
             raise Exception("Application window not initialized or already closed.")
         return Application.window
