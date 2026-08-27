@@ -1,5 +1,6 @@
 import tomllib
 
+from typing import Any
 from dataclasses import asdict
 
 from internal.config import GlobalConfig
@@ -11,7 +12,7 @@ class SettingAPI:
     def __init__(self) -> None:
         self.__global_vars = GlobalConfig()
 
-    def ajust_settings(self, path: str = "config.toml") -> GlobalConfig | FileError:        
+    def ajust_settings(self, path: str = "config.toml") -> dict[str, Any] | FileError:        
         try:
             with open(path, "rb") as f:
                 data = tomllib.load(f)

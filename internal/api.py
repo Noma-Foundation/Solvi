@@ -28,7 +28,7 @@ class API:
         self.current_employee_id = None
         self.current_tenant_id = None
 
-    def auth_user(self, username: str, password: str) -> bool:
+    def auth_user(self, username: str, password: str) -> bool | None:
         try:
             employee = self.db.session.execute(
                 select(EmployeeAccount).where(EmployeeAccount.username == username)
@@ -37,8 +37,12 @@ class API:
             logger.error("Error while executing a query.")
             raise QueryError("Error while executing a query.")
 
-        if not employee or not employee.username or not employee.password:
+        if employee is None:
             return False
+        
+        if not employee.username or not employee.password:
+            return False
+
         if not bcrypt.checkpw(password.encode("utf-8"), employee.password.encode("utf-8")):
             return False
 

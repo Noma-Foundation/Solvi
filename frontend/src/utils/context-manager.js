@@ -31,7 +31,6 @@ class ContextManager {
         this.register("inbox", (params) => InboxPage(params));
         this.register("calendar", (params) => CalendarPage(params));
 
-        console.log('[ContextManager] initialized, registered views:', Array.from(this._views.keys()));
     }
 
     /**
@@ -44,7 +43,6 @@ class ContextManager {
             throw new Error("Invalid view registration");
         }
         this._views.set(name, renderer);
-        console.log('[ContextManager] registered view:', name);
     }
 
     /**

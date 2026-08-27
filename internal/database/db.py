@@ -3,6 +3,7 @@ import logging
 
 from dotenv import load_dotenv
 from dataclasses import dataclass
+from typing import Optional
 
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL, Engine
@@ -55,7 +56,7 @@ def open_connection(connection: DatabaseConnection, config: DBConfig) -> Databas
 
 
 def close_connection(conn: DatabaseConnection) -> None:
-    if conn is None or getattr(conn, "session", None) is None:
+    if conn is None or conn.session is None:
         logger.warning("The database connection is null or None.")
         return
     conn.session.close()

@@ -14,17 +14,17 @@ import { LoginPage } from "./components/login-page/login-page.js";
 
 $(function () {
     // Initialize main app components
-    const context = "#app-main-context";
     $("#app-version").text(`${pkg.version}`);
 
-    console.log("Open login page");
+    const context = "#app-main-context";
     const loginPage = new LoginPage(context);
-
+    
     // When authentication succeeds, the login page will publish 'auth:success'
     eventBus.subscribe("auth:success", (data) => {
         if (data && data.role === "employee") {
             console.log("Open in employee mode");
-            contextManager.show("home")
+            contextManager.show("home");
         }
     });
+
 });

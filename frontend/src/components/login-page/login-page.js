@@ -67,7 +67,7 @@ export class LoginPage extends IComponentModel {
 
                 // notify that authentication succeeded for regular employee
                 eventBus.publishAsync("auth:success", { role: "employee" });
-
+                    
                 return;
             }
 
