@@ -1,3 +1,4 @@
+import { MAX_HISTORY_SIZE } from "../constants.js";
 
 export class History {
     #events;
@@ -11,7 +12,7 @@ export class History {
      * @param {Number} maxSize - Set maximum number of events to store. 
      * @constructs
      */
-    constructor(maxSize = 20) {
+    constructor(maxSize = MAX_HISTORY_SIZE) {
         this.#events = [];
         this.#maxSize = Number.isInteger(maxSize) ? Math.abs(maxSize) : 20;
         this.#length = 0;
