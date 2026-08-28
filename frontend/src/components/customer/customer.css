@@ -1,15 +1,4 @@
 
-.customer-list-panel {
-    width: 1rem;
-    min-width: 320px;
-    flex-shrink: 0;
-    border-right: 1px solid #EBEBEB;
-}
-
-.customer-detail-panel {
-    min-width: 0;
-}
-
 .customer-eyebrow {
     font-size: 0.7rem;
     font-weight: 600;
@@ -24,7 +13,7 @@
     border-radius: 12px;
 }
 
-.button-font { 
+.button-font {
     font-weight: 500;
 }
 
@@ -42,32 +31,6 @@
     color: #9A94A3;
 }
 
-.customer-list-item {
-    cursor: pointer;
-}
-
-.customer-list-item:hover {
-    background-color: #F5F5F7;
-}
-
-.customer-list-item.active {
-    background-color: #EEF0FF;
-}
-
-.min-width-0 {
-    min-width: 0;
-}
-
-.customer-list-item-name {
-    font-size: 0.9rem;
-}
-
-.customer-list-item-subtitle {
-    font-size: 0.78rem;
-    color: #9A94A3;
-}
-
-
 .customer-avatar {
     flex-shrink: 0;
     width: 36px;
@@ -76,56 +39,4 @@
     color: var(--accent-color);
     font-weight: 600;
     font-size: 0.8rem;
-}
-
-.customer-avatar.large {
-    width: 48px;
-    height: 48px;
-    font-size: 1rem;
-}
-
-
-.customer-section-title {
-    margin: 0 0 0.75rem;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #9A94A3;
-}
-
-.customer-info-card {
-    padding: 1.5rem;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem 1.5rem;
-}
-
-.customer-notes {
-    display: block;
-}
-
-.customer-field-label {
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: #9A94A3;
-}
-
-.customer-field-value {
-    margin-top: 4px;
-    overflow-wrap: break-word;
-    word-break: break-word;
-}
-
-#customer-detail-remark {
-    overflow-wrap: break-word;
-    word-break: break-word;
-}
-
-
-#edit-client-modal .modal-body {
-    max-height: 60vh;
-    overflow-y: auto;
 }

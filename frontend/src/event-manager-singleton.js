@@ -1,3 +1,3 @@
-import { EventBus } from "./utils/event-bus.js";
+import { EventBus } from "../framework/event-bus.js";
 
 export const eventBus = Object.freeze(new EventBus());

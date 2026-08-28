@@ -1,5 +1,4 @@
 import os
-import tomllib
 
 from typing import Optional
 from dataclasses import dataclass
@@ -10,11 +9,11 @@ load_dotenv()
 
 @dataclass
 class DBConfig:
-    host: str = os.getenv("DB_HOST")
-    user: str = os.getenv("DB_USER")
-    password: str = os.getenv("DB_PASSWORD")
-    database: str = os.getenv("DB_NAME")
-    port: str = os.getenv("DB_PORT")
+    host: str | None = os.getenv("DB_HOST")
+    user: str | None = os.getenv("DB_USER")
+    password: str | None = os.getenv("DB_PASSWORD")
+    database: str | None = os.getenv("DB_NAME")
+    port: str | None = os.getenv("DB_PORT")
     url: Optional[str] = os.getenv("DATABASE_URL")
 
 

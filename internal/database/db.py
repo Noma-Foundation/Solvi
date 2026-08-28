@@ -3,6 +3,7 @@ import logging
 
 from dotenv import load_dotenv
 from dataclasses import dataclass
+from typing import Optional
 
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL, Engine
@@ -18,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class DatabaseConnection:
-    url: str = os.getenv("DATABASE_URL")
+    url: str | None = os.getenv("DATABASE_URL")
     engine: Engine | None = None
     session: Session | None = None
 
@@ -41,7 +42,7 @@ def open_connection(connection: DatabaseConnection, config: DBConfig) -> Databas
     try:
         engine = create_engine(_build_url(config))
         with engine.connect():
-            pass
+            print("Database is connected.")
     except SQLAlchemyError:
         logger.error("Error connecting to the database.")
         raise DatabaseConnectionError("Error connecting to the database.")
@@ -55,7 +56,7 @@ def open_connection(connection: DatabaseConnection, config: DBConfig) -> Databas
 
 
 def close_connection(conn: DatabaseConnection) -> None:
-    if conn is None or getattr(conn, "session", None) is None:
+    if conn is None or conn.session is None:
         logger.warning("The database connection is null or None.")
         return
     conn.session.close()
