@@ -57,7 +57,7 @@ Make sure the following are installed on your machine before continuing:
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Solvi-Software/Solvi.git
 cd Solvi
 ```
 
@@ -92,7 +92,7 @@ DB_PORT=5432
 DB_USER=your_db_user
 DB_PASSWORD=your_db_password
 DB_NAME=solvi
-DATABASE_URL=postgresql://your_db_user:your_db_password@localhost:5432/solvi
+DATABASE_URL=postgresql://your_db_user:your_db_password@localhost:5432/solvi 
 ```
 
 > All six keys are required. `DATABASE_URL` must be consistent with the individual `DB_*` values.
@@ -160,50 +160,6 @@ Run a single test file:
 ```bash
 cd frontend
 node --experimental-vm-modules ./node_modules/jest/bin/jest.js src/tests/<test-file>.test.js
-```
-
----
-
-## Project Structure
-
-```
-Solvi/
-├── main.py                         # Entry point — parses --dev flag, starts server, creates Application
-├── app.py                          # Application class — window creation, lifecycle (initialize/run/shutdown)
-├── requirements.txt                # Python dependencies
-├── .env                            # Environment variables (not committed)
-│
-├── internal/                       # All Python backend logic
-│   ├── api.py                      # API class — all methods exposed to JS via window.pywebview.api
-│   ├── config.py                   # DBConfig and GlobalConfig dataclasses (loaded from .env)
-│   ├── setting_api.py              # SettingAPI — exposed to the settings window
-│   ├── database/
-│   │   └── db.py                   # SQLAlchemy session and connection management
-│   ├── models/
-│   │   ├── base.py                 # DeclarativeBase
-│   │   ├── customer.py             # Customer ORM model
-│   │   └── employee.py             # Employee / EmployeeAccount ORM models
-│   └── utils/
-│       ├── errors.py               # QueryError, DatabaseConnectionError, FileError
-│       ├── server.py               # start_server / shutdown_server
-│       ├── screens.py              # Screen/display helpers
-│       └── system.py               # OperatingSystem detection
-│
-├── frontend/
-│   ├── index.html                  # Main app entry point
-│   ├── setting.html                # Settings window entry point
-│   ├── vite.config.js              # Vite build config (dual entry: index + setting)
-│   ├── package.json
-│   └── src/
-│       ├── main.js                 # Main app bootstrap
-│       ├── setting-page.js         # Settings window bootstrap
-│       ├── event-manager-singleton.js  # Global eventBus singleton
-│       ├── components/             # Reusable UI components (customer, inbox, menu-bar, …)
-│       ├── views/                  # Page-level views (home, customer, calendar, inbox, notification)
-│       ├── utils/                  # Shared JS utilities (loading state, context manager, …)
-│       └── tests/                  # Jest test files
-│
-└── tests/                          # Python pytest test files
 ```
 
 ---
