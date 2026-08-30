@@ -31,7 +31,7 @@ export class LoginPage extends IComponentModel {
         this.template = /* html */ `
         <div class="d-flex flex-column justify-content-center align-items-center w-100 h-100">
             <form id="${this.#formId.replace("#", "")}"
-                  class="d-flex flex-column align-items-center gap-3 w-25">
+                  class="d-flex flex-column align-items-center gap-3 ajust-size">
                 <div class="container-fluid m-0 p-3 bg-light rounded shadow-sm d-flex flex-column gap-2 w-100">
                     <div class="form-group d-flex flex-column gap-2">
                         <input type="text" name="userAccess" id="user-access" placeholder="Username or email..." required>
