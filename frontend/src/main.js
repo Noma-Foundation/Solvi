@@ -17,7 +17,7 @@ $(function () {
     $("#app-version").text(`${pkg.version}`);
 
     const context = "#app-main-context";
-    const loginPage = new LoginPage(context);
+    /*const loginPage = new LoginPage(context);
     
     // When authentication succeeds, the login page will publish 'auth:success'
     eventBus.subscribe("auth:success", (data) => {
@@ -25,6 +25,8 @@ $(function () {
             console.log("Open in employee mode");
             contextManager.show("home");
         }
-    });
+    });*/
+
+    contextManager.show("home");
 
 });

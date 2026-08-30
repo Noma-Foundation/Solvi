@@ -1,5 +1,7 @@
+import { ISolviComponent } from "../interfaces/solvi-component.js";
 
-class Button {
+
+export class Button extends ISolviComponent {
 
     constructor(root) { 
     }
