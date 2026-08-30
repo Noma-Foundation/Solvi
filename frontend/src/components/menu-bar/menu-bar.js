@@ -34,21 +34,21 @@ export class MenuBar extends IComponentModel {
 
     buildTemplate() {
         this.template = /* html */ `
-            <nav class="navigation-bar container-fluid px-0">
-                <ul>
-                    <li class="selected" id="home-page" role="button" tabindex="0">
+            <nav class="sidebar navigation-bar container-fluid px-0">
+                <ul class="sidebar-nav">
+                    <li class="selected nav-item" id="home-page" role="button" tabindex="0" title="home page">
                         <img src="${homeIcon}" alt="Home" loading="lazy">
                     </li>
-                    <li class="unselected" id="customer-page" role="button" tabindex="0">
+                    <li class="unselected nav-item" id="customer-page" role="button" tabindex="0" title="customer">
                         <img src="${customerIcon}" alt="Customer" loading="lazy">
                     </li>
-                    <li class="unselected" id="inbox-page" role="button" tabindex="0">
+                    <li class="unselected nav-item" id="inbox-page" role="button" tabindex="0" title="inbox">
                         <img src="${inboxIcon}" alt="Inbox" loading="lazy">
                     </li>
-                    <li class="unselected" id="calendar-page" role="button" tabindex="0">
+                    <li class="unselected nav-item" id="calendar-page" role="button" tabindex="0" title="calendar">
                         <img src="${calendarIcon}" alt="Calendar" loading="lazy">
                     </li>
-                    <li class="unselected" id="notifications-page" role="button" tabindex="0">
+                    <li class="unselected nav-item" id="notifications-page" role="button" tabindex="0" title="notifications">
                         <img src="${notificationsIcon}" alt="Notifications" loading="lazy">
                     </li>
                 </ul>
