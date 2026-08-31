@@ -1,4 +1,4 @@
-import { MAX_HISTORY_SIZE } from "../constants.js";
+import { MAX_HISTORY_SIZE, HISTORY_FALLBACK_SIZE } from "../constants.js";
 
 export class History {
     #events;
@@ -14,7 +14,7 @@ export class History {
      */
     constructor(maxSize = MAX_HISTORY_SIZE) {
         this.#events = [];
-        this.#maxSize = Number.isInteger(maxSize) ? Math.abs(maxSize) : 20;
+        this.#maxSize = Number.isInteger(maxSize) ? Math.abs(maxSize) : HISTORY_FALLBACK_SIZE;
         this.#length = 0;
     }
 

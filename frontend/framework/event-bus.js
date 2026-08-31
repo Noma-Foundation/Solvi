@@ -1,19 +1,27 @@
 import { EventList } from "./collections/event-list.js";
 import { History } from "./collections/history.js";
 
+import {
+    MAX_HISTORY_SIZE,
+    PUBLISH_ASYNC_DELAY_MS,
+    ERR_EVENT_NAME_NOT_STRING,
+    ERR_CALLBACK_INVALID_TYPE,
+    ERR_EXECUTE_HAS_PARAMS,
+} from "./constants.js";
+
 /**
  * EventBus handles decoupled communication between components via the Publish-Subscribe pattern.
  * It manages event registration, synchronous and asynchronous dispatching, and maintains subscription history.
  */
 export class EventBus {
-    #maxHistorySize = 50;
+    #maxHistorySize;
     #eventList;
     #history;
 
     /**
      * @param {Number} maxHistorySize 
      */
-    constructor(maxHistorySize = 20) {
+    constructor(maxHistorySize = MAX_HISTORY_SIZE) {
         this.#maxHistorySize = maxHistorySize;
         this.#eventList = new EventList();
         this.#history = new History(this.#maxHistorySize);
@@ -29,16 +37,16 @@ export class EventBus {
      */
     subscribe(eventName, callback) {
         if (typeof eventName !== "string") {
-            throw new Error("Event name must be a string");
+            throw new Error(ERR_EVENT_NAME_NOT_STRING);
         }
 
         if (typeof callback !== "function" && typeof callback !== "object") {
-            throw new Error("Callback must be a function or an object with an execute method");
+            throw new Error(ERR_CALLBACK_INVALID_TYPE);
         }
 
         if (callback && typeof callback.execute === "function") {
             if (callback.execute.length > 0) {
-                throw new Error("Event.execute must not receive arguments");
+                throw new Error(ERR_EXECUTE_HAS_PARAMS);
             }
         }
 
@@ -96,7 +104,7 @@ export class EventBus {
                 } else if (cb && typeof cb.execute === "function") {
                     try { cb.execute(data); } catch (e) { /* swallow errors */ }
                 }
-            }, 0);
+            }, PUBLISH_ASYNC_DELAY_MS);
         });
 
         return true;

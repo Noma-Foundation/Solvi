@@ -1,7 +1,12 @@
 
+import {
+    ERR_BUILD_TEMPLATE_NOT_IMPLEMENTED,
+    ERR_BIND_EVENTS_NOT_IMPLEMENTED,
+} from "../constants.js";
+
 /**
  * Represent a base interface for component model. Each component displayed separately
- * must be an instance of a class that inherits from IComponentModel. 
+ * must be an instance of a class that inherits from IComponentModel.
  *
  * @interface IComponentModel
  */
@@ -35,14 +40,14 @@ export class IComponentModel {
      * 
      * @throws {Error} - Thrown when the method is not implemented in the subclass.
      */
-    buildTemplate() { throw new Error("You must implement the buildTemplate method."); }
+    buildTemplate() { throw new Error(ERR_BUILD_TEMPLATE_NOT_IMPLEMENTED); }
 
     /**
      * Bind events to the component.
      * 
      * @throws {Error} - Thrown when the method is not implemented in the subclass.
      */
-    bindEvents() { throw new Error("You must implement the bindEvents method."); }
+    bindEvents() { throw new Error(ERR_BIND_EVENTS_NOT_IMPLEMENTED); }
 
     /**
      * Checks if the class is an interface.
