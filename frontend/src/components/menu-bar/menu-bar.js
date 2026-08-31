@@ -6,7 +6,7 @@ import { contextManager } from "../../utils/context-manager.js";
 
 import homeIcon from "../../assets/icons/aside/home.svg";
 import customerIcon from "../../assets/icons/aside/customer.svg";
-import inboxIcon from "../../assets/icons/aside/inbox.svg";
+import inboxIcon from "../../assets/icons/aside/budget.svg";
 import calendarIcon from "../../assets/icons/aside/calendar.svg";
 import notificationsIcon from "../../assets/icons/aside/notifications.svg";
 
@@ -34,22 +34,37 @@ export class MenuBar extends IComponentModel {
 
     buildTemplate() {
         this.template = /* html */ `
-            <nav class="navigation-bar container-fluid px-0">
+            <nav class="navigation-bar m-0" aria-label="Main navigation">
                 <ul>
-                    <li class="selected" id="home-page" role="button" tabindex="0">
-                        <img src="${homeIcon}" alt="Home" loading="lazy">
+                    <li class="selected nav-item" id="home-page" role="button" tabindex="0" title="Home">
+                        <span class="nav-icon">
+                            <img src="${homeIcon}" alt="" loading="lazy">
+                        </span>
+                        <span class="nav-label">Home</span>
                     </li>
-                    <li class="unselected" id="customer-page" role="button" tabindex="0">
-                        <img src="${customerIcon}" alt="Customer" loading="lazy">
+                    <li class="unselected nav-item" id="customer-page" role="button" tabindex="0" title="Customer">
+                        <span class="nav-icon">
+                            <img src="${customerIcon}" alt="" loading="lazy">
+                        </span>
+                        <span class="nav-label">Customer</span>
                     </li>
-                    <li class="unselected" id="inbox-page" role="button" tabindex="0">
-                        <img src="${inboxIcon}" alt="Inbox" loading="lazy">
+                    <li class="unselected nav-item" id="inbox-page" role="button" tabindex="0" title="Budgets">
+                        <span class="nav-icon">
+                            <img src="${inboxIcon}" alt="" loading="lazy">
+                        </span>
+                        <span class="nav-label">Budgets</span>
                     </li>
-                    <li class="unselected" id="calendar-page" role="button" tabindex="0">
-                        <img src="${calendarIcon}" alt="Calendar" loading="lazy">
+                    <li class="unselected nav-item" id="calendar-page" role="button" tabindex="0" title="Calendar">
+                        <span class="nav-icon">
+                            <img src="${calendarIcon}" alt="" loading="lazy">
+                        </span>
+                        <span class="nav-label">Calendar</span>
                     </li>
-                    <li class="unselected" id="notifications-page" role="button" tabindex="0">
-                        <img src="${notificationsIcon}" alt="Notifications" loading="lazy">
+                    <li class="unselected nav-item" id="notifications-page" role="button" tabindex="0" title="Notifications">
+                        <span class="nav-icon">
+                            <img src="${notificationsIcon}" alt="" loading="lazy">
+                        </span>
+                        <span class="nav-label">Notifications</span>
                     </li>
                 </ul>
             </nav>
