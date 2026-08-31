@@ -52,7 +52,7 @@ export class MenuBar extends IComponentModel {
                         <span class="nav-icon">
                             <img src="${inboxIcon}" alt="" loading="lazy">
                         </span>
-                        <span class="nav-label">Inbox</span>
+                        <span class="nav-label">Budgets</span>
                     </li>
                     <li class="unselected nav-item" id="calendar-page" role="button" tabindex="0" title="Calendar">
                         <span class="nav-icon">
