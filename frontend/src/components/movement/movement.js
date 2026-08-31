@@ -2,7 +2,7 @@ import $ from "jquery";
 
 import { IComponentModel } from "../../../framework/interfaces/component-model.js";
 
-import "./inbox.css";
+import "./movement.css";
 
 export class InboxComponentPage extends IComponentModel {
     #rootSelector;

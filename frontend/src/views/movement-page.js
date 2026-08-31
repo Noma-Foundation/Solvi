@@ -1,4 +1,4 @@
-import { InboxComponentPage } from "../components/inbox/inbox";
+import { InboxComponentPage } from "../components/movement/movement.js";
 
 export function InboxPage() {
     queueMicrotask(() => {

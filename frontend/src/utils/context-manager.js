@@ -6,7 +6,7 @@ import { Setting } from "../components/setting/setting.js";
 import { HomePage } from "../views/home-page.js";
 import { NotificationPage } from "../views/notification-page.js";
 import { CustomerPage } from "../views/customer-page.js";
-import { InboxPage } from "../views/inbox-page.js";
+import { InboxPage } from "../views/movement-page.js";
 import { CalendarPage } from "../views/calendar-page.js";
 
 /**
