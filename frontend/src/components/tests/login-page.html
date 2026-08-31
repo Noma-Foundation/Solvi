@@ -15,6 +15,11 @@
             --light-color: #FFFFFF;
             --color-black: #000;  
         }
+
+        #form { 
+            border-radius: 16px;
+            padding: 16px 8px;
+        }
     </style>
 </head>
 <body>
@@ -22,15 +27,20 @@
         <div>
             <h1><span style="color: var(--orderhub-brand-color); font-weight: 500; margin-bottom: 0;">Solvi</span></h1>
             
-            <form class="form">
-                <label for="text">Vamos começar?</label>
-                <input type="text" placeholder="Username ou email">
-                <input type="text" placeholder="Senha">
+            <form class="form d-flex">
+                <div class="container">
+                    <label for="text">Vamos começar?</label>
+                    <input type="text" placeholder="Username ou email">
+                    <input type="text" placeholder="Senha">
+                </div>
 
                 <div>
-                    <input type="checkbox" name="Lembre-se de mim" id="lembre-se-de-mim"><span>Lembre-se de mim</span>
+                    <input type="checkbox" name="remember-me" id="remember-me"><span>Lembre-se de mim</span>
                     <button class="btn">Esqueceu sua senha?</button>
                 </div>
+
+                <button class="btn btn-primary" type="submit">Login</button>
+
             </form>
 
         </div>

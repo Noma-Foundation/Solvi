@@ -1,45 +1,84 @@
-.navigation-bar ul,
-.navigation-bar ul li {
+.navigation-bar {
+    width: var(--nav-collapsed-width);
+    min-height: 100vh;
+    overflow: hidden;
+    transition: width var(--nav-transition);
+    background-color: #fff;
+    border-right: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+}
+
+.navigation-bar:hover {
+    width: var(--nav-expanded-width);
+}
+
+.navigation-bar ul {
     padding: 0;
     margin: 0;
-}
-
-.navigation-bar ul li {
-    /* --- Navigation Bar --- */
-    --nav-bar-li-width: 40px;
-    --nav-bar-li-height: 40px;
-    --nav-bar-li-radius: 25%;
-    --nav-bar-li-margin: 4px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
     list-style: none;
-    /* list icon container width */
-    width: var(--nav-bar-li-width);
-    /* list icon container height*/
-    height: var(--nav-bar-li-height);
-    border-radius: var(--nav-bar-li-radius);
-    margin: var(--nav-bar-li-margin);
-    cursor: pointer;
+    width: 100%;
 }
 
-.selected {
+.navigation-bar ul li.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 44px;
+    padding: 0 8px;
+    margin: 2px 6px;
+    border-radius: 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: background-color 0.15s, scale 0.1s;
+}
+
+.nav-item .nav-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-item .nav-icon img {
+    width: 22px;
+    height: 22px;
+}
+
+.nav-item .nav-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1f2328;
+    opacity: 0;
+    transition: opacity var(--nav-transition);
+    pointer-events: none;
+}
+
+.navigation-bar:hover .nav-item .nav-label {
+    opacity: 1;
+}
+
+.nav-item.selected {
     background-color: var(--orderhub-brand-color);
 }
 
-.unselected {
-    background-color: var(--button-unselected-bg);
-    transition: scale 0.1s;
+.nav-item.selected .nav-label {
+    color: #fff;
 }
 
-.unselected:hover {
-    scale: 1.1;
-    background-color: var(--button-bg-hover);
+.nav-item.selected .nav-icon img {
+    filter: brightness(0) invert(1);
 }
 
-.unselected img {
+.nav-item.unselected:hover {
+    background-color: #f0f2ff;
+    scale: 1.02;
+}
+
+.nav-item.unselected .nav-icon img {
     filter: brightness(0) saturate(100%) invert(10%) sepia(87%) saturate(5147%) hue-rotate(253deg) brightness(83%) contrast(115%);
-    width: 24px;
-    height: 24px;
 }

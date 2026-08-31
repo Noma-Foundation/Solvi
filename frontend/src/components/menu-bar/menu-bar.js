@@ -34,22 +34,37 @@ export class MenuBar extends IComponentModel {
 
     buildTemplate() {
         this.template = /* html */ `
-            <nav class="sidebar navigation-bar container-fluid px-0">
-                <ul class="sidebar-nav">
-                    <li class="selected nav-item" id="home-page" role="button" tabindex="0" title="home page">
-                        <img src="${homeIcon}" alt="Home" loading="lazy">
+            <nav class="navigation-bar m-0" aria-label="Main navigation">
+                <ul>
+                    <li class="selected nav-item" id="home-page" role="button" tabindex="0" title="Home">
+                        <span class="nav-icon">
+                            <img src="${homeIcon}" alt="" loading="lazy">
+                        </span>
+                        <span class="nav-label">Home</span>
                     </li>
-                    <li class="unselected nav-item" id="customer-page" role="button" tabindex="0" title="customer">
-                        <img src="${customerIcon}" alt="Customer" loading="lazy">
+                    <li class="unselected nav-item" id="customer-page" role="button" tabindex="0" title="Customer">
+                        <span class="nav-icon">
+                            <img src="${customerIcon}" alt="" loading="lazy">
+                        </span>
+                        <span class="nav-label">Customer</span>
                     </li>
-                    <li class="unselected nav-item" id="inbox-page" role="button" tabindex="0" title="inbox">
-                        <img src="${inboxIcon}" alt="Inbox" loading="lazy">
+                    <li class="unselected nav-item" id="inbox-page" role="button" tabindex="0" title="Inbox">
+                        <span class="nav-icon">
+                            <img src="${inboxIcon}" alt="" loading="lazy">
+                        </span>
+                        <span class="nav-label">Inbox</span>
                     </li>
-                    <li class="unselected nav-item" id="calendar-page" role="button" tabindex="0" title="calendar">
-                        <img src="${calendarIcon}" alt="Calendar" loading="lazy">
+                    <li class="unselected nav-item" id="calendar-page" role="button" tabindex="0" title="Calendar">
+                        <span class="nav-icon">
+                            <img src="${calendarIcon}" alt="" loading="lazy">
+                        </span>
+                        <span class="nav-label">Calendar</span>
                     </li>
-                    <li class="unselected nav-item" id="notifications-page" role="button" tabindex="0" title="notifications">
-                        <img src="${notificationsIcon}" alt="Notifications" loading="lazy">
+                    <li class="unselected nav-item" id="notifications-page" role="button" tabindex="0" title="Notifications">
+                        <span class="nav-icon">
+                            <img src="${notificationsIcon}" alt="" loading="lazy">
+                        </span>
+                        <span class="nav-label">Notifications</span>
                     </li>
                 </ul>
             </nav>

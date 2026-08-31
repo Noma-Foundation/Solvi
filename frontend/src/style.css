@@ -11,6 +11,11 @@
     --button-bg-hover: #EBEBEB;
     --button-unselected-bg: #EBEBEB;
 
+    /* Navigation sidebar */
+    --nav-collapsed-width: 56px;
+    --nav-expanded-width: 200px;
+    --nav-transition: 220ms ease;
+
     --maximus-space-medium: 8px;
     --maximus-space-large: 16px;
     --maximus-space-xlarge: 32px;
