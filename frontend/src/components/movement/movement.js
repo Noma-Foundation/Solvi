@@ -15,9 +15,19 @@ export class InboxComponentPage extends IComponentModel {
 
     buildTemplate() {
         this.template = /* html */ `
-            <header class="container-fluid p-3">
-                <h3>Movement</h3>
-            </header>
+            <div class="container">
+                <header class="container-fluid p-3">
+                    <h3>Valores de entrada</h3>
+                    <p>Crie e organize valores de entrada e saída de seu negócio.</p>
+                </header>
+                <section>
+                    <div class="container">
+                        <input type="search" placeholder="Pesquise aqui...">
+                        <input type="date" placeholder="Data (Recente)">
+                        <button class="btn btn-primary">Novo Orçamento</button>
+                    </div>
+                </section>
+            </div>
         `;
 
         $(this.context).html(this.template);
