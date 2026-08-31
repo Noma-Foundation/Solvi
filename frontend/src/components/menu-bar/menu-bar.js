@@ -6,7 +6,7 @@ import { contextManager } from "../../utils/context-manager.js";
 
 import homeIcon from "../../assets/icons/aside/home.svg";
 import customerIcon from "../../assets/icons/aside/customer.svg";
-import inboxIcon from "../../assets/icons/aside/inbox.svg";
+import inboxIcon from "../../assets/icons/aside/budget.svg";
 import calendarIcon from "../../assets/icons/aside/calendar.svg";
 import notificationsIcon from "../../assets/icons/aside/notifications.svg";
 
@@ -48,7 +48,7 @@ export class MenuBar extends IComponentModel {
                         </span>
                         <span class="nav-label">Customer</span>
                     </li>
-                    <li class="unselected nav-item" id="inbox-page" role="button" tabindex="0" title="Inbox">
+                    <li class="unselected nav-item" id="inbox-page" role="button" tabindex="0" title="Budgets">
                         <span class="nav-icon">
                             <img src="${inboxIcon}" alt="" loading="lazy">
                         </span>
