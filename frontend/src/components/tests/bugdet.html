@@ -15,27 +15,82 @@
             --light-color: #FFFFFF;
             --color-black: #000;
         }
+
+        .search-input .form-control,
+        .search-input .btn {
+            height: 38px;
+        }
+
+        .search-input .btn {
+            border-color: #dee2e6;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+        }
+
+        .search-input .btn:hover {
+            background-color: #e9ecef;
+        }
+
+        .date-picker {
+            height: 38px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 0 10px;
+            font-size: 0.875rem;
+            color: #495057;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        .date-picker:focus {
+            outline: none;
+            border-color: var(--orderhub-brand-color);
+            box-shadow: 0 0 0 0.2rem rgba(39, 69, 254, 0.15);
+        }
+
+        .btn-new-budget {
+            background-color: var(--orderhub-brand-color);
+            border: none;
+            border-radius: 6px;
+            height: 38px;
+            padding: 0 18px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .btn-new-budget:hover {
+            background-color: #1c36e0;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="container-fluid p-3">
-            <h3>Movement</h3>
-            <p>Create and organize your business's income and expense figures.</p>
+    <div class="container-fluid">
+        <header class="p-3 pb-2">
+            <h3 class="mb-1">Valores de entrada</h3>
+            <p class="text-secondary mb-0">Crie e organize valores de entrada e saída de seu negócio.</p>
         </header>
 
-        <section>
-            <div class="container">
-                <input type="search" placeholder="Search...">
-                <input type="date" placeholder="Date (Recent)">
-                <button class="btn btn-primary">New Movement</button>
+        <section class="px-3 pb-3">
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+                <!-- Search -->
+                <div class="input-group search-input" style="max-width: 280px;">
+                    <button class="btn btn-outline-secondary" type="button">
+                        <img src="./assets/search_icon.svg" alt="Search" width="16" height="16">
+                    </button>
+                    <input type="text" class="form-control" placeholder="Pesquisar..." aria-label="Pesquisar orçamentos">
+                </div>
+
+                <!-- Date picker -->
+                <input type="date" class="date-picker" title="Filtrar por data">
+
+                <!-- New budget button -->
+                <button class="btn btn-primary btn-new-budget ms-auto">Novo Orçamento</button>
             </div>
         </section>
-
-        <section id="movement">
-
-        </section>
-        
     </div>
 </body>
 </html>

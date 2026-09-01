@@ -1,0 +1,32 @@
+.btn-new-budget {
+    background-color: var(--orderhub-brand-color);
+    border: none;
+    border-radius: 8px;
+    height: 38px;
+    padding: 0 18px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.btn-new-budget:hover {
+    background-color: var(--orderhub-brand-color);
+}
+
+.search-input .form-control,
+.search-input .btn {
+    height: 38px;
+}
+
+.search-input .btn {
+    border-color: #dee2e6;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+}
+
+.search-input .btn:hover {
+    background-color: #e9ecef;
+}
