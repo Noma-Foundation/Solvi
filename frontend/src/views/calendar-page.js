@@ -1,5 +1,8 @@
-import { NotCompleted } from "../utils/not-completed.js";
+import { CalendarComponentPage } from "../components/calendar/calendar.js";
 
 export function CalendarPage() {
-    return NotCompleted();
+    queueMicrotask(() => {
+        new CalendarComponentPage();
+    });
+    return `<section class="calendar-page"></section>`;
 }
