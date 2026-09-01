@@ -31,6 +31,11 @@
     background-color: #e9ecef;
 }
 
+#card-list {
+    position: relative;
+    min-height: 80px;
+}
+
 /* Movement card */
 .movement-card {
     display: flex;
@@ -61,6 +66,14 @@
     margin: 0;
 }
 
+.movement-card__price--income {
+    color: var(--correct-color);
+}
+
+.movement-card__price--expense {
+    color: var(--error-color);
+}
+
 .status-label {
     display: inline-flex;
     align-items: center;
@@ -70,4 +83,19 @@
     font-weight: 500;
     color: var(--warning-color);
     background-color: var(--warning-color-with-background);
+}
+
+.status-label--warning {
+    color: var(--warning-color);
+    background-color: var(--warning-color-with-background);
+}
+
+.status-label--correct {
+    color: var(--correct-color);
+    background-color: var(--correct-color-with-background);
+}
+
+.status-label--error {
+    color: var(--error-color);
+    background-color: var(--error-color-with-background);
 }
