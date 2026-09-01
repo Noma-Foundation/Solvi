@@ -31,10 +31,12 @@ export class CustomerPageComponent extends IComponentModel {
      */
     buildTemplate() {
         this.template = /* html */ `
-            <section class="customer-page d-flex h-100 w-100">
-                <div id="customer-control-panel-context" style="display: contents;"></div>
-                <div id="customer-detail-panel-context" style="display: contents;"></div>
-            </section>
+            <div class="container-fluid">
+                <section class="customer-page d-flex h-100 w-100">
+                    <div id="customer-control-panel-context" style="display: contents;"></div>
+                    <div id="customer-detail-panel-context" style="display: contents;"></div>
+                </section>
+            </div>
         `;
 
         $(this.context).html(this.template);

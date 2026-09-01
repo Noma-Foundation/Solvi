@@ -6,6 +6,13 @@
     --light-blue-color: #27B5FE;
     --light-color: #FFFFFF;
     --color-black: #000;
+    --error-color: #FF2C2C;
+    --warning-color: #FF8D28;
+    --correct-color: #34C759;
+
+    --warning-color-with-background: #ff8c283a;
+    --error-color-with-background: #ff2c2c3a;
+    --correct-color-with-background: #34c7593a;
 
     /* Aside icons buttons */
     --button-bg-hover: #EBEBEB;

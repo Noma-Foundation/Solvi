@@ -1,5 +1,8 @@
-import { NotCompleted } from "../utils/not-completed.js";
+import { NotificationComponentPage } from "../components/notification/notification.js";
 
 export function NotificationPage() {
-    return NotCompleted();
+    queueMicrotask(() => {
+        new NotificationComponentPage();
+    });
+    return `<section class="notification-page"></section>`;
 }

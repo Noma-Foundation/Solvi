@@ -17,12 +17,16 @@ profile.cov
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
-# Replace build folders 
+# Replace build folders
 build/bin/
 build/windows/
 node_modules/
 frontend/dist/
 binaries/*
+
+# PyInstaller/NSIS packaging output
+/dist/
+/build/Solvi/
 
 # env file
 .env
