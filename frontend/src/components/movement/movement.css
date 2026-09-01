@@ -30,3 +30,10 @@
 .search-input .btn:hover {
     background-color: #e9ecef;
 }
+
+/* Movement card */
+.movement-card { 
+    border: 1px solid #000;
+    border-radius: 6px;
+    padding: 16px 16px;
+}

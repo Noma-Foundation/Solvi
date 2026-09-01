@@ -65,6 +65,12 @@
         .btn-new-budget:hover {
             background-color: #1c36e0;
         }
+
+        .movement-card { 
+            border: 1px solid #000;
+            border-radius: 6px;
+            padding: 16px 16px;
+        }
     </style>
 </head>
 <body>
@@ -91,6 +97,36 @@
                 <button class="btn btn-primary btn-new-budget ms-auto">Novo Orçamento</button>
             </div>
         </section>
+
+        <div class="px-3 pb-3 py-2">
+
+            <section class="movement-card">
+                <div>
+                    <article class="d-flex">
+                        <div>
+                            <h5>0001</h5>
+                            <span>Pendente</span>
+                        </div>
+
+                        <p>Orçamento 1 <span>. SP</span></p>  
+                    </article>
+                    
+                    <article>
+                        <div>
+                            <h5>R$<span>0,00</span></h5>
+                            <p>ICMS R$0,00 . Atualizado <span>2026-08-18</span></p>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="d-flex">
+                    <button>Editar</button>
+                    <button>Excluir</button>
+                </div>
+            </section>
+            
+            
+        </div>
     </div>
 </body>
 </html>

@@ -36,6 +36,8 @@ export class InboxComponentPage extends IComponentModel {
                     </div>
                 </section>
             </div>
+
+            ${this.#movementCard()}
         `;
 
         $(this.context).html(this.template);
@@ -43,5 +45,36 @@ export class InboxComponentPage extends IComponentModel {
 
     bindEvents() {
 
+    }
+
+    #movementCard() { 
+        return /* html */ `
+            <div>
+                <section class="movement-card m-4">
+                    <div>
+                        <article class="d-flex">
+                            <div>
+                                <h5>0001</h5>
+                                <span>Pendente</span>
+                            </div>
+
+                            <p>Orçamento 1 <span>. SP</span></p>  
+                        </article>
+                        
+                        <article>
+                            <div>
+                                <h5>R$<span>0,00</span></h5>
+                                <p>ICMS R$0,00 . Atualizado <span>2026-08-18</span></p>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div>
+                        <button>Editar</button>
+                        <button>Excluir</button>
+                    </div>
+                </section>
+            </div>
+        `;
     }
 }
