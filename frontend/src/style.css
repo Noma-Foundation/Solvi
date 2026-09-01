@@ -10,6 +10,8 @@
     --warning-color: #FF8D28;
     --correct-color: #34C759;
 
+    --warning-color-with-background: #ff8c283a;
+
     /* Aside icons buttons */
     --button-bg-hover: #EBEBEB;
     --button-unselected-bg: #EBEBEB;
