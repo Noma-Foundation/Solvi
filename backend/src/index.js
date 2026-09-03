@@ -3,11 +3,7 @@ import { Hono } from 'hono';
 
 const app = new Hono();
 
-app.get('/', (c) => {
-    return c.text("Hello, World!");
-});
-
-app.get("/api/clients/", (c) => { 
+app.get("/api/clients", (c) => { 
     let client_object = {
         ok: true, 
         message: "Hello, World!"
