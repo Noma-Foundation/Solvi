@@ -1,3 +1,26 @@
+
+# deps
+node_modules/
+
+# env
+.env
+.env.production
+
+# logs
+logs/
+*.log
+npm-debug.log*
+.yarn/
+!.yarn/releases
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# misc
+.DS_Store
+
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
