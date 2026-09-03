@@ -88,9 +88,9 @@ class API:
             tenant_id=self.current_tenant_id,
             employee_id=self.current_employee_id,
             name=name,
-            email=email,
+            email=email or None,
             phone_number=phone_number,
-            document=document,
+            document=document or None,
             date_of_birth=date_of_birth,
             remark=remark,
         )
@@ -127,6 +127,10 @@ class API:
         }
         if not fields:
             return None
+
+        for column in ("email", "document"):
+            if fields.get(column) == "":
+                fields[column] = None
 
         client = self.db.session.get(Client, client_id)
         if not client or str(client.tenant_id) != self.current_tenant_id:
