@@ -1,7 +1,6 @@
 import $ from "jquery";
 
 import { MenuBar } from "../components/menu-bar/menu-bar.js";
-import { Setting } from "../components/setting/setting.js";
 
 import { HomePage } from "../views/home-page.js";
 import { NotificationPage } from "../views/notification-page.js";
@@ -60,9 +59,6 @@ class ContextManager {
         // ensure layout components exist (MenuBar appends into #main-menu-bar; Setting into #app-header)
         if (!this._menuBar) {
             this._menuBar = new MenuBar();
-        }
-        if (!this._setting) {
-            this._setting = new Setting();
         }
 
         const content = renderer(params);
