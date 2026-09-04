@@ -1,8 +1,9 @@
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 
+import { db } from './database/database.js';
+
 const app = new Hono();
-const DATABASE_URL = process.env.DATABASE_URL || "postgres://postgres:postgres@localhost:5432/postgres";
 
 app.get("/api/clients", (c) => { 
     let test_client_object = {
