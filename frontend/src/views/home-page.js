@@ -1,4 +1,10 @@
 
 export function HomePage() {
-    return `<section class="dashboard-page"></section>`;
+    return /* html */ `
+        <section class="dashboard-page">
+            <div class="container-fluid">
+                <h2>Home Page</h2>
+            </div>
+        </section>
+    `;
 }

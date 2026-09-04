@@ -3,6 +3,10 @@ import { Hono } from 'hono';
 
 const app = new Hono();
 
+app.get("/", (c) => { 
+    return c.text("Hello, World!");
+});
+
 app.get("/api/clients", (c) => { 
     let test_client_object = {
         ok: true, 
