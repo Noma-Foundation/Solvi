@@ -3,15 +3,6 @@ import { Hono } from 'hono';
 
 const app = new Hono();
 
-app.get("/", (c) => { 
-    let test_obj = { 
-        ok: true,
-        message: "Hello, World!"
-    };
-
-    return c.json(test_obj);
-});
-
 app.get("/api/clients", (c) => { 
     let test_client_object = {
         ok: true, 
