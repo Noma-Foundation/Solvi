@@ -1,10 +1,8 @@
+import {DashboardComponent} from "../components/dashboard/dashboard.js";
 
 export function HomePage() {
-    return /* html */ `
-        <section class="dashboard-page">
-            <div class="container-fluid">
-                <h2>Home Page</h2>
-            </div>
-        </section>
-    `;
+    queueMicrotask(() => {
+        new DashboardComponent();
+    });
+    return /* html */ `<section class="dashboard-page"></section>`;
 }
