@@ -4,12 +4,12 @@ import { Hono } from 'hono';
 const app = new Hono();
 
 app.get("/api/clients", (c) => { 
-    let client_object = {
+    let test_client_object = {
         ok: true, 
         message: "Hello, World!"
     }
     
-    return c.json(client_object);
+    return c.json(test_client_object);
 });
 
 serve({
