@@ -1,9 +1,20 @@
-import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
+import { serve } from '@hono/node-server';
+import { cors } from 'hono/cors';
 
 import { db } from './database/database.js';
 
 const app = new Hono();
+
+app.use("*", cors());
+app.use("*", async (c, next) => {
+    try {
+        await next();
+    } catch (err) {
+        console.error(err);
+        return c.json({ ok: false, message: "Internal Server Error" }, 500);
+    }
+});
 
 app.get("/api/clients", (c) => { 
     let test_client_object = {
