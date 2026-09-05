@@ -8,7 +8,7 @@ function connectToDatabase(databaseUrl) {
         pool: new Pool({ 
             database: databaseUrl,
         })
-    })
+    });
 
     const db = new Kysely({
         dialect: dialect
