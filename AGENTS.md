@@ -4,32 +4,17 @@ This file provides guidance to agents when working with code in this repository.
 
 ## Project Overview
 
-**Solvi** is a desktop management system (order/ticket/CRM) built as a Python + pywebview app with a Vite/jQuery/Bootstrap frontend. The Python process manages a PostgreSQL database (SQLAlchemy) and exposes the `API` class directly to JS via `window.pywebview.api`.
+**Solvi** is a desktop management system (order/ticket/CRM) with:
+- **Frontend**: Vite + jQuery + Bootstrap, custom hand-rolled component framework at `frontend/framework/`
+- **Backend**: Node.js + Hono + Kysely + PostgreSQL at `backend/` (REST API on port 3000)
+- **pywebview integration**: The frontend still calls `window.pywebview.api.*` for some features (e.g. settings), meaning the app may also be embedded in a pywebview shell alongside the Hono backend
 
 ## Commands
-
-### Python backend
-```sh
-# Run tests (from project root)
-pytest
-
-# Run a single test file
-pytest tests/test_auth_api.py
-
-# Run a single test by name
-pytest tests/test_auth_api.py::test_auth_user_returns_true_on_successful_authentication
-
-# Launch the app in dev mode (starts Vite automatically in a new console window)
-python main.py --dev
-
-# Launch the app in production mode (serves frontend/dist)
-python main.py
-```
 
 ### Frontend (must run from `frontend/` directory)
 ```sh
 cd frontend
-npm run dev      # Vite dev server at http://localhost:5173
+npm run dev      # Vite dev server at http://localhost:5173 (proxies /api → localhost:3000)
 npm run build    # Outputs to frontend/dist/
 npm test         # Jest (requires --experimental-vm-modules, already in the npm script)
 ```
@@ -40,31 +25,36 @@ cd frontend
 node --experimental-vm-modules ./node_modules/jest/bin/jest.js src/tests/event-bus.test.js
 ```
 
+### Backend (must run from `backend/` directory)
+```sh
+cd backend
+npm run dev    # Hono server with --watch on port 3000
+npm start      # Production start
+```
+
 ## Critical Architecture Notes
 
-- **pywebview bridge**: Python `API` methods are called from JS as `await window.pywebview.api.<method>()`. All public methods on `API` and `SettingAPI` are automatically exposed. Arguments are JSON-serialized, return values must be JSON-serializable (dicts/lists/primitives).
-- **`--dev` flag**: When passed to `main.py`, it spawns `npm run dev` in a new Windows console window (3-second sleep for Vite startup) and points the webview at `http://localhost:5173`. Without the flag, it loads `frontend/dist/index.html` as a local file.
-- **Two windows**: The main window (main UI) and a settings window (`create_window_setting`) are separate pywebview windows with separate `js_api` instances — `API` vs `SettingAPI`.
-- **`solvi/`**: This is the Python virtual environment directory in the project root; do not confuse it with application source code.
-- **`frontend/framework/`**: A custom hand-rolled framework (not npm-installed). Contains `EventBus`, `EventList`, `History`, and `IComponentModel`. It is imported with relative `../../framework/` paths.
-
-## Python Patterns
-
-- **All DB operations live in `internal/api.py`**: Use `db.session` (SQLAlchemy `Session`). Always call `session.rollback()` in the `except` block before re-raising.
-- **`__require_tenant()`** must be called at the top of every `API` method that touches tenant data — it guards against unauthenticated access.
-- **Error types** (`internal/utils/errors.py`): `QueryError`, `DatabaseConnectionError`, `FileError` — use these instead of generic exceptions for known failure modes.
-- **Models** use raw SQLAlchemy `Column`-style declarations (not `mapped_column`). Primary keys are `String` UUIDs assigned by application code with `str(uuid.uuid4())`.
-- **`EmployeeAccount.tenant_id`** has a DB column alias `"terant_id"` (typo in schema) — do not rename the Python attribute.
-- **Config** is loaded from `.env` via `python-dotenv`. `config.toml` is only read by `SettingAPI.ajust_settings()` at runtime, not at startup.
-- **Tests** use SQLite in-memory (`sqlite:///:memory:`) for DB tests. `sys.path.append(".")` is required at the top of test files that import from `internal/`.
-- **Test mocking pattern**: `API.__new__(API)` is used to construct the API without triggering `open_connection` in `__init__`.
+- **Vite proxy**: `/api` requests from the frontend dev server are proxied to `http://localhost:3000` — no CORS issues in dev. Configured in `vite.config.js` `server.proxy`.
+- **`frontend/framework/`**: Custom hand-rolled framework (not npm-installed). Contains `EventBus`, `EventList`, `History`, `IComponentModel`. Import with relative paths like `../../framework/event-bus.js`.
+- **Vite builds two entry points**: `index.html` and `setting.html` — new HTML pages require a corresponding entry in `vite.config.js` `rolldownOptions.input`.
+- **`solvi/`** in the project root is the Python virtual environment — not application code.
+- **Backend DB config bug**: `backend/src/database/database.js` passes the full connection URL string as `database:` to `pg.Pool`, which is incorrect (should be `connectionString:`). This is a known issue in the current codebase.
+- **`VITE_API_URL`**: Frontend reads `import.meta.env.VITE_API_URL` (defaulting to `http://localhost:3000`) from `frontend/src/utils/meta.js` — set this in a `.env` file for non-default deployments.
 
 ## Frontend Patterns
 
-- **Component lifecycle**: Every UI component extends `IComponentModel` and calls `this.init()` in its constructor. `init()` calls `buildTemplate()` then `bindEvents()` — never call these methods manually.
-- **HTML templates**: Use the `/* html */` tagged template comment (`/* html */ \`...\``) before template literals for IDE syntax highlighting.
-- **Routing/views**: Views are registered in `contextManager` (singleton in `utils/context-manager.js`). Use `contextManager.show("viewName")` to navigate. Views that need post-render init should use `queueMicrotask(() => new Component())`.
-- **Event bus**: Use the frozen singleton `eventBus` from `event-manager-singleton.js` for all cross-component communication. Event object `execute()` methods must take **zero arguments** — `subscribe()` will throw otherwise.
-- **`window.pywebview.api`** calls must be `await`-ed and wrapped in try/catch (the API bridge can fail if pywebview isn't ready).
-- **Loading helpers**: Use `setButtonLoading($btn, true/false)` and `setContainerLoading($container, true/false)` from `utils/loading-state.js` — do not roll custom spinners.
-- **Build output**: Vite builds both `index.html` and `setting.html` as separate entry points (configured in `vite.config.js` `rolldownOptions.input`).
+- **Component lifecycle**: Every UI component extends `IComponentModel` and calls `this.init()` at the end of its constructor. `init()` calls `buildTemplate()` then `bindEvents()` — never call these methods manually.
+- **HTML templates**: Use the `/* html */` comment before template literals containing HTML (`/* html */ \`...\``).
+- **Routing/views**: `contextManager` is a singleton exported from `utils/context-manager.js` (never `new` it). Use `contextManager.show("viewName")` to navigate. Views that need post-render component init must use `queueMicrotask(() => new Component())` — see `customer-page.js`.
+- **Event bus**: Use the frozen singleton `eventBus` from `src/event-manager-singleton.js` (never `new` it). Event object `execute()` methods must take **zero parameters** — `subscribe()` throws synchronously if they don't.
+- **`publishAsync` vs `dispatch`**: `publishAsync` defers callbacks via `setTimeout(0)`; `dispatch` is synchronous and returns an array of return values.
+- **Loading helpers**: Use `setButtonLoading($btn, true/false)` and `setContainerLoading($container, true/false)` from `utils/loading-state.js`.
+- **pywebview guard pattern**: Check `window.pywebview && window.pywebview.api` before calling; fall back to `window.addEventListener("pywebviewready", ...)`. See `customer-control-panel.js`.
+- **`buildClientRecord()`** in `utils/customer-record.js` is the canonical mapper from backend snake_case API responses to camelCase UI records — use it in every component that handles customer data.
+
+## Backend Patterns (Node.js / Hono / Kysely)
+
+- **Framework**: Hono on `@hono/node-server` — all routes defined in `backend/src/index.js`.
+- **DB**: Kysely query builder with `pg` driver. DB instance exported from `backend/src/database/database.js`.
+- **Error handling**: A global `try/catch` middleware in `index.js` catches unhandled errors and returns `{ ok: false, message: "Internal Server Error" }` with status 500. Route handlers should throw on error.
+- **No test runner configured** in `backend/` — `backend/tests/` is empty.
