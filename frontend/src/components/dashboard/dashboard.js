@@ -31,7 +31,7 @@ export class DashboardComponent extends IComponentModel {
     // Test promise with async/await
     async openPromise() {         
         try { 
-            const response = await fetch(API_URL + "/api/clients"); // Fetch data from the backend API
+            const response = await fetch(API_URL + "api/clients"); // Fetch data from the backend API
             const data = await response.json();
             const dashboardTitle = document.getElementById("dashboard-title");
             
