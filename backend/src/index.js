@@ -5,7 +5,7 @@ import { cors } from 'hono/cors';
 import { db } from './database/database.js';
 import { generateJWT } from './jwt/jwt.js';
 
-const app = new Hono();
+export const app = new Hono();
 
 app.use("*", cors());
 app.use("*", async (c, next) => {
@@ -17,8 +17,8 @@ app.use("*", async (c, next) => {
     }
 });
 
-app.get("/api/auth/login", async (c) => { 
-
+app.get("/home", async (c) => {
+    return c.json({ ok: true, message: "Hello, World" });
 });
 
 serve({
