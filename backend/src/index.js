@@ -3,6 +3,7 @@ import { serve } from '@hono/node-server';
 import { cors } from 'hono/cors';
 
 import { db } from './database/database.js';
+import { generateJWT } from './jwt/jwt.js';
 
 const app = new Hono();
 
@@ -16,13 +17,8 @@ app.use("*", async (c, next) => {
     }
 });
 
-app.get("/api/clients", (c) => { 
-    let test_client_object = {
-        ok: true, 
-        message: "Hello, World!"
-    }
+app.get("/api/auth/login", async (c) => { 
 
-    return c.json(test_client_object);
 });
 
 serve({

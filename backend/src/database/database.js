@@ -6,7 +6,7 @@ const DATABASE_URL = process.env.DATABASE_URL || "postgres://postgres:postgres@l
 function connectToDatabase(databaseUrl) { 
     const dialect = new PostgresDialect({
         pool: new Pool({ 
-            database: databaseUrl,
+            connectionString: databaseUrl,
         })
     });
 
