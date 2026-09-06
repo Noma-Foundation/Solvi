@@ -1,12 +1,14 @@
+import { Kysely } from "kysely";
+import { connectToDatabase } from "../src/database/database.js";
 
-import { jest } from "@jest/globals";
+import { expect } from "@jest/globals";
 
-const mockCallback = jest.fn();
+describe("Test basic integration with Database", () => {
 
-describe("Test basic integration with Database", () => { 
-    
-    test("Should return OK for the database connection", async () => { 
-        console.log("Testing database connection");    
+    test("Should return a Kysely instance for a valid connection URL", () => {
+        const result = connectToDatabase("postgres://postgres:admin@localhost:5432/postgres");
+
+        expect(result).toBeInstanceOf(Kysely);
     });
 
 });

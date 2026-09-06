@@ -5,7 +5,16 @@ import { DatabaseError } from "../errors/database-error.js";
 
 const DATABASE_URL = process.env.DATABASE_URL || "postgres://postgres:postgres@localhost:5432/postgres";
 
-function connectToDatabase(databaseUrl) { 
+
+/**
+ * Connects to the database using the provided database Postgres URL and returns a Kysely instance.
+ * 
+ * @param {String} databaseUrl 
+ * 
+ * @returns {Kysely} A Kysely instance connected to the specified database.
+ * @returns {DatabaseError} If there is an error connecting to the database, returns a DatabaseError with a message indicating the failure. 
+ */
+export function connectToDatabase(databaseUrl) { 
     try { 
         const dialect = new PostgresDialect({
             pool: new Pool({ 
