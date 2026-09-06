@@ -1,4 +1,6 @@
 
+import { jest } from "@jest/globals";
+
 const mockCallback = jest.fn();
 
 describe("Test basic integration with Database", () => { 
