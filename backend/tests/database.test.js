@@ -11,4 +11,16 @@ describe("Test basic integration with Database", () => {
         expect(result).toBeInstanceOf(Kysely);
     });
 
+    test("Should return a DatabaseError for an invalid connection URL", () => {
+        const result = connectToDatabase("invalid_connection_url");
+        
+        expect(result).toBeInstanceOf(Error);
+    });
+
+    test("Should return a DatabaseError for an empty connection URL", () => {
+        const result = connectToDatabase("");
+
+        expect(result).toBeInstanceOf(Error);
+    });
+
 });

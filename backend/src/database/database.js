@@ -15,7 +15,13 @@ const DATABASE_URL = process.env.DATABASE_URL || "postgres://postgres:postgres@l
  * @returns {DatabaseError} If there is an error connecting to the database, returns a DatabaseError with a message indicating the failure. 
  */
 export function connectToDatabase(databaseUrl) { 
+    const regexSyntax = /^postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)$/;
+
     try { 
+        if (!regexSyntax.test(databaseUrl)) {
+            throw new Error("Invalid database URL syntax. Please provide a valid Postgres connection string.");
+        }
+
         const dialect = new PostgresDialect({
             pool: new Pool({ 
                 connectionString: databaseUrl,
@@ -28,8 +34,7 @@ export function connectToDatabase(databaseUrl) {
         
         return db; 
     } catch(error) {
-        console.error("Error connecting to the database:", error); 
-        return DatabaseError("Failed to connect to the database. Please check your connection settings.");
+        return new DatabaseError("Failed to connect to the database. Please check your connection settings.");
     }
 }
 
