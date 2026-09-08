@@ -14,14 +14,14 @@ const DATABASE_URL = process.env.DATABASE_URL || "postgres://postgres:postgres@l
  * @returns {Kysely} A Kysely instance connected to the specified database.
  * @returns {DatabaseError} If there is an error connecting to the database, returns a DatabaseError with a message indicating the failure. 
  */
-export function connectToDatabase(databaseUrl) { 
+export function connectToDatabase(databaseUrl) {
     const regexSyntax = /^postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)$/;
 
-    try { 
-        if (!regexSyntax.test(databaseUrl)) {
-            throw new Error("Invalid database URL syntax. Please provide a valid Postgres connection string.");
-        }
+    if (!regexSyntax.test(databaseUrl)) {
+        throw new DatabaseError("Invalid database URL syntax. Please provide a valid Postgres connection string.");
+    }
 
+    try {
         const dialect = new PostgresDialect({
             pool: new Pool({ 
                 connectionString: databaseUrl,
@@ -34,7 +34,7 @@ export function connectToDatabase(databaseUrl) {
         
         return db; 
     } catch(error) {
-        return new DatabaseError("Failed to connect to the database. Please check your connection settings.");
+        throw new DatabaseError("Failed to connect to the database. Please check your connection settings.");
     }
 }
 

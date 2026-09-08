@@ -1,5 +1,6 @@
 import { Kysely } from "kysely";
 import { connectToDatabase } from "../src/database/database.js";
+import { DatabaseError } from "../src/errors/database-error.js";
 
 import { expect } from "@jest/globals";
 
@@ -11,16 +12,12 @@ describe("Test basic integration with Database", () => {
         expect(result).toBeInstanceOf(Kysely);
     });
 
-    test("Should return a DatabaseError for an invalid connection URL", () => {
-        const result = connectToDatabase("invalid_connection_url");
-        
-        expect(result).toBeInstanceOf(Error);
+    test("Should throw a DatabaseError for an invalid connection URL", () => {
+        expect(() => connectToDatabase("invalid_connection_url")).toThrow(DatabaseError);
     });
 
-    test("Should return a DatabaseError for an empty connection URL", () => {
-        const result = connectToDatabase("");
-
-        expect(result).toBeInstanceOf(Error);
+    test("Should throw a DatabaseError for an empty connection URL", () => {
+        expect(() => connectToDatabase("")).toThrow(DatabaseError);
     });
 
 });
