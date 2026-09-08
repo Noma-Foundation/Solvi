@@ -12,7 +12,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
+    "test": "node --trace-warnings --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "doc": "jsdoc -c jsdoc.json"
   },
   "devDependencies": {
