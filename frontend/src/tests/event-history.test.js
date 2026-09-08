@@ -1,3 +1,5 @@
+import { describe, test, expect } from 'vitest';
+
 import { History } from "../../framework/collections/history.js";
 
 class EventTest {

@@ -1,3 +1,5 @@
+import { describe, test, expect } from 'vitest';
+
 import { EventList } from "../../framework/collections/event-list";
 
 export class EventTest {
