@@ -2,7 +2,7 @@ import { Kysely } from "kysely";
 import { connectToDatabase } from "../src/database/database.js";
 import { DatabaseError } from "../src/errors/database-error.js";
 
-import { expect } from "@jest/globals";
+import { describe, test, expect } from 'vitest';
 
 describe("Test basic integration with Database", () => {
 

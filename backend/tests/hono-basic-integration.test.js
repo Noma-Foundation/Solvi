@@ -1,6 +1,8 @@
 import { testClient } from 'hono/testing';
 import { app } from '../src/index.js';
 
+import { describe, test, expect } from 'vitest';
+
 describe("Test basic integration with Hono", () => { 
 
     const client = testClient(app);
