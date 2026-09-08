@@ -21,6 +21,13 @@ app.get("/home", async (c) => {
     return c.json({ ok: true, message: "Hello, World" });
 });
 
+app.get("/login/auth", async (c) => { 
+    return c.json({
+        ok: false, 
+        message: "Invalid credentials"
+    });
+});
+
 serve({
     fetch: app.fetch,
     port: 3000,
