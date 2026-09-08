@@ -17,10 +17,6 @@ app.use("*", async (c, next) => {
     }
 });
 
-app.get("/home", async (c) => {
-    return c.json({ ok: true, message: "Hello, World" });
-});
-
 app.get("/login/auth", async (c) => { 
     return c.json({
         ok: false, 
