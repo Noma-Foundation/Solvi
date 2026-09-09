@@ -4,10 +4,6 @@ import { describe, expect, test, vi } from "vitest";
 
 describe("Database Actions Tests", () => {
 
-    test("Test database connection", async () => { 
-        const db = await connectToDatabase("postgres://user:password@localhost:5432/testdb"); 
-    });
-
     test("Test database with query execution", async () => {
         const db = await connectToDatabase("postgres://user:password@localhost:5432/testdb");
         
