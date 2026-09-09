@@ -1,6 +1,8 @@
 import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
 import { cors } from 'hono/cors';
+import bcrypt from 'bcryptjs';
+import { sql } from 'kysely';
 
 import { db } from './database/database.js';
 import { generateJWT } from './jwt/jwt.js';
@@ -18,11 +20,37 @@ app.use("*", async (c, next) => {
 });
 
 app.post("/login/auth", async (c) => {
-    const query = db.executeQuery("SELECT USERNAME, PASSWORD FROM EMPLOYEE;");
-    
+    const credentials = await c.req.json().catch(() => null);
+    const username = credentials?.username;
+    const password = credentials?.password;
+
+    if (typeof username !== "string" || typeof password !== "string") {
+        return c.json({ ok: false, message: "Username and password are required" }, 400);
+    }
+
+    const result = await db.executeQuery(sql`
+        SELECT USERNAME, PASSWORD
+        FROM EMPLOYEE
+        WHERE USERNAME = ${username}
+        LIMIT 1;
+    `.compile(db));
+    const employee = result.rows?.[0];
+
+    if (!employee || !(await bcrypt.compare(password, employee.password ?? employee.PASSWORD))) {
+        return c.json({ ok: false, message: "Invalid credentials" }, 401);
+    }
+
+    const now = Math.floor(Date.now() / 1000);
+    const token = generateJWT({
+        sub: employee.username ?? employee.USERNAME,
+        iat: now,
+        exp: now + 60 * 60,
+    }, process.env.JWT_SECRET || "development-secret");
+
     return c.json({
-        ok: true, 
-        message: "Logged in"
+        ok: true,
+        message: "Logged in",
+        token,
     });
 });
 
