@@ -13,5 +13,8 @@
   "main": "main.js",
   "scripts": {
     "test": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.0"
   }
 }
