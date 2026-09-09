@@ -17,7 +17,7 @@ app.use("*", async (c, next) => {
     }
 });
 
-app.get("/login/auth", async (c) => {
+app.post("/login/auth", async (c) => {
     const query = db.executeQuery("SELECT USERNAME, PASSWORD FROM EMPLOYEE;");
     
     return c.json({
