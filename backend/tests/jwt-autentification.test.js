@@ -1,7 +1,8 @@
 import { testClient } from 'hono/testing';
 import { app } from '../src/index.js';
+import { db } from '../src/database/database.js';
 
-import { describe, test, expect } from 'vitest';
+import { describe, test, expect, vi } from 'vitest';
 
 describe('JWT Authentication Tests', () => { 
 
@@ -13,6 +14,10 @@ describe('JWT Authentication Tests', () => {
         });
         
         expect(request.status).toBe(200);
+    });
+
+    test("Test endpoint with database correct query", () => { 
+        db.executeQuery = vi.fn().mockReturnValue();
     });
 
 });

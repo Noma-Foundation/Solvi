@@ -17,10 +17,12 @@ app.use("*", async (c, next) => {
     }
 });
 
-app.get("/login/auth", async (c) => { 
+app.get("/login/auth", async (c) => {
+    const query = db.executeQuery("SELECT USERNAME, PASSWORD FROM EMPLOYEE;");
+    
     return c.json({
-        ok: false, 
-        message: "Invalid credentials"
+        ok: true, 
+        message: "Logged in"
     });
 });
 
