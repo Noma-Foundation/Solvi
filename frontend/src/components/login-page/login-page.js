@@ -59,21 +59,25 @@ export class LoginPage extends IComponentModel {
 
             const $loginBtn = $("#login-btn");
             setButtonLoading($loginBtn, true);
+            this.#hideError();
 
-            const isUser = await this.#loginValidatorForUser();
+            try {
+                const authentication = await this.#loginValidatorForUser();
 
-            if (isUser) {
-                this.#hideError();
-                $(this.#formId).hide();
+                if (authentication.ok) {
+                    $(this.#formId).hide();
 
                 // notify that authentication succeeded for regular employee
-                eventBus.publishAsync("auth:success", { role: "employee" });
-                    
-                return;
-            }
+                    eventBus.publishAsync("auth:success", {
+                        role: "employee",
+                    });
+                    return;
+                }
 
-            setButtonLoading($loginBtn, false);
-            this.#showError();
+                this.#showError(authentication.message);
+            } finally {
+                setButtonLoading($loginBtn, false);
+            }
         });
     }
 
@@ -82,24 +86,38 @@ export class LoginPage extends IComponentModel {
         const password = this.#userPasswordObject.val();
 
         try {
-            const isValid = true;
+            const response = await fetch(API_URL + "/login/auth", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: user,
+                    password,
+                }),
+            });
+            const body = await response.json().catch(() => ({}));
 
-            if (isValid) {
-                return true;
-            } else {
-                return false;
+            if (!response.ok || body.ok !== true) {
+                return {
+                    ok: false,
+                    message: body.message || this.#errorMessage,
+                };
             }
+
+            return { ok: true };
         } catch (error) {
-            return false;
+            return { ok: false, message: "Unable to connect to the server" };
         }
     }
 
-    #showError() {
-        $(this.context).find(this.#errorMessageId).show();
+    #showError(message = this.#errorMessage) {
+        $(this.context).find(this.#errorMessageId).text(message).show();
     }
 
     #hideError() {
-        $(this.context).find(this.#errorMessageId).hide();
+        $(this.context).find(this.#errorMessageId).text(this.#errorMessage).hide();
     }
 
 }

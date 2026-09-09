@@ -31,8 +31,11 @@ describe("JWT Authentication Tests", () => {
         expect(response.status).toBe(200);
         expect(body.ok).toBe(true);
         expect(body.message).toBe("Logged in");
-        expect(body.token).toEqual(expect.any(String));
-        expect(body.token.split(".")).toHaveLength(3);
+        expect(body.token).toBeUndefined();
+        expect(response.headers.get("set-cookie")).toEqual(expect.stringContaining("solvi_auth="));
+        expect(response.headers.get("set-cookie")).toEqual(expect.stringContaining("HttpOnly"));
+        expect(response.headers.get("set-cookie")).toEqual(expect.stringContaining("SameSite=Lax"));
+        expect(response.headers.get("set-cookie")).toEqual(expect.stringContaining("Max-Age=3600"));
         expect(executeQuery).toHaveBeenCalledOnce();
     });
 
