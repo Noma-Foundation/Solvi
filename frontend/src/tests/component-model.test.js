@@ -1,3 +1,5 @@
+import { describe, test, expect } from 'vitest';
+
 import { IComponentModel } from "../../framework/interfaces/component-model.js";
 
 class MyComponentWithoutImplementation {
